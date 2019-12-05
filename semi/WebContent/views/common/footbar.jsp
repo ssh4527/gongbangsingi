@@ -22,6 +22,10 @@
     #footerdiv1{
     	margin-left:50px;
     }
+    div{
+    	margin:auto;
+    	background:white;
+    }
     .footerdiv > *{
         text-align: center;
         
