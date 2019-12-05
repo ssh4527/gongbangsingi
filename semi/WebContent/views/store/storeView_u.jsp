@@ -31,7 +31,7 @@ section, div, header {
 
 #outer {
 	width: 1000px;
-	height: 1800px;
+	height: 1700px;
 	/* div를 화면 가운데로 오게 하기 */
 	margin: auto;
 	padding: 3%;
@@ -74,7 +74,6 @@ section, div, header {
 	width: 60%;
 	float: left;
 	height: 100%;
-	width: 60%;
 }
 
 #introl1_1 {
@@ -98,21 +97,24 @@ section, div, header {
 #map {
 	margin: 3%;
 	text-align: center;
-	float: left;
-	height: 50%;
 	width: 100%;
+	height: 50%;
 }
 
 #store_review {
-
-padding-left: 3%;
+	margin: 3%;
+	text-align: center;
+	width: 100%;
+	height: 50%;
+}
+/* #classEdit {
+	padding-left: 3%;
 	text-align: center;
 	float: left;
 	height: 50%;
 	width: 100%;
 	overflow: hidden;
-}
-
+} */
 .thumbnail {
 	border: 2px solid lightgray;
 	width: 350px;
@@ -128,14 +130,6 @@ padding-left: 3%;
 	height: 90%;
 	border-radius: 2%;
 }
-
-#score {
-	display: inline;
-}
-
-#classEdit{
-border-top: 1px solid black;
-}
 </style>
 </head>
 <body>
@@ -146,8 +140,7 @@ border-top: 1px solid black;
 					<div id="thumbnail1" class="thumbnail"></div>
 					<p id="storeName">공방 이름</p>
 				</section>
-				<br> <br> <br> <br> <br> <br>
-				<br> <br>
+				<br> <br> <br> <br>
 				<section id="introl1_2">
 					<div id="introl1_2_1">
 						<p id="addr">주소</p>
@@ -155,6 +148,35 @@ border-top: 1px solid black;
 						<p id="sns">sns 계정</p>
 					</div>
 				</section>
+					<a href="javascript:void addChannel()"> <img
+					src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_small_yellow_rect.png" />
+				</a>
+				<script type='text/javascript'>
+					//<![CDATA[
+					// 사용할 앱의 JavaScript 키를 설정해 주세요.
+					Kakao.init('37bf650bd71c1e125e49c40d96c383e1');
+					function addChannel() {
+						Kakao.Channel.addChannel({
+							channelPublicId : '_xcLqmC' // 채널 홈 URL에 명시된 id로 설정합니다.
+						});
+					}
+					//]]>
+				</script> 
+
+				<a href="javascript:void chatChannel()"> <img
+					src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png" />
+				</a>
+				<script type='text/javascript'>
+					//<![CDATA[
+					// 사용할 앱의 JavaScript 키를 설정해 주세요.
+					Kakao.init('37bf650bd71c1e125e49c40d96c383e1');
+					function chatChannel() {
+						Kakao.Channel.chat({
+							channelPublicId : '_xcLqmC' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+						});
+					}
+					//]]>
+				</script>
 			</section>
 
 			<section id="first_intro2">
@@ -166,37 +188,44 @@ border-top: 1px solid black;
 				<script type="text/javascript"
 					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=37bf650bd71c1e125e49c40d96c383e1"></script>
 				<script>
-						var container = document.getElementById('map');
-						var options = {
-							center : new kakao.maps.LatLng(33.450701,
-									126.570667),
-							level : 3
-						};
+					var container = document.getElementById('map');
+					var options = {
+						center : new kakao.maps.LatLng(33.450701, 126.570667),
+						level : 3
+					};
 
-						var map = new kakao.maps.Map(container, options);
-						// 지도를 생성합니다 
-						var map = new kakao.maps.Map(mapContainer, mapOption);
-						// 주소-좌표 변환 객체를 생성합니다
-						var geocoder = new kakao.maps.services.Geocoder();
-						// 주소로 좌표를 검색합니다 
-						geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) { 
-							// 정상적으로 검색이 완료됐으면 
-							if (status === kakao.maps.services.Status.OK) { 
-								var coords = new kakao.maps.LatLng(result[0].y, result[0].x); 
-								// 결과값으로 받은 위치를 마커로 표시합니다 
-								var marker = new kakao.maps.Marker({ map: map, position: coords }); 
-								// 인포윈도우로 장소에 대한 설명을 표시합니다 
-								var infowindow = new kakao.maps.InfoWindow({ content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>' }); 
-								infowindow.open(map, marker);
-							
-						
+					var map = new kakao.maps.Map(container, options);
+					// 지도를 생성합니다 
+					var map = new kakao.maps.Map(mapContainer, mapOption);
+					// 주소-좌표 변환 객체를 생성합니다
+					var geocoder = new kakao.maps.services.Geocoder();
+					// 주소로 좌표를 검색합니다 
+					geocoder
+							.addressSearch(
+									'제주특별자치도 제주시 첨단로 242',
+									function(result, status) {
+										// 정상적으로 검색이 완료됐으면 
+										if (status === kakao.maps.services.Status.OK) {
+											var coords = new kakao.maps.LatLng(
+													result[0].y, result[0].x);
+											// 결과값으로 받은 위치를 마커로 표시합니다 
+											var marker = new kakao.maps.Marker(
+													{
+														map : map,
+														position : coords
+													});
+											// 인포윈도우로 장소에 대한 설명을 표시합니다 
+											var infowindow = new kakao.maps.InfoWindow(
+													{
+														content : '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+													});
+											infowindow.open(map, marker);
 
-						//지도의 중심을 결과값으로 받은 위치로 이동합니다.
-						map.setCenter(coords);
-						}
-						});
-						
-					</script>
+											//지도의 중심을 결과값으로 받은 위치로 이동합니다.
+											map.setCenter(coords);
+										}
+									});
+				</script>
 				<section id="store_review">
 					<div class="tableArea">
 						<h4>&lt; 후기 &gt;</h4>
@@ -250,9 +279,10 @@ border-top: 1px solid black;
 				</section>
 			</section>
 
+
 		</section>
 
-<%-- <%if(loginUser){ %>
+
 		<section id="class_ing_second">
 			<br>
 			<h4>&lt;진행중인 클래스&gt;</h4>
@@ -282,53 +312,16 @@ border-top: 1px solid black;
 				</table>
 			</div>
 		</section>
-		<%}else{ %> --%>
-		<section id="classEdit">
-			<h4>&lt;클래스&gt;</h4>
-			<br>
-			<div class="tableArea">
-				<table class="table table-hover">
-					<tbody>
-						<tr>
-							<th>No.</th>
-							<th>클래스명</th>
-							<th>가격</th>
-							<th>기간</th>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="classbtn">
-				<button id="class_openclass" class="btn btn-outline-secondary">클래스
-					열기</button>
-				&nbsp;
-				<button id="class_updateclass" class="btn btn-outline-secondary">수정하기</button>
-				&nbsp;
-				<button id="class_deleteclass" class="btn btn-outline-secondary">삭제하기</button>
-			</div>
-		</section>
-<%-- 		<%} %> --%>
+
 		<section id="intro3_third">
 			<h4>&lt;공방 소개 글 &gt;</h4>
 			<p id="introContent">rmfmrmrm</p>
 		</section>
 
 		<section id="content_final_slide">
-		<br>
+			<br>
 			<h4>&lt;더 많은 사진&gt;</h4>
-<br>
+			<br>
 
 
 			<div id="carouselExampleIndicators" class="carousel slide"
@@ -386,9 +379,6 @@ border-top: 1px solid black;
 			</div>
 
 		</section>
-
-
-
 	</div>
 
 	<script

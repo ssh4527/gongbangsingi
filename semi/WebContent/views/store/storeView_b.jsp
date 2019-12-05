@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 웹에 호환성을 지정 (ie의 경우 호환 안되는 경우가 많아서) -->
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
@@ -22,6 +25,7 @@
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
 
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <style>
 section, div, header {
@@ -31,7 +35,7 @@ section, div, header {
 
 #outer {
 	width: 1000px;
-	height: 1700px;
+	height: 1800px;
 	/* div를 화면 가운데로 오게 하기 */
 	margin: auto;
 	padding: 3%;
@@ -49,7 +53,7 @@ section, div, header {
 	padding: 2%;
 }
 
-#classEdit {
+#class_ing_second {
 	width: 100%;
 	height: 20%;
 	border-top: 1px solid black;
@@ -74,6 +78,7 @@ section, div, header {
 	width: 60%;
 	float: left;
 	height: 100%;
+	width: 60%;
 }
 
 #introl1_1 {
@@ -97,24 +102,20 @@ section, div, header {
 #map {
 	margin: 3%;
 	text-align: center;
-	width: 100%;
+	float: left;
 	height: 50%;
+	width: 100%;
 }
 
 #store_review {
-	margin: 3%;
-	text-align: center;
-	width: 100%;
-	height: 50%;
-}
-/* #classEdit {
 	padding-left: 3%;
 	text-align: center;
 	float: left;
 	height: 50%;
 	width: 100%;
 	overflow: hidden;
-} */
+}
+
 .thumbnail {
 	border: 2px solid lightgray;
 	width: 350px;
@@ -130,6 +131,22 @@ section, div, header {
 	height: 90%;
 	border-radius: 2%;
 }
+
+#score {
+	display: inline;
+}
+
+#classEdit {
+	border-top: 1px solid black;
+}
+
+#thumbnailEdit {
+	float: right;
+}
+
+h4 {
+	display: inline;
+}
 </style>
 </head>
 <body>
@@ -139,8 +156,11 @@ section, div, header {
 				<section id="intro1_1" style="padding: 10px;">
 					<div id="thumbnail1" class="thumbnail"></div>
 					<p id="storeName">공방 이름</p>
+					<input type="button" value="사진 변경" id="thumbnailEdit"
+						name="thumbnailEdit"> <input type="file" id="imgfile1"
+						name="imgfile1" onchange="preview(this,1)">
 				</section>
-				<br> <br> <br> <br>
+				<br> <br>
 				<section id="introl1_2">
 					<div id="introl1_2_1">
 						<p id="addr">주소</p>
@@ -148,8 +168,39 @@ section, div, header {
 						<p id="sns">sns 계정</p>
 					</div>
 				</section>
+			
 			</section>
+			<script>
+				$(function() {
+					$("#imgfile1").hide();
 
+					$("#thumbnailEdit").click(function() {
+						$("#imgfile1").click();
+					});
+
+				});
+
+				function preview(value, num) {
+					// value => input type="file"
+					// num => 조건문으로 각 번호에 맞춰서 위의 미리보기 img에 적용시킬것
+
+					// file이 존재하는지 조건문
+					if (value.files && value.files[0]) {
+						// 파일을 읽어들일 FileReader 객체 생성
+						var reader = new FileReader();
+
+						// 파일 내용을 읽어들여 dataURL 형식의 문자열로 설정
+						reader.readAsDataURL(value.files[0]);
+
+						// 파일 읽기가 다 완료되었을 때 실행되는 메소드
+						reader.onload = function(e) {
+							$("#thumbnail" + num)
+									.html(
+											"<img src=" + reader.result + " width=350 height=200>");
+						}
+					}
+				}
+			</script>
 			<section id="first_intro2">
 				<section id="map">
 					<h5>&lt;오시는 길&gt;</h5>
@@ -199,7 +250,14 @@ section, div, header {
 				</script>
 				<section id="store_review">
 					<div class="tableArea">
-						<h4>&lt; QnA &gt;</h4>
+						<h4>&lt; 후기 &gt;</h4>
+
+						<img src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png">
+						<div id="score">0.0 / 5.0</div>
 						<table class="table table-hover">
 							<tbody>
 								<tr>
@@ -245,9 +303,41 @@ section, div, header {
 
 		</section>
 
-		<section id="classEdit">
+		<%-- <%if(loginUser){ %>
+		<section id="class_ing_second">
 			<br>
 			<h4>&lt;진행중인 클래스&gt;</h4>
+			<br>
+			<div class="tableArea">
+				<table class="table table-hover">
+					<tbody>
+						<tr>
+							<th>No.</th>
+							<th>클래스명</th>
+							<th>가격</th>
+							<th>기간</th>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+		<%}else{ %> --%>
+
+		<section id="classEdit">
+			<br>
+			<h4>&lt;클래스&gt;</h4>
 			<br>
 			<div class="tableArea">
 				<table class="table table-hover">
@@ -282,12 +372,64 @@ section, div, header {
 				<button id="class_deleteclass" class="btn btn-outline-secondary">삭제하기</button>
 			</div>
 		</section>
+		<%-- 		<%} %> --%>
 
+		<br> <br>
 		<section id="intro3_third">
 			<h4>&lt;공방 소개 글 &gt;</h4>
-			<p id="introContent">rmfmrmrm</p>
-		</section>
+			&nbsp; <input type="button" value="소개글 변경" id="intro3Edit"
+				name="intro3Edit">
 
+			<!-- Modal -->
+			<button type="button" id="intro3Modal" class="btn btn-primary"
+				data-toggle="modal" data-target=".bd-example-modal-lg">Large
+				modal</button>
+
+			<div class="modal fade bd-example-modal-lg" tabindex="-1"
+				role="dialog">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTitle">공방 소개글을
+								자유롭게 작성해주세요~^^</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<textarea cols="100" rows="10" id="modalText"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="button" id="updateIntro3" onclick="updateIntro3();"
+								data-dismiss="modal" class="btn btn-primary">수정완료</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<br> <br>
+			<p id="introContent">저희 공방에 오신걸 환영합니다.</p>
+		</section>
+		<script>
+			$(function() {
+				$("#intro3Modal").hide();
+				$("#intro3Edit").click(function() {
+					$("#intro3Modal").click();
+				});
+			});
+
+			function updateIntro3() {
+				var inputArea = document.getElementById("modalText");
+				var showArea = document.getElementById("introContent");
+
+				showArea.innerHTML = inputArea.value;
+
+			}
+		</script>
+		<br> <br>
 		<section id="content_final_slide">
 			<br>
 			<h4>&lt;더 많은 사진&gt;</h4>
@@ -349,6 +491,9 @@ section, div, header {
 			</div>
 
 		</section>
+
+
+
 	</div>
 
 	<script
