@@ -6,6 +6,7 @@
 %>
 <html>
 <head>
+
 <meta charset="utf-8" />
 
 <title>공방신기에 오신걸 환영합니다.</title>
@@ -428,7 +429,9 @@ body {
 		</form>
       </div>
     </div>
+
   </div>
 </div>
+
 </body>
 </html>
