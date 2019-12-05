@@ -23,7 +23,7 @@ section, div, header {
 #outer {
 	width: 1000px;
 	/* div를 화면 가운데로 오게 하기 */
-	height: 2400px;
+	height: 100%;
 	margin: auto;
 	position: relative;
 }
@@ -71,6 +71,8 @@ section, div, header {
 
 #detail_detail_content {
 	padding: 10px;
+	text-align: center;
+	
 }
 
 a {
@@ -130,7 +132,7 @@ a:hover {
 
 #top_div {
 	width: 1200px;
-	height: 800px;
+	height: 850px;
 }
 
 #tot_table {
@@ -282,16 +284,25 @@ a:hover {
 							$(function(){
 								$("#ckoption").click(function(){
 									var count = $("#count").val();
-									var time = $("#time option:selected").text();
-									$("#tottable").append("<tr><td>" + $("#title").text() + "</td>" + "<td>" + count + "</td><td>" + time + "</td></tr>");
-									$("#totprice").text(count * 60000);
+									var time = $("#time option:selected").text();	
+									var $tableBody = $("#tottable tbody");
+									$tableBody.html("");
+										$("#tottable").append("<tr><td>" + $("#title").text() + "</td>" + "<td>" + count + "</td><td>" + time + "</td></tr>");
+										$("#totprice").text(count * 60000);
+										totflag = false;
 								});
 							});
 						</script>
 					</div>
+					<div id="detail7">
+						<button type="button" class="btn btn-outline-secondary" id="reservationBtn" style="width:100px">예약 하기</button>
+						<button type="button" class="btn btn-outline-secondary" id="gongbangBtn">공방 구경</button>
+						<button type="button" class="btn btn-outline-secondary" id="heartBtn">찜 하기</button>
+					</div>
 				</div>
 			</div>
 		</div>
+		<hr>
 		<script>
           var count = 0;
           		$(function(){
@@ -311,68 +322,93 @@ a:hover {
 			});
 		</script>
 
-
-
-
-
-		<div id="detail_detail_content">
-			반지만들기 반지카페8그램을 방문해 주셔서 감사합니다. 저희 반지카페는 고객이 직접 체험하는 반지공방으로 당일 만들어서 바로
-			가져가실 수 있는 공방입니다.<br> 반지, 팔찌, 목걸이 재질은 99.99% 순은이며 반지 1개당 기본가격은
-			25,000원(폭 2.5mm)으로 반지폭을 증가하거나 탄생석 추가 등에 따라 현장에서 가격이 추가 발생합니다. 은팔찌
-			기본가격은 40,000원이고 목걸이 기본가격은 60,000만원입니다.<br> 현장에서 직접 체험하면서 당일 만들어서
-			당일 현장에서 바로 가져가실 수 있으십니다. 반지를 만드시는 평균시간은 약 1시간 30분이 소요됩니다. 예약방법은 예약금
-			없이 네이버 예약시스템을 활용하여 예약하시거나 010-8904-0156으로 문자로 연락주시면 됩니다. 예약 가능한 시간은
-			오전 11시 부터 오후 8시 20분까지입니다. 반지를 만드시는 시간이 약 1시간 30분이 소요되기 때문에 마지막 오후 8시
-			20분 이전까지는 꼭 방문하여 주시길 부탁드립니다. 아래 일정선택을 통하여 예약 가능하며 기타 자세한 내용은
-			010-8904-0156으로 연락 주시면 감사하겠습니다.
+		
+		<!-- 메인 부분 -->
+		<div id="detail_main" style="width:1000px; text-align:center; position: relative;">
+			<!-- 첫 번째 메인 이미지 -->
+			<div style="width:1000px; height:500px; float:left; margin:10px;">
+				<img src="<%= request.getContextPath() %>/resources/images/class_img1.jpg" style="width:800px; height:100%;">
+			</div>
+			
+			<!-- 첫 번째 글 -->
+			<div style="width:1000px; height:200px; float:left">
+					Dish Factory는
+					넓고 쾌적하여
+					편안하고 단체 모두 즐겁게
+					체험할 수 있는 공간이 준비되어있습니다. 
+			</div>
+			
+			<!-- 두 번째 메인 이미지 -->
+			<div style="width:1000px; height:500px; float:left; margin:10px;">
+				<img src="<%= request.getContextPath() %>/resources/images/class_img1.jpg" style="width:800px; height:100%;">
+			</div>
+			
+			<!-- 두 번째 글 -->
+			<div style="width:1000px; height:200px; float:left">
+					Dish Factory는
+					넓고 쾌적하여
+					편안하고 단체 모두 즐겁게
+					체험할 수 있는 공간이 준비되어있습니다. 
+			</div>
 		</div>
-
-
-
-
-
-
-		<div id="detail_come">
-			<p>&lt; 오시는길 &gt;</p>
-			<img src="sadasd.jpg" id="detail_comeimg">
+		
+		
+		<!--  Map 부분 !!! -->
+		<div id="detail_come" style="text-align: center;">
+			<img src="<%=request.getContextPath()%>/resources/images/map1.PNG" id="detail_comeimg">
 		</div>
-
+	
+		
+		<div id="detail_detail_content" style="line-height:2em; ">
+			<pre style="text-align:center">
+반지만들기 반지카페8그램을 방문해 주셔서 감사합니다.
+저희 반지카페는 고객이 직접 체험하는 반지공방으로 당일 만들어서 바로 가져가실 수 있는 공방입니다.
+반지, 팔찌, 목걸이 재질은 99.99% 순은이며 반지 1개당 기본가격은
+25,000원(폭 2.5mm)으로 반지폭을 증가하거나 탄생석 추가 등에 따라 현장에서 가격이 추가 발생합니다.
+은팔찌 기본가격은 40,000원이고 목걸이 기본가격은 60,000만원입니다.
+현장에서 직접 체험하면서 당일 만들어서 당일 현장에서 바로 가져가실 수 있으십니다.
+반지를 만드시는 평균시간은 약 1시간 30분이 소요됩니다. 
+예약방법은 예약금 없이 네이버 예약시스템을 활용하여 예약하시거나 010-8904-0156으로 문자로 연락주시면 됩니다. 
+예약 가능한 시간은 오전 11시 부터 오후 8시 20분까지입니다. 
+반지를 만드시는 시간이 약 1시간 30분이 소요됩니다.
+아래 일정선택을 통하여 예약 가능하며 기타 자세한 내용은 010-8904-0156으로 연락 주시면 감사하겠습니다.
+			</pre>
+		</div>
+		
+		
+		
+		<!-- 리뷰 -->
+		<hr>
 		<div id="detail_review">
-			<p>&lt; 후기 &gt;</p>
-			<div>☆☆☆☆☆ 3.8/5</div>
+			<div style="text-align:center;">
+				<p>R E V I E W</p>
+				<small style="color:gray; font-size:14px;">클래스의 이용후기를 적어주세요.</small>
+			</div>
+			<table style="color:gray; border-top: 1px solid gray; margin:auto;">
+				<tr style="padding:13px; border-top: 1px solid gray; height:30px; margin-top:100px;line-height:3em;">
+					<td width=800px style="font-weight: bold; font-size:16px;">감사합니다.</td>
+					<td style="font-size:14px;">이름 | 2019-12-05</td>
+				</tr>
+				<tr>
+					<td style="font-size:14px;">좋은 상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</td>
+				</tr>
+				<tr>
+					<td width:>
+				</tr>
+			</table>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			<div>
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">No.</th>
-							<th scope="col">작성자</th>
-							<th scope="col">별점</th>
-							<th scope="col">날짜</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">3</th>
-							<td>이진혁</td>
-							<td>4</td>
-							<td>2019-12-08</td>
-							<td><div id="dd">하이</div></td>
-						</tr>
-
-						<tr>
-							<th scope="row">2</th>
-							<td>신승환</td>
-							<td>3</td>
-							<td>2019-12-07</td>
-						</tr>
-						<tr>
-							<th scope="row">1</th>
-							<td>오재원</td>
-							<td>4</td>
-							<td>2019-12-05</td>
-						</tr>
-					</tbody>
-				</table>
+				
 				<button type="button" class="btn btn-outline-secondary"
 					style="float: right">Review Write</button>
 			</div>
