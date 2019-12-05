@@ -106,6 +106,7 @@
     </style>
     </head>
     <body>
+    <%@ include file="../common/menubar.jsp" %>
     <div class="positioning fixed-area">
     	<div id="dd">
    		<a href="#detail_detail_div">상세정보</a><br>
@@ -145,8 +146,8 @@
                 <p style="text-align:right">1人 19.900원</p>
                 <br>
                 <button type="button" class="btn btn-light" id="interest_btn">♡ 125</button><br><br><br>
-                <button type="button" class="btn btn-danger" id="detail_search_btn">공방 구경</button>
-                <button type="button" class="btn btn-warning" id="detail_enter_btn">클래스 신청하기</button>
+                <button type="button" class="btn btn-outline-secondary" id="detail_search_btn">공방 구경</button>
+                <button type="button" class="btn btn-outline-secondary" id="detail_enter_btn">클래스 예약</button>
             </div>
             
           <script>
@@ -227,7 +228,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-secondary" style="float:right">후기 작성 하기</button>
+                    <button type="button" class="btn btn-outline-secondary" style="float:right">Review Write</button>
                 </div>
             </div><br><br><br>
 
@@ -264,7 +265,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <button type="button" class="btn btn-secondary" style="float:right">문의하기</button>
+                        <button type="button" class="btn btn-outline-secondary" style="float:right">QnA Write</button>
                     </div>
                 </div>
 
@@ -279,7 +280,7 @@
 
 
         </div>
-
+	<%@ include file="../common/footbar.jsp" %>
 
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
