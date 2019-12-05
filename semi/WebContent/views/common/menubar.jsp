@@ -260,10 +260,10 @@ body {
 	</div>
 	
 	<ul class="nav nav-tabs">
-		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/views/member/gongbang.jsp">공방</a></li>
-		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/views/member/gongbang.jsp">클래스</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/views/">공방</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/views/classcategory/category.jsp">클래스</a></li>
 		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/views/member/gongbang.jsp">리뷰</a></li>
-		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/views/member/gongbang.jsp">고객센터</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/views/notice/board.jsp">고객센터</a></li>
 	</ul>
 	<script>
 		$(function(){
