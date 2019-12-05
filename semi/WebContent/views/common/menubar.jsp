@@ -22,7 +22,7 @@
         body{
            
             width:1300px;
-            
+            margin:auto;
             /*border: 1px solid black;*/
         }
     #logoimg{
@@ -124,7 +124,7 @@
               <a class="nav-link" href="#">공방</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">클래스</a>
+                <a class="nav-link" href="<%= request.getContextPath()%>/views/classcategory/category.jsp">클래스</a>
               </li>
             <li class="nav-item">
               <a class="nav-link" href="#">리뷰</a>

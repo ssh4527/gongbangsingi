@@ -28,6 +28,7 @@ a {
 	justify-content: center;
 	align-items: center;
 	top: 0%;
+	left:0%;
 	width: 100%;
 	height: 100%;
 	background-color: gray;
@@ -50,11 +51,12 @@ a {
 .sort td{
 	padding-left : 30px;
 }
-.sort h2{
-	padding : 30px;
-}
+
 .sort table{
 	margin-top : -80px;
+}
+.sort h2{
+	padding : 30px;
 }
 .btn {
 	color : white;
@@ -120,6 +122,7 @@ a {
 
 </head>
 <body>
+<%@ include file="../common/menubar.jsp" %>
 	<!-- 정렬창 보이는 곳 -->
 	<div class='bigWrapper'>
 		<div class="showWrapper">	
@@ -388,6 +391,8 @@ a {
     	});
     	
     </script>
+    
+    <%@ include file="../common/footbar.jsp" %>
 
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
