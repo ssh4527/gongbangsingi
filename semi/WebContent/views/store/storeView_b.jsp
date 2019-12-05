@@ -177,7 +177,11 @@ h4 {
 					$("#thumbnailEdit").click(function() {
 						$("#imgfile1").click();
 					});
-
+   
+					
+					
+					
+					
 				});
 
 				function preview(value, num) {
