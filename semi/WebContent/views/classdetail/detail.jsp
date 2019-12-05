@@ -282,9 +282,12 @@ a:hover {
 							$(function(){
 								$("#ckoption").click(function(){
 									var count = $("#count").val();
-									var time = $("#time option:selected").text();
-									$("#tottable").append("<tr><td>" + $("#title").text() + "</td>" + "<td>" + count + "</td><td>" + time + "</td></tr>");
-									$("#totprice").text(count * 60000);
+									var time = $("#time option:selected").text();	
+									var $tableBody = $("#tottable tbody");
+									$tableBody.html("");
+										$("#tottable").append("<tr><td>" + $("#title").text() + "</td>" + "<td>" + count + "</td><td>" + time + "</td></tr>");
+										$("#totprice").text(count * 60000);
+										totflag = false;
 								});
 							});
 						</script>
