@@ -31,8 +31,8 @@
 body {
 	width: 1300px;
 	margin: auto;
-	background-color: beige;
-	background-size: cover;
+/* 	background-color: beige;
+	background-size: cover; */
 }
  /* *{
 	border:1px solid black;
