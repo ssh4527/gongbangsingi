@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
+<%-- <style>
       .maindiv{
         width:1200px;
         height:500px;
@@ -35,7 +35,11 @@
 	
 	
 	
-	
+	 
 	<%@ include file="views/common/footbar.jsp" %>
+	--%>
+	
+	
+	<%@ include file="views/notice/board.jsp" %>
 </body>
 </html>
