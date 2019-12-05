@@ -5,11 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<%-- <style>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 	*{
 		margin:auto;
 	}
+
       .maindiv{
         width:1200px;
         height:500px;
@@ -39,7 +43,11 @@
 	
 	
 	
-	
+	 
 	<%@ include file="views/common/footbar.jsp" %>
+	--%>
+	
+	
+	<%@ include file="views/notice/board.jsp" %>
 </body>
 </html>

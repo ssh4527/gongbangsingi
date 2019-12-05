@@ -47,6 +47,13 @@
   	float:left;
   	border:15px solid white;
   	}
+  	a{
+  		color:black;
+  	}
+  	a:hover{
+  		color:white;
+  		text-decoration:none;
+  	}
     </style>
 </head>
 <body>
@@ -57,22 +64,24 @@
 	<br>
 	<h4>자주 묻는 질문 TOP5</h4>
 	<br>
-	<p> 자주 묻는 질문1 </p>
-	<p> 자주 묻는 질문1 </p>
-	<p> 자주 묻는 질문1 </p>
-	<p> 자주 묻는 질문1 </p>
+	<ul>
+	<li><a href="#">자주 묻는 질문</a></li>
+	<li><a href="#">자주 묻는 질문</a></li>
+	<li><a href="#">자주 묻는 질문</a></li>
+	<li><a href="#">자주 묻는 질문</a></li>
+	</ul>
 	</div>
 	
 	<div id="notice2_wrap2">
 	<br>
 	<h4>공지사항 &nbsp;&nbsp;&nbsp;
-	 <button type="button" class="btn btn-outline-secondary" id="t2">더보기</button></h4>
+	 <button type="button" class="btn btn-outline-secondary" id="t2" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeListView.jsp'">더보기</button></h4>
 	 <br>
 	<ul>
-	<li>개인정보처리방침</li>
-	<li>결제 관련</li>
-	<li>환불 관련</li>
-	<li>적립금 제도</li>
+	<li><a href="#">결제 관련</a></li>
+	<li><a href="#">예약 관련</a></li>
+	<li><a href="#">적립금 관련</a></li>
+	<li><a href="#">개인정보처리방침</a></li>
 	</ul>
 	</div>
 	
@@ -85,36 +94,44 @@
             <table class="table table-hover">
                     <tr>
                         <th>NO</th>
-                        <th>*</th>
+                        <th>*비밀글</th>
                         <th>SUBJECT</th>
                         <th>WRITER</th>
                         <th>VIEWS</th>
                         <th>DATE</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>비밀글</td>
-                        <td>멤버십 회원등급 안내</td>
-                        <td>이지은</td>
-                         <td>456</td>
-                        <td>2019-10-28</td>
-                    </tr>
-                   
                 </table>
+                
                 <hr>
-                <select>
-                        <option value="일주일" selected>일주일</option>
-                        <option value="한달">한달</option>
-                        <option value="전체">전체</option>
-                </select>
-                <select>
-                        <option value="제목" selected>제목</option>
-                        <option value="내용">내용</option>
-                </select>
-                <input type="text" id="notice2_input" placeholder="내용을 입력해주세요">
-                <button type="button" class="btn btn-outline-secondary">Search</button>
-                <button type="button" class="btn btn-outline-secondary">WRITE</button>
-                <br> <br>
+                <div align="center">
+			<form action="<%=request.getContextPath()%>/search.no" method="get"
+				onsubmit="return checkSearchCondition();">
+				<select>
+					<option value="---">---</option>
+					<option value="week">일주일</option>
+					<option value="month">한달</option>
+					<option value="total">전체</option>
+				</select> 
+				<select>
+					<option value="---">---</option>
+					<option value="writer">작성자</option>
+					<option value="title">제목</option>
+					<option value="content">내용</option>
+				</select> <input type="text" id="notice2_input" placeholder="내용을 입력해주세요">
+				<button type="submit" class="btn btn-outline-secondary">Search</button>
+				<button type="button" class="btn btn-outline-secondary">WRITE</button>
+			</form>
+			<script>
+			function checkSearchCondition() {
+				if ($("#searchCondition option:selected").val() == '---') {
+					return false;
+				}
+				return true;
+			}
+		</script>
+		</div>
+                <br><br>
+                
                 <div>
                         <ul class="pagination justify-content-center">
                             <li><a href='#' class="page-link">&lt;&lt;</a></li>
