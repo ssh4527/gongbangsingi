@@ -1,4 +1,4 @@
-package review.model;
+package review.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
