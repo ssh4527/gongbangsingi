@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*, review.model.vo.*"%>
+	<%
+	ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +46,7 @@ section, div, header {
 
 #outer {
 	width: 1000px;
-	height: 1800px;
+	height: 2000px;
 	/* div를 화면 가운데로 오게 하기 */
 	margin: auto;
 	padding: 3%;
@@ -142,6 +153,13 @@ section, div, header {
 
 #thumbnailEdit {
 	float: right;
+	background-color: pink;
+	border-radius: 30%;
+}
+
+#intro3Edit {
+	background-color: pink;
+	border-radius: 30%;
 }
 
 h4 {
@@ -150,6 +168,7 @@ h4 {
 </style>
 </head>
 <body>
+	<%@ include file="../common/menubar.jsp"%>
 	<div id="outer">
 		<section id="content_first">
 			<section id="first_intro1">
@@ -161,6 +180,8 @@ h4 {
 						name="imgfile1" onchange="preview(this,1)">
 				</section>
 				<br> <br>
+				<br> <br>
+				<br> <br>
 				<section id="introl1_2">
 					<div id="introl1_2_1">
 						<p id="addr">주소</p>
@@ -168,7 +189,7 @@ h4 {
 						<p id="sns">sns 계정</p>
 					</div>
 				</section>
-			
+
 			</section>
 			<script>
 				$(function() {
@@ -177,11 +198,7 @@ h4 {
 					$("#thumbnailEdit").click(function() {
 						$("#imgfile1").click();
 					});
-   
-					
-					
-					
-					
+
 				});
 
 				function preview(value, num) {
@@ -300,7 +317,100 @@ h4 {
 									<td>&nbsp;</td>
 								</tr>
 							</tbody>
+							<%
+								if (list.isEmpty()) {
+							%>
+							<tr>
+								<td colspan="6">조회된 리스트가 없습니다.</td>
+							</tr>
+							<%
+								} else {
+							%>
+							<%
+								for (Board b : list) {
+							%>
+							<tr>
+								<input type="hidden" value="<%=b.getbId()%>">
+								<td><%=b.getbId()%></td>
+								<td><%=b.getCategory()%></td>
+								<td><%=b.getbTitle()%></td>
+								<td><%=b.getbWriter()%></td>
+								<td><%=b.getbCount()%></td>
+								<td><%=b.getModifyDate()%></td>
+							</tr>
+							<%
+								}
+							%>
+							<%
+								}
+							%>
 						</table>
+					</div>
+					<!-- 페이징바 -->
+					<div class="pagingArea" align="center">
+						<!-- 맨 처음으로 (<<) -->
+						<button
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=1'">
+							&lt;&lt;</button>
+
+						<!-- 이전 페이지로 (<) -->
+						<%
+							if (currentPage == 1) {
+						%>
+						<button disabled>&lt;</button>
+						<%
+							} else {
+						%>
+						<button
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage - 1%>'">
+							&lt;</button>
+						<%
+							}
+						%>
+
+						<!-- 10개의 페이지 목록 -->
+						<%
+							for (int p = startPage; p <= endPage; p++) {
+						%>
+						<%
+							if (p == currentPage) {
+						%>
+						<button disabled>
+							<%=p%></button>
+						<%
+							} else {
+						%>
+						<button
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=p%>'">
+							<%=p%>
+						</button>
+						<%
+							}
+						%>
+						<%
+							}
+						%>
+
+						<!-- 다음 페이지로(>) -->
+						<%
+							if (currentPage == maxPage) {
+						%>
+						<button disabled>&gt;</button>
+						<%
+							} else {
+						%>
+						<button
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage + 1%>'">
+							&gt;</button>
+						<%
+							}
+						%>
+
+						<!--  맨 끝으로 (>>) -->
+						<button
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=maxPage%>'">
+							&gt;&gt;</button>
+
 					</div>
 				</section>
 			</section>
@@ -459,14 +569,14 @@ h4 {
 					<div class="carousel-item active">
 
 						<img src="/images/top1.JPG" class="d-block w-100" alt="..."
-							height="600px">
+							height="300px">
 
 					</div>
 
 					<div class="carousel-item">
 
 						<img src="/images/top1.JPG" class="d-block w-100" alt="..."
-							height="600px">
+							height="300px">
 
 					</div>
 
@@ -474,7 +584,7 @@ h4 {
 					<div class="carousel-item">
 
 						<img src="/images/top1.JPG" class="d-block w-100" alt="..."
-							height="600px">
+							height="300px">
 
 					</div>
 
@@ -504,6 +614,7 @@ h4 {
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+	<%@ include file="../common/footbar.jsp"%>
 </body>
 </html>
 
