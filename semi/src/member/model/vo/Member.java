@@ -31,8 +31,15 @@ public class Member {
 		Interest = interest;
 	}
 
+	
 
 
+	@Override
+	public String toString() {
+		return "Member [userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName + ", userBirth="
+				+ userBirth + ", Email=" + Email + ", Phone=" + Phone + ", EnrollDate=" + EnrollDate + ", Authority="
+				+ Authority + ", ReadStatus=" + ReadStatus + ", Interest=" + Interest + "]";
+	}
 
 	public String getUserId() {
 		return userId;

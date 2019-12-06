@@ -15,14 +15,7 @@ public class JDBCTemplate {
 		
 		Properties prop = new Properties();
 		
-		// driver 정보를 저장하여 제공할 수 있는 driver.properties 파일을 만들자 ~~
-		// sql 패키지를 만들고 그 안에 파일 생성 후 내용 작성
-		
-		// URL java.lang.Class.getResource(String name)
-		// : properties 파일의 경로 읽어오기
-		String fileName = JDBCTemplate.class.getResource("/sql/driver.properties").getPath();
-		
-		System.out.println("fileName : " + fileName);
+		String fileName = JDBCTemplate.class.getResource("/sql/oracledriver.properties").getPath();
 		
 		try {
 			prop.load(new FileReader(fileName));
