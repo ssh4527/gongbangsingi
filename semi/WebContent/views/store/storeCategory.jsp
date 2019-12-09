@@ -2,6 +2,10 @@
 	pageEncoding="UTF-8" import="java.util.*, workshop.model.vo.*"%>
 	<%
 		ArrayList<Workshop> list = (ArrayList<Workshop>)request.getAttribute("list");
+	
+	
+	
+	
 	%>
 <!DOCTYPE html>
 <html>
