@@ -21,7 +21,7 @@ section, div, header {
 }
 
 #outer {
-	width: 1000px;
+	width: 1400px;
 	/* div를 화면 가운데로 오게 하기 */
 	height: 100%;
 	margin: auto;
@@ -72,7 +72,6 @@ section, div, header {
 #detail_detail_content {
 	padding: 10px;
 	text-align: center;
-	
 }
 
 a {
@@ -131,12 +130,24 @@ a:hover {
 }
 
 #top_div {
-	width: 1200px;
+	width: 1000px;
 	height: 850px;
 }
 
 #tot_table {
 	border: 1px solid red;
+}
+
+ul {
+	list-style: none;
+}
+
+#pa-link {
+	border: black;
+	color: black;
+}
+#tbody{
+	cursor:pointer;
 }
 </style>
 </head>
@@ -251,7 +262,8 @@ a:hover {
 						</tr>
 						<tr>
 							<td><small style="color: gray"> > 인원수 </small></td>
-							<td><input type="number" width="10px" min="0" max="9" id="count"></td>
+							<td><input type="number" width="10px" min="0" max="9"
+								id="count"></td>
 						</tr>
 						<tr>
 							<td rowspan="2" style="text-align: right;"></td>
@@ -262,8 +274,7 @@ a:hover {
 				<div id="detail5" style="text-align: left">
 					<button type="button" class="btn btn-outline-secondary"
 						style="float: right" id="ckoption">옵션 선택</button>
-					<br>
-					<br> <small style="color: gray; text-align: right;">최소
+					<br> <br> <small style="color: gray; text-align: right;">최소
 						인원 1명 이상</small>
 					<table class="table" id="tottable">
 						<thead>
@@ -295,9 +306,12 @@ a:hover {
 						</script>
 					</div>
 					<div id="detail7">
-						<button type="button" class="btn btn-outline-secondary" id="reservationBtn" style="width:100px">예약 하기</button>
-						<button type="button" class="btn btn-outline-secondary" id="gongbangBtn">공방 구경</button>
-						<button type="button" class="btn btn-outline-secondary" id="heartBtn">찜 하기</button>
+						<button type="button" class="btn btn-outline-secondary"
+							id="reservationBtn" style="width: 100px">예약 하기</button>
+						<button type="button" class="btn btn-outline-secondary"
+							id="gongbangBtn">공방 구경</button>
+						<button type="button" class="btn btn-outline-secondary"
+							id="heartBtn">찜 하기</button>
 					</div>
 				</div>
 			</div>
@@ -311,7 +325,8 @@ a:hover {
           				urlArr[0] =  "<%=request.getContextPath()%>/resources/images/jar2.jpg";
           				urlArr[1] =  "<%=request.getContextPath()%>/resources/images/jar3.jpg";
           				urlArr[2] =  "<%=request.getContextPath()%>/resources/images/city1.PNG";
-          				urlArr[3] =  "<%=request.getContextPath()%>/resources/images/jar1.jpg";
+          				urlArr[3] =  "<%=request.getContextPath()%>
+			/resources/images/jar1.jpg";
 
 									if (count > 3) {
 										count = 0;
@@ -322,45 +337,43 @@ a:hover {
 			});
 		</script>
 
-		
+
 		<!-- 메인 부분 -->
-		<div id="detail_main" style="width:1000px; text-align:center; position: relative;">
+		<div id="detail_main"
+			style="width: 1000px; text-align: center; position: relative;">
 			<!-- 첫 번째 메인 이미지 -->
-			<div style="width:1000px; height:500px; float:left; margin:10px;">
-				<img src="<%= request.getContextPath() %>/resources/images/class_img1.jpg" style="width:800px; height:100%;">
+			<div style="width: 1000px; height: 500px; float: left; margin: 10px;">
+				<img
+					src="<%=request.getContextPath()%>/resources/images/class_img1.jpg"
+					style="width: 800px; height: 100%;">
 			</div>
-			
+
 			<!-- 첫 번째 글 -->
-			<div style="width:1000px; height:200px; float:left">
-					Dish Factory는
-					넓고 쾌적하여
-					편안하고 단체 모두 즐겁게
-					체험할 수 있는 공간이 준비되어있습니다. 
-			</div>
-			
+			<div style="width: 1000px; height: 200px; float: left">Dish
+				Factory는 넓고 쾌적하여 편안하고 단체 모두 즐겁게 체험할 수 있는 공간이 준비되어있습니다.</div>
+
 			<!-- 두 번째 메인 이미지 -->
-			<div style="width:1000px; height:500px; float:left; margin:10px;">
-				<img src="<%= request.getContextPath() %>/resources/images/class_img1.jpg" style="width:800px; height:100%;">
+			<div style="width: 1000px; height: 500px; float: left; margin: 10px;">
+				<img
+					src="<%=request.getContextPath()%>/resources/images/class_img1.jpg"
+					style="width: 800px; height: 100%;">
 			</div>
-			
+
 			<!-- 두 번째 글 -->
-			<div style="width:1000px; height:200px; float:left">
-					Dish Factory는
-					넓고 쾌적하여
-					편안하고 단체 모두 즐겁게
-					체험할 수 있는 공간이 준비되어있습니다. 
-			</div>
+			<div style="width: 1000px; height: 200px; float: left">Dish
+				Factory는 넓고 쾌적하여 편안하고 단체 모두 즐겁게 체험할 수 있는 공간이 준비되어있습니다.</div>
 		</div>
-		
-		
+
+
 		<!--  Map 부분 !!! -->
 		<div id="detail_come" style="text-align: center;">
-			<img src="<%=request.getContextPath()%>/resources/images/map1.PNG" id="detail_comeimg">
+			<img src="<%=request.getContextPath()%>/resources/images/map1.PNG"
+				id="detail_comeimg">
 		</div>
-	
-		
-		<div id="detail_detail_content" style="line-height:2em; ">
-			<pre style="text-align:center">
+
+
+		<div id="detail_detail_content" style="line-height: 2em;">
+			<pre style="text-align: center">
 반지만들기 반지카페8그램을 방문해 주셔서 감사합니다.
 저희 반지카페는 고객이 직접 체험하는 반지공방으로 당일 만들어서 바로 가져가실 수 있는 공방입니다.
 반지, 팔찌, 목걸이 재질은 99.99% 순은이며 반지 1개당 기본가격은
@@ -374,89 +387,224 @@ a:hover {
 아래 일정선택을 통하여 예약 가능하며 기타 자세한 내용은 010-8904-0156으로 연락 주시면 감사하겠습니다.
 			</pre>
 		</div>
-		 
-		 
-		 
-		
-		
+
+
+
 		<!-- 리뷰 -->
 		<hr>
 		<div id="detail_review">
-			<div style="text-align:center;">
+			<div style="text-align: center;">
 				<p>R E V I E W</p>
-				<small style="color:gray; font-size:14px;">클래스의 이용후기를 적어주세요.</small>
+				<small style="color: gray; font-size: 14px;">클래스의 이용후기를
+					적어주세요.</small>
+				<hr>
 			</div>
-			<table style="color:gray; border-top: 1px solid gray; margin:auto;">
-				<tr style="padding:13px; border-top: 1px solid gray; height:30px; margin-top:100px;line-height:3em;">
-					<td width=800px style="font-weight: bold; font-size:16px;">감사합니다.</td>
-					<td style="font-size:14px;">이름 | 2019-12-05</td>
-				</tr>
-				<tr>
-					<td style="font-size:14px;">좋은 상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</td>
-				</tr>
-				<tr>
-					<td width:>
-					
-				</tr>
-			</table>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+			<!-- 리뷰2 -->
+			<div class="ulpre" style="color: gray; font-size: 14px;">
+
+				<ul class="dept">
+					<li style="cursor: pointer" class="reviewtitle"><span style="">
+							<small>★★★★☆</small> <small style="margin-left: 30px;">좋은
+								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁
+								2019-12-05</small>
+					</span>
+						<ul class="dept02" style="display: none">
+							<li id="asd">우와 색이 정말 이뻐요!!<br> 이쁘게 만들게 해주셔서 감사합니당 <br>
+								asdasd<br> asdasd
+							</li>
+						</ul></li>
+					<hr>
+
+
+					<li style="cursor: pointer" class="reviewtitle"><span style="">
+							<small>★★★★☆</small> <small style="margin-left: 30px;">좋은
+								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁
+								2019-12-05</small>
+					</span>
+						<ul class="dept02" style="display: none">
+							<li id="asd">우와 색이 정말 이뻐요!!<br> 이쁘게 만들게 해주셔서 감사합니당 <br>
+								asdasd<br> asdasd
+							</li>
+						</ul></li>
+					<hr>
+
+					<li style="cursor: pointer" class="reviewtitle"><span style="">
+							<small>★★★★☆</small> <small style="margin-left: 30px;">좋은
+								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁
+								2019-12-05</small>
+					</span>
+						<ul class="dept02" style="display: none">
+							<li id="asd">우와 색이 정말 이뻐요!!<br> 이쁘게 만들게 해주셔서 감사합니당 <br>
+								asdasd<br> asdasd
+							</li>
+						</ul></li>
+					<hr>
+
+					<!-- 리뷰 페이징 -->
+					<nav aria-label="Page navigation example" style="text-align: center;">
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous" id="pa-link"> <span aria-hidden="true"">&laquo;</span>
+							</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">1</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">2</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">3</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Next" id="pa-link"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
+				</ul>
+				<hr>
+
+			</div>
+
+			<!-- 슬라이드 부분  -->
+			<script>
+				$(document).on('click', '.reviewtitle>span', function() {
+					var submenu = $(this).next("ul");
+
+					if (submenu.is(":visible")) {
+						submenu.slideUp();
+					} else {
+						submenu.slideDown();
+					}
+				});
+			</script>
+
+			<!-- 리뷰 버튼 -->
 			<div>
-				
 				<button type="button" class="btn btn-outline-secondary"
 					style="float: right">Review Write</button>
 			</div>
-		</div>
-		<br>
-		<br>
-		<br>
 
-		<div id="detail_qna">
-			<p>&lt; QnA &gt;</p>
-			<div>
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">No.</th>
-							<th scope="col">작성자</th>
-							<th scope="col">제목</th>
-							<th scope="col">날짜</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">3</th>
-							<td>이진혁</td>
-							<td>예약 취소는 어떻게하나요?</td>
-							<td>2019-12-06</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>이지은</td>
-							<td>ㅇㅇ?</td>
-							<td>2019-12-07</td>
-						</tr>
-						<tr>
-							<th scope="row">1</th>
-							<td>신하은</td>
-							<td>ㅇㅅㅇ?</td>
-							<td>2019-12-05</td>
-						</tr>
-					</tbody>
-				</table>
-				<button type="button" class="btn btn-outline-secondary"
-					style="float: right">QnA Write</button>
+
+			<!-- 리뷰 작성 모달 -->
+
+			<!-- Modal -->
+			<button data-toggle="modal" data-target="#intro">모달 실행</button>
+			<div class="modal fade" id="intro" role="dialog"
+				aria-labelledby="introHeader" aria-hidden="true" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">공지 사항</h4>
+						</div>
+						<div class="modal-body">
+							<p>안녕하세요.</p>
+							<p>codeomni 입니다. 방문해주셔서 감사합니다. 궁금하신 사항이나 문의 사항은 방명록에 공개 또는
+								비공개로 남겨주세요.</p>
+							<p>블로그 주소는 http://codeomni.tistory.com/입니다.</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+			<!-- QnA -->
+			<hr>
+			<div id="detail_qna">
+				<div style="text-align: center;">
+					<p>Q & A</p>
+					<small style="color: gray; font-size: 14px;">클래스에 대한 궁금한 점을
+						해결해 드립니다.</small>
+					<hr>
+				</div>
+				<div id="qna_table">
+					<table class="table" boredr=1px;>
+						<thead style="font-size: 14px; color: gray; text-align: center;">
+							<tr>
+								<td scope="col" width=50px>No
+								</th>
+								<td scope="col" width=1000px>Title
+								</th>
+								<td scope="col" width="100px">Name
+								</th>
+								<td scope="col" width="100px">Date
+								</th>
+							</tr>
+						</thead>
+						<tbody style="font-size: 14px; color: gray; text-align: center;" id="tbody">
+							<tr>
+								<th scope="row">3</th>
+								<td>도자기 만드는거 쉬운가요??</td>
+								<td>이진혁</td>
+								<td>2019-10-16</td>
+							</tr>
+							<tr>
+								<th scope="row">2</th>
+								<td>2번 입니다...</td>
+								<td>오재원</td>
+								<td>2019-10-15</td>
+							</tr>
+							<tr>
+								<th scope="row">1</th>
+								<td>1번 입니다...</td>
+								<td>누군가</td>
+								<td>2019-10-14</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 리뷰 페이징 -->
+					<nav aria-label="Page navigation example" style="text-align: center;">
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous" id="pa-link"> <span aria-hidden="true"">&laquo;</span>
+							</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">1</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">2</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">3</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Next" id="pa-link"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
 			</div>
 		</div>
+		
+		<!-- qna 스크립트 -->
+		<script>
+			$(function(){
+				$("#tbody>tr").click(function(){
+					var trNum = $(this).closest('tr').prevAll().length;
+				
+					if(trNum == 0){
+						$(this).eq(-1).after("<tr><td>ㅎㅇd</td><td>ㅎㅇ</td><td>Manager</td><td>2019-10-17</td></tr>");
+						console.log(trNum);
+					}
+					
+					if(trNum == 1){
+						$(this).eq(-1).after("<tr><td>ㅎㅇ</td><td>ㅎㅇ</td><td>Manager</td><td>2019-10-16</td></tr>");
+						console.log(trNum);
+					}
+					
+					if(trNum == 2){
+						$(this).eq(-1).after("<tr><td>ㅎㅇ</td><td>ㅎㅇ</td><td>Manager</td><td>2019-10-15</td></tr>");
+						console.log(trNum);
+					}
+				
+				
+				});
+			});
+		
+		</script>
+		
+		<br> <br> <br>
 
 		<div id="detail_warning">
 			<p id="detail_warning_p">&lt; 유의사항 &gt;</p>
@@ -475,7 +623,6 @@ a:hover {
 	<%@ include file="../common/footbar.jsp"%>
 
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script
