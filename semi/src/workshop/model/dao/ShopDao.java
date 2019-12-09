@@ -37,11 +37,11 @@ public class ShopDao {
 			ppst = con.prepareStatement(sql);
 			rset=ppst.executeQuery();
 			
-			//String wsNo, String wsName, String address, String wsTel, boolean wsYN, Date wsEnrollDate,
-			//String category, String payAccount
+			//String wsNo, String wsName, String address, String wsTel, 
+			//String category, double grade
 			if(rset.next()) {
 				list.add(new Workshop(rset.getString(1),rset.getString(2),rset.getString(3),rset.getString(4),
-						rset.getBoolean(5),rset.getDate(6),rset.getString(7),rset.getString(8)));
+						rset.getString(5),rset.getDouble(6)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

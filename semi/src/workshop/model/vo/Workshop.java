@@ -24,17 +24,15 @@ public class Workshop {
 	public Workshop() {}
 
 	
-	public Workshop(String wsNo, String wsName, String address, String wsTel, boolean wsYN, Date wsEnrollDate,
-			String category, String payAccount) {
+	public Workshop(String wsNo, String wsName, String address, String wsTel, 
+			String category, double grade) {
 		super();
 		WsNo = wsNo;
 		WsName = wsName;
 		Address = address;
 		WsTel = wsTel;
-		WsYN = wsYN;
-		WsEnrollDate = wsEnrollDate;
 		Category = category;
-		PayAccount = payAccount;
+		this.grade=grade;
 	}
 
 	public String getWsNo() {
