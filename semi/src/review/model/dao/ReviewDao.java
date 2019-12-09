@@ -8,7 +8,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
+
+import review.model.vo.Review;
 
 
 public class ReviewDao {
@@ -48,6 +51,11 @@ public class ReviewDao {
 			close(stmt);
 		}
 		return listCount;
+	}
+
+	public ArrayList<Review> selectList(Connection con, int currentPage, int boardLimit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

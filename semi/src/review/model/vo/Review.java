@@ -9,10 +9,13 @@ public class Review {
 	private String RContent; // 내용
 	private int RCount; // 조회수
 	private int RGrade; // 평점
-
+	private String RWriter; //작성자
+	
 	public Review() {}
 
-	public Review(String rNo, String rTitle, Date rEnDate, String rContent, int rCount, int rGrade) {
+	
+
+	public Review(String rNo, String rTitle, Date rEnDate, String rContent, int rCount, int rGrade, String rWriter) {
 		super();
 		RNo = rNo;
 		RTitle = rTitle;
@@ -20,7 +23,22 @@ public class Review {
 		RContent = rContent;
 		RCount = rCount;
 		RGrade = rGrade;
+		RWriter = rWriter;
 	}
+
+
+
+	public String getRWriter() {
+		return RWriter;
+	}
+
+
+
+	public void setRWriter(String rWriter) {
+		RWriter = rWriter;
+	}
+
+
 
 	public String getRNo() {
 		return RNo;

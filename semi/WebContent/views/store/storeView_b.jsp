@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="java.util.*, review.model.vo.*"%>
-	<%
-	ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list");
-	PageInfo pi = (PageInfo)request.getAttribute("pi");
+<%
+	/* ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list"); */
+
+	/* PageInfo pi = (PageInfo)request.getAttribute("pi");
 	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
 	int maxPage = pi.getMaxPage();
 	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
-
+	int endPage = pi.getEndPage(); */
 %>
 <!DOCTYPE html>
 <html>
@@ -179,9 +179,7 @@ h4 {
 						name="thumbnailEdit"> <input type="file" id="imgfile1"
 						name="imgfile1" onchange="preview(this,1)">
 				</section>
-				<br> <br>
-				<br> <br>
-				<br> <br>
+				<br> <br> <br> <br> <br> <br>
 				<section id="introl1_2">
 					<div id="introl1_2_1">
 						<p id="addr">주소</p>
@@ -273,11 +271,11 @@ h4 {
 					<div class="tableArea">
 						<h4>&lt; 후기 &gt;</h4>
 
-						<img src="/images/empty_star.png"> <img
-							src="/images/empty_star.png"> <img
-							src="/images/empty_star.png"> <img
-							src="/images/empty_star.png"> <img
-							src="/images/empty_star.png">
+						<img id="star1" width="20px" height="20px" src="<%=request.getContextPath()%>/resources/images/empty_star.png">
+						<img id="star2" width="20px" height="20px" src="<%=request.getContextPath()%>/resources/images/empty_star.png">
+						<img id="star3" width="20px" height="20px"  src="<%=request.getContextPath()%>/resources/images/empty_star.png">
+						<img id="star4"  width="20px" height="20px"  src="<%=request.getContextPath()%>/resources/images/empty_star.png">
+						<img id="star5"   width="20px" height="20px" src="<%=request.getContextPath()%>/resources/images/empty_star.png">
 						<div id="score">0.0 / 5.0</div>
 						<table class="table table-hover">
 							<tbody>
@@ -295,29 +293,8 @@ h4 {
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
 								</tr>
-								<tr>
-									<td>2</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-								</tr>
-							</tbody>
-							<%
+
+								<%-- <%
 								if (list.isEmpty()) {
 							%>
 							<tr>
@@ -325,32 +302,32 @@ h4 {
 							</tr>
 							<%
 								} else {
+									int idx=1;
 							%>
 							<%
-								for (Board b : list) {
+								for (Review r : list) {
 							%>
 							<tr>
-								<input type="hidden" value="<%=b.getbId()%>">
-								<td><%=b.getbId()%></td>
-								<td><%=b.getCategory()%></td>
-								<td><%=b.getbTitle()%></td>
-								<td><%=b.getbWriter()%></td>
-								<td><%=b.getbCount()%></td>
-								<td><%=b.getModifyDate()%></td>
+								<input type="hidden" value="<%=r.getbId()%>">
+								<td><%=idx++ %></td>
+								<td><%=r.getRWriter()%></td>
+								<td><%=r.getRGrade()%></td>
+								<td><%=r.getREnDate()%></td>
 							</tr>
 							<%
 								}
 							%>
 							<%
 								}
-							%>
+							%> --%>
+							</tbody>
 						</table>
 					</div>
 					<!-- 페이징바 -->
-					<div class="pagingArea" align="center">
+					<%-- <div class="pagingArea" align="center">
 						<!-- 맨 처음으로 (<<) -->
 						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=1'">
+							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=1'">
 							&lt;&lt;</button>
 
 						<!-- 이전 페이지로 (<) -->
@@ -362,7 +339,7 @@ h4 {
 							} else {
 						%>
 						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage - 1%>'">
+							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=currentPage - 1%>'">
 							&lt;</button>
 						<%
 							}
@@ -381,7 +358,7 @@ h4 {
 							} else {
 						%>
 						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=p%>'">
+							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=p%>'">
 							<%=p%>
 						</button>
 						<%
@@ -400,7 +377,7 @@ h4 {
 							} else {
 						%>
 						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage + 1%>'">
+							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=currentPage + 1%>'">
 							&gt;</button>
 						<%
 							}
@@ -408,10 +385,10 @@ h4 {
 
 						<!--  맨 끝으로 (>>) -->
 						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=maxPage%>'">
+							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=maxPage%>'">
 							&gt;&gt;</button>
 
-					</div>
+					</div> --%>
 				</section>
 			</section>
 
@@ -526,8 +503,18 @@ h4 {
 
 			<br> <br>
 			<p id="introContent">저희 공방에 오신걸 환영합니다.</p>
+			
 		</section>
-		<script>
+		<form action="" id="detailForm" method="post">
+		<input type="hidden" name="bId" value="<%= b.getbId() %>">
+	</form>
+
+	<script>
+		function updateBoard(){
+			$("#detailForm").attr("action", "<%= contextPath %>/updateForm.bo");
+			$("#detailForm").submit();
+			
+		}
 			$(function() {
 				$("#intro3Modal").hide();
 				$("#intro3Edit").click(function() {
@@ -542,6 +529,7 @@ h4 {
 				showArea.innerHTML = inputArea.value;
 
 			}
+			
 		</script>
 		<br> <br>
 		<section id="content_final_slide">
