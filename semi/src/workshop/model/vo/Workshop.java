@@ -1,6 +1,10 @@
 package workshop.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
+
+import review.model.vo.Review;
+import workclass.model.vo.Workclass;
 
 public class Workshop {
 	private String WsNo; // 공방 번호
@@ -11,6 +15,11 @@ public class Workshop {
 	private Date WsEnrollDate; // 공방 등록일자
 	private String Category;  // 공방 카테고리
 	private String PayAccount; // 공방계좌번호
+	
+	private ArrayList<Review> rlist; //후기 글
+	private ArrayList<Workclass> clist; //클래스 
+	private String intro; //소개글
+	private double grade; //평점
 	
 	public Workshop() {}
 
@@ -89,6 +98,38 @@ public class Workshop {
 
 	public void setPayAccount(String payAccount) {
 		PayAccount = payAccount;
+	}
+
+	public ArrayList<Review> getRlist() {
+		return rlist;
+	}
+
+	public void setRlist(ArrayList<Review> rlist) {
+		this.rlist = rlist;
+	}
+
+	public ArrayList<Workclass> getClist() {
+		return clist;
+	}
+
+	public void setClist(ArrayList<Workclass> clist) {
+		this.clist = clist;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+
+	public double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(double grade) {
+		this.grade = grade;
 	}
 	
 	
