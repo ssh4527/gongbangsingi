@@ -306,8 +306,9 @@ ul {
 						</script>
 					</div>
 					<div id="detail7">
-						<button type="button" class="btn btn-outline-secondary"
-							id="reservationBtn" style="width: 100px">예약 하기</button>
+						<!-- <button type="button" class="btn btn-outline-secondary"
+							id="reservationBtn" style="width: 100px">예약 하기</button> -->
+						<button type="button" class="btn btn-outline-secondary"  id="reservationBtn"  style="width: 100px" data-toggle="modal" data-target=".bd-example-modal-lg">예약하기</button>
 						<button type="button" class="btn btn-outline-secondary"
 							id="gongbangBtn">공방 구경</button>
 						<button type="button" class="btn btn-outline-secondary"
@@ -317,6 +318,136 @@ ul {
 			</div>
 		</div>
 		<hr>
+		
+		<!-- 예약하기 모달 -->
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  			<div class="modal-dialog modal-lg">
+    			<div class="modal-content">
+      				<div style="width:100%; height:30px; text-align: center;">
+      					Dish Factory 도자기 만들기 체험
+      				<hr>	
+      				</div>
+      				
+      				<div>
+      					<table style="margin-top:20px;">
+						<tr>
+							<td width=80%;><small style="color: gray">1인 기준 금액</small></td>
+							<td><small>60,000</small></td>
+						</tr>
+						<tr>
+							<td><small style="color: gray">보유 포인트</small></td>
+							<td><small>3,000p</small></td>
+						</tr>
+						<tr>
+							<td><small style="color: gray">적립 포인트</small></td>
+							<td><small>3,000p</small></td>
+						</tr>
+						</table>
+					<hr>
+      				</div>
+      				
+      				
+      				<div>
+      					<table>
+						<tr>
+							<td width=150px;><small style="color: gray"> > 날짜/시간
+							</small></td>
+							<td><select name="pretime" id="pretime" style="font-size: 15px">
+									<option value="">-[필수] 시간대를 선택해주세요 -</option>
+									<option value="">----------------------</option>
+									<option value="1">12:00 - 14:00</option>
+									<option value="2">15:00 - 17:00</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><small style="color: gray"> > 인원수 </small></td>
+							<td><input type="number" width="10px" min="0" max="9"
+								id="precount" name="precount"></td>
+						</tr>
+						<tr>
+							<td rowspan="2" style="text-align: right;"></td>
+						</tr>
+					</table>
+					<hr>
+      				</div>
+      				
+      				
+      				<div>
+      					<small id="pretotal">TOTAL : 	 </small>
+      				</div>
+      				
+      				<!-- pre모달 토탈부분 -->
+      				<script>
+      					$(function(){
+      						$("#pretime").change(function(){
+      							console.log(this.value);
+      			
+      						});
+      						
+      						$("#precount").change(function(){
+      							var count = $("#precount").val();
+      							
+								$("#pretotal").text("TOTAL : " + count * 60000 + " 원");
+								$("#pretotal").css("fontSize","14px");
+								
+      						});
+      						
+      						$("#reservationBtnn").click(function(){
+      							location.href = "<%= request.getContextPath() %>/views/cash/cash.jsp";
+      						});
+      					});
+      					
+      					$("div").append("");
+      				</script>
+      				
+      				
+      				<div>
+      				<textarea rows="10" cols="100" style="font-family:나눔고딕; font-size : 14px;" >
+WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처리되지 않는경우, 아래의 절차에 따라 해결하시기 바랍니다.
+	(1).  안심클릭 결제모듈이 설치되지 않은 경우 ActiveX 수동설치
+	(2). Service Pack 2에 대한 Microsoft사의 상세안내
+	(3). 결제보안을 위한 KCP Active-X가 자동설치되지 않을경우 수동설치하시기 바랍니다. 
+	
+아래의 쇼핑몰일 경우에는 모든 브라우저 사용이 가능합니다.
+
+	(1). KG이니시스, KCP, LG U+를 사용하는 쇼핑몰일 경우
+	(2). 결제가능브라우저 : 크롬,파이어폭스,사파리,오페라 브라우저에서 결제 가능
+		(단, window os 사용자에 한하며 리눅스/mac os 사용자는 사용불가)
+	(3). 최초 결제 시도시에는 플러그인을 추가 설치 후 반드시 브라우저 종료 후 재시작해야만 결제가 가능합니다.
+		(무통장, 휴대폰결제 포함)
+		
+세금계산서 발행 안내
+
+	(1). 부가가치세법 제 54조에 의거하여 세금계산서는 배송완료일로부터 다음달 10일까지만 요청하실 수 있습니다.
+	(2). 세금계산서는 사업자만 신청하실 수 있습니다.
+	(3). 배송이 완료된 주문에 한하여 세금계산서 발행신청이 가능합니다.
+	(4). [세금계산서 신청]버튼을 눌러 세금계산서 신청양식을 작성한 후 팩스로 사업자등록증사본을 보내셔야 세금계산서 발생이 가능합니다.
+	(5). [세금계산서 인쇄]버튼을 누르면 발행된 세금계산서를 인쇄하실 수 있습니다.
+	
+부가가치세법 변경에 따른 신용카드매출전표 및 세금계산서 변경안내
+
+	(1). 변경된 부가가치세법에 의거, 2004.7.1 이후 신용카드로 결제하신 주문에 대해서는 세금계산서 발행이 불가하며
+	(2). 신용카드매출전표로 부가가치세 신고를 하셔야 합니다.(부가가치세법 시행령 57조)
+	(3). 상기 부가가치세법 변경내용에 따라 신용카드 이외의 결제건에 대해서만 세금계산서 발행이 가능함을 양지하여 주시기 바랍니다.
+	
+현금영수증 이용안내
+
+	(1). 현금영수증은 1원 이상의 현금성거래(무통장입금, 실시간계좌이체, 에스크로, 예치금)에 대해 발행이 됩니다.
+	(2). 현금영수증 발행 금액에는 배송비는 포함되고, 적립금사용액은 포함되지 않습니다.
+	(3). 발행신청 기간제한 현금영수증은 입금확인일로 부터 48시간안에 발행을 해야 합니다.
+	(4). 현금영수증 발행 취소의 경우는 시간 제한이 없습니다. (국세청의 정책에 따라 변경 될 수 있습니다.)
+	(5). 현금영수증이나 세금계산서 중 하나만 발행 가능 합니다
+      				</textarea>
+      				</div>
+      				<div style="hegiht:150px;">
+      					<button type="button" class="btn btn-outline-secondary"
+							id="reservationBtnn" style="width: 100px; margin:auto; height:50px;">예약 하기</button>
+      				</div>
+    			</div>
+  			</div>
+		</div>
+		
+		
 		<script>
           var count = 0;
           		$(function(){
@@ -325,8 +456,7 @@ ul {
           				urlArr[0] =  "<%=request.getContextPath()%>/resources/images/jar2.jpg";
           				urlArr[1] =  "<%=request.getContextPath()%>/resources/images/jar3.jpg";
           				urlArr[2] =  "<%=request.getContextPath()%>/resources/images/city1.PNG";
-          				urlArr[3] =  "<%=request.getContextPath()%>
-			/resources/images/jar1.jpg";
+          				urlArr[3] =  "<%=request.getContextPath()%>/resources/images/jar1.jpg";
 
 									if (count > 3) {
 										count = 0;
@@ -403,10 +533,10 @@ ul {
 			<!-- 리뷰2 -->
 			<div class="ulpre" style="color: gray; font-size: 14px;">
 
-				<ul class="dept">
+				<ul class="dept" style="color:black; font-family:나눔고딕">
 					<li style="cursor: pointer" class="reviewtitle"><span style="">
-							<small>★★★★☆</small> <small style="margin-left: 30px;">좋은
-								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁
+							<small>★★★★☆</small> <small style="margin-left: 30px; color:black;">좋은
+								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁 | 
 								2019-12-05</small>
 					</span>
 						<ul class="dept02" style="display: none">
@@ -418,8 +548,8 @@ ul {
 
 
 					<li style="cursor: pointer" class="reviewtitle"><span style="">
-							<small>★★★★☆</small> <small style="margin-left: 30px;">좋은
-								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁
+							<small>★★★★☆</small> <small style="margin-left: 30px; color:black;">좋은
+								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁 | 
 								2019-12-05</small>
 					</span>
 						<ul class="dept02" style="display: none">
@@ -430,8 +560,8 @@ ul {
 					<hr>
 
 					<li style="cursor: pointer" class="reviewtitle"><span style="">
-							<small>★★★★☆</small> <small style="margin-left: 30px;">좋은
-								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁
+							<small>★★★★☆</small> <small style="margin-left: 30px; color:black;">좋은
+								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁 | 
 								2019-12-05</small>
 					</span>
 						<ul class="dept02" style="display: none">
@@ -442,10 +572,10 @@ ul {
 					<hr>
 
 					<!-- 리뷰 페이징 -->
-					<nav aria-label="Page navigation example" style="text-align: center;">
+					<nav aria-label="Page navigation example">
 						<ul class="pagination">
 							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous" id="pa-link"> <span aria-hidden="true"">&laquo;</span>
+								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
 							</a></li>
 							<li class="page-item"><a class="page-link" href="#"
 								id="pa-link">1</a></li>
@@ -485,28 +615,6 @@ ul {
 
 			<!-- 리뷰 작성 모달 -->
 
-			<!-- Modal -->
-			<button data-toggle="modal" data-target="#intro">모달 실행</button>
-			<div class="modal fade" id="intro" role="dialog"
-				aria-labelledby="introHeader" aria-hidden="true" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">공지 사항</h4>
-						</div>
-						<div class="modal-body">
-							<p>안녕하세요.</p>
-							<p>codeomni 입니다. 방문해주셔서 감사합니다. 궁금하신 사항이나 문의 사항은 방명록에 공개 또는
-								비공개로 남겨주세요.</p>
-							<p>블로그 주소는 http://codeomni.tistory.com/입니다.</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">닫기</button>
-						</div>
-					</div>
-				</div>
-			</div>
 
 
 
@@ -522,17 +630,17 @@ ul {
 					<hr>
 				</div>
 				<div id="qna_table">
-					<table class="table" boredr=1px;>
+					<table class="table">
 						<thead style="font-size: 14px; color: gray; text-align: center;">
 							<tr>
 								<td scope="col" width=50px>No
-								</th>
+								</td>
 								<td scope="col" width=1000px>Title
-								</th>
+								</td>
 								<td scope="col" width="100px">Name
-								</th>
+								</td>
 								<td scope="col" width="100px">Date
-								</th>
+								</td>
 							</tr>
 						</thead>
 						<tbody style="font-size: 14px; color: gray; text-align: center;" id="tbody">
@@ -561,7 +669,7 @@ ul {
 					<nav aria-label="Page navigation example" style="text-align: center;">
 						<ul class="pagination">
 							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous" id="pa-link"> <span aria-hidden="true"">&laquo;</span>
+								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
 							</a></li>
 							<li class="page-item"><a class="page-link" href="#"
 								id="pa-link">1</a></li>
