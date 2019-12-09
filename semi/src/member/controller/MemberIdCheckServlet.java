@@ -1,23 +1,27 @@
 package member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import member.model.service.MemberService;
+
 /**
- * Servlet implementation class MemberLogoutServlet
+ * Servlet implementation class MemberIdCheckServlet
  */
-@WebServlet("/logout.me")
-public class MemberLogoutServlet extends HttpServlet {
+@WebServlet("/idCheck.me")
+public class MemberIdCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberLogoutServlet() {
+    public MemberIdCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,18 +30,26 @@ public class MemberLogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession().invalidate(); 
-		request.setAttribute("loginmsg", "로그아웃 하였습니다. 다음에 또 이용해주세요");
-//		request.getRequestDispatcher("index.jsp").forward(request, response);
-		response.getWriter().print("alert('이용해주셔서 감사합니다.')");
-		response.sendRedirect(request.getContextPath());
+		
+		String userId = request.getParameter("userId");
+		
+		int result = new MemberService().idCheck(userId);
+		
+		PrintWriter out = response.getWriter();
+		if(result > 0) {
+			out.print("fail");
+		}else {
+			out.print("success");
+		}
+		
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

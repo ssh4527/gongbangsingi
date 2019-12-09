@@ -24,7 +24,7 @@
     }
     div{
     	margin:auto;
-    	background:white;
+    	
     }
     .footerdiv > *{
         text-align: center;

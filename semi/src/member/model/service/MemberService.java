@@ -17,5 +17,26 @@ public class MemberService {
 		close(c);
 		return m;
 	}
+
+	public int idCheck(String userId) {
+		Connection conn = getConnection();
+		int result = new MemberDao().idCheck(conn, userId);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public int insertMember(Member m) {
+		Connection c= getConnection();
+		int result = new MemberDao().insertMember(c , m );
+		if(result>0) {
+			commit(c);
+		}else {
+			rollback(c);
+		}
+		close(c);
+		return result;
+	}
 	
 }
