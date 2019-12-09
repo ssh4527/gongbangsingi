@@ -29,7 +29,8 @@ public class MemberDao {
 				m.setEnrollDate(rs.getDate("C_ED"));
 				m.setInterest(rs.getString("C_INTEREST"));
 				m.setPhone(rs.getString("C_PHONE"));
-				m.setUserBirth(rs.getDate("C_BIRTH"));
+				m.setUserBirth(rs.getString("C_BIRTH"));
+				m.setAuthority(rs.getInt("AUTHORITY"));
 				m.setUserName(rs.getString("C_NAME"));
 			}
 		} catch (SQLException e) {
@@ -40,6 +41,58 @@ public class MemberDao {
 			close(ps);
 		}
 		return m;
+	}
+
+	public int idCheck(Connection conn, String userId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "SELECT COUNT(*) FROM CLIENT WHERE C_ID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertMember(Connection c, Member m) {
+		int result = 0;
+		PreparedStatement ps = null;
+		String q = "INSERT INTO CLIENT VALUES(?,?,?,?,?,?,default,default,default,?)";
+		
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, m.getUserId());
+			ps.setString(2, m.getUserPwd());
+			ps.setString(3, m.getUserName());
+			ps.setString(4, m.getUserBirth());
+			ps.setString(5, m.getEmail());
+			ps.setString(6, m.getPhone());
+			ps.setString(7, m.getInterest());
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			
+			close(ps);
+		}
+		
+		return result;
 	}
 
 }
