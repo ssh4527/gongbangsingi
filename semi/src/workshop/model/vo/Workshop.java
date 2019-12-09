@@ -23,6 +23,7 @@ public class Workshop {
 	
 	public Workshop() {}
 
+	
 	public Workshop(String wsNo, String wsName, String address, String wsTel, boolean wsYN, Date wsEnrollDate,
 			String category, String payAccount) {
 		super();
