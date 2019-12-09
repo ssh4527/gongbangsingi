@@ -14,6 +14,8 @@ public class ShopService {
 		
 		ArrayList<Workshop> list = new ShopDao().selectShopList(con);
 		
+		
+		
 		return list;
 	}
 
