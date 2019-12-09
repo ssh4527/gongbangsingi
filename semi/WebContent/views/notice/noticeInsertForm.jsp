@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.Date, java.text.SimpleDateFormat" %>
+<%
+	Date date = new Date();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+	String today = sdf.format(date);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +15,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
     #qna6_wrap{
-        width: 1000px;
+        width: 1300px;
         height: 900px;
         margin:auto;
     }
@@ -22,24 +27,37 @@
 </head>
 <body>
 <body>
-                
+<%@ include file="/views/common/menubar.jsp" %>  
     <div id="qna6_wrap">
     <h3 align="center">공지사항 작성하기</h3>
+    <br>
+    	<form action="<%= request.getContextPath() %>/insert.no" method="post">
             <table class="table table-hover">
                     <tr>
                     	<th>제목</th>
-                    	<td><textarea cols="60" rows="1" style="resize:none" placeholder="제목을 입력해주세요"></textarea></td>
+                    	<td colspan="3"><textarea name="title" cols="60" rows="1" style="resize:none" placeholder="제목을 입력해주세요"></textarea></td>
                     </tr>
+                    	<tr>
+							<th>작성자</th>
+							<td>
+								<input type="text" value="<%-- <%= loginUser.getUserName() %> --%>관리자" name="writer" readonly>
+							</td>
+							<th>작성일</th>
+							<td><input type="text" name="date" value="<%= today %>"></td>
+						</tr>
                     <tr>
                     	<th>내용</th>
-                    	<td><textarea cols="60" rows="8" style="resize:none" placeholder="내용을 입력해주세요"></textarea></td>
+                    	<td colspan="4"><textarea name="content" cols="115" rows="10" placeholder="내용을 입력해주세요"></textarea></td>
                     </tr>
                    
                 </table>
+               
                 <hr>
          <div id="qna6_wrap2">
          <button type="submit" class="btn btn-outline-secondary">WRITE</button>
          <button type="button" class="btn btn-outline-secondary" onclick="javascript:history.back();">CANCEL</button>
+          </form>
          </div>
+         <%@ include file="/views/common/footbar.jsp" %>
 </body>
 </html>
