@@ -1,7 +1,7 @@
 package member.controller;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,19 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
-import oracle.sql.DATE;
 
 /**
- * Servlet implementation class MemberInsertServlet
+ * Servlet implementation class MemberFindPwdServlet
  */
-@WebServlet("/insert.me")
-public class MemberInsertServlet extends HttpServlet {
+@WebServlet("/findpwd.chk")
+public class MemberFindPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberInsertServlet() {
+    public MemberFindPwdServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,28 +32,22 @@ public class MemberInsertServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
-		String userName = request.getParameter("userName");
-		String email = request.getParameter("userEmail");
-		String phone = request.getParameter("userPhone");
-		String birth = request.getParameter("userBirth");
-		int pwdHint = Integer.parseInt(request.getParameter("pwdHint"));
-		String userHint = request.getParameter("userHint");
-		String irr[] = request.getParameterValues("interest");
-		String interest = "";
-		if (irr != null) {
-			interest = String.join(",", irr);
-		}
 		
-		Member m = new Member(userId, userPwd, userName, birth, email, phone,interest,pwdHint,userHint);
-		int result = new MemberService().insertMember(m);
+		String userId = request.getParameter("userId");
+		int checkHint= Integer.parseInt(request.getParameter("checkHint"));
+		String userHint = request.getParameter("userHint");
+		
+		Member m = new Member();
+		m.setUserId(userId);
+		m.setPwdHint(checkHint);
+		m.setUserHint(userHint);
+		
+		int result = new MemberService().findPwd(m);
+		PrintWriter out = response.getWriter();
 		if(result > 0) {
-			request.getSession().setAttribute("msg", "회원 가입 성공!!");
-			response.sendRedirect(request.getContextPath());
+			out.print("success");
 		}else {
-			request.getSession().setAttribute("msg", "회원 가입에 실패하였습니다.");
-			response.sendRedirect(request.getContextPath());
+			out.print("fail");
 		}
 		
 	}
@@ -63,7 +56,7 @@ public class MemberInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 
