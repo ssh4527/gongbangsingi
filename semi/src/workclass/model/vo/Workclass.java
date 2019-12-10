@@ -8,10 +8,51 @@ public class Workclass {
 	private boolean WcYN; // 클래스 승인여부
 	private String WcOpenClose; // 개강, 종강 날짜
 	private int WcHits; // 조회수 
+	private String WcWarning; // 유의사항
+	private String WsNo; // 공방번호
 	
 	public Workclass() {}
 
-	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits) {
+	
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
+			String wcWarning, String wsNo) {
 		super();
 		WcNo = wcNo;
 		WcName = wcName;
@@ -20,6 +61,58 @@ public class Workclass {
 		WcYN = wcYN;
 		WcOpenClose = wcOpenClose;
 		WcHits = wcHits;
+		WcWarning = wcWarning;
+		WsNo = wsNo;
+	}
+
+
+
+
+	public Workclass(String wcName, int wcNOP, int wcMaxP, String wcOpenClose, String wcWarning, String wsNo) {
+		super();
+		WcName = wcName;
+		WcNOP = wcNOP;
+		WcMaxP = wcMaxP;
+		WcOpenClose = wcOpenClose;
+		WcWarning = wcWarning;
+		WsNo = wsNo;
+	}
+
+
+
+
+	public String getWsNo() {
+		return WsNo;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setWsNo(String wsNo) {
+		WsNo = wsNo;
+	}
+
+
+
+
+
+
+
+
+
+
+	public String getWcWarning() {
+		return WcWarning;
+	}
+
+	public void setWcWarning(String wcWarning) {
+		WcWarning = wcWarning;
 	}
 
 	public String getWcNo() {
@@ -77,5 +170,26 @@ public class Workclass {
 	public void setWcHits(int wcHits) {
 		WcHits = wcHits;
 	}
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "Workclass [WcNo=" + WcNo + ", WcName=" + WcName + ", WcNOP=" + WcNOP + ", WcMaxP=" + WcMaxP + ", WcYN="
+				+ WcYN + ", WcOpenClose=" + WcOpenClose + ", WcHits=" + WcHits + ", WcWarning=" + WcWarning + ", WsNo="
+				+ WsNo + "]";
+	}
+
+
+
+	
+	
 	
 }

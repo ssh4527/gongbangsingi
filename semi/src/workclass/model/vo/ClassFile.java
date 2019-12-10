@@ -5,16 +5,29 @@ public class ClassFile {
 	private String originName;
 	private String changeName;
 	private String destination;
+	private int fileLevel;
+	private String filePath;	// 파일이 저장 된 경로
 	
 	public ClassFile() {}
 	
-	public ClassFile(String fsNo, String originName, String changeName, String destination) {
+	
+	
+
+
+	public ClassFile(String fsNo, String originName, String changeName, String destination, int fileLevel,
+			String filePath) {
 		super();
 		this.fsNo = fsNo;
 		this.originName = originName;
 		this.changeName = changeName;
 		this.destination = destination;
+		this.fileLevel = fileLevel;
+		this.filePath = filePath;
 	}
+
+
+
+
 
 	public String getFsNo() {
 		return fsNo;
@@ -48,11 +61,44 @@ public class ClassFile {
 		this.destination = destination;
 	}
 
+	public int getFileLevel() {
+		return fileLevel;
+	}
+
+
+	public void setFileLevel(int fileLevel) {
+		this.fileLevel = fileLevel;
+	}
+
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+
+
+
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+
+
+
+
 	@Override
 	public String toString() {
 		return "ClassFile [fsNo=" + fsNo + ", originName=" + originName + ", changeName=" + changeName
-				+ ", destination=" + destination + "]";
+				+ ", destination=" + destination + ", fileLevel=" + fileLevel + ", filePath=" + filePath + "]"+"\n";
 	}
+
+
+
+
+
+
+
 	
 	
 	
