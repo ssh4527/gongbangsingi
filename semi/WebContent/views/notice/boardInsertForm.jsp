@@ -55,9 +55,9 @@
 							<td><input type="text" name="date" value="<%= today %>"></td>
 							<th>비밀글 설정</th>
 							<td>
-							<input type="radio" value="private" id="private"  name="inserttext" checked>
+							<input type="radio" value="private" id="private"  name="secret" checked>
 							<label for="private"><img src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp;
-							<input type="radio" value="public" name="inserttext" id="public">
+							<input type="radio" value="public" name="secret" id="public">
 							<label for="public"><img src="../../img/222.jpg" width="30px" heigh="30px"></label>
 							</td>
 						</tr>
@@ -80,10 +80,8 @@
        	
         function addFile(){
             $("input:last").after("<br><input type=file>");
-            
         }
         function delFile(){
-        	
                 $("input:file:last").remove();
                 $("br:last").remove();
         }
