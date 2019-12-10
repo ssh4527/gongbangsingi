@@ -40,7 +40,7 @@
                     	<tr>
 							<th>작성자</th>
 							<td>
-								<input type="text" value="<%-- <%= loginUser.getUserName() %> --%>관리자" name="writer" readonly>
+								<input type="text" value="관리자" name="writer" readonly>
 							</td>
 							<th>작성일</th>
 							<td><input type="text" name="date" value="<%= today %>"></td>

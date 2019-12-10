@@ -54,7 +54,6 @@
                         <th>DATE</th>
                     </tr>
                     
-                    <%-- !!! 오류 !!! --%>
               	   <% if(list.isEmpty()){ %>
 					 	<tr>
 					 		<td>공지사항 없음!</td>
@@ -64,7 +63,7 @@
 						 	<tr>
 						 		<td ><%= n.getnNo() %></td>
 						 		<td><%= n.getnTitle() %></td>
-						 		<td><%= n.getnWriter() %></td>
+						 		<td>관리자</td>
 						 		<td><%= n.getnCount() %></td>
 						 		<td><%= n.getnDate() %></td>
 						 	</tr>
@@ -79,9 +78,9 @@
 			<select  id="searchCondition" name="searchCondition">
 				<option value="---">---</option>
 				<option value="title">제목</option>
-				<option value="content">내용</option>
+				<option value="content" >내용</option>
 				</select>
-				<input type="search" id=search" placeholder="내용을 입력해주세요">
+				<input type="search" id=search" placeholder="내용을 입력해주세요" name="search">
                 <button type="submit" class="btn btn-outline-secondary">SEARCH</button>
                 	<!--  관리자만 WRITE 할 수 있음 -->
                 <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeInsertForm.jsp'">WRITE</button>
@@ -90,6 +89,7 @@
 		<script>
 			function checkSearchCondition() {
 				if ($("#searchCondition option:selected").val() == '---') {
+					alert('제목인지 내용인지 선택해주세요^^');
 					return false;
 				}
 				return true;

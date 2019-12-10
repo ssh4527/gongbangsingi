@@ -33,9 +33,8 @@ public class NinsertServlet extends HttpServlet {
 		
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
-		String writer=request.getParameter("writer");
 		
-		Notice n=new Notice(title, content, writer);
+		Notice n=new Notice(title, content);
 		
 		int result=new NoticeService().insertNotice(n);
 		

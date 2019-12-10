@@ -28,10 +28,10 @@
 <%@ include file="/views/common/menubar.jsp" %>  
     <div id="qna6_wrap">
     <h3 align="center">공지사항 수정하기</h3>
-    <input type="text" name="nno" value="<%= n.getnNo() %>" >
+  
     <br>
     	<form action="<%= request.getContextPath() %>/update.no" method="post">
-    	
+    	  <input type="hidden" name="nno" value="<%= n.getnNo() %>" >
             <table class="table table-hover">
             
                     <tr>
@@ -41,7 +41,7 @@
                     	<tr>
 							<th>작성자</th>
 							<td>
-								<input type="text" value="<%= n.getnWriter()%>" name="writer" readonly>
+								<input type="text" value="관리자" name="writer" readonly>
 							</td>
 							<th>작성일</th>
 							<td><input type="text" name="date" value="<%= n.getnDate() %>"></td>

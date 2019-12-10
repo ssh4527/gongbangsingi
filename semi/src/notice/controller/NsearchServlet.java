@@ -43,8 +43,7 @@ public class NsearchServlet extends HttpServlet {
 		request.setAttribute("searchCondition", searchCondition);
 		request.setAttribute("search", search);
 		
-		RequestDispatcher view = request.getRequestDispatcher("views/notice/noticeListView.jsp");
-		view.forward(request, response);
+		request.getRequestDispatcher("views/notice/noticeListView.jsp").forward(request, response);
 		
 	}
 

@@ -100,6 +100,34 @@ public class NoticeService {
 		return  result;
 	}
 
+	// 7. 공지사항 검색 search
+	public ArrayList<Notice> selectList(String search, String searchCondition) {
+		Connection conn=getConnection();
+		ArrayList<Notice> list=new NoticeDao().selectList(conn,search,searchCondition);
+		close(conn);
+		return list;
+	}
+
+	// 8. 게시글 리스트 총 갯수
+	public int getListCount() {
+		Connection conn=getConnection();
+		int listCount = new NoticeDao().getListCount(conn);
+		close(conn);
+		return listCount;
+	}
+
+	
+	/*//페이징 처리
+	public ArrayList<Notice> selectList3(int ncurrentPage, int nLimit) {
+		Connection conn = getConnection();
+
+		ArrayList<Notice> list = new NoticeDao().selectList3(conn, ncurrentPage, nLimit);
+
+		close(conn);
+
+		return list;
+	}*/
+
 
 
 }

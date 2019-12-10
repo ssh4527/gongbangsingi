@@ -38,7 +38,7 @@
                     	<tr>
 							<th>작성자</th>
 							<td>
-								<input type="text" value="<%= n.getnWriter()%>" name="writer" readonly>
+								<input type="text" value="관리자" name="writer" readonly>
 							</td>
 							<th>작성일</th>
 							<td><input type="text" name="date" value="<%= n.getnDate() %>" readonly></td>
@@ -47,7 +47,6 @@
                     	<th>내용</th>
                     	<td colspan="4"><textarea name="content" cols="115" rows="10" readonly><%= n.getnContent() %></textarea></td>
                     </tr>
-                   
                 </table>
                 </form>
                 <hr>
