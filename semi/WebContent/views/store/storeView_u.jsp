@@ -1,23 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.*, review.model.vo.*"%>
-		<%
-	/* ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list"); */
-	ArrayList<Review> list=null;
-	/* PageInfo pi = (PageInfo)request.getAttribute("pi");
-	
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage();
-	int maxPage = pi.getMaxPage();
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage(); */
-	
-	int listCount = 1;
-	int currentPage = 2;
-	int maxPage = 5;
-	int startPage = 1;
-	int endPage = 4; 
-
-%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,13 +16,13 @@
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.3/examples/carousel/">
 
-<!-- 
+
 
 <link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
 
- -->
+
 <style>
 section, div, header {
 	box-sizing: border-box;
@@ -49,7 +31,7 @@ section, div, header {
 
 #outer {
 	width: 1000px;
-	height: 100%;
+	height: 1700px;
 	/* div를 화면 가운데로 오게 하기 */
 	margin: auto;
 	padding: 3%;
@@ -58,7 +40,6 @@ section, div, header {
 #content_first {
 	height: 40%;
 	width: 100%;
-	border-bottom: 1px solid black;
 }
 
 #intro3_third {
@@ -71,6 +52,7 @@ section, div, header {
 #class_ing_second {
 	width: 100%;
 	height: 20%;
+	border-top: 1px solid black;
 }
 
 #content_final_slide {
@@ -125,7 +107,14 @@ section, div, header {
 	width: 100%;
 	height: 50%;
 }
-
+/* #classEdit {
+	padding-left: 3%;
+	text-align: center;
+	float: left;
+	height: 50%;
+	width: 100%;
+	overflow: hidden;
+} */
 .thumbnail {
 	border: 2px solid lightgray;
 	width: 350px;
@@ -144,7 +133,7 @@ section, div, header {
 </style>
 </head>
 <body>
-	<%@ include file="../common/menubar.jsp"%>
+<%@ include file="../common/menubar.jsp"%>
 	<div id="outer">
 		<section id="content_first">
 			<section id="first_intro1">
@@ -160,7 +149,7 @@ section, div, header {
 						<p id="sns">sns 계정</p>
 					</div>
 				</section>
-				<a href="javascript:void addChannel()"> <img
+					<a href="javascript:void addChannel()"> <img
 					src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_small_yellow_rect.png" />
 				</a>
 				<script type='text/javascript'>
@@ -173,10 +162,10 @@ section, div, header {
 						});
 					}
 					//]]>
-				</script>
-
-
-
+				</script> 
+				
+				    
+				
 
 				<a href="javascript:void chatChannel()"> <img
 					src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png" />
@@ -245,11 +234,11 @@ section, div, header {
 					<div class="tableArea">
 						<h4>&lt; 후기 &gt;</h4>
 
-						<img src="../resources/images/empty_star.png"> 
-						<img src="../resources/images/empty_star.png"> 
-						<img src="../resources/images/empty_star.png"> 
-						<img src="../resources/images/empty_star.png"> 
-						<img src="../resources/images/empty_star.png"> 
+						<img src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png">
 						<div id="score">0.0 / 5.0</div>
 						<table class="table table-hover">
 							<tbody>
@@ -260,100 +249,36 @@ section, div, header {
 									<th>작성자</th>
 									<th>날짜</th>
 								</tr>
-							<%
-								if (list.isEmpty()) {
-							%>
-							<tr>
-								<td colspan="6">조회된 리스트가 없습니다.</td>
-							</tr>
-							<%
-								} else {
-									int idx=1;
-							%>
-							<%
-								for (Review r : list) {
-							%>
-							<tr>
-								<%-- <input type="hidden" value="<%=r.getbId()%>"> --%>
-								<td><%=idx++ %></td>
-								<td><%=r.getRWriter()%></td>
-								<td><%=r.getRGrade()%></td>
-								<td><%=r.getREnDate()%></td>
-							</tr>
-							<%
-								}
-							%>
-							<%
-								}
-							%>
+								<tr>
+									<td>1</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
 							</tbody>
 						</table>
-					</div>
-					<!-- 페이징바 -->
-					<div class="pagingArea" align="center">
-						<!-- 맨 처음으로 (<<) -->
-						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=1'">
-							&lt;&lt;</button>
-
-						<!-- 이전 페이지로 (<) -->
-						<%
-							if (currentPage == 1) {
-						%>
-						<button disabled>&lt;</button>
-						<%
-							} else {
-						%>
-						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=currentPage - 1%>'">
-							&lt;</button>
-						<%
-							}
-						%>
-
-						<!-- 10개의 페이지 목록 -->
-						<%
-							for (int p = startPage; p <= endPage; p++) {
-						%>
-						<%
-							if (p == currentPage) {
-						%>
-						<button disabled>
-							<%=p%></button>
-						<%
-							} else {
-						%>
-						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=p%>'">
-							<%=p%>
-						</button>
-						<%
-							}
-						%>
-						<%
-							}
-						%>
-
-						<!-- 다음 페이지로(>) -->
-						<%
-							if (currentPage == maxPage) {
-						%>
-						<button disabled>&gt;</button>
-						<%
-							} else {
-						%>
-						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=currentPage + 1%>'">
-							&gt;</button>
-						<%
-							}
-						%>
-
-						<!--  맨 끝으로 (>>) -->
-						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=maxPage%>'">
-							&gt;&gt;</button>
-
 					</div>
 				</section>
 			</section>
@@ -394,7 +319,7 @@ section, div, header {
 
 		<section id="intro3_third">
 			<h4>&lt;공방 소개 글 &gt;</h4>
-			<p id="introContent">안녕하세요 저희 공방은 ~~`</p>
+			<p id="introContent">rmfmrmrm</p>
 		</section>
 
 		<section id="content_final_slide">
@@ -464,7 +389,7 @@ section, div, header {
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
-	<%@ include file="../common/footbar.jsp"%>
+		<%@ include file="../common/footbar.jsp"%>
 </body>
 </html>
 
