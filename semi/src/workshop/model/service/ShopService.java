@@ -37,4 +37,14 @@ public class ShopService {
 
 		return list;
 	}
+
+	public int updateThumbnail(String wsNo, Attachment file) {
+		Connection con = getConnection();
+
+		int result = new ShopDao().updateThumbnail(con, wsNo,file);
+
+		close(con);
+
+		return result;
+	}
 }
