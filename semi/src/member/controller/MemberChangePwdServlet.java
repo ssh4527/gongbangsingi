@@ -1,8 +1,6 @@
 package member.controller;
 
 import java.io.IOException;
-import java.sql.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,20 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
-import member.model.vo.Member;
-import oracle.sql.DATE;
 
 /**
- * Servlet implementation class MemberInsertServlet
+ * Servlet implementation class MemberChangePwdServlet
  */
-@WebServlet("/insert.me")
-public class MemberInsertServlet extends HttpServlet {
+@WebServlet("/change.pwd")
+public class MemberChangePwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberInsertServlet() {
+    public MemberChangePwdServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,28 +29,19 @@ public class MemberInsertServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
-		String userName = request.getParameter("userName");
-		String email = request.getParameter("userEmail");
-		String phone = request.getParameter("userPhone");
-		String birth = request.getParameter("userBirth");
-		int pwdHint = Integer.parseInt(request.getParameter("pwdHint"));
-		String userHint = request.getParameter("userHint");
-		String irr[] = request.getParameterValues("interest");
-		String interest = "";
-		if (irr != null) {
-			interest = String.join(",", irr);
-		}
 		
-		Member m = new Member(userId, userPwd, userName, birth, email, phone,interest,pwdHint,userHint);
-		int result = new MemberService().insertMember(m);
+		String pwd = request.getParameter("changePwd");
+		String id = request.getParameter("changeId");
+		
+		int result = new MemberService().changePwd(id,pwd);
+		
 		if(result > 0) {
-			request.getSession().setAttribute("msg", "회원 가입 성공!!");
+			request.getSession().setAttribute("msg", "비밀번호 변경에 성공하였습니다.");
 			response.sendRedirect(request.getContextPath());
 		}else {
-			request.getSession().setAttribute("msg", "회원 가입에 실패하였습니다.");
+			request.getSession().setAttribute("msg", "알수없는 오류!");
 			response.sendRedirect(request.getContextPath());
+			
 		}
 		
 	}
@@ -63,7 +50,7 @@ public class MemberInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

@@ -7,14 +7,16 @@ public class Member {
 	private String userPwd; // 비밀번호
 	private String userName; // 이름
 	private String userBirth; // 생년월일
-	
 	private String email; // 이메일
 	private String phone; // 전화번호
+	private String interest; // 관심분야 ex : 도자기,반지
+	private int point;
+	private int pwdHint;
+	private String userHint;
 	private Date enrollDate; // 가입일
 	private int authority; // 권한
 	private int readStatus; // 알람개수
-	private String interest; // 관심분야 ex : 도자기,반지
-	private int Point;
+	
 	
 	public Member() {}
 
@@ -31,11 +33,13 @@ public class Member {
 		this.authority = authority;
 		this.readStatus = readStatus;
 		this.interest = interest;
-		Point = point;
+		this.point = point;
 	}
 	
+	
+
 	public Member(String userId, String userPwd, String userName, String userBirth, String email, String phone,
-			String interest) {
+			String interest, int pwdHint, String userHint) {
 		super();
 		this.userId = userId;
 		this.userPwd = userPwd;
@@ -44,6 +48,25 @@ public class Member {
 		this.email = email;
 		this.phone = phone;
 		this.interest = interest;
+		
+		this.pwdHint = pwdHint;
+		this.userHint = userHint;
+	}
+
+	public int getPwdHint() {
+		return pwdHint;
+	}
+
+	public void setPwdHint(int pwdHint) {
+		this.pwdHint = pwdHint;
+	}
+
+	public String getUserHint() {
+		return userHint;
+	}
+
+	public void setUserHint(String userHint) {
+		this.userHint = userHint;
 	}
 
 	public String getUserId() {
@@ -127,18 +150,18 @@ public class Member {
 	}
 
 	public int getPoint() {
-		return Point;
+		return point;
 	}
 
 	public void setPoint(int point) {
-		Point = point;
+		this.point = point;
 	}
 
 	@Override
 	public String toString() {
 		return "Member [userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName + ", userBirth="
 				+ userBirth + ", email=" + email + ", phone=" + phone + ", enrollDate=" + enrollDate + ", authority="
-				+ authority + ", readStatus=" + readStatus + ", interest=" + interest + ", Point=" + Point + "]";
+				+ authority + ", readStatus=" + readStatus + ", interest=" + interest + ", Point=" + point + "]";
 	}
 	
 	

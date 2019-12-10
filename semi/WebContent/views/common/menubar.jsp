@@ -434,7 +434,7 @@ $(function(){
 								<option value="3">내가 졸업한 초등학교는?</option>
 							</select>
 							<div class="inputdivarea" >
-								<input type="text" name="userhint" required>
+								<input type="text" name="userHint" required>
 							</div>
 							
 							<div class="textdivarea">관심분야</div>
@@ -468,7 +468,7 @@ $(function(){
 					$("#insertMemberForm input[name=userPwdCk]").parent().next().html("");
 				}
 			});
-		})
+		});
 		$("#insertMemberForm input[name=userId]").focusin(function(){
 			$(this).focusout(function(){
 				var userId = $(this);
@@ -514,12 +514,13 @@ $(function(){
 		}
 	});
 	function insertcheck(){
-		console.log($("#insertMemberForm .commentarea"));
+		
 		var check = $("#insertMemberForm .commentarea");
-		console.log(check[3].innerHTML);
+		
 		 for(var i =0; i<7; i++){
 			if(check[i].innerHTML.length >0){
 				console.log(check[i].innerHTML);
+				check[i].focus();
 				return false;
 			}
 		} 
@@ -540,16 +541,16 @@ $(function(){
 					</button>
 				</div>
 				<div class="modal-body" style="width: 90%;">
-					<form>
+					<form id="findmyidform" method="post" action="<%=request.getContextPath()%>/email.ck">
 						<div id="signArea">
 							<div class="textdivarea">이메일</div>
 							<div class="inputdivarea">
-								<input type="text" id="findEmail">
+								<input type="text"  id="findEmail" name="findEmail" required>
 							</div>
 							<div class="commentarea"></div>
 							<div class="textdivarea">전화번호</div>
 							<div class="inputdivarea">
-								<input type="text" id="findPhone" placeholder="-를 빼고 입력해주세요">
+								<input type="text" name="findPhone" id="findPhone" placeholder="-를 빼고 입력해주세요" required>
 							</div>
 							<div class="commentarea"></div>
 
@@ -569,59 +570,92 @@ $(function(){
 				<div class="modal-header" style="width: 100%; background: beige;">
 					<h5 class="modal-title" id="staticBackdropLabel"style="margin-left:42%;">비밀번호찾기</h5>
 					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+						aria-label="Close" id="closefindpwdbtn">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body" style="width: 90%;">
-					<form>
+					<form method="post">
 						<div id="signArea">
 							<div class="textdivarea">아이디</div>
 							<div class="inputdivarea">
-								<input type="text" id="findId">
+								<input type="text" id="findId" name="findId" required>
 							</div>
 							<div class="commentarea"></div>
 							<div class="textdivarea">비밀번호 찾기 질문</div>
-							<select class="inputdivarea">
+							<select class="inputdivarea" name="findcheckhint" id="findcheckhint">
 								<option selected value="1">나의 어머니의 성함은?</option>
 								<option value="2">나의 출생도시는?</option>
 								<option value="3">내가 졸업한 초등학교는?</option>
 							</select>
 							<div class="inputdivarea">
-								<input type="text" id="findhint">
+								<input type="text" id="hintpwd" name = "finduserhint" required>
 							</div>
 							<div class="commentarea"></div>
-							<button type="submit" id="findmypwdformbtn">비밀번호 찾기</button>
+							<button type="button" id="findmypwdformbtn">비밀번호 찾기</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+	<button id="changemypwdbtn" type="button"
+						data-toggle="modal" data-target="#changemypwd"
+						style="display: none"></button>
+	<script>
+		$(function(){
+			$("#findmypwdformbtn").click(function(){
+				var userId = $("#findId");
+				var checkHint = $("#findcheckhint");
+				var userHint = $("#hintpwd");
+				$.ajax({
+					url : "<%= request.getContextPath() %>/findpwd.chk",
+					data : {userId:userId.val(),checkHint:checkHint.val(),userHint:userHint.val()},
+					type : "post",
+					success : function(data){
+						
+						if(data=="fail"){
+							alert("비밀번호 찾기 질문이 틀렸거나 아이디가 없습니다.");
+						}else{
+							$("#changeId").val(userId.val());
+							$("#closefindpwdbtn").click();
+							$("#changemypwdbtn").click();
+							
+						}
+					}, error : function(){
+						console.log("서버 통신 안됨");
+					}
+					
+				});
+			});
+		});
+	</script>
 	<!-- ajax로 연결해야함 비밀번호 변경하는 모달 -->
-	<div class="modal fade" id="findmypwddiv" data-backdrop="static"
+	<div class="modal fade" id="changemypwd" data-backdrop="static"
 		tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"
 		aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header" style="width: 100%; background: beige;">
-					<h5 class="modal-title" id="staticBackdropLabel">비밀번호 변경</h5>
+					<h5 class="modal-title" id="staticBackdropLabel"style="margin-left:40%;">비밀번호 변경</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body" style="width: 90%;">
-					<form>
+					<form id="changePwdForm" method="post" action="<%=request.getContextPath()%>/change.pwd"
+					onsubmit="return checkChangePwd();">
 						<div id="signArea">
 							<div class="textdivarea">비밀번호</div>
 							<div class="inputdivarea">
-								<input type="password" id="changePwd">
+								<input type="password" id="changePwd" name="changePwd" required>
 							</div>
+							<input type="text" id="changeId" name="changeId" style="display:none;" >
 							<div class="commentarea"></div>
 							<div class="textdivarea">비밀번호 확인</div>
 							<div class="inputdivarea">
-								<input type="password" id="changePwdCk">
+								<input type="password" id="changePwdCk" name="changePwdCk" required>
 							</div>
 							<div class="commentarea"></div>
 							<button type="submit" id="changepwdformbtn">비밀번호 변경</button>
@@ -632,6 +666,28 @@ $(function(){
 
 		</div>
 	</div>
+	<script>
+		
+		$(function(){
+			
+			$("#changePwdCk").focusin(function(){
+				$(this).focusout(function(){
+					if($("#changePwd").val() != $("#changePwdCk").val()){
+						$("#changePwdCk").parent().next().html("비밀번호가 일치하지 않습니다.").css("color","red");
+					}else{
+						$("#changePwdCk").parent().next().html("");
+					}
+				});
+			});
+		});
+		function checkChangePwd(){
+			var test = $("#changePwdCk").parent().next().html();
+			 if(test.length > 0){
+				 return false;
+			 }
+			return true;
+		};
+	</script>
 
 </body>
 </html>
