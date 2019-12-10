@@ -9,6 +9,7 @@ public class Notice {
 	private int nCount; // 공지사항 조회수
 	private Date nDate; // 공지사항 작성일
 
+
 	
 	public Notice() {}
 

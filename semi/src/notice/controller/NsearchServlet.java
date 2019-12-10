@@ -14,6 +14,7 @@ import notice.model.service.NoticeService;
 import notice.model.vo.Notice;
 
 /**
+ * 
  * Servlet implementation class NsearchServlet
  */
 @WebServlet("/search.no")

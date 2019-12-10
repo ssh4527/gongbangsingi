@@ -1,6 +1,7 @@
 package notice.model.vo;
 
 public class NpageInfo {
+	
 	private int NcurrentPage;
 	private int NlistCount;
 	private int NpageLimit;
