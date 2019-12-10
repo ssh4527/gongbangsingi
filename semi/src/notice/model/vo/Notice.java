@@ -4,15 +4,21 @@ import java.sql.Date;
 
 public class Notice {
 	private int nNo; // 공지사항 번호
-	private String nTitle; // 제목
-	private String nContent; // 내용
-	private String nWriter; // 작성자
-	private int nViewCnt; // 조회수
-	private Date nEntDate; // 등록일
-	private Date nModDate; // 수정일
+	private String nTitle; // 공지사항 제목
+	private String nContent; // 공지사항 내용 
+	private int nCount; // 공지사항 조회수
+	private Date nDate; // 공지사항 작성일
+
 
 	
 	public Notice() {}
+
+
+	public Notice(String nTitle, String nContent) {
+		super();
+		this.nTitle = nTitle;
+		this.nContent = nContent;
+	}
 
 
 	public int getnNo() {
@@ -45,59 +51,42 @@ public class Notice {
 	}
 
 
-	public String getnWriter() {
-		return nWriter;
+	public int getnCount() {
+		return nCount;
 	}
 
 
-	public void setnWriter(String nWriter) {
-		this.nWriter = nWriter;
+	public void setnCount(int nCount) {
+		this.nCount = nCount;
 	}
 
 
-	public int getnViewCnt() {
-		return nViewCnt;
+	public Date getnDate() {
+		return nDate;
 	}
 
 
-	public void setnViewCnt(int nViewCnt) {
-		this.nViewCnt = nViewCnt;
+	public void setnDate(Date nDate) {
+		this.nDate = nDate;
 	}
 
 
-	public Date getnEntDate() {
-		return nEntDate;
-	}
-
-
-	public void setnEntDate(Date nEntDate) {
-		this.nEntDate = nEntDate;
-	}
-
-
-	public Date getnModDate() {
-		return nModDate;
-	}
-
-
-	public void setnModDate(Date nModDate) {
-		this.nModDate = nModDate;
-	}
-
-	public Notice(int nNo, String nTitle, String nContent, String nWriter, int nViewCnt, Date nEntDate, Date nModDate) {
+	public Notice(int nNo, String nTitle, String nContent, int nCount, Date nDate) {
 		super();
 		this.nNo = nNo;
 		this.nTitle = nTitle;
 		this.nContent = nContent;
-		this.nWriter = nWriter;
-		this.nViewCnt = nViewCnt;
-		this.nEntDate = nEntDate;
-		this.nModDate = nModDate;
+		this.nCount = nCount;
+		this.nDate = nDate;
 	}
+
 
 	@Override
 	public String toString() {
-		return "Notice [nNo=" + nNo + ", nTitle=" + nTitle + ", nContent=" + nContent + ", nWriter=" + nWriter
-				+ ", nViewCnt=" + nViewCnt + ", nEntDate=" + nEntDate + ", nModDate=" + nModDate + "]";
+		return "Notice [nNo=" + nNo + ", nTitle=" + nTitle + ", nContent=" + nContent + ", nCount=" + nCount
+				+ ", nDate=" + nDate + "]";
 	}
+	
+	
+
 }

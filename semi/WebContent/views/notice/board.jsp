@@ -4,13 +4,14 @@
 <html>
 <head>
 <!--  ★고객센터 페이지★ -->
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
     #notice2_wrap3{
-        width: 1000px;
+        width: 1300px;
         height: 900px;
         margin:auto;
     }
@@ -23,7 +24,7 @@
     }
   
   	#notice2_wrap{
-  	width: 1000px;
+  	width: 1300px;
     height: 300px;
   	margin:auto;
   	}
@@ -47,17 +48,17 @@
   	float:left;
   	border:15px solid white;
   	}
-  	a{
+  	#board_a{
   		color:black;
   	}
-  	a:hover{
+  	#board_a:hover{
   		color:white;
   		text-decoration:none;
   	}
     </style>
 </head>
 <body>
-<body>
+<%@ include file="/views/common/menubar.jsp" %>
 <br><br>
 <div id="notice2_wrap">
 	<div id="notice2_wrap1">
@@ -65,23 +66,23 @@
 	<h4>자주 묻는 질문 TOP5</h4>
 	<br>
 	<ul>
-	<li><a href="#">자주 묻는 질문</a></li>
-	<li><a href="#">자주 묻는 질문</a></li>
-	<li><a href="#">자주 묻는 질문</a></li>
-	<li><a href="#">자주 묻는 질문</a></li>
+	<li><a href="#" id="board_a">자주 묻는 질문</a></li>
+	<li><a href="#" id="board_a">자주 묻는 질문</a></li>
+	<li><a href="#" id="board_a">자주 묻는 질문</a></li>
+	<li><a href="#" id="board_a">자주 묻는 질문</a></li>
 	</ul>
 	</div>
 	
 	<div id="notice2_wrap2">
 	<br>
 	<h4>공지사항 &nbsp;&nbsp;&nbsp;
-	 <button type="button" class="btn btn-outline-secondary" id="t2" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeListView.jsp'">더보기</button></h4>
+	 <button type="button" class="btn btn-outline-secondary" id="t2" onclick="location.href='<%= request.getContextPath() %>/list.no'">더보기</button></h4>
 	 <br>
 	<ul>
-	<li><a href="#">결제 관련</a></li>
-	<li><a href="#">예약 관련</a></li>
-	<li><a href="#">적립금 관련</a></li>
-	<li><a href="#">개인정보처리방침</a></li>
+	<li><a href="#" id="board_a">결제 관련</a></li>
+	<li><a href="#" id="board_a">예약 관련</a></li>
+	<li><a href="#" id="board_a">적립금 관련</a></li>
+	<li><a href="#" id="board_a">개인정보처리방침</a></li>
 	</ul>
 	</div>
 	
@@ -119,7 +120,7 @@
 					<option value="content">내용</option>
 				</select> <input type="text" id="notice2_input" placeholder="내용을 입력해주세요">
 				<button type="submit" class="btn btn-outline-secondary">Search</button>
-				<button type="button" class="btn btn-outline-secondary">WRITE</button>
+				<button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/notice/boardInsertForm.jsp'">WRITE</button>
 			</form>
 			<script>
 			function checkSearchCondition() {
@@ -141,6 +142,6 @@
                         </ul>
                     </div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+<%@ include file="/views/common/footbar.jsp" %>
 </body>
 </html>

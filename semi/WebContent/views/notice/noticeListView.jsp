@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.ArrayList, notice.model.vo.Notice" %>
-<% ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list"); %>   
+<% ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list");
+	String searchCondition = (String)request.getAttribute("searchCondition");
+	String search = (String)request.getAttribute("search");
+%>   
  
 <!DOCTYPE html>
 <html>
@@ -12,21 +15,21 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
     #notice1_wrap{
-        width: 1000px;
+        width: 1300px;
         height: 900px;
         margin:auto;
     }
     .page-link{
        color:black;
     }
-    #notice1_input{
+    #search{
         height: 26px;
         width: 300px;
     }
   	h4{
   	text-align:center;
   	}
-  	#t:hover{
+  	#Nlist:hover{
   		cursor: pointer;
   	}
   	select{
@@ -36,12 +39,13 @@
 </head>
 
 <body>
+<%@ include file="/views/common/menubar.jsp" %>
     <div id="notice1_wrap">
         <br>
         <h4>공지사항</h4>
         <br>
      <!-- <table class="table table-dark table-striped"> -->
-            <table class="table table-hover" id="t">
+            <table class="table table-hover" id="Nlist">
                     <tr>
                         <th>NO</th>
                         <tH>SUBJECT</th>
@@ -49,48 +53,65 @@
                         <th>VIEWS</th>
                         <th>DATE</th>
                     </tr>
-                  <%--   <% if(list.isEmpty()){ %>
+                    
+              	   <% if(list.isEmpty()){ %>
 					 	<tr>
-					 		<td>존재하는 공지사항이 없습니다.</td>
+					 		<td>공지사항 없음!</td>
 					 	</tr>
-					 <%} else { %>
+				    <%} else { %>
 						 <% for(Notice n : list) {%>
 						 	<tr>
-						 		<td><%= n.getnNo() %></td>
+						 		<td ><%= n.getnNo() %></td>
 						 		<td><%= n.getnTitle() %></td>
-						 		<td><%= n.getnWriter() %></td>
-						 		<td><%= n.getnViewCnt() %></td>
-						 		<td><%= n.getnEntDate() %></td>
+						 		<td>관리자</td>
+						 		<td><%= n.getnCount() %></td>
+						 		<td><%= n.getnDate() %></td>
 						 	</tr>
 						 <% } %>
-					 <% } %> --%>
-                   
+					 <% } %>
+					
                 </table>
                 <hr>
 
 		<div align="center">
 		<form action="<%=request.getContextPath()%>/search.no" method="get" onsubmit="return checkSearchCondition();">
-			<select>
+			<select  id="searchCondition" name="searchCondition">
 				<option value="---">---</option>
 				<option value="title">제목</option>
-				<option value="content">내용</option>
-				<input type="text" id="notice1_input" placeholder="내용을 입력해주세요">
+				<option value="content" >내용</option>
+				</select>
+				<input type="search" id=search" placeholder="내용을 입력해주세요" name="search">
                 <button type="submit" class="btn btn-outline-secondary">SEARCH</button>
-                
-                 <!--  관리자만 WRITE 할 수 있음 -->
+                	<!--  관리자만 WRITE 할 수 있음 -->
                 <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeInsertForm.jsp'">WRITE</button>
-			</select>
+                
 		</form>
 		<script>
 			function checkSearchCondition() {
 				if ($("#searchCondition option:selected").val() == '---') {
+					alert('제목인지 내용인지 선택해주세요^^');
 					return false;
 				}
 				return true;
 			}
 		</script>
+		
+	
 		</div>
+				<% if(searchCondition != null && search != null) { %>
+				<p align="center"><%= searchCondition %> : <%= search %>의 검색결과</p>
+			<% } %>
 		<br> <br>
+		
+		<script>
+		$(function(){
+			$("#Nlist td").click(function(){
+				var num=$(this).parent().children().eq(0).text();
+				location.href="<%= request.getContextPath() %>/detail.no?nno="+num;
+			});
+		});
+		
+		</script>
 		
 		<div>
 			<ul class="pagination justify-content-center">
@@ -102,6 +123,6 @@
 		</div>
 	</div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+<%@ include file="/views/common/footbar.jsp" %>
 </body>
 </html>
