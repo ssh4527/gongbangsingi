@@ -5,6 +5,7 @@ public class Attachment {
 	private String fs_destination;	// 파일 목적지 (공방 번호,클래스 번호)
 	private String originName;	// 사용자가 업로드한 파일명
 	private String reName;	// 변경 된 파일명
+	private String filePath;
 	
 	public Attachment() {}
 
@@ -14,6 +15,14 @@ public class Attachment {
 		this.fs_destination = fs_destination;
 		this.originName = originName;
 		this.reName = reName;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	public String getFs_no() {

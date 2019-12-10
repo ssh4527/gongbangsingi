@@ -164,6 +164,9 @@ section, div, header {
 h4 {
 	display: inline;
 }
+#picEdit{
+display:hidden;
+}
 </style>
 </head>
 <body>
@@ -174,10 +177,11 @@ h4 {
 			<section id="first_intro1">
 				<section id="intro1_1" style="padding: 10px;">
 					<div id="thumbnail1" class="thumbnail"></div>
-					<form id="ajaxform" action="/saveFileTest.do" method="post" enctype="multipart/form-data">
+				<form action="<%= request.getContextPath() %>/thumbnail.sh" method="post" enctype="multipart/form-data">
+						<%-- <input type="hidden" value="<%= shop.getWsNo() %>"> --%>
 						<input type="button" value="사진 변경" id="thumbnailEdit" name="thumbnailEdit"> 
 						<input type="file" id="imgfile1" name="imgfile1" onchange="preview(this,1)">
-						<input type="hidden" id="picEdit">
+						<button type="submit" id="picEdit"></button>
 					</form>
 					<p id="storeName">공방 이름</p>
 					
@@ -213,28 +217,6 @@ h4 {
 					}
 				}
 			
-			
- 			$("#picEdit").click(function(){
- 				var formData = new FormData();  
- 				formData.append("imgfile1", $("input[name=imgfile1]")[0].files[0]);
-
- 				var input = $("#imgfile1").val();
- 				
- 				$.ajax({
- 					url : "thumbnail.sh",
- 					data : {input:formData},
- 					type: "POST",
- 		            enctype: 'multipart/form-data',
- 		           processData: false, 
- 		           contentType: false,
- 					success:function(result){
- 						$("#output2").val(result);
- 					},
- 					error:function(e){
- 						console.log(e);
- 					}
- 				});
- 			});
  		
  	</script>
 				</section>
@@ -568,9 +550,10 @@ h4 {
 				function updateIntro3() {
 					var inputArea = document.getElementById("modalText");
 					var showArea = document.getElementById("introContent");
-
-					showArea.innerHTML = inputArea.value;
-
+					String text= inputArea.value
+					showArea.innerHTML = text;
+					
+					location.href="<%= request.getContextPath() %>/updateIntro.sh?intro="+text;
 				}
 			</script>
 		<br> <br>
