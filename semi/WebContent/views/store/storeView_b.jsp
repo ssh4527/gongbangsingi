@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="java.util.*, review.model.vo.*"%>
-<%
-	/* ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list"); */
+<%-- <%
+	ArrayList<Review> list = (ArrayList<Review>) request.getAttribute("list");
+	PageInfo pi = (PageInfo) request.getAttribute("pi");
 
-	/* PageInfo pi = (PageInfo)request.getAttribute("pi");
-	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
 	int maxPage = pi.getMaxPage();
 	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage(); */
-%>
+	int endPage = pi.getEndPage();
+%> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,27 +168,20 @@ h4 {
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
+
 	<div id="outer">
 		<section id="content_first">
 			<section id="first_intro1">
 				<section id="intro1_1" style="padding: 10px;">
 					<div id="thumbnail1" class="thumbnail"></div>
+					<form id="ajaxform" action="/saveFileTest.do" method="post" enctype="multipart/form-data">
+						<input type="button" value="사진 변경" id="thumbnailEdit" name="thumbnailEdit"> 
+						<input type="file" id="imgfile1" name="imgfile1" onchange="preview(this,1)">
+						<input type="hidden" id="picEdit">
+					</form>
 					<p id="storeName">공방 이름</p>
-					<input type="button" value="사진 변경" id="thumbnailEdit"
-						name="thumbnailEdit"> <input type="file" id="imgfile1"
-						name="imgfile1" onchange="preview(this,1)">
-				</section>
-				<br> <br> <br> <br> <br> <br>
-				<section id="introl1_2">
-					<div id="introl1_2_1">
-						<p id="addr">주소</p>
-						<p id="phone">전화번호</p>
-						<p id="sns">sns 계정</p>
-					</div>
-				</section>
-
-			</section>
-			<script>
+					
+	<script>
 				$(function() {
 					$("#imgfile1").hide();
 
@@ -197,6 +189,9 @@ h4 {
 						$("#imgfile1").click();
 					});
 
+					$("#thumbnailEdit").click(function() {
+						$("#picEdit").click();
+					});
 				});
 
 				function preview(value, num) {
@@ -213,13 +208,46 @@ h4 {
 
 						// 파일 읽기가 다 완료되었을 때 실행되는 메소드
 						reader.onload = function(e) {
-							$("#thumbnail" + num)
-									.html(
-											"<img src=" + reader.result + " width=350 height=200>");
+							$("#thumbnail" + num).html("<img src=" + reader.result + " width=350 height=200>");
 						}
 					}
 				}
-			</script>
+			
+			
+ 			$("#picEdit").click(function(){
+ 				var formData = new FormData();  
+ 				formData.append("imgfile1", $("input[name=imgfile1]")[0].files[0]);
+
+ 				var input = $("#imgfile1").val();
+ 				
+ 				$.ajax({
+ 					url : "thumbnail.sh",
+ 					data : {input:formData},
+ 					type: "POST",
+ 		            enctype: 'multipart/form-data',
+ 		           processData: false, 
+ 		           contentType: false,
+ 					success:function(result){
+ 						$("#output2").val(result);
+ 					},
+ 					error:function(e){
+ 						console.log(e);
+ 					}
+ 				});
+ 			});
+ 		
+ 	</script>
+				</section>
+				<br> <br> <br> <br> <br> <br>
+				<section id="introl1_2">
+					<div id="introl1_2_1">
+						<p id="addr">주소</p>
+						<p id="phone">전화번호</p>
+						<p id="sns">sns 계정</p>
+					</div>
+				</section>
+
+			</section>
 			<section id="first_intro2">
 				<section id="map">
 					<h5>&lt;오시는 길&gt;</h5>
@@ -229,53 +257,55 @@ h4 {
 				<script type="text/javascript"
 					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=37bf650bd71c1e125e49c40d96c383e1"></script>
 				<script>
-					var container = document.getElementById('map');
-					var options = {
-						center : new kakao.maps.LatLng(33.450701, 126.570667),
-						level : 3
-					};
+						var container = document.getElementById('map');
+						var options = {
+							center : new kakao.maps.LatLng(33.450701,
+									126.570667),
+							level : 3
+						};
 
-					var map = new kakao.maps.Map(container, options);
-					// 지도를 생성합니다 
-					var map = new kakao.maps.Map(mapContainer, mapOption);
-					// 주소-좌표 변환 객체를 생성합니다
-					var geocoder = new kakao.maps.services.Geocoder();
-					// 주소로 좌표를 검색합니다 
-					geocoder
-							.addressSearch(
-									'제주특별자치도 제주시 첨단로 242',
-									function(result, status) {
-										// 정상적으로 검색이 완료됐으면 
-										if (status === kakao.maps.services.Status.OK) {
-											var coords = new kakao.maps.LatLng(
-													result[0].y, result[0].x);
-											// 결과값으로 받은 위치를 마커로 표시합니다 
-											var marker = new kakao.maps.Marker(
-													{
-														map : map,
-														position : coords
-													});
-											// 인포윈도우로 장소에 대한 설명을 표시합니다 
-											var infowindow = new kakao.maps.InfoWindow(
-													{
-														content : '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-													});
-											infowindow.open(map, marker);
+						var map = new kakao.maps.Map(container, options);
+						// 지도를 생성합니다 
+						var map = new kakao.maps.Map(mapContainer, mapOption);
+						// 주소-좌표 변환 객체를 생성합니다
+						var geocoder = new kakao.maps.services.Geocoder();
+						// 주소로 좌표를 검색합니다 
+						geocoder
+								.addressSearch(
+										'제주특별자치도 제주시 첨단로 242',
+										function(result, status) {
+											// 정상적으로 검색이 완료됐으면 
+											if (status === kakao.maps.services.Status.OK) {
+												var coords = new kakao.maps.LatLng(
+														result[0].y,
+														result[0].x);
+												// 결과값으로 받은 위치를 마커로 표시합니다 
+												var marker = new kakao.maps.Marker(
+														{
+															map : map,
+															position : coords
+														});
+												// 인포윈도우로 장소에 대한 설명을 표시합니다 
+												var infowindow = new kakao.maps.InfoWindow(
+														{
+															content : '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+														});
+												infowindow.open(map, marker);
 
-											//지도의 중심을 결과값으로 받은 위치로 이동합니다.
-											map.setCenter(coords);
-										}
-									});
-				</script>
+												//지도의 중심을 결과값으로 받은 위치로 이동합니다.
+												map.setCenter(coords);
+											}
+										});
+					</script>
 				<section id="store_review">
 					<div class="tableArea">
 						<h4>&lt; 후기 &gt;</h4>
 
-						<img id="star1" width="20px" height="20px" src="<%=request.getContextPath()%>/resources/images/empty_star.png">
-						<img id="star2" width="20px" height="20px" src="<%=request.getContextPath()%>/resources/images/empty_star.png">
-						<img id="star3" width="20px" height="20px"  src="<%=request.getContextPath()%>/resources/images/empty_star.png">
-						<img id="star4"  width="20px" height="20px"  src="<%=request.getContextPath()%>/resources/images/empty_star.png">
-						<img id="star5"   width="20px" height="20px" src="<%=request.getContextPath()%>/resources/images/empty_star.png">
+						<img src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png"> <img
+							src="/images/empty_star.png">
 						<div id="score">0.0 / 5.0</div>
 						<table class="table table-hover">
 							<tbody>
@@ -293,102 +323,125 @@ h4 {
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
 								</tr>
-
-								<%-- <%
-								if (list.isEmpty()) {
-							%>
+								<tr>
+									<td>2</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+							</tbody>
+						<%-- 	<%
+									if (list.isEmpty()) {
+								%>
 							<tr>
 								<td colspan="6">조회된 리스트가 없습니다.</td>
 							</tr>
 							<%
-								} else {
-									int idx=1;
-							%>
+									} else {
+								%>
 							<%
-								for (Review r : list) {
-							%>
+									for (Board b : list) {
+								%>
 							<tr>
-								<input type="hidden" value="<%=r.getbId()%>">
-								<td><%=idx++ %></td>
-								<td><%=r.getRWriter()%></td>
-								<td><%=r.getRGrade()%></td>
-								<td><%=r.getREnDate()%></td>
+								<input type="hidden" value="<%=b.getbId()%>">
+								<td><%=b.getbId()%></td>
+								<td><%=b.getCategory()%></td>
+								<td><%=b.getbTitle()%></td>
+								<td><%=b.getbWriter()%></td>
+								<td><%=b.getbCount()%></td>
+								<td><%=b.getModifyDate()%></td>
 							</tr>
 							<%
-								}
-							%>
+									}
+								%>
 							<%
-								}
-							%> --%>
-							</tbody>
+									}
+								%>
 						</table>
 					</div>
 					<!-- 페이징바 -->
-					<%-- <div class="pagingArea" align="center">
+					<div class="pagingArea" align="center">
 						<!-- 맨 처음으로 (<<) -->
 						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=1'">
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=1'">
 							&lt;&lt;</button>
 
 						<!-- 이전 페이지로 (<) -->
 						<%
-							if (currentPage == 1) {
-						%>
+								if (currentPage == 1) {
+							%>
 						<button disabled>&lt;</button>
 						<%
-							} else {
-						%>
+								} else {
+							%>
 						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=currentPage - 1%>'">
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage - 1%>'">
 							&lt;</button>
 						<%
-							}
-						%>
+								}
+							%>
 
 						<!-- 10개의 페이지 목록 -->
 						<%
-							for (int p = startPage; p <= endPage; p++) {
-						%>
+								for (int p = startPage; p <= endPage; p++) {
+							%>
 						<%
-							if (p == currentPage) {
-						%>
+								if (p == currentPage) {
+							%>
 						<button disabled>
 							<%=p%></button>
 						<%
-							} else {
-						%>
+								} else {
+							%>
 						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=p%>'">
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=p%>'">
 							<%=p%>
 						</button>
 						<%
-							}
-						%>
+								}
+							%>
 						<%
-							}
-						%>
+								}
+							%>
 
 						<!-- 다음 페이지로(>) -->
 						<%
-							if (currentPage == maxPage) {
-						%>
+								if (currentPage == maxPage) {
+							%>
 						<button disabled>&gt;</button>
 						<%
-							} else {
-						%>
+								} else {
+							%>
 						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=currentPage + 1%>'">
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage + 1%>'">
 							&gt;</button>
 						<%
-							}
-						%>
+								}
+							%>
 
 						<!--  맨 끝으로 (>>) -->
 						<button
-							onclick="location.href='<%=request.getContextPath()%>/list.bo?currentPage=<%=maxPage%>'">
+							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=maxPage%>'">
 							&gt;&gt;</button>
 
 					</div> --%>
+					</table>
+					</div>
 				</section>
 			</section>
 
@@ -503,34 +556,23 @@ h4 {
 
 			<br> <br>
 			<p id="introContent">저희 공방에 오신걸 환영합니다.</p>
-			
 		</section>
-		<form action="" id="detailForm" method="post">
-		<input type="hidden" name="bId" value="<%= b.getbId() %>">
-	</form>
-
-	<script>
-		function updateBoard(){
-			$("#detailForm").attr("action", "<%= contextPath %>/updateForm.bo");
-			$("#detailForm").submit();
-			
-		}
-			$(function() {
-				$("#intro3Modal").hide();
-				$("#intro3Edit").click(function() {
-					$("#intro3Modal").click();
+		<script>
+				$(function() {
+					$("#intro3Modal").hide();
+					$("#intro3Edit").click(function() {
+						$("#intro3Modal").click();
+					});
 				});
-			});
 
-			function updateIntro3() {
-				var inputArea = document.getElementById("modalText");
-				var showArea = document.getElementById("introContent");
+				function updateIntro3() {
+					var inputArea = document.getElementById("modalText");
+					var showArea = document.getElementById("introContent");
 
-				showArea.innerHTML = inputArea.value;
+					showArea.innerHTML = inputArea.value;
 
-			}
-			
-		</script>
+				}
+			</script>
 		<br> <br>
 		<section id="content_final_slide">
 			<br>
@@ -597,7 +639,6 @@ h4 {
 
 
 	</div>
-
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"

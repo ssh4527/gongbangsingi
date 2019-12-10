@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="java.util.*, workshop.model.vo.*,attachment.*"%>
+<%
+	ArrayList<Workshop> list = (ArrayList<Workshop>) request.getAttribute("list");
+	ArrayList<Attachment> flist = (ArrayList<Attachment>) request.getAttribute("flist");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -232,8 +237,6 @@ to {
 	</div>
 	<hr>
 
-
-
 	<!-- 앨범 부분...  -->
 
 	<div class="album py-5 bg-light" id="whole">
@@ -243,7 +246,7 @@ to {
 					<div class="card mb-4 shadow-sm">
 						<div id="thumbnail">
 							<img
-								src="<%= request.getContextPath() %>/resources/images/jar1.jpg"
+								src="<%=request.getContextPath()%>/resources/images/jar1.jpg"
 								width="100%" height="100%" id="gal">
 						</div>
 						<div class="card-body">
@@ -255,93 +258,51 @@ to {
 						</div>
 					</div>
 				</div>
+				<%
+					if (list != null) {
+						for (Workshop shop : list) {
+				%>
 				<div class="col-md-4">
 					<div class="card mb-4 shadow-sm">
 						<div id="thumbnail">
+							<%
+								for (Attachment at : flist) {
+							%>
+							<%
+								if (shop.getWsNo() == at.getFs_destination()) {
+							%>
 							<img
-								src="<%= request.getContextPath() %>/resources/images/jar1.jpg"
+								src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=at.getReName()%>"
 								width="100%" height="100%" id="gal">
+							<%
+								}
+							%>
+							<%
+								}
+							%>
 						</div>
 						<div class="card-body">
-							<small class="text-muted">Dish Factory</small>
-							<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
+							<small class="text-muted"><%=shop.getCategory()%></small>
+							<p class="card-text" align="left"><%=shop.getWsName()%></p>
 							<div class="d-flex justify-content-between align-items-center">
-								<small class="text-muted">★4.2</small> <small class="text-muted">구경하세요</small>
+								<small class="text-muted">★<%=shop.getGrade()%></small> <small
+									class="text-muted">구경하세요</small>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<div class="card mb-4 shadow-sm">
-						<div id="thumbnail">
-							<img
-								src="<%= request.getContextPath() %>/resources/images/jar1.jpg"
-								width="100%" height="100%" id="gal">
-						</div>
-						<div class="card-body">
-							<small class="text-muted">Dish Factory</small>
-							<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
-							<div class="d-flex justify-content-between align-items-center">
-								<small class="text-muted">★4.2</small> <small class="text-muted">구경하세요</small>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card mb-4 shadow-sm">
-						<div id="thumbnail">
-							<img
-								src="<%= request.getContextPath() %>/resources/images/jar1.jpg"
-								width="100%" height="100%" id="gal">
-						</div>
-						<div class="card-body">
-							<small class="text-muted">Dish Factory</small>
-							<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
-							<div class="d-flex justify-content-between align-items-center">
-								<small class="text-muted">★4.2</small> <small class="text-muted">구경하세요</small>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card mb-4 shadow-sm">
-						<div id="thumbnail">
-							<img
-								src="<%= request.getContextPath() %>/resources/images/jar1.jpg"
-								width="100%" height="100%" id="gal">
-						</div>
-						<div class="card-body">
-							<small class="text-muted">Dish Factory</small>
-							<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
-							<div class="d-flex justify-content-between align-items-center">
-								<small class="text-muted">★4.2</small> <small class="text-muted">구경하세요</small>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card mb-4 shadow-sm">
-						<div id="thumbnail">
-							<img
-								src="<%= request.getContextPath() %>/resources/images/jar1.jpg"
-								width="100%" height="100%" id="gal">
-						</div>
-						<div class="card-body">
-							<small class="text-muted">Dish Factory</small>
-							<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
-							<div class="d-flex justify-content-between align-items-center">
-								<small class="text-muted">★4.2</small> <small class="text-muted">구경하세요</small>
-							</div>
-						</div>
-					</div>
-				</div>
+				<%
+					}
+					}
+				%>
+
 			</div>
 		</div>
 	</div>
-	
+
 	<script>
 		$("#gal").click(function(){
-			location.href="<%= request.getContextPath() %>/views/store/storeView_u.jsp";
+			location.href="<%=request.getContextPath()%>/views/store/storeView_u.jsp?WsNo="+WsNo;
 		});
 	</script>
 	<%@ include file="../common/footbar.jsp"%>

@@ -3,8 +3,7 @@ package review.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import board.model.dao.BoardDao;
-import board.model.vo.Board;
+
 import review.model.dao.ReviewDao;
 import review.model.vo.Review;
 
