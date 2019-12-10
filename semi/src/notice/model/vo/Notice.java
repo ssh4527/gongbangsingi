@@ -10,6 +10,7 @@ public class Notice {
 	private int nCount;
 	private Date nDate;
 
+	// writer 필요없음 ! 
 	
 	public Notice() {}
 	

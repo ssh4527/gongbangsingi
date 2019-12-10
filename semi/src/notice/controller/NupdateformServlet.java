@@ -38,7 +38,7 @@ public class NupdateformServlet extends HttpServlet {
 			request.setAttribute("notice", notice);
 			page = "views/notice/noticeUpdateForm.jsp";
 		}else {
-			request.setAttribute("msg", "공지사항 수정페이지 조회에 실패하였습니다.");
+			request.setAttribute("msg", "공지사항 수정페이지 조회 실패!");
 		}
 		
 		request.getRequestDispatcher(page).forward(request, response);

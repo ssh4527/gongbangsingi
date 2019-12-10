@@ -28,10 +28,12 @@
 <%@ include file="/views/common/menubar.jsp" %>  
     <div id="qna6_wrap">
     <h3 align="center">공지사항 수정하기</h3>
+    <input type="text" name="nno" value="<%= n.getnNo() %>" >
     <br>
     	<form action="<%= request.getContextPath() %>/update.no" method="post">
-    	<input type="hidden" value="<%= n.getnNo() %>" name="nno">
+    	
             <table class="table table-hover">
+            
                     <tr>
                     	<th>제목</th>
                     	<td colspan="3"><input type="text" size="50" name="title" value="<%= n.getnTitle() %>"></td>
@@ -53,9 +55,9 @@
               
                 <hr>
          <div id="qna6_wrap2">
-	
-         <button id="submit" class="btn btn-outline-secondary">수정하기</button>
-         <button type="button" onclick="javascript:history.back();" class="btn btn-outline-secondary">취소</button>
+	     <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/list.no'">목록으로~</button>
+         <button type="submit" class="btn btn-outline-secondary">수정완료</button>
+         <button type="button" onclick="javascript:history.back();" class="btn btn-outline-secondary">취소(뒤로가기)</button>
 		  </form>
         
          </div>

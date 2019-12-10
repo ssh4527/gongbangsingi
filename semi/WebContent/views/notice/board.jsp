@@ -75,7 +75,7 @@
 	<div id="notice2_wrap2">
 	<br>
 	<h4>공지사항 &nbsp;&nbsp;&nbsp;
-	 <button type="button" class="btn btn-outline-secondary" id="t2" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeListView.jsp'">더보기</button></h4>
+	 <button type="button" class="btn btn-outline-secondary" id="t2" onclick="location.href='<%= request.getContextPath() %>/list.no'">더보기</button></h4>
 	 <br>
 	<ul>
 	<li><a href="#" id="board_a">결제 관련</a></li>

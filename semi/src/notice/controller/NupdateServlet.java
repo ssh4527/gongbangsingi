@@ -44,9 +44,8 @@ public class NupdateServlet extends HttpServlet {
 		
 		if(result > 0) {
 			response.sendRedirect("detail.no?nno="+nno);
-			
 		}else {
-			request.setAttribute("msg", "공지사항 수정에 실패했습니다.");
+			request.setAttribute("msg", "공지사항 수정 실패!");
 		}
 	}
 
