@@ -1,63 +1,57 @@
-package board.controller;
+package search.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.service.BoardService;
-import board.model.vo.Board;
-
+import search.model.service.SearchService;
+import workclass.model.vo.Workclass;
 
 /**
- * Servlet implementation class BoardInsertServlet
+ * Servlet implementation class SearchObjectServlet
  */
-@WebServlet("/insert.bo")
-public class BoardInsertServlet extends HttpServlet {
+@WebServlet("/search.all")
+public class SearchObjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardInsertServlet() {
+    public SearchObjectServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		
-		String title=request.getParameter("title");
-		String writer=request.getParameter("writer");
-		String secret=request.getParameter("secret");
-		String content=request.getParameter("content");
-		
-		
-		Board b = new Board("title","writer","secret","content");
-		// model.vo 에 Board 만들기..
-		
-		int result=new BoardService().insertBoard(n);
-		
-		if(result>0) {
-			request.setAttribute("mgs", "게시판 등록 성공!");
-			response.sendRedirect("list.bo");
+		request.setCharacterEncoding("UTF-8");
+		String searchtype = request.getParameter("searchtypeinput");
+		SearchService ss =new SearchService();
+		String searchinput = request.getParameter("searchinput");
+		String keyword = ss.findText(searchinput);
+		if(searchtype.equals("클래스")) {
+			ArrayList<Workclass> list = ss.searchClass(keyword);
+			System.out.println(list);
+			request.setAttribute("keyword", keyword );
+			request.setAttribute("wclist", list);
+			request.getRequestDispatcher("views/classcategory/category.jsp").forward(request, response);
 		}else {
-			request.setAttribute("msg","게시판 등록 실패!" );
+			
 		}
 	}
 
 	/**
-	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

@@ -9,14 +9,14 @@ public class Workclass {
 	private String WcOpenClose; // 개강, 종강 날짜
 	private int WcHits; // 조회수 
 	private String WcWarning; // 유의사항
+	private String WcIntroduce; // 클래스소개글
 	private String WsNo; // 공방번호
 	
 	public Workclass() {}
 
 
-
 	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
-			String wcWarning, String wsNo) {
+			String wcWarning,String wcIntroduce, String wsNo) {
 		super();
 		WcNo = wcNo;
 		WcName = wcName;
@@ -27,11 +27,22 @@ public class Workclass {
 		WcHits = wcHits;
 		WcWarning = wcWarning;
 		WsNo = wsNo;
+		WcIntroduce = wcIntroduce;
 	}
-
-
-
-
+	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
+			String wcWarning,String wsNo) {
+		super();
+		WcNo = wcNo;
+		WcName = wcName;
+		WcNOP = wcNOP;
+		WcMaxP = wcMaxP;
+		WcYN = wcYN;
+		WcOpenClose = wcOpenClose;
+		WcHits = wcHits;
+		WcWarning = wcWarning;
+		WsNo = wsNo;
+		
+	}
 	public Workclass(String wcName, int wcNOP, int wcMaxP, String wcOpenClose, String wcWarning, String wsNo) {
 		super();
 		WcName = wcName;
@@ -42,33 +53,20 @@ public class Workclass {
 		WsNo = wsNo;
 	}
 
-
-
-
 	public String getWsNo() {
 		return WsNo;
 	}
+	public String getWcIntroduce() {
+		return WcIntroduce;
+	}
 
-
-
-
-
-
-
-
-
+	public void setWcIntroduce(String wcIntroduce) {
+		WcIntroduce = wcIntroduce;
+	}
 
 	public void setWsNo(String wsNo) {
 		WsNo = wsNo;
 	}
-
-
-
-
-
-
-
-
 
 
 	public String getWcWarning() {
@@ -136,14 +134,6 @@ public class Workclass {
 	}
 
 
-
-
-
-
-
-
-
-
 	@Override
 	public String toString() {
 		return "Workclass [WcNo=" + WcNo + ", WcName=" + WcName + ", WcNOP=" + WcNOP + ", WcMaxP=" + WcMaxP + ", WcYN="
@@ -152,8 +142,6 @@ public class Workclass {
 	}
 
 
-
-	
 	
 	
 }
