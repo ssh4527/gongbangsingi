@@ -10,6 +10,7 @@
 <head>
 
 
+
 <!--  ★문의글 쓰기(고객센터/공방)★ -->
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -28,6 +29,7 @@
     	text-align:center;
     }
     </style>
+    
 </head>
 <body>
 <body>
@@ -42,11 +44,18 @@
             <table class="table table-hover">
                     <tr>
                         <th>문의</th>
-                        <th colspan="5">고객센터문의 <공방 관련 문의는 각 공방 클래스 페이지에서 해주세요></th>
+                        <th colspan="5">고객센터문의 <공방(클래스) 관련 문의는 각 공방(클래스) 페이지에서 해주세요></th>
                     </tr>
                     <tr>
                     	<th>제목</th>
-                    	<td colspan="5"><textarea name="title" cols="60" rows="1" style="resize:none" placeholder="제목을 입력해주세요"></textarea></td>
+                    	<td ><textarea name="title" cols="60" rows="1" style="resize:none" placeholder="제목을 입력해주세요"></textarea></td>
+                    	<th>회원구분</th>
+                    	<td>
+                    		<input type="radio" name="m" id="normal" value="normal">
+                    		<lable for="normal">일반</lable>
+                    		<input type="radio" name="m" id="business" value="business">
+                    		<lable for="business">사업자</lable>
+                    	</td>
                     </tr>
                     <tr>
 							<th>작성자</th>

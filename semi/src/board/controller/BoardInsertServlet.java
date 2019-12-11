@@ -14,6 +14,7 @@ import board.model.vo.Board;
 /**
  * Servlet implementation class BoardInsertServlet
  */
+
 @WebServlet("/insert.bo")
 public class BoardInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -37,6 +38,7 @@ public class BoardInsertServlet extends HttpServlet {
 		String writer=request.getParameter("writer");
 		String secret=request.getParameter("secret");
 		String content=request.getParameter("content");
+		
 		
 		
 		Board b = new Board("title","writer","secret","content");

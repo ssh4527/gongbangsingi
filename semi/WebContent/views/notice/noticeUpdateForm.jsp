@@ -3,6 +3,7 @@
 <%
 	Notice n = (Notice)request.getAttribute("notice");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +35,7 @@
     	  <input type="hidden" name="nno" value="<%= n.getnNo() %>" >
             <table class="table table-hover">
             
+                   
                     <tr>
                     	<th>제목</th>
                     	<td colspan="3"><input type="text" size="50" name="title" value="<%= n.getnTitle() %>"></td>
