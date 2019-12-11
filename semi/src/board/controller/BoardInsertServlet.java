@@ -26,6 +26,7 @@ public class BoardInsertServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

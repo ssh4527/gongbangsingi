@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<% //String wcNo = request.getParameter("wcNo");
+	String wcNo = "클래스번호";
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -609,7 +613,7 @@ WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처�
 			<!-- 리뷰 버튼 -->
 			<div>
 				<button type="button" class="btn btn-outline-secondary"
-					style="float: right">Review Write</button>
+					style="float: right" onclick ="location.href ='<%= request.getContextPath()%>/views/classdetail/insertReview.jsp?wcNo=<%= wcNo %>'">Review Write</button>
 			</div>
 
 

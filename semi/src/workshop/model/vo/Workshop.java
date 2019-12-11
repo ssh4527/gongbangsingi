@@ -15,16 +15,18 @@ public class Workshop {
 	private Date WsEnrollDate; // 공방 등록일자
 	private String Category;  // 공방 카테고리
 	private String PayAccount; // 공방계좌번호
-	private ArrayList<Review> rlist; //후기 글
-	private ArrayList<Workclass> clist; //클래스 
-	private String intro; //소개글
-	private double grade; //평점
+
 	
+/*	private ArrayList<Review> rlist; //후기 글
+
+	private ArrayList<Workclass> clist; //클래스 
+*/	private String intro; //소개글
+	private double grade; //평점
+	private String sns; //sns계정
 	public Workshop() {}
 
 	
-	
-	
+
 	public Workshop(String wsNo, String wsName, String category, double grade) {
 		super();
 		WsNo = wsNo;
@@ -33,36 +35,32 @@ public class Workshop {
 		this.grade = grade;
 	}
 
+	
+	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, String intro, double grade) {
 
-
-
-	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, ArrayList<Review> rlist,
-			ArrayList<Workclass> clist, String intro, double grade) {
 		super();
 		WsNo = wsNo;
 		WsName = wsName;
 		Address = address;
 		WsTel = wsTel;
 		Category = category;
-		this.rlist = rlist;
-		this.clist = clist;
 		this.intro = intro;
 		this.grade = grade;
 	}
 
 
 
-
-	public Workshop(String wsNo, String wsName, String address, String wsTel, 
-			String category, double grade) {
+	//WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
+	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade) {
 		super();
 		WsNo = wsNo;
 		WsName = wsName;
 		Address = address;
 		WsTel = wsTel;
 		Category = category;
-		this.grade=grade;
+		this.grade = grade;
 	}
+
 
 	public String getWsNo() {
 		return WsNo;
@@ -128,21 +126,6 @@ public class Workshop {
 		PayAccount = payAccount;
 	}
 
-	public ArrayList<Review> getRlist() {
-		return rlist;
-	}
-
-	public void setRlist(ArrayList<Review> rlist) {
-		this.rlist = rlist;
-	}
-
-	public ArrayList<Workclass> getClist() {
-		return clist;
-	}
-
-	public void setClist(ArrayList<Workclass> clist) {
-		this.clist = clist;
-	}
 
 	public String getIntro() {
 		return intro;

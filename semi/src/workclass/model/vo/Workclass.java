@@ -14,6 +14,7 @@ public class Workclass {
 	
 	public Workclass() {}
 
+
 	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
 			String wcWarning,String wcIntroduce, String wsNo) {
 		super();
