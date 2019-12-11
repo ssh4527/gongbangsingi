@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import workshop.model.service.ShopService;
+
 /**
  * Servlet implementation class shopUpdateDetailServlet
  */
@@ -29,9 +31,11 @@ public class shopIntroUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		String WsNo= request.getParameter("WsNo");
-		String text = request.getParameter("text");
-
+		String input = request.getParameter("input");
 		
+		int result= new ShopService().updateIntro(WsNo,input);
+		response.setCharacterEncoding("utf-8");
+		response.getWriter().print("입력된 값 : "+input+", 길이 : "+input.length());
 			
 	}
 

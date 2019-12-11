@@ -22,14 +22,14 @@ import workshop.model.service.ShopService;
 /**
  * Servlet implementation class shopThumbnailEditServlet
  */
-@WebServlet("/thumbnail.sh")
-public class shopThumbnailEditServlet extends HttpServlet {
+@WebServlet("/updatethumbnail.sh")
+public class shopThumbnailUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public shopThumbnailEditServlet() {
+    public shopThumbnailUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
