@@ -1,6 +1,7 @@
 package notice.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import notice.model.vo.Notice;
  * 
  * Servlet implementation class NupdateServlet
  */
+
 @WebServlet("/update.no")
 public class NupdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

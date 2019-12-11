@@ -3,6 +3,7 @@
 <%
 	Notice n = (Notice)request.getAttribute("notice");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>

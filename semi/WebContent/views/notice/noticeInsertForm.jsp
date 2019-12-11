@@ -2,9 +2,10 @@
     pageEncoding="UTF-8" import="java.util.Date, java.text.SimpleDateFormat" %>
 <%
 	Date date = new Date();
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	String today = sdf.format(date);
 %>
+
 <!DOCTYPE html>
 <html>
 <head>

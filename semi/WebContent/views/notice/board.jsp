@@ -4,7 +4,6 @@
 <html>
 <head>
 <!--  ★고객센터 페이지★ -->
-
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -29,9 +28,8 @@
   	margin:auto;
   	}
   	
-  	
   	#notice2_wrap1{
-  	width:45%;
+  	width:40%;
   	height:100%;
   	margin:auto;
   	background-color:saddlebrown;
@@ -41,7 +39,7 @@
   	}
   	
   	#notice2_wrap2{
-  	width:45%;
+  	width:40%;
   	height:100%;
   	margin:auto;
   	background-color:beige;
@@ -56,11 +54,31 @@
   		color:white;
   		text-decoration:none;
   	}
+  	.font { 
+	font-size: 30px;
+	color:black;
+	margin-left:40%;
+	 }
+	.font_underline { 
+	color: #fbd6db;
+	}
+	
+	#notice2_wrap12{
+	width:20%;
+  	height:100%;
+  	margin:auto;
+  	background-color: #fbd6db;
+  	text-align:center;
+  	float:left;
+  	border:15px solid white;
+	}
     </style>
 </head>
 <body>
 <%@ include file="/views/common/menubar.jsp" %>
 <br><br>
+<br>
+
 <div id="notice2_wrap">
 	<div id="notice2_wrap1">
 	<br>
@@ -80,11 +98,17 @@
 	 <button type="button" class="btn btn-outline-secondary" id="t2" onclick="location.href='<%= request.getContextPath() %>/list.no'">더보기</button></h4>
 	 <br>
 	<ul>
-	<li><a href="#" id="board_a">결제 관련</a></li>
-	<li><a href="#" id="board_a">예약 관련</a></li>
+	<li><a href="membergrade.jsp" id="board_a">회원등급</a></li>
+	<li><a href="#" id="board_a">결제/예약 관련</a></li>
 	<li><a href="#" id="board_a">적립금 관련</a></li>
-	<li><a href="#" id="board_a">개인정보처리방침</a></li>
+	<li><a href="privacypolicy.jsp" id="board_a">개인정보처리방침</a></li>
 	</ul>
+	</div>
+	
+	<div id="notice2_wrap12">
+	<br>
+	<h4>사업자 회원</h4>
+	<button type="button" class="btn btn-light" onclick="location.href='businessmember.jsp'" >사업자로 회원전환하기</button>
 	</div>
 	
 </div>
@@ -92,6 +116,9 @@
     <div id="notice2_wrap3">
         <br>
         <br>
+        <font class="font_underline">
+	<u><p class="font">고객센터<br></p></u>
+</font><BR>
      <!-- <table class="table table-dark table-striped"> -->
             <table class="table table-hover">
                     <tr>
@@ -118,7 +145,6 @@
 					<option value="---">---</option>
 					<option value="writer">작성자</option>
 					<option value="title">제목</option>
-					<option value="content">내용</option>
 				</select> <input type="text" id="notice2_input" placeholder="내용을 입력해주세요">
 				<button type="submit" class="btn btn-outline-secondary">Search</button>
 				<button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/notice/boardInsertForm.jsp'">WRITE</button>

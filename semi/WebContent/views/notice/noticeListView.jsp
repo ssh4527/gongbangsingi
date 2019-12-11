@@ -5,6 +5,7 @@
 	String search = (String)request.getAttribute("search");
 %>   
  
+ 
 <!DOCTYPE html>
 <html>
 <head>
