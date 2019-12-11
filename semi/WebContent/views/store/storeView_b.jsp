@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.*, review.model.vo.*"%>
-<%-- <%
-	ArrayList<Review> list = (ArrayList<Review>) request.getAttribute("list");
+	pageEncoding="UTF-8"
+	import="java.util.*, review.model.vo.*,workshop.model.vo.*,attachment.*,workclass.model.vo.*"%>
+<%
+	Workshop shop = (Workshop) request.getAttribute("shop");
+	Attachment titlePic = (Attachment) request.getAttribute("titlePic");
+
+	ArrayList<Review> rlist = (ArrayList<Review>) request.getAttribute("rlist");
+	ArrayList<Workclass> clist = (ArrayList<Workclass>) request.getAttribute("clist");
+	ArrayList<Attachment> cPictures = (ArrayList<Attachment>) request.getAttribute("cPictures");
+	
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
 
 	int listCount = pi.getListCount();
@@ -9,7 +16,7 @@
 	int maxPage = pi.getMaxPage();
 	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
-%> --%>
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -164,8 +171,9 @@ section, div, header {
 h4 {
 	display: inline;
 }
-#picEdit{
-display:hidden;
+
+.picEdit {
+	display: hidden;
 }
 </style>
 </head>
@@ -176,28 +184,55 @@ display:hidden;
 		<section id="content_first">
 			<section id="first_intro1">
 				<section id="intro1_1" style="padding: 10px;">
+					
+					<% boolean check=false; if(titlePic!=null){%>
+				<img src="<%= request.getContextPath() %>/resources/thumbnail_uploadFiles/<%= titlePic.getReName() %>" width="350px" height="200px">
+					
+					<%check=true;}else{ %>
 					<div id="thumbnail1" class="thumbnail"></div>
-				<form action="<%= request.getContextPath() %>/thumbnail.sh" method="post" enctype="multipart/form-data">
-						<%-- <input type="hidden" value="<%= shop.getWsNo() %>"> --%>
-						<input type="button" value="사진 변경" id="thumbnailEdit" name="thumbnailEdit"> 
-						<input type="file" id="imgfile1" name="imgfile1" onchange="preview(this,1)">
-						<button type="submit" id="picEdit"></button>
+					<%} %>
+					<form id="thumbnailForm" method="post" enctype="multipart/form-data">
+						 <input type="hidden" value="<%= shop.getWsNo() %>">
+						 <input type="file" id="imgfile1"
+							name="imgfile1" onchange="preview(this,1)">
+						 <%if(check){ %>
+						<input type="button" value="사진 변경" id="thumbnailEdit2"
+							name="thumbnailEdit"> 
+						<button type="submit" id="picUpdate" name="picEdit"></button>
+						<%}else{ %>
+						<input type="button" value="사진 등록" id="thumbnailEdit1" 
+							name="thumbnailEdit"> 
+						<button type="submit" id="picInsert" name="picEdit"></button>
+						<%}%>
 					</form>
 					<p id="storeName">공방 이름</p>
-					
-	<script>
+
+					<script>
 				$(function() {
 					$("#imgfile1").hide();
 
-					$("#thumbnailEdit").click(function() {
+					$(".thumbnailEdit").click(function() {
 						$("#imgfile1").click();
 					});
-
-					$("#thumbnailEdit").click(function() {
-						$("#picEdit").click();
+					$("#thumbnailEdit1").click(function() {
+						$("#picInsert").click();
+					});
+					$("#thumbnailEdit2").click(function() {
+						$("#picUpdate").click();
 					});
 				});
-
+				
+				function picUpdate(){
+					$("#thumbnailForm").attr("action", "<%=request.getContextPath()%>/updatethumbnail.sh");
+					$("#thumbnailForm").submit();
+					
+				}
+				
+				function picInsert(){
+					$("#thumbnailForm").attr("action", "<%=request.getContextPath()%>/insertthumbnail.sh");
+					$("#thumbnailForm").submit();
+				}
+				
 				function preview(value, num) {
 					// value => input type="file"
 					// num => 조건문으로 각 번호에 맞춰서 위의 미리보기 img에 적용시킬것
@@ -223,9 +258,9 @@ display:hidden;
 				<br> <br> <br> <br> <br> <br>
 				<section id="introl1_2">
 					<div id="introl1_2_1">
-						<p id="addr">주소</p>
-						<p id="phone">전화번호</p>
-						<p id="sns">sns 계정</p>
+						<p id="addr"><%=shop.getAddress() %></p>
+						<p id="phone"><%= shop.getWsTel()%></p>
+						<p id="sns"><%=shop.getSns() %></p>
 					</div>
 				</section>
 
@@ -327,7 +362,7 @@ display:hidden;
 									<td>&nbsp;</td>
 								</tr>
 							</tbody>
-						<%-- 	<%
+							<%-- 	<%
 									if (list.isEmpty()) {
 								%>
 							<tr>
@@ -422,7 +457,7 @@ display:hidden;
 							&gt;&gt;</button>
 
 					</div> --%>
-					</table>
+						</table>
 					</div>
 				</section>
 			</section>
@@ -547,15 +582,40 @@ display:hidden;
 					});
 				});
 
-				function updateIntro3() {
+			/* 	function updateIntro3() {
 					var inputArea = document.getElementById("modalText");
 					var showArea = document.getElementById("introContent");
 					String text= inputArea.value
 					showArea.innerHTML = text;
+					 */
 					
-					location.href="<%= request.getContextPath() %>/updateIntro.sh?intro="+text;
-				}
-			</script>
+			 		$(function(){ 
+			 		// 2. 버튼 클릭 시 POST 방식으로 서버에 데이터 전송 및 응답
+			 			$("#btn2").click(function(){
+			 				var input = $("#modalText").val();
+			 				
+			 				$.ajax({
+			 					url : "updateIntro.sh",
+			 					data : {input:input},
+			 					type : "post",
+			 					// dataType 속성 : 서버의 응답 데이터의 형식을 지정해주는 속성.
+			 					//	미작성 시 자동으로 응답데이터의 형식을 판단하여 알맞게 지정함.
+			 					//dataType : "text",
+			 					success:function(result){
+			 						$("#introContent").val(result);
+			 					},
+			 					error:function(e){
+			 						console.log(e);
+			 					}
+			 				});
+			 			});
+			 		});
+			 	
+			 	
+					location.href="<%=request.getContextPath()%>
+			/updateIntro.sh?intro="
+					+ text;}
+		</script>
 		<br> <br>
 		<section id="content_final_slide">
 			<br>
