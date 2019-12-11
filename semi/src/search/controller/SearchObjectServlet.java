@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import search.model.service.SearchService;
 import workclass.model.vo.Workclass;
+import workshop.model.vo.Workshop;
 
 /**
  * Servlet implementation class SearchObjectServlet
@@ -35,15 +36,29 @@ public class SearchObjectServlet extends HttpServlet {
 		String searchtype = request.getParameter("searchtypeinput");
 		SearchService ss =new SearchService();
 		String searchinput = request.getParameter("searchinput");
-		String keyword = ss.findText(searchinput);
+		
+		ArrayList<Workclass> wclist = null;
+		ArrayList<Workshop> wslist =null;
+		String keyword =ss.findKeyword(searchinput);
 		if(searchtype.equals("클래스")) {
-			ArrayList<Workclass> list = ss.searchClass(keyword);
-			System.out.println(list);
-			request.setAttribute("keyword", keyword );
-			request.setAttribute("wclist", list);
+			
+			wclist = ss.searchClass(keyword);// 카테고리로 검색
+			if(wclist.isEmpty()) {
+				wclist = ss.findClassName(searchinput);// 클래스 이름으로 검색
+			}
+			request.setAttribute("keyword", searchinput );
+			request.setAttribute("wclist", wclist);
 			request.getRequestDispatcher("views/classcategory/category.jsp").forward(request, response);
 		}else {
+		
+			wslist = ss.searchWorkshop(keyword); // 카테고리로 검색
 			
+			if(wslist.isEmpty()) {
+				wslist = ss.findWorkshopName(searchinput);
+			}
+			request.setAttribute("wslist", wslist);
+			request.setAttribute("keyword", searchinput );
+			request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);
 		}
 	}
 

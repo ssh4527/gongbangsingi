@@ -7,7 +7,7 @@ import review.model.vo.Review;
 import workclass.model.vo.Workclass;
 
 public class Workshop {
-	private String WsNo; // 공방 번호
+	private String WsNo; // 공방 번호 
 	private String WsName; // 공방 이름
 	private String Address; // 공방 주소
 	private String WsTel; // 공방 전화번호
@@ -15,7 +15,6 @@ public class Workshop {
 	private Date WsEnrollDate; // 공방 등록일자
 	private String Category;  // 공방 카테고리
 	private String PayAccount; // 공방계좌번호
-	
 	private ArrayList<Review> rlist; //후기 글
 	private ArrayList<Workclass> clist; //클래스 
 	private String intro; //소개글
@@ -26,6 +25,17 @@ public class Workshop {
 	
 	
 	
+	public Workshop(String wsNo, String wsName, String category, double grade) {
+		super();
+		WsNo = wsNo;
+		WsName = wsName;
+		Category = category;
+		this.grade = grade;
+	}
+
+
+
+
 	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, ArrayList<Review> rlist,
 			ArrayList<Workclass> clist, String intro, double grade) {
 		super();
@@ -148,6 +158,16 @@ public class Workshop {
 
 	public void setGrade(double grade) {
 		this.grade = grade;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "Workshop [WsNo=" + WsNo + ", WsName=" + WsName + ", Address=" + Address + ", WsTel=" + WsTel + ", WsYN="
+				+ WsYN + ", WsEnrollDate=" + WsEnrollDate + ", Category=" + Category + ", PayAccount=" + PayAccount
+				+ ", rlist=" + rlist + ", clist=" + clist + ", intro=" + intro + ", grade=" + grade + "]";
 	}
 	
 	
