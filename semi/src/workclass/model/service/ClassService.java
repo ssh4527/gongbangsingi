@@ -9,6 +9,8 @@ import static common.JDBCTemplate.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import review.model.vo.Review;
+
 
 public class ClassService {
 
@@ -59,6 +61,7 @@ public class ClassService {
 		return result;
 	}
 
+	// 클래스에 맞는 파일 넣는 부분입니다
 	public int insertFile(ArrayList<ClassFile> fileList) {
 		Connection conn = getConnection();
 		
@@ -73,6 +76,46 @@ public class ClassService {
 		close(conn);
 		
 		return result;
+	}
+
+	// 리뷰 넣는 메소드
+	public int insertReview(Review review) {
+		Connection conn = getConnection();
+		
+		int result = new ClassDao().insertReview(conn,review);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
+	// 리뷰에 파일넣기
+	public int insertReviewFile(ArrayList<ClassFile> fileList, String rNo) {
+		Connection conn = getConnection();
+		int result = new ClassDao().insertReviewFile(conn,fileList,rNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+				
+		close(conn);
+		
+		return result;
+	}
+
+	public String selectRNo(String title, String wcNo) {
+		Connection conn = getConnection();
+		String rNo = new ClassDao().selectRNo(conn,title,wcNo);
+		close(conn);
+		
+		return rNo;
 	}
 
 }
