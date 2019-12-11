@@ -29,6 +29,7 @@
   	margin:auto;
   	}
   	
+  	
   	#notice2_wrap1{
   	width:45%;
   	height:100%;
