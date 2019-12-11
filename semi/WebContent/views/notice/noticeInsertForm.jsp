@@ -5,7 +5,6 @@
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	String today = sdf.format(date);
 %>
-
 <!DOCTYPE html>
 <html>
 <head>

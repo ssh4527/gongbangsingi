@@ -40,6 +40,7 @@ public class BoardInsertServlet extends HttpServlet {
 		String content=request.getParameter("content");
 		
 		
+		
 		Board b = new Board("title","writer","secret","content");
 		// model.vo 에 Board 만들기..
 		
