@@ -183,11 +183,11 @@ ul {
 				
 				<!-- 파일 입력하는 부분 -->	
 					<div id="fileArea">
-					<input type="file" id="thumbnailImg1" name="thumbnailImg1" onchange="loadImg(this,1)">
-					<input type="file" id="thumbnailImg2" name="thumbnailImg2" onchange="loadImg(this,2)">
-					<input type="file" id="thumbnailImg3" name="thumbnailImg3" onchange="loadImg(this,3)">
-					<input type="file" id="thumbnailImg4" name="thumbnailImg4" onchange="loadImg(this,4)">
-				</div>
+						<input type="file" id="thumbnailImg1" name="thumbnailImg1" onchange="loadImg(this,1)">
+						<input type="file" id="thumbnailImg2" name="thumbnailImg2" onchange="loadImg(this,2)">
+						<input type="file" id="thumbnailImg3" name="thumbnailImg3" onchange="loadImg(this,3)">
+						<input type="file" id="thumbnailImg4" name="thumbnailImg4" onchange="loadImg(this,4)">
+					</div>
 				<script>
 				$(function(){
 					$("#fileArea").hide();
@@ -370,7 +370,7 @@ ul {
 						</tr>
 						<tr>
 							<td><small style="color: gray"> > 최대인원수 </small></td>
-							<td><input type="number" width="10px" min="0" max="9" name="count"
+							<td><input type="number" width="10px" min="0" max="100" name="count"
 								id="count"></td>
 						</tr>
 						<tr>

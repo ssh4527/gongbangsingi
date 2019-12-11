@@ -7,8 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
+
+import review.model.vo.Review;
 
 import static common.JDBCTemplate.*;
 
@@ -155,5 +158,117 @@ public class ClassDao {
 		
 		return result;
 	}
+
+	// 리뷰넣는 부분
+	public int insertReview(Connection conn, Review review) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("insertReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, review.getRWriter());
+			pstmt.setString(2, review.getRTitle());
+			pstmt.setString(3, review.getRContent());
+			pstmt.setInt(4, review.getRGrade());
+			pstmt.setString(5,review.getWcNo());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+
+	// 리뷰 파일 넣기
+	public int insertReviewFile(Connection conn, ArrayList<ClassFile> fileList, String rNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("insertReviewFile");
+	
+			try {
+				for(int i = 0; i < fileList.size(); i++) {
+				pstmt = conn.prepareStatement(sql);
+				ClassFile cf = fileList.get(i);
+				
+				pstmt.setString(1, cf.getOriginName());
+				pstmt.setString(2, cf.getChangeName());
+				pstmt.setString(3, rNo);
+				pstmt.setString(4, cf.getFilePath());
+				result += pstmt.executeUpdate();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				close(pstmt);
+			}
+		
+		return result;
+	}
+
+
+	public int selectCurrval(Connection conn) {
+		Statement stmt = null;
+		int currval = 0;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCurrval");
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(sql);
+			
+			while(rset.next()) {
+				currval = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		
+		
+		return currval;
+	}
+
+
+	public String selectRNo(Connection conn, String title, String wcNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String rNo = "";
+		String sql = prop.getProperty("selectRNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, title);
+			pstmt.setString(2, wcNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				rNo = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			close(rset);
+			close(pstmt);
+		}
+		
+	
+		return rNo;
+	}
+
+	
 
 }

@@ -10,12 +10,13 @@ public class Review {
 	private int RCount; // 조회수
 	private int RGrade; // 평점
 	private String RWriter; //작성자
+	private String wcNo; // 클래스 번호
 	
 	public Review() {}
 
-	
 
-	public Review(String rNo, String rTitle, Date rEnDate, String rContent, int rCount, int rGrade, String rWriter) {
+	public Review(String rNo, String rTitle, Date rEnDate, String rContent, int rCount, int rGrade, String rWriter,
+			String wcNo) {
 		super();
 		RNo = rNo;
 		RTitle = rTitle;
@@ -24,9 +25,18 @@ public class Review {
 		RCount = rCount;
 		RGrade = rGrade;
 		RWriter = rWriter;
+		this.wcNo = wcNo;
 	}
 
 
+	public Review(String rTitle, String rContent, int rGrade, String rWriter, String wcNo) {
+		super();
+		RTitle = rTitle;
+		RContent = rContent;
+		RGrade = rGrade;
+		RWriter = rWriter;
+		this.wcNo = wcNo;
+	}
 
 	public String getRWriter() {
 		return RWriter;
@@ -87,6 +97,67 @@ public class Review {
 	public void setRGrade(int rGrade) {
 		RGrade = rGrade;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public String getWcNo() {
+		return wcNo;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public void setWcNo(String wcNo) {
+		this.wcNo = wcNo;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "Review [RNo=" + RNo + ", RTitle=" + RTitle + ", REnDate=" + REnDate + ", RContent=" + RContent
+				+ ", RCount=" + RCount + ", RGrade=" + RGrade + ", RWriter=" + RWriter + ", wcNo=" + wcNo + "]";
+	}
+
+
+
+
+
+
+
+	
 	
 	
 }
