@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사업자 마이 페이지</title>
+<title>마이 페이지</title>
 <style>
 	#nomalPage-maindiv{
 		width: 1300px;
@@ -39,7 +39,7 @@
 		top: -10px;
 		right:60px;
 	}
-	#ReserTable2,#ReviewTable,#QnaTable,#PayTable,#changeInfoForm{
+	#ReviewTable,#QnaTable,#PayTable,#changeInfoForm{
 		display:none;
 	}
 	#menu>li:hover{
@@ -62,17 +62,13 @@
 		border-radius: 50px;
 		margin-left:75px;
 		margin-top: 10px;
+		overflow: hidden;
 	}
 	#profile:hover{
 		cursor:pointer;
 	}
 	#header-info{
-		margin-top: 10px;
-		margin-left:85px;
-	}
-	#header-info:hover{
-		cursor:pointer;
-		color: green;
+		margin-left:50px;
 	}
 	
 </style>
@@ -84,19 +80,25 @@
 			<div id="profile">
             	<p style="text-align:center; padding-top: 25px;">프로필 사진</p>
             </div>
-            <div id ="header-info">
-            	<h4>공방 페이지</h4>
-            </div>
+            <table id ="header-info">
+            	<tr>
+            		<td width=110px>등급</td>
+            		<td>GOLD</td>
+            	</tr>
+            	<tr>
+            		<td>포인트</td>
+            		<td>99999</td>
+            	</tr>
+            </table>
 		</header>
 		<aside>
 			<ul id="menu">
-				<li class="menuLi" id="N-Reservation1">예약 현황</li>
-				<li class="menuLi" id="N-Reservation2">예약 내역</li>
-				<li class="menuLi" id="N-Review">공방 후기</li>
-				<li class="menuLi" id="N-Qna">공방 문의</li>
-				<li class="menuLi" id="N-PayMent">공방 페이지 수정하기</li>
+				<li class="menuLi" id="N-Reservation">예약 내역</li>
+				<li class="menuLi" id="N-Review">내 후기</li>
+				<li class="menuLi" id="N-Qna">문의 내역</li>
+				<li class="menuLi" id="N-PayMent">결제 내역</li>
 				<li class="menuLi" id="N-Update-info">회원정보 수정하기</li>
-				<li class="menuLi" id="N-Delete-Member">계정 삭제하기</li>
+				<li class="menuLi" id="N-Delete-Member">회원 탈퇴</li>
 			</ul>
 		</aside>
 		
@@ -105,91 +107,66 @@
 				$("#profile").click(function(){
 					
 				});
-				$("#N-Reservation1").click(function(){		//메뉴 스크립트
-					$(this).css("color","orange");
-					$("#N-Reservation2").css("color","black");
+				$("#N-Reservation").click(function(){		//메뉴 스크립트
+					$(this).css("color","green");
 					$("#N-Review").css("color","black");
 					$("#N-Qna").css("color","black");
 					$("#N-PayMent").css("color","black");
 					$("#N-Update-info").css("color","black");
 					
-					$("#ReserTable1").css("display","block");
-					$("#ReserTable2").css("display","none");
-					$("#ReviewTable").css("display","none");
-					$("#QnaTable").css("display","none");
-					$("#PayTable").css("display","none");
-					$("#changeInfoForm").css("display","none");
-				});
-				$("#N-Reservation2").click(function(){		//메뉴 스크립트
-					$("#N-Reservation1").css("color","black");
-					$(this).css("color","orange");
-					$("#N-Review").css("color","black");
-					$("#N-Qna").css("color","black");
-					$("#N-PayMent").css("color","black");
-					$("#N-Update-info").css("color","black");
-					
-					$("#ReserTable1").css("display","none");
-					$("#ReserTable2").css("display","block");
+					$("#ReserTable").css("display","block");
 					$("#ReviewTable").css("display","none");
 					$("#QnaTable").css("display","none");
 					$("#PayTable").css("display","none");
 					$("#changeInfoForm").css("display","none");
 				});
 				$("#N-Review").click(function(){			//메뉴 스크립트
-					$("#N-Reservation1").css("color","black");
-					$("#N-Reservation2").css("color","black");
-					$(this).css("color","orange");
+					$("#N-Reservation").css("color","black");
+					$(this).css("color","green");
 					$("#N-Qna").css("color","black");
 					$("#N-PayMent").css("color","black");
 					$("#N-Update-info").css("color","black");
 					
-					$("#ReserTable1").css("display","none");
-					$("#ReserTable2").css("display","none");
+					$("#ReserTable").css("display","none");
 					$("#ReviewTable").css("display","block");
 					$("#QnaTable").css("display","none");
 					$("#PayTable").css("display","none");
 					$("#changeInfoForm").css("display","none");
 				});
 				$("#N-Qna").click(function(){				//메뉴 스크립트
-					$("#N-Reservation1").css("color","black");
+					$("#N-Reservation").css("color","black");
 					$("#N-Review").css("color","black");
-					$("#N-Reservation2").css("color","black");
-					$(this).css("color","orange");
+					$(this).css("color","green");
 					$("#N-PayMent").css("color","black");
 					$("#N-Update-info").css("color","black");
 					
-					$("#ReserTable1").css("display","none");
-					$("#ReserTable2").css("display","none");
+					$("#ReserTable").css("display","none");
 					$("#ReviewTable").css("display","none");
 					$("#QnaTable").css("display","block");
 					$("#PayTable").css("display","none");
 					$("#changeInfoForm").css("display","none");
 				});
 				$("#N-PayMent").click(function(){			//메뉴 스크립트
-					$("#N-Reservation1").css("color","black");
-					$("#N-Reservation2").css("color","black");
-					$("#N-Review").css("color","black");
+					$("#N-Reservation").css("color","black");
 					$("#N-Qna").css("color","black");
-					$(this).css("color","orange");
+					$("#N-Review").css("color","black");
+					$(this).css("color","green");
 					$("#N-Update-info").css("color","black");
 					
-					$("#ReserTable1").css("display","none");
-					$("#ReserTable2").css("display","none");
+					$("#ReserTable").css("display","none");
 					$("#ReviewTable").css("display","none");
 					$("#QnaTable").css("display","none");
 					$("#PayTable").css("display","block");
 					$("#changeInfoForm").css("display","none");
 				});
 				$("#N-Update-info").click(function(){		//메뉴 스크립트
-					$("#N-Reservation1").css("color","black");
-					$("#N-Review").css("color","black");
+					$("#N-Reservation").css("color","black");
 					$("#N-Qna").css("color","black");
 					$("#N-PayMent").css("color","black");
-					$("#N-Reservation2").css("color","black");
-					$(this).css("color","orange");
+					$("#N-Review").css("color","black");
+					$(this).css("color","green");
 					
-					$("#ReserTable1").css("display","none");
-					$("#ReserTable2").css("display","none");
+					$("#ReserTable").css("display","none");
 					$("#ReviewTable").css("display","none");
 					$("#QnaTable").css("display","none");
 					$("#PayTable").css("display","none");
@@ -202,19 +179,16 @@
 				});
 				
 			});
-			function application(){
+			/* function application(){			// 사업자 전환
 				var test1 = /^[0-9]$/;
 				if(test1.test(window.prompt("사업자 등록번호를 입력하세요",""))){
 					window.alert("숫자만 입력하세요");
 				}
 				
-			}
+			} */
 		</script>
 		<section>
-		<div id="ReserTable1">
-			<h2>예약 현황</h2>
-		</div>
-		<div id="ReserTable2">
+		<div id="ReserTable">
 			<h2>예약 내역</h2>
 			<table class="table">
 				<thead>
@@ -322,15 +296,17 @@
 					<input class="ckhobby" type="checkbox" name="hobby" value="기타">기타
 					<hr>
 					<h3>공방 사업자 신청하기</h3>
-					<button type="button" onclick="application()">신청하기</button>
+					<button type="button" onclick="location.href ='<%= request.getContextPath() %>/views/mypage/businessmember.jsp'">신청하기</button>
 					<hr>
 					<button type="submit">변경 완료</button>
 				</form>
 			</div>
-			
 		</section>
 	</div>
-
+	
+	<div id="jjim list">
+		
+	</div>
 
 	<%@ include file ="../common/footbar.jsp" %>
 </body>
