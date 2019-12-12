@@ -124,6 +124,27 @@ public class ShopService {
 		return list;
 	}
 
+	public ArrayList<Attachment> selectShopListPic() {
+		Connection con = getConnection();
+
+		ArrayList<Attachment> list = new ShopDao().selectShopListPic(con);
+
+		close(con);
+
+		return list;
+	}
+
+	public ArrayList<Workshop> selectSortlist(String sortType) {
+		Connection con = getConnection();
+
+		
+		ArrayList<Workshop> list = new ShopDao().selectSortlist(con,sortType);
+		
+		close(con);
+
+		return list;
+	}
+
 	
 
 	

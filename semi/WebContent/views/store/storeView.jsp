@@ -2,13 +2,15 @@
 	pageEncoding="UTF-8"
 	import="java.util.*, review.model.vo.*,workshop.model.vo.*,attachment.*,workclass.model.vo.*"%>
 <%
+	//Member loginUser = (Member) session.getAttribute("loginUser");
+	//Member loginUser = null;
 	Workshop shop = (Workshop) request.getAttribute("shop");
 	Attachment titlePic = (Attachment) request.getAttribute("titlePic");
 
 	ArrayList<Review> rlist = (ArrayList<Review>) request.getAttribute("rlist");
 	ArrayList<Workclass> clist = (ArrayList<Workclass>) request.getAttribute("clist");
 	ArrayList<Attachment> cPictures = (ArrayList<Attachment>) request.getAttribute("cPictures");
-	
+
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
 
 	int listCount = pi.getListCount();
@@ -184,28 +186,44 @@ h4 {
 		<section id="content_first">
 			<section id="first_intro1">
 				<section id="intro1_1" style="padding: 10px;">
-					
-					<% boolean check=false; if(titlePic!=null){%>
-				<img src="<%= request.getContextPath() %>/resources/thumbnail_uploadFiles/<%= titlePic.getReName() %>" width="350px" height="200px">
-					
-					<%check=true;}else{ %>
-					<div id="thumbnail1" class="thumbnail"></div>
-					<%} %>
-					<form id="thumbnailForm" method="post" enctype="multipart/form-data">
-						 <input type="hidden" value="<%= shop.getWsNo() %>">
-						 <input type="file" id="imgfile1"
-							name="imgfile1" onchange="preview(this,1)">
-						 <%if(check){ %>
+
+					<%
+						boolean check = false;
+						if (titlePic != null) {
+					%>
+					<img id="titleImg"
+						src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=titlePic.getReName()%>"
+						width="350px" height="200px">
+
+					<%
+						check = true;
+						} else {
+					%>
+					<div id="thumbnail1" class="thumbnail">사진을 등록하세요</div>
+					<%
+						}
+					%>
+					<form id="thumbnailForm" method="post"
+						enctype="multipart/form-data">
+						<input type="hidden" value="<%=shop.getWsNo()%> id="shopNo">
+						<%
+						if(loginUser.getUserId().equals(shop.getId())){
+							if (check) {
+						%>
 						<input type="button" value="사진 변경" id="thumbnailEdit2"
-							name="thumbnailEdit"> 
+							name="thumbnailEdit">
 						<button type="submit" id="picUpdate" name="picEdit"></button>
-						<%}else{ %>
-						<input type="button" value="사진 등록" id="thumbnailEdit1" 
-							name="thumbnailEdit"> 
+						<%
+							} else {
+						%>
+						<input type="button" value="사진 등록" id="thumbnailEdit1"
+							name="thumbnailEdit">
 						<button type="submit" id="picInsert" name="picEdit"></button>
-						<%}%>
+						<%
+							}}
+						%>
 					</form>
-					<p id="storeName">공방 이름</p>
+					<p id="storeName"><%=shop.getWsName()%></p>
 
 					<script>
 				$(function() {
@@ -214,14 +232,22 @@ h4 {
 					$(".thumbnailEdit").click(function() {
 						$("#imgfile1").click();
 					});
-					$("#thumbnailEdit1").click(function() {
-						$("#picInsert").click();
-					});
-					$("#thumbnailEdit2").click(function() {
-						$("#picUpdate").click();
-					});
+					
 				});
 				
+				function picUpdate(){
+				    
+				    $.ajax({
+				        url : '/updatethumbnail.sh',
+				        data : {WsNo:shopNo, file:thumbnailEdit2 } 
+				    }).success: function(file){
+				    	$("#titleImg").attr("src","<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/file.reName");
+
+				    	}
+				    this.submit();
+				}
+
+
 				function picUpdate(){
 					$("#thumbnailForm").attr("action", "<%=request.getContextPath()%>/updatethumbnail.sh");
 					$("#thumbnailForm").submit();
@@ -230,37 +256,18 @@ h4 {
 				
 				function picInsert(){
 					$("#thumbnailForm").attr("action", "<%=request.getContextPath()%>/insertthumbnail.sh");
-					$("#thumbnailForm").submit();
-				}
-				
-				function preview(value, num) {
-					// value => input type="file"
-					// num => 조건문으로 각 번호에 맞춰서 위의 미리보기 img에 적용시킬것
-
-					// file이 존재하는지 조건문
-					if (value.files && value.files[0]) {
-						// 파일을 읽어들일 FileReader 객체 생성
-						var reader = new FileReader();
-
-						// 파일 내용을 읽어들여 dataURL 형식의 문자열로 설정
-						reader.readAsDataURL(value.files[0]);
-
-						// 파일 읽기가 다 완료되었을 때 실행되는 메소드
-						reader.onload = function(e) {
-							$("#thumbnail" + num).html("<img src=" + reader.result + " width=350 height=200>");
+							$("#thumbnailForm").submit();
 						}
-					}
-				}
-			
- 		
- 	</script>
+
+						
+					</script>
 				</section>
 				<br> <br> <br> <br> <br> <br>
 				<section id="introl1_2">
 					<div id="introl1_2_1">
-						<p id="addr"><%=shop.getAddress() %></p>
-						<p id="phone"><%= shop.getWsTel()%></p>
-						<p id="sns"><%=shop.getSns() %></p>
+						<p id="addr"><%=shop.getAddress()%></p>
+						<p id="phone"><%=shop.getWsTel()%></p>
+						<p id="sns"><%=shop.getSns()%></p>
 					</div>
 				</section>
 
@@ -274,58 +281,71 @@ h4 {
 				<script type="text/javascript"
 					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=37bf650bd71c1e125e49c40d96c383e1"></script>
 				<script>
-						var container = document.getElementById('map');
-						var options = {
-							center : new kakao.maps.LatLng(33.450701,
-									126.570667),
-							level : 3
-						};
+					var container = document.getElementById('map');
+					var options = {
+						center : new kakao.maps.LatLng(33.450701, 126.570667),
+						level : 3
+					};
 
-						var map = new kakao.maps.Map(container, options);
-						// 지도를 생성합니다 
-						var map = new kakao.maps.Map(mapContainer, mapOption);
-						// 주소-좌표 변환 객체를 생성합니다
-						var geocoder = new kakao.maps.services.Geocoder();
-						// 주소로 좌표를 검색합니다 
-						geocoder
-								.addressSearch(
-										'제주특별자치도 제주시 첨단로 242',
-										function(result, status) {
-											// 정상적으로 검색이 완료됐으면 
-											if (status === kakao.maps.services.Status.OK) {
-												var coords = new kakao.maps.LatLng(
-														result[0].y,
-														result[0].x);
-												// 결과값으로 받은 위치를 마커로 표시합니다 
-												var marker = new kakao.maps.Marker(
-														{
-															map : map,
-															position : coords
-														});
-												// 인포윈도우로 장소에 대한 설명을 표시합니다 
-												var infowindow = new kakao.maps.InfoWindow(
-														{
-															content : '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-														});
-												infowindow.open(map, marker);
+					var map = new kakao.maps.Map(container, options);
+					// 지도를 생성합니다 
+					var map = new kakao.maps.Map(mapContainer, mapOption);
+					// 주소-좌표 변환 객체를 생성합니다
+					var geocoder = new kakao.maps.services.Geocoder();
+					// 주소로 좌표를 검색합니다 
+					geocoder.addressSearch(<%=shop.getAddress()%>,
+									function(result, status) {
+										// 정상적으로 검색이 완료됐으면 
+										if (status === kakao.maps.services.Status.OK) {
+											var coords = new kakao.maps.LatLng(
+													result[0].y, result[0].x);
+											// 결과값으로 받은 위치를 마커로 표시합니다 
+											var marker = new kakao.maps.Marker(
+													{
+														map : map,
+														position : coords
+													});
+											// 인포윈도우로 장소에 대한 설명을 표시합니다 
+											var infowindow = new kakao.maps.InfoWindow(
+													{
+														content : '<div style="width:150px;text-align:center;padding:6px 0;"><%=shop.getWsName()%></div>'
+													});
+											infowindow.open(map, marker);
 
-												//지도의 중심을 결과값으로 받은 위치로 이동합니다.
-												map.setCenter(coords);
-											}
-										});
-					</script>
+											//지도의 중심을 결과값으로 받은 위치로 이동합니다.
+											map.setCenter(coords);
+										}
+									});
+				</script>
 				<section id="store_review">
 					<div class="tableArea">
 						<h4>&lt; 후기 &gt;</h4>
+						<%
+							switch (shop.getGrade()) {
+								case 5 :
+						%>
+						<img src="/images/full_star.png">
+						<%
+							case 4 :
+						%><img src="/images/full_star.png">
+						<%
+							case 3 :
+						%><img src="/images/full_star.png">
+						<%
+							case 2 :
+						%><img src="/images/full_star.png">
+						<%
+							case 1 :
+						%><img src="/images/full_star.png">
+						<%
+							break;
+							}
+						%>
 
-						<img src="/images/empty_star.png"> <img
-							src="/images/empty_star.png"> <img
-							src="/images/empty_star.png"> <img
-							src="/images/empty_star.png"> <img
-							src="/images/empty_star.png">
-						<div id="score">0.0 / 5.0</div>
-						<table class="table table-hover">
-							<tbody>
+						<div id="score"><%=shop.getGrade()%>/ 5점
+						</div>
+						<table class="table table-hover" id="reviewList">
+							<thead>
 								<tr>
 									<th>No.</th>
 									<th>클래스 명</th>
@@ -333,6 +353,8 @@ h4 {
 									<th>작성자</th>
 									<th>날짜</th>
 								</tr>
+								</thead>
+								<tbody>
 								<tr>
 									<td>1</td>
 									<td>&nbsp;</td>
@@ -340,59 +362,49 @@ h4 {
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
 								</tr>
-								<tr>
-									<td>2</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-								</tr>
-							</tbody>
-							<%-- 	<%
-									if (list.isEmpty()) {
+
+
+								<%
+									if (rlist.isEmpty()) {
 								%>
-							<tr>
-								<td colspan="6">조회된 리스트가 없습니다.</td>
-							</tr>
-							<%
+								<tr>
+									<td colspan="5">조회된 리스트가 없습니다.</td>
+								</tr>
+								<%
 									} else {
 								%>
-							<%
-									for (Board b : list) {
+								<%
+									for (Review r : rlist) { int idx=1;
 								%>
-							<tr>
-								<input type="hidden" value="<%=b.getbId()%>">
-								<td><%=b.getbId()%></td>
-								<td><%=b.getCategory()%></td>
-								<td><%=b.getbTitle()%></td>
-								<td><%=b.getbWriter()%></td>
-								<td><%=b.getbCount()%></td>
-								<td><%=b.getModifyDate()%></td>
-							</tr>
-							<%
+								<tr>
+									<input type="hidden" value="<%=r.getRNo()%>">
+									<td><%=idx++%></td>
+									<td><%=r.getRGrade()%></td>
+									<td><%=r.getRTitle()%></td>
+									<td><%=r.getRWriter()%></td>
+									<td><%=r.getREnDate()%></td>
+								</tr>
+								<%
 									}
 								%>
-							<%
+								<%
 									}
 								%>
+							</tbody>
 						</table>
 					</div>
+					<script>
+					$(function(){
+						$("#reviewList td").click(function(){
+							var num = $(this).parent().children().eq(0).val();
+							console.log(num);
+							location.href="<%= request.getContextPath() %>/detail.no?nno=" + num;
+						});
+						
+					});
+					</script>
 					<!-- 페이징바 -->
-					<div class="pagingArea" align="center">
+					<%-- <div class="pagingArea" align="center">
 						<!-- 맨 처음으로 (<<) -->
 						<button
 							onclick="location.href='<%=contextPath%>/list.bo?currentPage=1'">
@@ -457,73 +469,52 @@ h4 {
 							&gt;&gt;</button>
 
 					</div> --%>
-						</table>
-					</div>
 				</section>
 			</section>
 
 		</section>
-
-		<%-- <%if(loginUser){ %>
-		<section id="class_ing_second">
-			<br>
-			<h4>&lt;진행중인 클래스&gt;</h4>
-			<br>
-			<div class="tableArea">
-				<table class="table table-hover">
-					<tbody>
-						<tr>
-							<th>No.</th>
-							<th>클래스명</th>
-							<th>가격</th>
-							<th>기간</th>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</section>
-		<%}else{ %> --%>
 
 		<section id="classEdit">
 			<br>
 			<h4>&lt;클래스&gt;</h4>
 			<br>
 			<div class="tableArea">
-				<table class="table table-hover">
-					<tbody>
+				<table class="table table-hover" id="classList">
+					<thead>
 						<tr>
 							<th>No.</th>
 							<th>클래스명</th>
 							<th>가격</th>
 							<th>기간</th>
 						</tr>
+					</thead>
+					<tbody>
 						<tr>
 							<td>1</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 						</tr>
+						<% if(clist.isEmpty()){ %>
 						<tr>
-							<td>2</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
+							<td colspan="4">존재하는 공지사항이 없습니다.</td>
 						</tr>
+						<%} else { %>
+						<% for(Workclass c : clist) {
+						 int idx=1;%>
+						<tr>
+							<input type="hidden" value="<%=c.getWcNo()%>">
+							<td><%= idx++ %></td>
+							<td><%= c.getWcName() %></td>
+							<td><%= c.getWcNOP() %></td>
+							<td><%= c.getWcOpenClose() %></td>
+						</tr>
+						<% } %>
+						<% } %>
 					</tbody>
 				</table>
 			</div>
+			<% if(loginUser.getUserId().equals(shop.getId())){%>
 			<div class="classbtn">
 				<button id="class_openclass" class="btn btn-outline-secondary">클래스
 					열기</button>
@@ -533,15 +524,24 @@ h4 {
 				<button id="class_deleteclass" class="btn btn-outline-secondary">삭제하기</button>
 			</div>
 		</section>
-		<%-- 		<%} %> --%>
+		<%}%>
+		<script>
+					$(function(){
+						$("#classList td").click(function(){
+							var num = $(this).parent().children().eq(0).val();
+							console.log(num);
+							location.href="<%= request.getContextPath() %>/detail.wc?WcNo=" + num;
+						});
+						
+					});
+		</script>
 
 		<br> <br>
 		<section id="intro3_third">
-			<h4>&lt;공방 소개 글 &gt;</h4>
-			&nbsp; <input type="button" value="소개글 변경" id="intro3Edit"
-				name="intro3Edit">
-
-			<!-- Modal -->
+			<h4>&lt;공방 소개 글 &gt;</h4>&nbsp;
+			<% if(loginUser.getUserId().equals(shop.getId())){%>
+			<input type="button" value="소개글 변경" id="intro3Edit" name="intro3Edit">
+				<!-- Modal -->
 			<button type="button" id="intro3Modal" class="btn btn-primary"
 				data-toggle="modal" data-target=".bd-example-modal-lg">Large
 				modal</button>
@@ -570,59 +570,49 @@ h4 {
 					</div>
 				</div>
 			</div>
-
-			<br> <br>
-			<p id="introContent">저희 공방에 오신걸 환영합니다.</p>
+			<%} %>
+			<br><br>
+			<p id="introContent"><%=shop.getIntro()%></p>
 		</section>
 		<script>
-				$(function() {
-					$("#intro3Modal").hide();
-					$("#intro3Edit").click(function() {
-						$("#intro3Modal").click();
+			$(function() {
+				$("#intro3Modal").hide();
+				$("#intro3Edit").click(function() {
+					$("#intro3Modal").click();
+				});
+			});
+
+			$(function() {
+				// 2. 버튼 클릭 시 POST 방식으로 서버에 데이터 전송 및 응답
+				$("#btn2").click(function() {
+					var input = $("#modalText").val();
+
+					$.ajax({
+						url : "updateIntro.sh",
+						data : {
+							input : input
+						},
+						type : "post",
+						// dataType 속성 : 서버의 응답 데이터의 형식을 지정해주는 속성.
+						//	미작성 시 자동으로 응답데이터의 형식을 판단하여 알맞게 지정함.
+						//dataType : "text",
+						success : function(result) {
+							$("#introContent").val(result);
+						},
+						error : function(e) {
+							console.log(e);
+						}
 					});
 				});
-
-			/* 	function updateIntro3() {
-					var inputArea = document.getElementById("modalText");
-					var showArea = document.getElementById("introContent");
-					String text= inputArea.value
-					showArea.innerHTML = text;
-					 */
-					
-			 		$(function(){ 
-			 		// 2. 버튼 클릭 시 POST 방식으로 서버에 데이터 전송 및 응답
-			 			$("#btn2").click(function(){
-			 				var input = $("#modalText").val();
-			 				
-			 				$.ajax({
-			 					url : "updateIntro.sh",
-			 					data : {input:input},
-			 					type : "post",
-			 					// dataType 속성 : 서버의 응답 데이터의 형식을 지정해주는 속성.
-			 					//	미작성 시 자동으로 응답데이터의 형식을 판단하여 알맞게 지정함.
-			 					//dataType : "text",
-			 					success:function(result){
-			 						$("#introContent").val(result);
-			 					},
-			 					error:function(e){
-			 						console.log(e);
-			 					}
-			 				});
-			 			});
-			 		});
-			 	
-			 	
-					location.href="<%=request.getContextPath()%>
-			/updateIntro.sh?intro="
-					+ text;}
+			});}
 		</script>
-		<br> <br>
+		<br><br>
+		
+		<!-- 사진... -->
 		<section id="content_final_slide">
 			<br>
-			<h4>&lt;더 많은 사진&gt;</h4>
+			<h4>&lt;사진&gt;</h4>
 			<br>
-
-
 			<div id="carouselExampleIndicators" class="carousel slide"
 				data-ride="carousel">
 
@@ -630,37 +620,33 @@ h4 {
 
 					<li data-target="#carouselExampleIndicators" data-slide-to="0"
 						class="active"></li>
-
-					<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-
-					<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-
+					<%
+						for (int i = 2; i < cPictures.size(); i++) {
+					%>
+					<li data-target="#carouselExampleIndicators"
+						data-slide-to="<%=i - 1%>"></li>
+					<%
+						}
+					%>
 				</ol>
 
 				<div class="carousel-inner">
-
 					<div class="carousel-item active">
-
-						<img src="/images/top1.JPG" class="d-block w-100" alt="..."
-							height="300px">
-
+						<img id="detailImg" class="d-block w-100" height="300px" alt="..."
+							src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=cPictures.get(1).getReName()%>">
 					</div>
 
+					<%
+						for (int i = 2; i < cPictures.size(); i++) {
+					%>
 					<div class="carousel-item">
-
-						<img src="/images/top1.JPG" class="d-block w-100" alt="..."
-							height="300px">
-
+						<img id="detailImg" class="d-block w-100" height="300px" alt="..."
+							src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=cPictures.get(i).getReName()%>">
 					</div>
 
-
-					<div class="carousel-item">
-
-						<img src="/images/top1.JPG" class="d-block w-100" alt="..."
-							height="300px">
-
-					</div>
-
+					<%
+						}
+					%>
 				</div>
 
 				<a class="carousel-control-prev" href="#carouselExampleIndicators"

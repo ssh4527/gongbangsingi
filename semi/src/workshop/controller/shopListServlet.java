@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import attachment.Attachment;
 import workshop.model.vo.Workshop;
 import workshop.model.service.ShopService;
 
@@ -35,22 +36,13 @@ public class shopListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ShopService ss = new ShopService();
 		ArrayList<Workshop> list = ss.selectShopList();
-		
+		ArrayList<Attachment> flist= ss.selectShopListPic();
+		for(Workshop s: list) {
+			System.out.println(s.getWsNo());
+		}
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("views/shop/shopCategory.jsp").forward(request, response);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		request.setAttribute("flist", flist);
+		request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);
 		
 	}
 

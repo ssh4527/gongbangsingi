@@ -94,7 +94,7 @@ public class shopDetailServlet extends HttpServlet {
 			request.setAttribute("cPictures", cPictures);
 
 			request.setAttribute("pi", pi);
-			request.getRequestDispatcher("views/store/storeView_b.jsp").forward(request, response);
+			request.getRequestDispatcher("views/store/storeView.jsp").forward(request, response);
 			
 		}else {
 			request.setAttribute("msg", "공방 상세 보기 실패!!");

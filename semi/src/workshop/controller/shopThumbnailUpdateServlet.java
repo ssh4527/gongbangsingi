@@ -40,20 +40,13 @@ public class shopThumbnailUpdateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String WsNo= request.getParameter("WsNo");
-		
-		String changeFile ="";
-		// 원본 파일의 이름을 저장할 ArrayList 생성
-		String originFile = "";
-		String savePath = "";
-		
-		
+
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 1024*1024*10;
 			
 			String root = request.getSession().getServletContext().getRealPath("/");
 			
-			savePath = root + "/resources/thumbnail_uploadFiles/";
+			String savePath = root + "/resources/thumbnail_uploadFiles/";
 		
 			MultipartRequest multipartRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
@@ -62,11 +55,13 @@ public class shopThumbnailUpdateServlet extends HttpServlet {
 			// getFileNames() -> form에서 전송 된 파일 리스트들의 name 값을 반환
 			Enumeration<String> files = multipartRequest.getFileNames();
 			// -> 전송 순서 역순으로 쌓여 있음
-		
+
+			
+			//String name2= multipartRequest.getFile(arg0)
 				String name = files.nextElement();
 				
-				//System.out.println("name : " + name);
-				
+				String changeFile="";
+				String originFile="";
 				// 파일이 null이 아닌 경우
 				if(multipartRequest.getFilesystemName(name) != null) {
 					// getFilessystemName() --> 리네임 된 파일명 리턴
@@ -77,9 +72,10 @@ public class shopThumbnailUpdateServlet extends HttpServlet {
 					changeFile=changeName;
 					originFile=originName;
 				}
-			}
 			
 			
+		String WsNo= multipartRequest.getParameter("WsNo");
+		
 			Attachment file= new Attachment();
 				file.setOriginName(originFile);
 				file.setReName(changeFile);
@@ -88,7 +84,8 @@ public class shopThumbnailUpdateServlet extends HttpServlet {
 			int result = new ShopService().updateThumbnail(WsNo, file);
 			
 			if(result > 0) {
-				response.sendRedirect("detail.sh");
+				response.getWriter().print(file);
+				//response.sendRedirect("detail.sh");
 			}else {
 					File failedFile = new File(savePath + file);
 					failedFile.delete();
@@ -99,7 +96,7 @@ public class shopThumbnailUpdateServlet extends HttpServlet {
 				
 			}
 			
-		
+	}
 	
 
 	/**
