@@ -12,8 +12,31 @@ public class Workclass {
 	private String WcIntroduce; // 클래스소개글
 	private String WsNo; // 공방번호
 	
+	
+	private double avgGrade; // 해당 클래스의 평균 grade by.h
+	private String path; // 해당 클래스의 썸네일 사진 링크가져옴 by.h
+	private String rename; // 해당 썸네일의 링크 by.h
+	
+	
 	public Workclass() {}
 
+	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
+			String wcWarning, String wcIntroduce, String wsNo, double avgGrade, String path, String rename) {
+		super();
+		WcNo = wcNo;
+		WcName = wcName;
+		WcNOP = wcNOP;
+		WcMaxP = wcMaxP;
+		WcYN = wcYN;
+		WcOpenClose = wcOpenClose;
+		WcHits = wcHits;
+		WcWarning = wcWarning;
+		WcIntroduce = wcIntroduce;
+		WsNo = wsNo;
+		this.avgGrade = avgGrade;
+		this.path = path;
+		this.rename = rename;
+	}
 
 	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
 			String wcWarning,String wcIntroduce, String wsNo) {
@@ -29,6 +52,7 @@ public class Workclass {
 		WsNo = wsNo;
 		WcIntroduce = wcIntroduce;
 	}
+	
 	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
 			String wcWarning,String wsNo) {
 		super();
@@ -134,14 +158,39 @@ public class Workclass {
 	}
 
 
-	@Override
-	public String toString() {
-		return "Workclass [WcNo=" + WcNo + ", WcName=" + WcName + ", WcNOP=" + WcNOP + ", WcMaxP=" + WcMaxP + ", WcYN="
-				+ WcYN + ", WcOpenClose=" + WcOpenClose + ", WcHits=" + WcHits + ", WcWarning=" + WcWarning + ", WsNo="
-				+ WsNo + "]";
+	public double getAvgGrade() {
+		return avgGrade;
+	}
+
+	public void setAvgGrade(double avgGrade) {
+		this.avgGrade = avgGrade;
+	}
+
+	public String getPath() {
+		return path;
 	}
 
 
-	
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+
+	public String getRename() {
+		return rename;
+	}
+
+
+	public void setRename(String rename) {
+		this.rename = rename;
+	}
+
+	@Override
+	public String toString() {
+		return "Workclass [WcNo=" + WcNo + ", WcName=" + WcName + ", WcNOP=" + WcNOP + ", WcMaxP=" + WcMaxP + ", WcYN="
+				+ WcYN + ", WcOpenClose=" + WcOpenClose + ", WcHits=" + WcHits + ", WcWarning=" + WcWarning
+				+ ", WcIntroduce=" + WcIntroduce + ", WsNo=" + WsNo + ", avgGrade=" + avgGrade + ", path=" + path
+				+ ", rename=" + rename + "]";
+	}
 	
 }

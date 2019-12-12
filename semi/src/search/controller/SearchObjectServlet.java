@@ -46,9 +46,21 @@ public class SearchObjectServlet extends HttpServlet {
 			if(wclist.isEmpty()) {
 				wclist = ss.findClassName(searchinput);// 클래스 이름으로 검색
 			}
+			
+			// 검색이 완료됬다면 가져온 해당클래스들의 각각의 평균 평점 가져오는 부분
+			for(int i = 0 ; i < wclist.size(); i++) {
+				double avgGrade = ss.avgGrade(wclist.get(i).getWcNo());
+				wclist.get(i).setAvgGrade(avgGrade);
+				
+				// 각클래스의 썸네일 가져옴
+				Workclass prewc = ss.selectPathRename(wclist.get(i).getWcNo());
+				wclist.get(i).setPath(prewc.getPath());
+				wclist.get(i).setRename(prewc.getRename());
+			}
+			
 			request.setAttribute("keyword", searchinput );
 			request.setAttribute("wclist", wclist);
-			request.getRequestDispatcher("views/classcategory/category.jsp").forward(request, response);
+			request.getRequestDispatcher("views/classcategory/category2.jsp").forward(request, response);
 		}else {
 		
 			wslist = ss.searchWorkshop(keyword); // 카테고리로 검색
