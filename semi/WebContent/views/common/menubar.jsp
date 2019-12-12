@@ -239,7 +239,7 @@ $(function(){
 	<div id="menubar" style="width: 1300px; height: 300px;">
 		<div id="mainlogo"
 			style="width: 18%; height: 80%; float: left; margin-right: 20px; margin-left: 30px;">
-			<img src='<%=request.getContextPath()%>/resources/images/city1.PNG'
+			<img src='<%=request.getContextPath()%>/resources/images/logo.jpg'
 				id="logoimg" style="width: 100%; height: 80%; margin-top: 30%;">
 		</div>
 		<div id="middlediv"
@@ -359,7 +359,7 @@ $(function(){
 	</script>
 	<ul class="nav nav-tabs">
 		<li class="nav-item"><a class="nav-link"
-			href="<%=request.getContextPath()%>/views/">공방</a></li>
+			href="<%=request.getContextPath()%>/shopList.sh">공방</a></li>
 		<li class="nav-item"><a class="nav-link"
 			href="<%=request.getContextPath()%>/views/classcategory/category.jsp">클래스</a></li>
 		<li class="nav-item"><a class="nav-link"

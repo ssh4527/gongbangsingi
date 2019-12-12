@@ -1,25 +1,29 @@
 package workshop.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import attachment.Attachment;
 import workshop.model.service.ShopService;
+import workshop.model.vo.Workshop;
 
 /**
- * Servlet implementation class shopUpdateDetailServlet
+ * Servlet implementation class shopSortServlet
  */
-@WebServlet("/updateDetail.sh")
-public class shopIntroUpdateServlet extends HttpServlet {
+@WebServlet("/sort.sh")
+public class shopSortServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public shopIntroUpdateServlet() {
+    public shopSortServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,16 +32,16 @@ public class shopIntroUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		String sortType = request.getParameter("sort");
 		
-		String WsNo= request.getParameter("WsNo");
-		String input = request.getParameter("input");
+		ShopService ss= new ShopService();
+		ArrayList<Workshop> slist=ss.selectSortlist(sortType);
 		
-		int result= new ShopService().updateIntro(WsNo,input);
-		if(result>0) {
-		response.setCharacterEncoding("utf-8");
-		response.getWriter().print("입력된 값 : "+input+", 길이 : "+input.length());
-		}
+		ArrayList<Attachment> flist = ss.selectShopListPic();
+		
+		request.setAttribute("list", slist);
+		request.setAttribute("flist", flist);
+		request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);
 	}
 
 	/**

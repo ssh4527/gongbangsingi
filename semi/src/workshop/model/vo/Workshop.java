@@ -20,46 +20,35 @@ public class Workshop {
 /*	private ArrayList<Review> rlist; //후기 글
 
 	private ArrayList<Workclass> clist; //클래스 
-*/	private String intro; //소개글
-	private double grade; //평점
+*/	
+	private String id; //사업자아이디
+	private String intro; //소개글
+	private int grade; //평점
 	private String sns; //sns계정
 	public Workshop() {}
 
 	
 
-	public Workshop(String wsNo, String wsName, String category, double grade) {
-		super();
+	public Workshop(String wsNo, String wsName, String category, int grade) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Category = category;
 		this.grade = grade;
 	}
 
-	
-	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, String intro, double grade) {
 
-		super();
-		WsNo = wsNo;
-		WsName = wsName;
-		Address = address;
-		WsTel = wsTel;
-		Category = category;
-		this.intro = intro;
-		this.grade = grade;
-	}
-
-
-
-	//WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
-	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade) {
-		super();
+	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, int grade, String sns,String id,String intro) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Address = address;
 		WsTel = wsTel;
 		Category = category;
 		this.grade = grade;
+		this.sns=sns;
+		this.id=id;
+		this.intro=intro;
 	}
+
 
 
 	public String getWsNo() {
@@ -135,24 +124,40 @@ public class Workshop {
 		this.intro = intro;
 	}
 
-	public double getGrade() {
+	public int getGrade() {
 		return grade;
 	}
 
-	public void setGrade(double grade) {
+	public void setGrade(int grade) {
 		this.grade = grade;
 	}
 
 
 
 
-	@Override
-	public String toString() {
-		return "Workshop [WsNo=" + WsNo + ", WsName=" + WsName + ", Address=" + Address + ", WsTel=" + WsTel + ", WsYN="
-				+ WsYN + ", WsEnrollDate=" + WsEnrollDate + ", Category=" + Category + ", PayAccount=" + PayAccount
-				+ ", rlist=" + rlist + ", clist=" + clist + ", intro=" + intro + ", grade=" + grade + "]";
+	public String getId() {
+		return id;
 	}
-	
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+
+	public String getSns() {
+		return sns;
+	}
+
+
+
+	public void setSns(String sns) {
+		this.sns = sns;
+	}
+
+
 	
 	
 	

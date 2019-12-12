@@ -116,6 +116,13 @@ keyframes fadein {from { opacity:0;
 to {
 	opacity: 1;
 }
+
+.shortIntro{
+width: 300px;
+}
+.gradeDis{
+	float: left;
+}
 </style>
 
 </head>
@@ -173,20 +180,22 @@ to {
 				<h2>카테고리</h2>
 				<br> <br>
 				<div class="custom-control custom-checkbox">
+				<form action="<%=request.getContextPath() %>/sort.sh" method="post">
 					<table>
 						<tr>
-							<td><input type="checkbox"
+							<td><input type="checkbox" name="sort"
 								class="custom-control-input sort2" value="인기순" id="sort2_check1">
 								<label class="custom-control-label" for="sort2_check1">인기순</label></td>
 						</tr>
 						<tr>
-							<td><input type="checkbox"
+							<td><input type="checkbox" name="sort"
 								class="custom-control-input sort2" value="최신순" id="sort2_check2">
 								<label class="custom-control-label" for="sort2_check2">최신순</label></td>
 						</tr>
 					</table>
 					<br> <br> <br> <br> <br> <br>
-					<button type="button" class="btn btn-warning" id="btnsort2">적용하기</button>
+					<button type="submit" class="btn btn-warning" id="btnsort2">적용하기</button>
+					</form>
 				</div>
 			</div>
 
@@ -232,8 +241,7 @@ to {
 
 
 	<div id="sortlist">
-		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; <a id="sortlist2">정렬기준
-			∨</a>
+		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; <a id="sortlist2">정렬기준 ∨</a>
 	</div>
 	<hr>
 
@@ -263,7 +271,8 @@ to {
 						for (Workshop shop : list) {
 				%>
 				<div class="col-md-4">
-					<div class="card mb-4 shadow-sm">
+					<div class="card mb-4 shadow-sm shop">
+						<input type="hidden" value="<%=shop.getWsNo()%>">
 						<div id="thumbnail">
 							<%
 								for (Attachment at : flist) {
@@ -275,18 +284,16 @@ to {
 								src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=at.getReName()%>"
 								width="100%" height="100%" id="gal">
 							<%
-								}
+								}}
 							%>
-							<%
-								}
-							%>
+							
 						</div>
 						<div class="card-body">
+						<input type="hidden" value="<%=shop.getWsNo()%>">
 							<small class="text-muted"><%=shop.getCategory()%></small>
-							<p class="card-text" align="left"><%=shop.getWsName()%></p>
-							<div class="d-flex justify-content-between align-items-center">
-								<small class="text-muted">★<%=shop.getGrade()%></small> <small
-									class="text-muted">구경하세요</small>
+							<p class="card-text"><%=shop.getWsName()%></p>
+							<div class="d-flex justify-content-between align-items-center shortIntro">
+								<small class="gradeDis" class="text-muted">★<%=shop.getGrade()%></small> <small class="text-muted">구경하세요</small>
 							</div>
 						</div>
 					</div>
@@ -301,9 +308,11 @@ to {
 	</div>
 
 	<script>
-		$("#gal").click(function(){
-			location.href="<%=request.getContextPath()%>/views/store/storeView_u.jsp?WsNo="+WsNo;
-		});
+	$(".shop").click(function(){
+		var WsNo = $(this).parent().children().eq(0).val();
+		
+		location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+"ws1";
+	});
 	</script>
 	<%@ include file="../common/footbar.jsp"%>
 

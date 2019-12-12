@@ -5,7 +5,7 @@ public class Attachment {
 	private String fs_destination;	// 파일 목적지 (공방 번호,클래스 번호)
 	private String originName;	// 사용자가 업로드한 파일명
 	private String reName;	// 변경 된 파일명
-	private String filePath;
+	private String filePath; 
 	
 	public Attachment() {}
 

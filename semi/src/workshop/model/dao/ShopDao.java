@@ -43,9 +43,8 @@ public class ShopDao {
 			// String wsNo, String wsName, String address, String wsTel, String category,
 			// String intro, double grade
 			// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
-			if (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-						rset.getString(5), rset.getDouble(6)));
+			while (rset.next()) {
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getInt(4)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -68,9 +67,9 @@ public class ShopDao {
 			ppst.setString(1, wsNo);
 			rset = ppst.executeQuery();
 			if (rset.next()) {
-				// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
+				// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1),WS_SNS,C_ID,WS_Introduce
 				shop = new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-						rset.getString(5), rset.getDouble(6));
+						rset.getString(5), rset.getInt(6),rset.getString(7),rset.getString(8),rset.getString(9));
 
 			}
 		} catch (SQLException e) {
@@ -277,7 +276,7 @@ public class ShopDao {
 		ResultSet rset = null;
 		ArrayList<Attachment> list = null;
 
-		String sql = prop.getProperty("selectPictures");
+		String sql = prop.getProperty("selectClassPictures");
 
 		try {
 			ppst = con.prepareStatement(sql);
@@ -295,6 +294,68 @@ public class ShopDao {
 				// at.setFs_destination(fs_destination);
 
 				list.add(at);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(ppst);
+		}
+
+		return list;
+	}
+
+	public ArrayList<Attachment> selectShopListPic(Connection con) {
+		PreparedStatement ppst = null;
+		ResultSet rset = null;
+		ArrayList<Attachment> list = null;
+
+		String sql = prop.getProperty("selectShopListPictures");
+
+		try {
+			ppst = con.prepareStatement(sql);
+
+			rset = ppst.executeQuery();
+
+			list = new ArrayList<Attachment>();
+
+			while (rset.next()) {
+				Attachment at = new Attachment();
+				at.setOriginName(rset.getString("FS_ORIGINAL_FILE"));
+				at.setReName(rset.getString("FS_RENAME_FILE"));
+				at.setFs_destination(rset.getString("FS_DESTINATION"));
+
+				list.add(at);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(ppst);
+		}
+
+		return list;
+	}
+
+	public ArrayList<Workshop> selectSortlist(Connection con,String sortType) {
+		PreparedStatement ppst = null;
+		ResultSet rset = null;
+		String sql="";
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+		if(sortType.equals("인기순")) {
+			sql = prop.getProperty("selectSortPoplist");
+		}else {
+			sql = prop.getProperty("selectSortNewlist");
+		}
+		try {
+			ppst = con.prepareStatement(sql);
+			rset = ppst.executeQuery();
+
+			// String wsNo, String wsName, String address, String wsTel, String category,
+			// String intro, double grade
+			// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
+			while (rset.next()) {
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getInt(4)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
