@@ -85,5 +85,24 @@ public class SearchService {
 		return prewc;
 	}
 
+	public ArrayList<Workclass> findClass(String[] interest) {
+		Connection c = getConnection();
+		ArrayList<Workclass> list = new ArrayList<Workclass>();
+		
+		SearchDao sd = new SearchDao();
+		if(interest ==null) {
+			list = sd.findClassTop(c);
+		}else {
+			for(int i=0;i<interest.length;i++) {
+				list = sd.findClass(c, interest[i], list);
+			}
+			
+		}
+		
+		
+		close(c);
+		return list;
+	}
+
 	
 }
