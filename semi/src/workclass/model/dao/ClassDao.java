@@ -270,5 +270,107 @@ public class ClassDao {
 	}
 
 	
+	// 워크클래스 select 
+	public Workclass selectWorkClass(Connection conn, String wcNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Workclass wc = new Workclass();
+		
+		String sql = prop.getProperty("selectWorkClass");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				wc.setWcNo(wcNo);
+				wc.setWcName(rset.getString("wc_name"));
+				wc.setWcNOP(rset.getInt("wc_nop"));
+				wc.setWcMaxP(rset.getInt("wc_maxp"));
+				wc.setWsNo(rset.getString("ws_no"));
+				wc.setWcOpenClose(rset.getString("wc_date"));
+				wc.setWcHits(rset.getInt("wc_hits"));
+				wc.setWcWarning(rset.getString("wc_warning"));
+				wc.setWcIntroduce(rset.getString("wc_introduce"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return wc;
+	}
+
+	
+	// 클래스 파일 select
+	public ArrayList<ClassFile> selectClassFile(Connection conn, String wcNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<ClassFile> cfList = new ArrayList<>();
+		String sql = prop.getProperty("selectClassFile");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ClassFile cf = new ClassFile();
+				cf.setChangeName(rset.getString("fs_rename_file"));
+				cf.setFsNo(rset.getString("fs_no"));
+				cf.setOriginName(rset.getString("fs_original_file"));
+				cf.setDestination(rset.getString("fs_destination"));
+				cf.setFileLevel(rset.getInt("fs_level"));
+				cf.setFilePath(rset.getString("fs_path"));
+				cfList.add(cf);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return cfList;
+	}
+
+	// 클래스 타임 select
+	public ClassTime selectClassTime(Connection conn, String wcNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectClassTime");
+		ClassTime ct = new ClassTime();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				ct.setCtNo(rset.getString("ct_no"));
+				ct.setWcNo(rset.getString("wc_no"));
+				ct.setCtTime(rset.getString("ct_time"));
+				ct.setCtDate(rset.getString("ct_date"));
+				ct.setCtEndDate(rset.getString("ct_ENDDATE"));
+				ct.setCtCount(rset.getInt("ct_count"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+	
+		return ct;
+	}
+
+	
 
 }

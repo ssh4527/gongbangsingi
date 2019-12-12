@@ -12,6 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <title>카테고리</title>
+<script src="https://kit.fontawesome.com/1f49e42371.js" crossorigin="anonymous"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet"
@@ -125,6 +126,9 @@ a {
     to {
         opacity:1;
     }
+    
+    
+    
 </style>
 
 </head>
@@ -287,13 +291,16 @@ a {
 	<div class="album py-5 bg-light"  id="whole">
     	<div class="container">
     		<div class="row">
-    		
+    		<% if(!wList.isEmpty()) { %>
     		<% for(int i = 0;i < wList.size() ; i++ ) {%>
     			<div class="col-md-4">
     				<div class="card mb-4 shadow-sm">
     					<div id="heartover">
     						<a href="<%= request.getContextPath()%>/godetail.class?wcNo=<%= wList.get(i).getWcNo() %>"><img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= wList.get(i).getRename() %>" width="100%" height="100%" id="gal"></a>
-    						<div id="heartdiv"><p id="heart">♡</p></div>
+    						<div id="heartdiv">
+								<i class="far fa-heart fa-lg fa-spin" style="color:pink;" id="icon<%= wList.get(i).getWcNo() %>" onclick="check(this,<%= i %>)"></i>
+								<!-- <i class="fas fa-heart fa-2x"></i> -->
+    						</div>
     					</div>
     					<div class="card-body">
     						<small class="text-muted"><%= wList.get(i).getWcName() %></small>
@@ -305,8 +312,24 @@ a {
     					</div>
     				</div>
     			</div>
-    			<% }  %>
+    			<% } %>
     			
+    			<% }else{ %>
+    				<p style="text-align:center;">검색결과 없음</p>
+    			<% } %>
+    			
+    			
+    			<!-- 하트 모양 변경 -->
+    			<script>
+    			function check(icon,num){
+    				var heartdiv = document.getElementById("heartdiv");
+    				
+    				heartdiv.innerHTML = "<i class='fas fa-heart fa-lg fa-spin' style='color:pink;' id='icon'"+ num + "onclick='check(this," + num + ")'></i>";
+    				
+    			
+    			}
+    				
+    			</script>
     			
     			
     			

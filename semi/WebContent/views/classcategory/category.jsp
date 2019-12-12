@@ -284,7 +284,7 @@ a {
     				<div class="card mb-4 shadow-sm">
     					<div id="heartover">
     						<img src="<%= request.getContextPath() %>/resources/images/jar1.jpg" width="100%" height="100%" id="gal">
-    						<div id="heartdiv"><p id="heart">♡</p></div>
+    						<div id="heartdiv"><img src="<%= request.getContextPath() %>/resources/images/EmptyHeart.png" width="50px" height="50px"></div>
     					</div>
     					<div class="card-body">
     						<small class="text-muted">Dish Factory</small>
