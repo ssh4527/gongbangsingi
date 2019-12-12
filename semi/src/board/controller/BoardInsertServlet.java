@@ -35,16 +35,15 @@ public class BoardInsertServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		String title=request.getParameter("title");
+		String content=request.getParameter("content");
 		String writer=request.getParameter("writer");
 		String secret=request.getParameter("secret");
-		String content=request.getParameter("content");
+		String password=request.getParameter("password");
 		
+		Board b = new Board("title","content","writer","secret","password");
+	
 		
-		
-		Board b = new Board("title","writer","secret","content");
-		// model.vo 에 Board 만들기..
-		
-		int result=new BoardService().insertBoard(n);
+		int result=new BoardService().insertBoard(b);
 		
 		if(result>0) {
 			request.setAttribute("mgs", "게시판 등록 성공!");

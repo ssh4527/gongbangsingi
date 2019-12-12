@@ -15,7 +15,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
     #notice1_wrap{
-        width: 1300px;
+        width: 1000px;
         height: 900px;
         margin:auto;
     }
@@ -35,6 +35,14 @@
   	select{
   		align:center;
   	}
+  	.font { 
+	font-size: 30px;
+	color:black;
+	margin-left:40%;
+	 }
+	.font_underline { 
+	color: #fbd6db;
+	}
     </style>
 </head>
 
@@ -42,7 +50,9 @@
 <%@ include file="/views/common/menubar.jsp" %>
     <div id="notice1_wrap">
         <br>
-        <h4>공지사항</h4>
+       <font class="font_underline">
+	<u><p class="font">공지사항<br></p></u>
+</font>
         <br>
      <!-- <table class="table table-dark table-striped"> -->
             <table class="table table-hover" id="Nlist">
@@ -82,9 +92,11 @@
 				</select>
 				<input type="search" id=search" placeholder="내용을 입력해주세요" name="search">
                 <button type="submit" class="btn btn-outline-secondary">SEARCH</button>
-                	<!--  관리자만 WRITE 할 수 있음 -->
-                <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeInsertForm.jsp'">WRITE</button>
                 
+                	<!--  관리자만 WRITE 할 수 있음 -->
+                	<% if(loginUser != null && loginUser.getUserId().equals("admin")) {%>
+                <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeInsertForm.jsp'">WRITE</button>
+                <% } %>
 		</form>
 		<script>
 			function checkSearchCondition() {
@@ -123,6 +135,7 @@
 		</div>
 	</div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <%@ include file="/views/common/footbar.jsp" %>
 </body>
 </html>

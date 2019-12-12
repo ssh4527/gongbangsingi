@@ -18,11 +18,15 @@
 	.font_underline { 
 	color: #fbd6db;
 	}
+	#membergrade{
+		width:1000px;
+	}
 </style>
 </head>
 <body>
 <%@ include file="/views/common/menubar.jsp" %>
 <br>
+<div id="membergrade">
 <font class="font_underline">
 	<u><p class="font">MEMBER GRADE<br></p></u>
 </font>
@@ -79,7 +83,7 @@
     </tr>
   </tbody>
 </table>
-
+</div>
 <%@ include file="/views/common/footbar.jsp" %>
 </body>
 </html>

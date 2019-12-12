@@ -73,6 +73,8 @@
   	float:left;
   	border:15px solid white;
 	}
+	#notice2_wrap3{
+	width:1000px;}
     </style>
 </head>
 <body>
@@ -101,7 +103,7 @@
 	<ul>
 	<li><a href="membergrade.jsp" id="board_a">회원등급</a></li>
 	<li><a href="#" id="board_a">결제/예약 관련</a></li>
-	<li><a href="#" id="board_a">적립금 관련</a></li>
+	<li><a href="locationbased.jsp" id="board_a">위치기반 서비스</a></li>
 	<li><a href="privacypolicy.jsp" id="board_a">개인정보처리방침</a></li>
 	</ul>
 	</div>
@@ -124,6 +126,7 @@
             <table class="table table-hover">
                     <tr>
                         <th>NO</th>
+                        <th>구분</th>
                         <th>*비밀글</th>
                         <th>SUBJECT</th>
                         <th>WRITER</th>
@@ -148,7 +151,11 @@
 					<option value="title">제목</option>
 				</select> <input type="text" id="notice2_input" placeholder="내용을 입력해주세요">
 				<button type="submit" class="btn btn-outline-secondary">Search</button>
-				<button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/notice/boardInsertForm.jsp'">WRITE</button>
+				
+				<!--  회원(일반/사업자)만 WRITE 할 수 있음 -->
+				<% if(loginUser != null) {%>
+				<button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/board/bInsertForm.jsp'">WRITE</button>
+				<% } %>
 			</form>
 			<script>
 			function checkSearchCondition() {
@@ -168,6 +175,7 @@
                             <li><a href='#' class="page-link">2</a></li>
                             <li><a href='#' class="page-link">&gt;&gt;</a></li>
                         </ul>
+                    </div>
                     </div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <%@ include file="/views/common/footbar.jsp" %>
