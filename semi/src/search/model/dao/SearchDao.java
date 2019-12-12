@@ -208,4 +208,62 @@ public class SearchDao {
 		return list;
 	}
 
+	// 검색된 각각의 클래스들의 평균 평점을 가져오는 메소드 (By. H)
+	public double avgGrade(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		double avgGrade = 0;
+		
+		String sql = "select avg(r_grade) from review where wc_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				avgGrade = rset.getDouble(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return avgGrade;
+	}
+
+	// 검색된 각각의 클래스들의 리네임과 패스값 가져오는 메소드 (By. H)
+	public Workclass selectPathRename(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		Workclass prewc = new Workclass();
+		String sql = "select fs_rename_file, fs_path from (select fs_rename_file, fs_path, rownum as rnum from file_storage where fs_destination = ? order by fs_no desc) where rnum = 1";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				prewc.setRename(rset.getString(1));
+				prewc.setPath(rset.getString(2));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		// TODO Auto-generated method stub
+		return prewc;
+	}
+
 }

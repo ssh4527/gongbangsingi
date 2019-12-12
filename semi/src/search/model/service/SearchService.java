@@ -63,5 +63,27 @@ public class SearchService {
 		return list;
 	}
 
+	// 검색된 각각의 클래스들의 평균 평점을 가져오는 메소드 (By. H)
+	public double avgGrade(String wcNo) {
+		Connection conn = getConnection();
+		
+		double avgGrade = new SearchDao().avgGrade(wcNo, conn);
+		
+		close(conn);
+		
+		return avgGrade;
+	}
+
+	// 검색된 각각의 클래스들의 리네임과 패스값 가져오는 메소드 (By. H)
+	public Workclass selectPathRename(String wcNo) {
+		Connection conn = getConnection();
+		
+		Workclass prewc = new SearchDao().selectPathRename(wcNo, conn);
+		
+		close(conn);
+		
+		return prewc;
+	}
+
 	
 }
