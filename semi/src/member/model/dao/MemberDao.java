@@ -81,7 +81,9 @@ public class MemberDao {
 			ps.setString(4, m.getUserBirth());
 			ps.setString(5, m.getEmail());
 			ps.setString(6, m.getPhone());
-			ps.setString(7, m.getInterest());
+			
+				ps.setString(7, m.getInterest());
+			
 			ps.setString(8, m.getUserHint());
 			ps.setInt(9, m.getPwdHint());
 			

@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="workclass.model.vo.*"%>
+	<%@page import="java.util.ArrayList"%>
+<%
+	ArrayList<Workclass> mainClassList = null; 
+	mainClassList=(ArrayList<Workclass>)request.getAttribute("mainList"); 
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +20,7 @@
 
 .album py-5 bg-light {
 	width: 1200px;
-	height:1200px;
+	
 	background: lightgrey;
 	
 	
@@ -72,79 +78,70 @@ h2 {
 </head>
 <body>
 	<script>
-		window.onload = function(){
-			
-			 <!-- location.href="<%=request.getContextPath()%>/index.bo"; -->
-		}
+		$(function(){
+			if(<%=mainClassList%>==null){
+				location.href="<%=request.getContextPath()%>/index.bo";
+			}
+		});
 		
 	</script>
 	<%@ include file="views/common/menubar.jsp"%>
-	<div id="maindiv1" class="album py-5 bg-light" style=" height:700px;">
+	<%
+		String[] interest = {"",""};
+		int interCount = 1;
+		if(loginUser != null){
+			String inter = loginUser.getInterest();
+			interest = inter.split(",");
+			interCount = interest.length;
+		}else{
+			
+		}
+		int ic=0;
+		int grade=1;
+	%>
+	
+	<div id="maindiv1" class="album py-5 bg-light" >
 		<h2>평점 BEST 3 클래스</h2>
 		<!-- 1등 -->
+		<%if(mainClassList != null){ %>
+				
+				<%for(int i=0; i<mainClassList.size(); i++){ 
+					if((i==0 || i%3==0) && ic<interCount ){	
+						if(loginUser != null){
+					%>
+						<h4 style="text-align:center;">당신만을 위한 <%= interest[ic++]  %> 클래스</h4>
+				<%} grade=1;
+				} %>
 		<div class="col-md-4 bg-light">
-			<p class="subtext">1st ♕</p>
+			<p class="subtext"><%=grade++ %>st ♕</p>
 			<div class="card mb-4 shadow-sm">
-				<div class="img-body" id="1stclass">
+				<div class="img-body" id="<%=i %>stclass">
 
 					<span class="heart">♡</span>
 
 				</div>
 				<div class="card-body">
-					<small class="text-muted">Dish Factory</small>
-					<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
+					<small class="text-muted"><%= mainClassList.get(i).getWcName() %></small>
+					<p class="card-text" align="left"><%= mainClassList.get(i).getWcIntroduce() %></p>
 					<div class="d-flex justify-content-between align-items-center">
-						<small class="text-muted">☆4.2</small> <small class="text-muted">바로
-							수강 가능</small>
+						<small class="text-muted">☆<%= mainClassList.get(i).getAvgGrade() %></small> 
+						<small class="text-muted">바로 수강 가능</small>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- 2등 -->
-		<div class="col-md-4 bg-light">
-			<p class="subtext">2nd</p>
-			<div class="card mb-4 shadow-sm">
-				<div class="img-body" id="1stclass" style="background:green;">
-					<span class="heart">♡</span>
-				</div>
-				<div class="card-body">
-					<small class="text-muted">Dish Factory</small>
-					<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
-					<div class="d-flex justify-content-between align-items-center">
-						<small class="text-muted">☆4.2</small> <small class="text-muted">바로
-							수강 가능</small>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 3등 -->
-		<div class="col-md-4 bg-light">
-			<p class="subtext">3rd</p>
-			<div class="card mb-4 shadow-sm">
-				<div class="img-body" id="1stclass">
-
-
-					<span class="heart">♡</span>
-
-				</div>
-				<div class="card-body">
-					<small class="text-muted">Dish Factory</small>
-					<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
-					<div class="d-flex justify-content-between align-items-center">
-						<small class="text-muted">☆4.2</small> <small class="text-muted">바로
-							수강 가능</small>
-					</div>
-				</div>
-			</div>
-		</div>
-
+		<%  }}%>
+		
 
 
 
 	</div>
-	<br>
+	<script>
+		$("#maindiv1").css("height","<%=interCount*650-ic*20%>px");
+	</script>
+	
 	<hr>
-	<br>
+	
 	<div id="maindiv2" class="album py-5 bg-light" style="height:900px;">
 		<h2>새로운 공방</h2>
 		<br>

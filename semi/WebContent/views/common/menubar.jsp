@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="member.model.vo.*"%>
+	
 <%
 	Member loginUser = (Member) session.getAttribute("loginUser");
 	String loginmsg = (String) request.getAttribute("loginmsg");
@@ -39,7 +40,8 @@ body {
 }
 
 * {
-	font-family: 'Nanum Pen Script', cursive;
+	 font-family: 'Nanum Pen Script', cursive; 
+	
 	font-size: large;
 	
 }

@@ -15,7 +15,7 @@ public class SearchDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Workclass> list = new ArrayList<Workclass>();
-		String q=  "select * from work_class where ws_no = "
+		String q=  "select * from work_class where ws_no in "
 				+ "(select WS_NO from workshop where S_CATEGORY = ?)";
 		try {
 			ps= c.prepareStatement(q);
@@ -264,6 +264,98 @@ public class SearchDao {
 		
 		// TODO Auto-generated method stub
 		return prewc;
+	}
+
+	public ArrayList<Workclass> findClassTop(Connection c) {
+		Statement s = null;
+		ArrayList<Workclass> list = new ArrayList<Workclass>();
+		ResultSet rs = null;
+		
+		String q=  "select * from work_class wc, (select AVG(R_GRADE) 평점 ,wc_no from review group by wc_no) r where wc.wc_no = r.wc_no order by 평점 desc"; 
+		
+		try {
+			s= c.createStatement();
+			rs = s.executeQuery(q);
+			
+			int count = 0;
+			
+			while(rs.next()) {
+				if(count >= 3) {break;}
+				
+				boolean accept = false;
+				if(rs.getString("WC_YN")=="Y") {
+					accept=true;
+				}
+				
+				list.add(new Workclass(rs.getString("WC_NO"),
+						rs.getString("WC_NAME"),
+						rs.getInt("WC_NOP"),
+						rs.getInt("WC_MAXP"),
+						accept,
+						rs.getString("WC_DATE"),
+						rs.getInt("WC_HITS"),
+						rs.getString("WC_WARNING"),
+						rs.getString("WC_INTRODUCE"),
+						rs.getString("WS_NO"),
+						rs.getDouble("평점")
+						));
+				
+				count++;
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(s);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<Workclass> findClass(Connection c, String interest, ArrayList<Workclass> list) {
+		
+		String q = "select * from work_class wc, (select AVG(R_GRADE) 평점 ,wc_no from review group by wc_no)r, workshop ws where wc.wc_no = r.wc_no and wc.ws_no = ws.ws_no and ws.s_category in (?) order by 평점 desc";
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		try {
+			ps= c.prepareStatement(q);
+			ps.setString(1, interest);
+			
+			int count = 0;
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				if(count >3) {break;}
+				
+				boolean accept = false;
+				if(rs.getString("WC_YN")=="Y") {
+					accept=true;
+				}
+				
+				list.add(new Workclass(rs.getString("WC_NO"),
+						rs.getString("WC_NAME"),
+						rs.getInt("WC_NOP"),
+						rs.getInt("WC_MAXP"),
+						accept,
+						rs.getString("WC_DATE"),
+						rs.getInt("WC_HITS"),
+						rs.getString("WC_WARNING"),
+						rs.getString("WC_INTRODUCE"),
+						rs.getString("WS_NO"),
+						rs.getDouble("평점")
+						));
+				
+				count++;
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(ps);
+		}
+		
+		return list;
 	}
 
 }

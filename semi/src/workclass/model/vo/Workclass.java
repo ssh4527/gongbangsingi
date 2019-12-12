@@ -39,6 +39,22 @@ public class Workclass {
 	}
 
 	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
+			String wcWarning,String wcIntroduce, String wsNo, Double avgGrade) {
+		super();
+		WcNo = wcNo;
+		WcName = wcName;
+		WcNOP = wcNOP;
+		WcMaxP = wcMaxP;
+		WcYN = wcYN;
+		WcOpenClose = wcOpenClose;
+		WcHits = wcHits;
+		WcWarning = wcWarning;
+		WsNo = wsNo;
+		WcIntroduce = wcIntroduce;
+		this.avgGrade= avgGrade;
+	}
+	
+	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
 			String wcWarning,String wcIntroduce, String wsNo) {
 		super();
 		WcNo = wcNo;
