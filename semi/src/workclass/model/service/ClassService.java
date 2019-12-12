@@ -118,4 +118,31 @@ public class ClassService {
 		return rNo;
 	}
 
+	// 워크클래스 select 
+	public Workclass selectWorkClass(String wcNo) {
+		Connection conn = getConnection();
+		
+		Workclass wc = new ClassDao().selectWorkClass(conn,wcNo);
+		close(conn);
+		
+		return wc;
+	}
+
+	// 클래스에 맞는 파일 select
+	public ArrayList<ClassFile> selectClassFile(String wcNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<ClassFile> cfList = new ClassDao().selectClassFile(conn,wcNo);
+		close(conn);
+		return cfList;
+	}
+
+	public ClassTime selectClassTime(String wcNo) {
+		Connection conn = getConnection();
+		
+		ClassTime ct = new ClassDao().selectClassTime(conn,wcNo);
+		close(conn);
+		return ct;
+	}
+
 }
