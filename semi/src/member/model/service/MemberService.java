@@ -1,6 +1,8 @@
 package member.model.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+
 import static common.JDBCTemplate.*;
 import member.model.dao.MemberDao;
 import member.model.vo.Member;
@@ -62,6 +64,27 @@ public class MemberService {
 		Connection c= getConnection();
 		int result = new MemberDao().changePwd(c,id,pwd);
 		
+		if(result>0) {
+			commit(c);
+		}else {
+			rollback(c);
+		}
+		close(c);
+		return result;
+	}
+
+	public ArrayList<Member> selectChangeMember() {
+		Connection c= getConnection();
+		ArrayList<Member> list = new MemberDao().selectChangeMember();
+		
+		close(c);
+		return list;
+	}
+
+	public int changeAuth(String id) {
+		Connection c= getConnection();
+		
+		int result = new MemberDao().changeAuth(c,id);
 		if(result>0) {
 			commit(c);
 		}else {

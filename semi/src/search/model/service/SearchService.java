@@ -94,6 +94,7 @@ public class SearchService {
 			list = sd.findClassTop(c);
 		}else {
 			for(int i=0;i<interest.length;i++) {
+				
 				list = sd.findClass(c, interest[i], list);
 			}
 			

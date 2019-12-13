@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="member.model.vo.*"%>
+	<%@page import="java.util.ArrayList"%>
+	<%@page import="workshop.model.vo.*"%>
+<%
+	ArrayList<Workshop> wsList = (ArrayList<Workshop>)request.getAttribute("wsList"); 	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,20 +123,29 @@ aside>button {
 						<th scope="col" class="textalign">회원아이디</th>
 						<th scope="col" class="textalign">사업자명</th>
 						<th scope="col" class="textalign">사업자등록번호</th>
+						<th scope="col" class="textalign">공방주소</th>
+						<th scope="col" class="textalign">공방전화번호</th>
 						<th scope="col" class="textalign">가입승인여부</th>
 					</tr>
 				</thead>
 				<tbody>
+					<% 
+					for(int i=0; i<wsList.size();i++){
+						String enrolluser = "enrolluser"+i;
+						%>
 					<tr>
-						<th class="textalign">tdsfs23</th>
-						<td class="textalign">신승환</td>
-						<td class="textalign">010-546532-554</td>
-						<td class="textalign"><input type="radio" name="enroll1"
+						<th class="textalign"><%= wsList.get(i).getId()%></th>
+						<td class="textalign"><%= wsList.get(i).getWsName()%></td>
+						<td class="textalign">사업자등록번호!!</td>
+						<td class="textalign"><%= wsList.get(i).getAddress()%></td>
+						<td class="textalign"><%= wsList.get(i).getWsTel()%></td>
+						
+						<td class="textalign"><input type="radio" class="enrolluser" name=<%=enrolluser %>
 							value="y">&nbsp;Y <!-- name속성값 받아와서 각자 지정해줘야함-->
-							&nbsp;&nbsp; <input type="radio" name="enroll1" value="n">&nbsp;N
+							&nbsp;&nbsp; <input type="radio" name=<%=enrolluser %> value="n" checked>&nbsp;N
 						</td>
 					</tr>
-
+					<%} %>
 				</tbody>
 			</table>
 
@@ -183,6 +197,40 @@ aside>button {
 		</section>
 
 	</div>
+	<script>
+		$(function(){
+			$(".enrolluser").click(function(){
+				
+				var $enroll = $(this).parent().parent();
+				var userId = $enroll.children().eq(0).html();
+				
+				if(confirm("공방회원으로 변경하시겠습니까?")){
+					$.ajax({
+						url : "<%=request.getContextPath()%>/change.auth",
+						data : {userId:userId},
+						type : "post",
+						success : function(data){
+							
+							if(data=="fail"){
+								alert("알수없는 오류가 발생했습니다.");
+							}else{
+								
+								$enroll.css("display","none");
+								
+							}
+						}, error : function(){
+							console.log("서버 통신 안됨");
+						}
+						
+					});
+				}else{
+					$(this).next().click();
+				}
+				
+			});
+		});
+	
+	</script>
 	<%@ include file="../common/footbar.jsp"%>
 </body>
 </html>
