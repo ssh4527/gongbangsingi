@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"
 	import="java.util.*, review.model.vo.*,workshop.model.vo.*,attachment.*,workclass.model.vo.*"%>
 <%
-	//Member loginUser = (Member) session.getAttribute("loginUser");
-	//Member loginUser = null;
 	Workshop shop = (Workshop) request.getAttribute("shop");
 	Attachment titlePic = (Attachment) request.getAttribute("titlePic");
 
@@ -11,13 +9,6 @@
 	ArrayList<Workclass> clist = (ArrayList<Workclass>) request.getAttribute("clist");
 	ArrayList<Attachment> cPictures = (ArrayList<Attachment>) request.getAttribute("cPictures");
 
-	PageInfo pi = (PageInfo) request.getAttribute("pi");
-
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage();
-	int maxPage = pi.getMaxPage();
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
 %>
 <!DOCTYPE html>
 <html>
@@ -118,7 +109,7 @@ section, div, header {
 	border: 1px solid black;
 }
 
-#map {
+#mapArea {
 	margin: 3%;
 	text-align: center;
 	float: left;
@@ -177,29 +168,32 @@ h4 {
 .picEdit {
 	display: hidden;
 }
+
 </style>
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
 
 	<div id="outer">
+	<!-- 첫번째 section(타이틀 사진, 공방 정보 ..., 후기 목록) -->
 		<section id="content_first">
 			<section id="first_intro1">
+			<!-- 사진, 공방 이름 -->
 				<section id="intro1_1" style="padding: 10px;">
 
 					<%
-						boolean check = false;
-						if (titlePic != null) {
+						boolean picCheck = false;
+						if (titlePic.getReName()==null) {
 					%>
+					<div id="thumbnail1" class="thumbnail"></div>
+					<%
+						picCheck = true;
+					} else {
+					%>
+					
 					<img id="titleImg"
 						src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=titlePic.getReName()%>"
 						width="350px" height="200px">
-
-					<%
-						check = true;
-						} else {
-					%>
-					<div id="thumbnail1" class="thumbnail">사진을 등록하세요</div>
 					<%
 						}
 					%>
@@ -207,8 +201,10 @@ h4 {
 						enctype="multipart/form-data">
 						<input type="hidden" value="<%=shop.getWsNo()%> id="shopNo">
 						<%
-						if(loginUser.getUserId().equals(shop.getId())){
-							if (check) {
+						boolean userCheck=false;
+						if(loginUser!=null&&loginUser.getUserId().equals(shop.getId())){
+							userCheck=true;
+							if (picCheck) {
 						%>
 						<input type="button" value="사진 변경" id="thumbnailEdit2"
 							name="thumbnailEdit">
@@ -235,7 +231,7 @@ h4 {
 					
 				});
 				
-				function picUpdate(){
+				<%-- function picUpdate(){
 				    
 				    $.ajax({
 				        url : '/updatethumbnail.sh',
@@ -245,7 +241,7 @@ h4 {
 
 				    	}
 				    this.submit();
-				}
+				} --%>
 
 
 				function picUpdate(){
@@ -259,10 +255,12 @@ h4 {
 							$("#thumbnailForm").submit();
 						}
 
-						
 					</script>
 				</section>
 				<br> <br> <br> <br> <br> <br>
+				
+				
+				<!-- 주소,전화번호,sns계정 정보  -->
 				<section id="introl1_2">
 					<div id="introl1_2_1">
 						<p id="addr"><%=shop.getAddress()%></p>
@@ -270,31 +268,49 @@ h4 {
 						<p id="sns"><%=shop.getSns()%></p>
 					</div>
 				</section>
-
+				<%if(!userCheck){ %>
+					<a href="javascript:void chatChannel()"> <img
+						src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png" />
+					</a>
+					<script type='text/javascript'>
+						//<![CDATA[
+						// 사용할 앱의 JavaScript 키를 설정해 주세요.
+						Kakao.init('37bf650bd71c1e125e49c40d96c383e1');
+						function chatChannel() {
+							Kakao.Channel.chat({
+								channelPublicId : '_xcLqmC' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+							});
+						}
+						//]]>
+					</script>
+				<%} %>
 			</section>
+			
+			
 			<section id="first_intro2">
-				<section id="map">
+			<!-- 공방 위치 지도 API -->
+				<section id="mapArea">
 					<h5>&lt;오시는 길&gt;</h5>
-					<div id="map" style="width: 550px; height: 200px;"></div>
+					<div id="map" style="width: 550px; height: 90%;"></div>
 
 				</section>
+			
 				<script type="text/javascript"
-					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=37bf650bd71c1e125e49c40d96c383e1"></script>
+					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2afbe1f7936e7a946254f01d5b3a8e79&libraries=services"></script>
 				<script>
 					var container = document.getElementById('map');
 					var options = {
 						center : new kakao.maps.LatLng(33.450701, 126.570667),
 						level : 3
 					};
-
-					var map = new kakao.maps.Map(container, options);
+					
 					// 지도를 생성합니다 
-					var map = new kakao.maps.Map(mapContainer, mapOption);
+					var map = new kakao.maps.Map(container, options);
+					
 					// 주소-좌표 변환 객체를 생성합니다
 					var geocoder = new kakao.maps.services.Geocoder();
 					// 주소로 좌표를 검색합니다 
-					geocoder.addressSearch(<%=shop.getAddress()%>,
-									function(result, status) {
+					geocoder.addressSearch('<%=shop.getAddress()%>',function(result, status) {
 										// 정상적으로 검색이 완료됐으면 
 										if (status === kakao.maps.services.Status.OK) {
 											var coords = new kakao.maps.LatLng(
@@ -317,32 +333,12 @@ h4 {
 										}
 									});
 				</script>
+				
+				<!-- 후기 목록 -->
 				<section id="store_review">
-					<div class="tableArea">
-						<h4>&lt; 후기 &gt;</h4>
-						<%
-							switch (shop.getGrade()) {
-								case 5 :
-						%>
-						<img src="/images/full_star.png">
-						<%
-							case 4 :
-						%><img src="/images/full_star.png">
-						<%
-							case 3 :
-						%><img src="/images/full_star.png">
-						<%
-							case 2 :
-						%><img src="/images/full_star.png">
-						<%
-							case 1 :
-						%><img src="/images/full_star.png">
-						<%
-							break;
-							}
-						%>
-
-						<div id="score"><%=shop.getGrade()%>/ 5점
+					<div class="tableArea"  class="tableScroll">
+						<h4>&lt; 후기 &gt;</h4> &nbsp;
+						<div id="score">★<%=shop.getGrade()%>/ 5.0
 						</div>
 						<table class="table table-hover" id="reviewList">
 							<thead>
@@ -355,15 +351,6 @@ h4 {
 								</tr>
 								</thead>
 								<tbody>
-								<tr>
-									<td>1</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-								</tr>
-
-
 								<%
 									if (rlist.isEmpty()) {
 								%>
@@ -371,16 +358,13 @@ h4 {
 									<td colspan="5">조회된 리스트가 없습니다.</td>
 								</tr>
 								<%
-									} else {
-								%>
-								<%
-									for (Review r : rlist) { int idx=1;
+									} else { int idx=1; for (Review r : rlist) { 
 								%>
 								<tr>
 									<input type="hidden" value="<%=r.getRNo()%>">
 									<td><%=idx++%></td>
+									<td><%=r.getcName()%></td>
 									<td><%=r.getRGrade()%></td>
-									<td><%=r.getRTitle()%></td>
 									<td><%=r.getRWriter()%></td>
 									<td><%=r.getREnDate()%></td>
 								</tr>
@@ -403,83 +387,19 @@ h4 {
 						
 					});
 					</script>
-					<!-- 페이징바 -->
-					<%-- <div class="pagingArea" align="center">
-						<!-- 맨 처음으로 (<<) -->
-						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=1'">
-							&lt;&lt;</button>
-
-						<!-- 이전 페이지로 (<) -->
-						<%
-								if (currentPage == 1) {
-							%>
-						<button disabled>&lt;</button>
-						<%
-								} else {
-							%>
-						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage - 1%>'">
-							&lt;</button>
-						<%
-								}
-							%>
-
-						<!-- 10개의 페이지 목록 -->
-						<%
-								for (int p = startPage; p <= endPage; p++) {
-							%>
-						<%
-								if (p == currentPage) {
-							%>
-						<button disabled>
-							<%=p%></button>
-						<%
-								} else {
-							%>
-						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=p%>'">
-							<%=p%>
-						</button>
-						<%
-								}
-							%>
-						<%
-								}
-							%>
-
-						<!-- 다음 페이지로(>) -->
-						<%
-								if (currentPage == maxPage) {
-							%>
-						<button disabled>&gt;</button>
-						<%
-								} else {
-							%>
-						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage + 1%>'">
-							&gt;</button>
-						<%
-								}
-							%>
-
-						<!--  맨 끝으로 (>>) -->
-						<button
-							onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=maxPage%>'">
-							&gt;&gt;</button>
-
-					</div> --%>
+					
 				</section>
 			</section>
 
 		</section>
 
+		<!-- 클래스 목록 -->
 		<section id="classEdit">
 			<br>
 			<h4>&lt;클래스&gt;</h4>
 			<br>
-			<div class="tableArea">
-				<table class="table table-hover" id="classList">
+			<div class="tableArea" >
+				<table class="table table-hover" id="classList"  class="tableScroll">
 					<thead>
 						<tr>
 							<th>No.</th>
@@ -489,22 +409,14 @@ h4 {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
 						<% if(clist.isEmpty()){ %>
 						<tr>
 							<td colspan="4">존재하는 공지사항이 없습니다.</td>
 						</tr>
-						<%} else { %>
-						<% for(Workclass c : clist) {
-						 int idx=1;%>
+						<%} else {  int idx=1; for(Workclass c : clist) {%>
 						<tr>
 							<input type="hidden" value="<%=c.getWcNo()%>">
-							<td><%= idx++ %></td>
+							<td><%= idx %><%idx++; %></td>
 							<td><%= c.getWcName() %></td>
 							<td><%= c.getWcNOP() %></td>
 							<td><%= c.getWcOpenClose() %></td>
@@ -514,7 +426,7 @@ h4 {
 					</tbody>
 				</table>
 			</div>
-			<% if(loginUser.getUserId().equals(shop.getId())){%>
+			<% if(loginUser!=null&&loginUser.getUserId().equals(shop.getId())){%>
 			<div class="classbtn">
 				<button id="class_openclass" class="btn btn-outline-secondary">클래스
 					열기</button>
@@ -537,9 +449,11 @@ h4 {
 		</script>
 
 		<br> <br>
+		
+		<!-- 공방 소개글 -->
 		<section id="intro3_third">
 			<h4>&lt;공방 소개 글 &gt;</h4>&nbsp;
-			<% if(loginUser.getUserId().equals(shop.getId())){%>
+			<% if(loginUser!=null&&loginUser.getUserId().equals(shop.getId())){%>
 			<input type="button" value="소개글 변경" id="intro3Edit" name="intro3Edit">
 				<!-- Modal -->
 			<button type="button" id="intro3Modal" class="btn btn-primary"
@@ -604,11 +518,12 @@ h4 {
 						}
 					});
 				});
-			});}
+			});
 		</script>
 		<br><br>
 		
 		<!-- 사진... -->
+		<%if(cPictures.isEmpty()){}else{ %>
 		<section id="content_final_slide">
 			<br>
 			<h4>&lt;사진&gt;</h4>
@@ -664,7 +579,7 @@ h4 {
 			</div>
 
 		</section>
-
+		<%} %>
 
 
 	</div>
