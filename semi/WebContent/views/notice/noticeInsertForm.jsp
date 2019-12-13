@@ -15,7 +15,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
     #qna6_wrap{
-        width: 1300px;
+        width: 1000px;
         height: 900px;
         margin:auto;
     }
@@ -23,13 +23,24 @@
     #qna6_wrap2{
     	text-align:center;
     }
+    .font { 
+	font-size: 30px;
+	color:black;
+	margin-left:40%;
+	 }
+	.font_underline { 
+	color: #fbd6db;
+	}
     </style>
 </head>
 <body>
 <body>
 <%@ include file="/views/common/menubar.jsp" %>  
     <div id="qna6_wrap">
-    <h3 align="center">공지사항 작성하기</h3>
+    <br>
+   <font class="font_underline">
+	<u><p class="font">공지사항 작성하기<br></p></u>
+</font>
     <br>
     	<form action="<%= request.getContextPath() %>/insert.no" method="post">
             <table class="table table-hover">

@@ -13,7 +13,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
     #qna6_wrap{
-        width: 1300px;
+        width: 1000px;
         height: 900px;
         margin:auto;
     }
@@ -21,13 +21,24 @@
     #qna6_wrap2{
     	text-align:center;
     }
+    	.font { 
+	font-size: 30px;
+	color:black;
+	margin-left:40%;
+	 }
+	.font_underline { 
+	color: #fbd6db;
+	}
     </style>
 </head>
 <body>
 <body>
 <%@ include file="/views/common/menubar.jsp" %>  
     <div id="qna6_wrap">
-    <h3 align="center">공지사항 상세보기</h3>
+    <br>
+   <font class="font_underline">
+	<u><p class="font">공지사항 상세보기<br></p></u>
+</font>
     <br>
     	<form action="<%= request.getContextPath() %>/insert.no" method="post">
             <table class="table table-hover">
@@ -54,9 +65,11 @@
          <button class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/list.no'">목록으로~</button>
           
          <!--  관리자인 경우 수정, 삭제 가능 -->
+         <% if(loginUser != null && loginUser.getUserId().equals("admin")) {%>
          <button id="updateBtn" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/updateForm.no?nno=<%= n.getnNo() %>'">수정하기</button>
 		<button id="deleteBtn"  class="btn btn-outline-secondary" type="button" onclick="deleteNotice();">삭제하기</button>
-        
+        <% } %>
+         </div>
          </div>
          <script>
          function deleteNotice(){

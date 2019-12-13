@@ -14,7 +14,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
     #qna6_wrap{
-        width: 1300px;
+        width: 1000px;
         height: 900px;
         margin:auto;
     }
@@ -22,13 +22,24 @@
     #qna6_wrap2{
     	text-align:center;
     }
+    .font { 
+	font-size: 30px;
+	color:black;
+	margin-left:40%;
+	 }
+	.font_underline { 
+	color: #fbd6db;
+	}
     </style>
 </head>
 <body>
 <body>
 <%@ include file="/views/common/menubar.jsp" %>  
     <div id="qna6_wrap">
-    <h3 align="center">공지사항 수정하기</h3>
+    <br>
+     <font class="font_underline">
+	<u><p class="font">공지사항 수정하기<br></p></u>
+</font>
   
     <br>
     	<form action="<%= request.getContextPath() %>/update.no" method="post">
@@ -60,10 +71,11 @@
 	     <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/list.no'">목록으로~</button>
          <button type="submit" class="btn btn-outline-secondary">수정완료</button>
          <button type="button" onclick="javascript:history.back();" class="btn btn-outline-secondary">취소(뒤로가기)</button>
-		  </form>
+		
         
+         </div>  </form>
          </div>
-        
+       
          <%@ include file="/views/common/footbar.jsp" %>
 </body>
 </html>

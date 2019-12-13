@@ -24,11 +24,15 @@
 	.font_underline { 
 	color: #fbd6db;
 	}
+	#pri{
+		width:1000px;
+	}
 </style>
 </head>
 <body>
 <%@ include file="/views/common/menubar.jsp" %>
 <br>
+<div id="pri">
 <font class="font_underline">
 	<u><p class="font">PRIVACY POLICY<br></p></u>
 </font>
@@ -145,6 +149,7 @@ o 기타 개인정보침해에 대한 신고나 상담이 필요하신 경우에
 개인정보분쟁조정위원회 (kopico.go.kr / 1833-6972)<BR>
 대검찰청 사이버수사과 (spo.go.kr / 지역번호+1301)<BR>
 경찰청 사이버안전국 (cyberbureau.police.go.kr / 국번없이 182)<BR>
+</div>
 </div>
 <br>
 <%@ include file="/views/common/footbar.jsp" %>
