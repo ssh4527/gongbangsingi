@@ -367,4 +367,29 @@ public class ShopDao {
 		return list;
 	}
 
+	public ArrayList<Workshop> selectNewShopList(Connection con) {
+		Statement st =null;
+		ResultSet rset = null;
+		String sql = "select WS_NO,WS_NAME,WS_ADDR,WS_TEL,ws.C_ID,S_CATEGORY from workshop ws,Client c where c.c_id = ws.c_id And AUTHORITY =1";
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+		
+		try {
+			st = con.createStatement();
+			rset  = st.executeQuery(sql);
+			
+
+			
+			while (rset.next()) {
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3),rset.getString(4),rset.getString(5),rset.getString(6)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(st);
+		}
+
+		return list;
+	}
+
 }

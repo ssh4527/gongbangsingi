@@ -23,13 +23,26 @@ public class Workshop {
 */	
 	private String id; //사업자아이디
 	private String intro; //소개글
-	private int grade; //평점
+	private double grade; //평점
 	private String sns; //sns계정
+	private String AccountNum; // 사업자 등록번호
 	public Workshop() {}
 
 	
 
-	public Workshop(String wsNo, String wsName, String category, int grade) {
+	public Workshop(String wsNo, String wsName, String address, String wsTel,String id, String category) {
+		super();
+		WsNo = wsNo;
+		WsName = wsName;
+		Address = address;
+		WsTel = wsTel;
+		this.id = id;
+		Category = category;
+	}
+
+
+
+	public Workshop(String wsNo, String wsName, String category, double grade) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Category = category;
@@ -37,7 +50,7 @@ public class Workshop {
 	}
 
 
-	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, int grade, String sns,String id,String intro) {
+	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade, String sns,String id,String intro) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Address = address;
@@ -124,11 +137,11 @@ public class Workshop {
 		this.intro = intro;
 	}
 
-	public int getGrade() {
+	public double getGrade() {
 		return grade;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(double grade) {
 		this.grade = grade;
 	}
 
@@ -158,6 +171,18 @@ public class Workshop {
 	}
 
 
+
+	public String getAccountNum() {
+		return AccountNum;
+	}
+
+
+
+	public void setAccountNum(String accountNum) {
+		AccountNum = accountNum;
+	}
+
+	
 	
 	
 	
