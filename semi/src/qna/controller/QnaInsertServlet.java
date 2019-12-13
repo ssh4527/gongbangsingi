@@ -1,4 +1,4 @@
-package board.controller;
+package qna.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,27 +7,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.service.BoardService;
-import board.model.vo.Board;
-
+import member.model.vo.Member;
+import qna.model.service.QnaService;
+import qna.model.vo.Qna;
 
 /**
- * Servlet implementation class BoardInsertServlet
+ * Servlet implementation class QnaInsertServlet
  */
-
-@WebServlet("/insert.bo")
-public class BoardInsertServlet extends HttpServlet {
+@WebServlet("/insert.qna")
+public class QnaInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardInsertServlet() {
+    public QnaInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -36,25 +34,41 @@ public class BoardInsertServlet extends HttpServlet {
 		
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
-		String writer=request.getParameter("writer");
-		String secret=request.getParameter("secret");
-		String password=request.getParameter("password");
 		
-		Board b = new Board("title","content","writer","secret","password");
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		String writer = String.valueOf(loginUser.getUserName());
+		
+		// 받는 사람 아이디 관리자
 	
 		
-		int result=new BoardService().insertBoard(b);
+		Member admin = (Member)request.getSession().getAttribute("loginUser");
+	    String admin2 = String.valueOf(loginUser.getUserId().equals("admin"));
 		
-		if(result>0) {
-			request.setAttribute("mgs", "게시판 등록 성공!");
-			response.sendRedirect("list.bo");
+		
+		// secret 값 받아오기
+		boolean secret=request.getParameter("secret") != null;
+		String password=request.getParameter("password");
+		
+		
+		Qna q = new Qna();
+		q.setcId(writer);
+		q.setqTitle(title);
+		q.setqContent(content);
+		q.setqSecret(secret);
+		q.setWcNo(admin2);
+		q.setqPwd(password);
+		
+		
+		int result = new QnaService().insertQna(q);
+		
+		if(result > 0) {
+			response.sendRedirect("list.qna");
 		}else {
-			request.setAttribute("msg","게시판 등록 실패!" );
+			request.setAttribute("msg", "고객센터 작성 실패!.");
 		}
 	}
 
 	/**
-	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -45,10 +45,10 @@
 }
 </style>
 <script>
-	/*  if($("input:checkbox[name='m']").is(":checked")){
-	 	m="일반";
-	 }
-	 */
+	/*  if($("input:checkbox[name='secret']").is(":checked")){
+	 	secret='Y';
+	 } */
+	 
 	function addFile() {
 		$("input:button:eq(1)").after("<br><input type=file>");
 	}
@@ -88,7 +88,7 @@
 					문의글 작성하기<br>
 				</p></u>
 		</font> <br>
-		<form action="<%=request.getContextPath()%>/insert.bo" name="form"
+		<form action="<%=request.getContextPath()%>/insert.qna" name="form"
 			method="post">
 			<table class="table table-hover">
 				<tr>
@@ -108,7 +108,7 @@
 				<tr>
 					<th>작성자</th>
 					<td><input name="writer" type="text"
-						<%-- value="<%= loginUser.getUserName() %>" --%> name="writer"
+						value="<%= loginUser.getUserName() %>" name="writer"
 						readonly></td>
 					<th>작성일</th>
 					<td><input type="text" name="date" value="<%=today%>"></td>
@@ -116,18 +116,18 @@
 					<td><input type="password" name="password" id="password"
 						placeholder="숫자 4자리 입력" maxlength="4"></td>
 					<th>비밀글 설정</th>
-					<!-- <td><input type="radio" value="private" id="private"
-						name="secret" checked> <label for="private"><img
-							src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; <input
-						type="radio" value="public" name="secret" id="public"> <label
-						for="public"><img src="../../img/222.jpg" width="30px"
-							heigh="30px"></label></td> -->
-							<td>
+					<td>
+					<input type="radio" value="Y" name="secret" id="private"> 
+					<label for="private"> <img src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; 
+					<input type="radio" value="N" name="secret" id="public" checked> 
+					<label for="public"><img src="../../img/222.jpg" width="30px" heigh="30px"></label>
+					</td>
+					<!-- <td>
 							<select name="secret">
-								<option value="10">비밀글</option>
-								<option value="20">공개글</option>
+								<option value="Y">비밀글</option>
+								<option value="N">공개글</option>
 							</select>
-							</td>
+							</td> -->
 				</tr>
 				<tr>
 					<th>내용</th>
@@ -138,8 +138,7 @@
 					<th>파일첨부</th>
 					<td><input type="file"> <input type="button"
 						value="추가" onclick="addFile()"> <input type="button"
-						value="삭제" onclick="delFile()">
-						</td>
+						value="삭제" onclick="delFile()"></td>
 				<tr>
 			</table>
 			<hr>
