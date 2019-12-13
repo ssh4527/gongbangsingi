@@ -11,8 +11,16 @@ public class Review {
 	private int RGrade; // 평점
 	private String RWriter; //작성자
 	private String wcNo; // 클래스 번호
-	
+	private String cName;
 	public Review() {}
+
+
+	public Review(String cName, Date rEnDate, int rGrade, String rWriter) {
+		this.cName = cName;
+		REnDate = rEnDate;
+		RGrade = rGrade;
+		RWriter = rWriter;
+	}
 
 
 	public Review(String rNo, String rTitle, Date rEnDate, String rContent, int rCount, int rGrade, String rWriter,
@@ -109,6 +117,16 @@ public class Review {
 
 
 
+
+
+	public String getcName() {
+		return cName;
+	}
+
+
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
 
 
 	public String getWcNo() {

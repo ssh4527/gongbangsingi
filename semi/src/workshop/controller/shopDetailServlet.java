@@ -45,37 +45,7 @@ public class shopDetailServlet extends HttpServlet {
 		Attachment titlePic = service.selectThumbnail(WsNo);
 		
 		//리뷰목록
-		int listCount = service.getListCount();
-	
-		int currentPage_r;	
-		int pageLimit_r;		
-		int maxPage_r;		
-		int startPage_r;	
-		int endPage_r;			
-		
-		int boardLimit = 10;
-		
-		currentPage_r = 1;
-		
-		if(request.getParameter("currentPage") != null) {
-			currentPage_r = Integer.parseInt(request.getParameter("currentPage"));
-		}
-		
-		pageLimit_r = 10;
-		
-		maxPage_r = (int)Math.ceil((double)listCount / boardLimit);
-		
-		startPage_r = (currentPage_r - 1) / pageLimit_r * pageLimit_r + 1;
-		
-		endPage_r = startPage_r + pageLimit_r - 1;
-
-		if(maxPage_r < endPage_r) {
-			endPage_r = maxPage_r;
-		}
-		
-		PageInfo pi = new PageInfo(currentPage_r, listCount, pageLimit_r, maxPage_r, startPage_r, endPage_r, boardLimit);
-		
-		ArrayList<Review> rlist = service.selectReviewList(WsNo,currentPage_r, boardLimit);
+		ArrayList<Review> rlist = service.selectReviewList(WsNo);
 		
 		//클래스 목록
 		ArrayList<Workclass> clist = service.selectClassList(WsNo);
@@ -93,7 +63,6 @@ public class shopDetailServlet extends HttpServlet {
 			request.setAttribute("clist", clist);
 			request.setAttribute("cPictures", cPictures);
 
-			request.setAttribute("pi", pi);
 			request.getRequestDispatcher("views/store/storeView.jsp").forward(request, response);
 			
 		}else {
