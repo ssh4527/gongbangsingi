@@ -81,7 +81,7 @@
 </head>
 <body>
 	<%@ include file="/views/common/menubar.jsp"%>
-	<form action="regFormImpl2.jsp" name="form" method="post">
+	<form action="regFormImpl2.jsp" name="form" method="post"> <!-- regFormImpl2.jsp -->
 		<br>
 		<table width="1400" height="650">
 			<tr>
