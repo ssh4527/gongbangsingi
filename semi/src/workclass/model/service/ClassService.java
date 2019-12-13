@@ -145,4 +145,47 @@ public class ClassService {
 		return ct;
 	}
 
+	// 찜체크
+	public int JJimCheck(String wcNo, String cId) {
+		Connection conn = getConnection();
+		
+		int result = new ClassDao().JJimCheck(wcNo,cId,conn);
+		close(conn);
+		return result;
+	}
+
+	// 찜 하기
+	public int selectJJim(String wcNo, String cId) {
+		Connection conn = getConnection();
+		
+		int result = new ClassDao().selectJJim(wcNo,cId,conn);
+		
+		if(result > 0 ) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+	// 찜 해제 성공
+	public int deleteJJim(String wcNo, String cId) {
+		Connection conn = getConnection();
+		
+		int result = new ClassDao().deleteJJim(wcNo,cId,conn);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
 }
