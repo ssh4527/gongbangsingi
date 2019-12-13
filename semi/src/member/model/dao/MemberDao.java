@@ -2,6 +2,8 @@ package member.model.dao;
 
 
 import java.sql.*;
+import java.util.ArrayList;
+
 import static common.JDBCTemplate.*;
 import member.model.vo.Member;
 
@@ -171,6 +173,32 @@ public class MemberDao {
 		}finally {
 			close(ps);
 		}
+		
+		return result;
+	}
+
+	public ArrayList<Member> selectChangeMember() {
+		
+		return null;
+	}
+
+	public int changeAuth(Connection c, String id) {
+		int result = 0;
+		String q = "update client set authority=2 where c_id=? ";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, id);
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+		
 		
 		return result;
 	}

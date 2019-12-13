@@ -170,6 +170,7 @@ body {
 	margin: auto;
 	height: 15px;
 	font-size: 0.8em;
+	color:red;
 }
 
 .inputdivarea>input {
@@ -391,7 +392,7 @@ $(function(){
 				
 				<%if (loginUser != null) {%>
 				<%if (loginUser.getAuthority() == 3) {%>
-					location.href='<%=request.getContextPath()%>/views/mypage/AdminMyPage.jsp';
+					location.href='<%=request.getContextPath()%>/Admin.go';
 				<%} else if (loginUser.getAuthority() == 2) {%>
 					
 				<%} else {%>
@@ -472,20 +473,18 @@ $(function(){
 
 							<div class="textdivarea">관심분야</div>
 							<div id="myInterest">
-								<input type="checkbox" id="inter1" value="도자기" name="interest"><label
-									for="inter1">도자기</label> <input type="checkbox" id="inter2"
-									value="악세서리" name="interest"><label for="inter2">악세서리</label>
-								<input type="checkbox" id="inter3" value="가구" name="interest"><label
-									for="inter3">가구</label> <input type="checkbox" id="inter4"
-									value="향수" name="interest"><label for="inter4">향수</label>
-								<br> <input type="checkbox" id="inter5" value="제과"
-									name="interest"><label for="inter5">제과</label> <input
-									type="checkbox" id="inter6" value="원예" name="interest"><label
-									for="inter6">원예</label> <input type="checkbox" id="inter7"
-									value="가죽" name="interest"> <label for="inter7">가죽</label>
-								<input type="checkbox" id="inter8" value="기타" name="interest"><label
-									for="inter8">기타</label> <br>
+								<input type="checkbox" id="inter1" value="도자기" name="interest"><label	for="inter1">도자기</label> 
+								<input type="checkbox" id="inter2" value="악세서리" name="interest"><label for="inter2">악세서리</label>
+								<input type="checkbox" id="inter3" value="가구" name="interest"><label for="inter3">가구</label>
+								<input type="checkbox" id="inter4"value="향수" name="interest"><label for="inter4">향수</label>
+								<br> 
+								<input type="checkbox" id="inter5" value="제과"name="interest"><label for="inter5">제과</label>
+								 <input	type="checkbox" id="inter6" value="원예" name="interest"><label for="inter6">원예</label> 
+								 <input type="checkbox" id="inter7"	value="가죽" name="interest"> <label for="inter7">가죽</label>
+								<input type="checkbox" id="inter8" value="기타" name="interest"><label for="inter8">기타</label> 
+								<br>
 							</div>
+							<div class="commentarea"></div>
 							<button type="submit" id="joinMemberbtn">가입하기</button>
 						</div>
 					</form>
@@ -501,7 +500,7 @@ $(function(){
 		$("#insertMemberForm input[name=userPwdCk]").focusin(function(){
 			$(this).focusout(function(){
 				if($("#insertMemberForm input[name=userPwd]").val() != $("#insertMemberForm input[name=userPwdCk]").val()){
-					$("#insertMemberForm input[name=userPwdCk]").parent().next().html("비밀번호가 일치하지 않습니다.").css("color","red");
+					$("#insertMemberForm input[name=userPwdCk]").parent().next().html("비밀번호가 일치하지 않습니다.");
 				}else{
 					$("#insertMemberForm input[name=userPwdCk]").parent().next().html("");
 				}
@@ -530,6 +529,8 @@ $(function(){
 									useable=true;
 									userId.prop("readonly",true);
 									userId.css("background","lightgray");
+								}else{
+									userId.val("");
 								}
 								
 							}
@@ -539,23 +540,43 @@ $(function(){
 						
 					});}
 				}else{
-					$(this).parent().next().html("아이디는 4글자 이상이여야 합니다.").css("color","red");
+					$(this).parent().next().html("아이디는 4글자 이상이여야 합니다.");
 				}
 			});
 		});
 	});
 	$("#insertMemberForm input[name=userName]").change(function(){
+		console.log($(this).val().indexOf("관리자"));
 		if($(this).val().length <3){
-			$(this).parent().next().html("이름은 3글자이상").css("color","red");
+			$(this).parent().next().html("이름은 3글자이상");
+		}
+		else{
+			$(this).parent().next().html("");
+		}
+		if($(this).val().indexOf("관리자")>-1){
+			$(this).parent().next().html("이 이름은 사용이불가합니다.");
 		}else{
 			$(this).parent().next().html("");
 		}
 	});
 	function insertcheck(){
-		
+		var count=0;
 		var check = $("#insertMemberForm .commentarea");
+		for(var i =0; i<8;i++){
+			if($("#inter"+(i+1)).prop("checked")){
+				count++;
+			}
+		}
+		if(count<1){
+			$("#myInterest").next().html("최소 1개이상 선택해주세요");
+			return false;
+		}else{
+			$("#myInterest").next().html("");
+		}
 		
-		 for(var i =0; i<7; i++){
+		
+		
+		 for(var i =0; i<8; i++){
 			if(check[i].innerHTML.length >0){
 				console.log(check[i].innerHTML);
 				check[i].focus();
@@ -647,12 +668,13 @@ $(function(){
 	<script>
 		$(function(){
 			$("#findmypwdformbtn").click(function(){
+				
 				var userId = $("#findId");
 				var checkHint = $("#findcheckhint");
+				console.log(checkHint.val());
 				var userHint = $("#hintpwd");
 				$.ajax({
-					url : "<%=request.getContextPath()%>
-		/findpwd.chk",
+					url : "<%=request.getContextPath()%>/findpwd.chk",
 					data : {
 						userId : userId.val(),
 						checkHint : checkHint.val(),
@@ -728,8 +750,7 @@ $(function(){
 									if ($("#changePwd").val() != $(
 											"#changePwdCk").val()) {
 										$("#changePwdCk").parent().next().html(
-												"비밀번호가 일치하지 않습니다.").css(
-												"color", "red");
+												"비밀번호가 일치하지 않습니다.");
 									} else {
 										$("#changePwdCk").parent().next().html(
 												"");
