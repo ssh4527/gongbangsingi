@@ -3,6 +3,7 @@ package workshop.model.dao;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,11 +41,9 @@ public class ShopDao {
 			ppst = con.prepareStatement(sql);
 			rset = ppst.executeQuery();
 
-			// String wsNo, String wsName, String address, String wsTel, String category,
-			// String intro, double grade
 			// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
 			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getInt(4)));
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -69,11 +68,14 @@ public class ShopDao {
 			if (rset.next()) {
 				// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1),WS_SNS,C_ID,WS_Introduce
 				shop = new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-						rset.getString(5), rset.getInt(6),rset.getString(7),rset.getString(8),rset.getString(9));
+						rset.getString(5), rset.getDouble(6),rset.getString(7),rset.getString(8),rset.getString(9));
 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(ppst);
 		}
 
 		return shop;
@@ -183,34 +185,8 @@ public class ShopDao {
 		return result;
 	}
 
-	// 페이징 처리_리뷰
-	public int getListCount(Connection con) {
-		int listCount = 0;
-
-		Statement stmt = null;
-		ResultSet rset = null;
-
-		String sql = prop.getProperty("getListCount");
-
-		try {
-			stmt = con.createStatement();
-			rset = stmt.executeQuery(sql);
-
-			if (rset.next()) {
-				listCount = rset.getInt(1);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(stmt);
-		}
-		return listCount;
-	}
-
 	// 해당 공방의 리뷰 리스트
-	public ArrayList<Review> selectReviewList(Connection con, String wsNo, int currentPage, int boardLimit) {
+	public ArrayList<Review> selectReviewList(Connection con, String wsNo) {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
 		ArrayList<Review> list = null;
@@ -219,18 +195,14 @@ public class ShopDao {
 		try {
 			ppst = con.prepareStatement(sql);
 
-			int startRow = (currentPage - 1) * boardLimit + 1;
-			int endRow = startRow + boardLimit - 1;
-
 			ppst.setString(1, wsNo);
-			ppst.setInt(2, startRow);
-			ppst.setInt(3, endRow);
 
 			rset = ppst.executeQuery();
 
 			list = new ArrayList<Review>();
 			while (rset.next()) {
-				Review c = new Review();
+				//String cName, Date rEnDate, int rGrade, String rWriter
+				Review c = new Review(rset.getString(1),rset.getDate(2),rset.getInt(3),rset.getString(4));
 				list.add(c);
 			}
 		} catch (SQLException e) {
@@ -257,7 +229,8 @@ public class ShopDao {
 
 			list = new ArrayList<Workclass>();
 			while (rset.next()) {
-				Workclass c = new Workclass();
+				//String wcName, int wcNOP, String wcOpenClose
+				Workclass c = new Workclass(rset.getString("WC_NAME"),rset.getInt("WC_NOP"),rset.getString("WC_DATE"));
 				list.add(c);
 			}
 		} catch (SQLException e) {
@@ -355,7 +328,7 @@ public class ShopDao {
 			// String intro, double grade
 			// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
 			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getInt(4)));
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

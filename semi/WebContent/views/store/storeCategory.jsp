@@ -202,6 +202,7 @@ width: 300px;
 
 		</div>
 	</div>
+	
 	<!-- 정렬 리스트 script -->
 	<script>
 		$(function() {
@@ -289,7 +290,6 @@ width: 300px;
 							
 						</div>
 						<div class="card-body">
-						<input type="hidden" value="<%=shop.getWsNo()%>">
 							<small class="text-muted"><%=shop.getCategory()%></small>
 							<p class="card-text"><%=shop.getWsName()%></p>
 							<div class="d-flex justify-content-between align-items-center shortIntro">
@@ -309,9 +309,9 @@ width: 300px;
 
 	<script>
 	$(".shop").click(function(){
-		var WsNo = $(this).parent().children().eq(0).val();
+		var WsNo = $(this).children().eq(0).val();
 		
-		location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+"ws1";
+		location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+WsNo;
 	});
 	</script>
 	<%@ include file="../common/footbar.jsp"%>

@@ -371,6 +371,82 @@ public class ClassDao {
 		return ct;
 	}
 
+
+	// 찜체크
+	public int JJimCheck(String wcNo,String cId, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String sql = "select count(*) from jjim where wc_no = ? and c_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			pstmt.setString(2, cId);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	// 찜 하러가기
+	public int selectJJim(String wcNo, String cId, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "insert into jjim values(?,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cId);
+			pstmt.setString(2, wcNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
+		
+		return result;
+	}
+
+
+	// 찜 해제
+	public int deleteJJim(String wcNo, String cId, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from jjim where c_Id = ? and WC_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cId);
+			pstmt.setString(2, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
 	
 
 }

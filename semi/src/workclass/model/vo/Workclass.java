@@ -40,6 +40,14 @@ public class Workclass {
 	}
 
 
+	public Workclass(String wcName, int wcNOP, String wcOpenClose) {
+		super();
+		WcName = wcName;
+		WcNOP = wcNOP;
+		WcOpenClose = wcOpenClose;
+	}
+
+
 	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
 			String wcWarning,String wcIntroduce, String wsNo, Double avgGrade) {
 		super();

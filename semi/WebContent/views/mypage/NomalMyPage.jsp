@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, reservation.model.vo.*" %>
+    <%
+    ArrayList<Reservation> list = (ArrayList<Reservation>)request.getAttribute("list"); 
+    
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,6 +81,9 @@
 		position: absolute;
 		right: 100px;
 		
+	}
+	#N-Reservation{
+		color: green;
 	}
 	
 </style>
@@ -209,14 +216,13 @@
 				
 			});
 			function deleteMember(){
-				// 비밀번호 비교 -> 일치 할 경우 prompt -> 예 입력시 삭제 
-				 /* if( < % loginUser.getUserPwd%> == $("#ckPwd").val() ){
+				
+				/* if( < % loginUser.getUserPwd%> == $("#ckPwd").val() ){
 						if(window.confirm("정말 탈퇴하시겠습니까?")){
 							window.alert("회원 탈퇴 완료");
 							location.href = "< % request.getContextPath %>/deleteMember.nomal";
-						}
+					}
 				} */
-				
 			}
 		</script>
 		<section>
@@ -232,14 +238,21 @@
 					</tr>
 				</thead>
 				<tbody>
-				
+				<% if(list.isEmpty()){ %>
 					<tr>
-						<td>2020/02/02</td>
-						<td>32</td>
-						<td>6명</td>
-						<td>90,000 원</td>
-						<td ><button type="button" id="cancel">취소하기</button></td>
+						<td colspan="6" style="text-align: center">조회된 리스트가 없습니다.</td>
 					</tr>
+				<% } else { %>
+					<% for(Reservation r : list) {%>
+						<tr>
+							<td><%=r.getResDate()%></td>
+							<td><%=r.getResCode()%></td>
+							<td><%=r.getResNop() %></td>
+							<td><%=r.getTotalPrice()%></td>
+							<td ><button type="button" id="cancel">취소하기</button></td>
+						</tr>
+					<% } %>
+				<% } %>
 				</tbody>
 			</table>
 			</div>

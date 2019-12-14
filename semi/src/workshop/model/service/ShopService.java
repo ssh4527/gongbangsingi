@@ -88,17 +88,11 @@ public class ShopService {
 		return result;
 	}
 	
-	public int getListCount() {
-		Connection con = getConnection();
-		int listCount= new ShopDao().getListCount(con);
-		close(con);
-		return listCount;
-	}
 
-	public ArrayList<Review> selectReviewList(String wsNo, int currentPage, int boardLimit) {
+	public ArrayList<Review> selectReviewList(String wsNo) {
 		Connection con = getConnection();
 		
-		ArrayList<Review> list = new ShopDao().selectReviewList(con, wsNo,currentPage, boardLimit);
+		ArrayList<Review> list = new ShopDao().selectReviewList(con, wsNo);
 
 		close(con);
 
