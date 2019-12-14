@@ -16,17 +16,27 @@ public class Workshop {
 	private String Category;  // 공방 카테고리
 	private String PayAccount; // 공방계좌번호
 
-	
-/*	private ArrayList<Review> rlist; //후기 글
-
-	private ArrayList<Workclass> clist; //클래스 
-*/	
 	private String id; //사업자아이디
 	private String intro; //소개글
 	private double grade; //평점
 	private String sns; //sns계정
-	
+
+	private String AccountNum; // 사업자 등록번호
 	public Workshop() {}
+
+
+
+
+	public Workshop(String wsNo, String wsName, String address, String wsTel,String id, String category) {
+		super();
+		WsNo = wsNo;
+		WsName = wsName;
+		Address = address;
+		WsTel = wsTel;
+		this.id = id;
+		Category = category;
+	}
+
 
 	public Workshop(String wsNo, String wsName, String category, double grade) {
 		WsNo = wsNo;
@@ -148,6 +158,18 @@ public class Workshop {
 	}
 
 
+
+	public String getAccountNum() {
+		return AccountNum;
+	}
+
+
+
+	public void setAccountNum(String accountNum) {
+		AccountNum = accountNum;
+	}
+
+	
 	
 	
 	

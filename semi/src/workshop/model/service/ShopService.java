@@ -139,6 +139,17 @@ public class ShopService {
 		return list;
 	}
 
+	// 승인 안된 공방 가져오기
+	public ArrayList<Workshop> selectNewShopList() {
+		Connection con = getConnection();
+		
+		ArrayList<Workshop> list = new ShopDao().selectNewShopList(con);
+		
+		close(con);
+
+		return list;
+	}
+
 	
 
 	
