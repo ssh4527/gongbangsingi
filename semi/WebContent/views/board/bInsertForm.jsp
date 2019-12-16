@@ -45,10 +45,11 @@
 }
 </style>
 <script>
-	/*  if($("input:checkbox[name='secret']").is(":checked")){
-	 	secret='Y';
+	/* if($('input:radio[name=secret]').is(':checked')){
+	 	  $('input[name="secret"]').val(['Y']);
+	 } else {
+		 $('input[name="secret"]').val(['N']);
 	 } */
-	 
 	function addFile() {
 		$("input:button:eq(1)").after("<br><input type=file>");
 	}
@@ -73,6 +74,7 @@
 			}
 		}
 	}
+
 </script>
 
 </head>
@@ -99,11 +101,6 @@
 					<th>제목</th>
 					<td><textarea name="title" cols="60" rows="1"
 							style="resize: none" placeholder="제목을 입력해주세요"></textarea></td>
-					<th>회원구분</th>
-					<td><select name="member">
-							<option value="1">일반</option>
-							<option value="2">사업자</option>
-					</select></td>
 				</tr>
 				<tr>
 					<th>작성자</th>
@@ -117,9 +114,9 @@
 						placeholder="숫자 4자리 입력" maxlength="4"></td>
 					<th>비밀글 설정</th>
 					<td>
-					<input type="radio" value="Y" name="secret" id="private"> 
+					<input type="radio" value="Y" name="secret" id="private" checked> 
 					<label for="private"> <img src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; 
-					<input type="radio" value="N" name="secret" id="public" checked> 
+					<input type="radio" value="N" name="secret" id="public"> 
 					<label for="public"><img src="../../img/222.jpg" width="30px" heigh="30px"></label>
 					</td>
 					<!-- <td>
@@ -146,7 +143,7 @@
 			<div id="qna4_wrap2">
 				<!-- <button type="submit" class="btn btn-outline-secondary" onclick="b_pass();">WRITE</button> -->
 				<input type="button" class="btn btn-outline-secondary" value="WRITE"
-					onclick="pass()" /> <input type="button"
+					 onclick="pass()" /> <input type="button"
 					class="btn btn-outline-secondary" value="CANCEL"
 					onclick="javascript:history.back();">
 		</form>

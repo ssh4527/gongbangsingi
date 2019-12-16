@@ -1,4 +1,4 @@
-package notice.controller;
+package qna.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import notice.model.service.NoticeService;
 import notice.model.vo.Notice;
+import qna.model.service.QnaService;
+import qna.model.vo.Qna;
 
-
-/** 
- * 
- * Servlet implementation class NdeleteServlet
+/**
+ * Servlet implementation class QnaDetailServlet
  */
-@WebServlet("/delete.no")
-public class NdeleteServlet extends HttpServlet {
+@WebServlet("/detail.qna")
+public class QnaDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NdeleteServlet() {
+    public QnaDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +31,18 @@ public class NdeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String nno=request.getParameter("nno");
+		String qno=request.getParameter("qno");
 		
-		int result=new NoticeService().deleteNotice(nno);
+		Qna qna=new QnaService().selectQna(qno);
 		
-		if(result>0) {
-			response.sendRedirect("list.no");
+		String page="";
+		if(qna != null) {
+			request.setAttribute("qna", qna);
+			page = "views/board/boardDetailView.jsp";
 		}else {
-			request.setAttribute("msg", "공지사항 삭제 실패!");
+			request.setAttribute("msg","공지사항 조회 실패!");
 		}
+		request.getRequestDispatcher(page).forward(request, response);
 	}
 
 	/**

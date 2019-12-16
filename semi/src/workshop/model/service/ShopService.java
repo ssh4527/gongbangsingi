@@ -174,6 +174,16 @@ public class ShopService {
 		return result;
 	}
 
+	public ArrayList<Workshop> selectedCategory(String category) {
+		Connection con = getConnection();
+		
+		ArrayList<Workshop> list = new ShopDao().selectedCategory(con,category);
+		
+		close(con);
+
+		return list;
+	}
+
 	
 
 	

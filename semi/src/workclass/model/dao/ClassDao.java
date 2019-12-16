@@ -448,6 +448,7 @@ public class ClassDao {
 		return result;
 	}
 
+
 	// made by ssh
 	public ArrayList<String[]> selectCheckClassList(Connection c) {
 		Statement st =null;
@@ -494,6 +495,75 @@ public class ClassDao {
 		
 		
 		return result;
+
+
+	public ArrayList<Review> selectReview(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ArrayList<Review> rList = new ArrayList<>();
+		ResultSet rset = null;
+		String sql  ="select * from review where wc_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Review r = new Review();
+				r.setRNo(rset.getString("r_no"));
+				r.setWcNo(wcNo);
+				r.setRTitle(rset.getString("r_title"));
+				r.setREnDate(rset.getDate("r_ent_date"));
+				r.setRContent(rset.getString("r_content"));
+				r.setRCount(rset.getInt("r_view_cnt"));
+				r.setRGrade(rset.getInt("r_grade"));
+				r.setcName(rset.getString("c_id"));
+				rList.add(r);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		
+		return rList;
+	}
+
+
+	// 리뷰파일가져오는부분
+	public ArrayList<ClassFile> selectReviewFile(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset =  null;
+		ArrayList<ClassFile> rList2 = new ArrayList<ClassFile>();
+		String sql = "select * from file_storage where fs_destination = ?";
+	
+			try {
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, wcNo);
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					ClassFile cf = new ClassFile(rset.getString("fs_no"),rset.getString("fs_original_file"),
+											rset.getString("fs_rename_file"),rset.getString("fs_destination"),rset.getInt("fs_level"), rset.getString("fs_path"));
+					rList2.add(cf);
+				}
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				close(rset);
+				close(pstmt);
+			}
+		
+		return rList2;
+
 	}
 
 	
