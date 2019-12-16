@@ -397,7 +397,7 @@ h4 {
 		<section id="classEdit">
 			<br>
 			<h4>&lt;클래스&gt;</h4>
-			<br>
+			<br><br>
 			<div class="tableArea" >
 				<table class="table table-hover" id="classList"  class="tableScroll">
 					<thead>
@@ -450,7 +450,7 @@ h4 {
 
 		<br> <br>
 		
-		<!-- 공방 소개글 -->
+		<!-- 공방 소개글  변경-->
 		<section id="intro3_third">
 			<h4>&lt;공방 소개 글 &gt;</h4>&nbsp;
 			<% if(loginUser!=null&&loginUser.getUserId().equals(shop.getId())){%>
@@ -486,7 +486,13 @@ h4 {
 			</div>
 			<%} %>
 			<br><br>
+			
+			<!-- 공방 소개글  -->
+			<%if(shop.getIntro()!=null) {%>
 			<p id="introContent"><%=shop.getIntro()%></p>
+			<%}else{%>
+				<p id="introContent">환영합니다~~!</p>
+			<% } %>
 		</section>
 		<script>
 			$(function() {
@@ -523,7 +529,7 @@ h4 {
 		<br><br>
 		
 		<!-- 사진... -->
-		<%if(cPictures.isEmpty()){}else{ %>
+		<%if(!cPictures.isEmpty()){ %>
 		<section id="content_final_slide">
 			<br>
 			<h4>&lt;사진&gt;</h4>
