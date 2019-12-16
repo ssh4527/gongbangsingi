@@ -314,7 +314,7 @@ public class SearchDao {
 	}
 
 	public ArrayList<Workclass> findClass(Connection c, String interest, ArrayList<Workclass> list) {
-		
+		System.out.println("내 관심분야느!"+interest);
 		String q = "select * from work_class wc, (select AVG(R_GRADE) 평점 ,wc_no from review group by wc_no)r, workshop ws where wc.wc_no = r.wc_no and wc.ws_no = ws.ws_no and ws.s_category in (?) order by 평점 desc";
 //		String q= "select * from work_class wc, workshop ws " + 
 //				"where wc.ws_no = ws.ws_no and ws.s_category in (?)";
@@ -356,6 +356,7 @@ public class SearchDao {
 			close(rs);
 			close(ps);
 		}
+		
 		
 		return list;
 	}

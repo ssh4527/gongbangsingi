@@ -40,6 +40,8 @@ public class shopListServlet extends HttpServlet {
 		for(Workshop s: list) {
 			System.out.println(s.getWsNo());
 		}
+		
+		
 		request.setAttribute("list", list);
 		request.setAttribute("flist", flist);
 		request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);

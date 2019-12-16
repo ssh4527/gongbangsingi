@@ -42,7 +42,7 @@ public class NoticeService {
 	}
 
 	// 3. 공지사항 상세보기
-	public Notice selectNotice(int nno) {
+	public Notice selectNotice(String nno) {
 		Connection conn=getConnection();
 		
 		int result=new NoticeDao().increaseCount(conn, nno);
@@ -61,7 +61,7 @@ public class NoticeService {
 	}
 
 	// 4. 공지사항 삭제
-	public int deleteNotice(int nno) {
+	public int deleteNotice(String nno) {
 		Connection conn=getConnection();
 		
 		int result=new NoticeDao().deleteNotice(conn, nno);
@@ -78,7 +78,7 @@ public class NoticeService {
 	}
 
 	// 5. 공지사항 수정 updateForm
-	public Notice selectNotice2(int nno) {
+	public Notice selectNotice2(String nno) {
 		Connection conn=getConnection();
 		Notice n=new NoticeDao().selectNotice(conn, nno);
 		close(conn);
