@@ -164,9 +164,8 @@ section, div, header {
 h4 {
 	display: inline;
 }
-
-.picEdit {
-	display: hidden;
+#fileButton{
+display:hidden;
 }
 
 </style>
@@ -182,13 +181,14 @@ h4 {
 				<section id="intro1_1" style="padding: 10px;">
 
 					<%
-						boolean picCheck = false;
+						String fileBtnN="";
 						if (titlePic.getReName()==null) {
 					%>
 					<div id="thumbnail1" class="thumbnail"></div>
 					<%
-						picCheck = true;
+						fileBtnN="사진 등록";
 					} else {
+						fileBtnN="사진 변경";
 					%>
 					
 					<img id="titleImg"
@@ -200,51 +200,53 @@ h4 {
 					<form id="thumbnailForm" method="post"
 						enctype="multipart/form-data">
 						<input type="hidden" value="<%=shop.getWsNo()%> id="shopNo">
+					
 						<%
 						boolean userCheck=false;
 						if(loginUser!=null&&loginUser.getUserId().equals(shop.getId())){
 							userCheck=true;
-							if (picCheck) {
-						%>
-						<input type="button" value="사진 변경" id="thumbnailEdit2"
+							%>
+								<input type="file" id="fileButton">
+								<input type="button" value="<%=fileBtnN%>" id="thumbnailEdit"
 							name="thumbnailEdit">
-						<button type="submit" id="picUpdate" name="picEdit"></button>
-						<%
-							} else {
-						%>
-						<input type="button" value="사진 등록" id="thumbnailEdit1"
-							name="thumbnailEdit">
-						<button type="submit" id="picInsert" name="picEdit"></button>
-						<%
-							}}
-						%>
+						<%} %>
 					</form>
 					<p id="storeName"><%=shop.getWsName()%></p>
 
 					<script>
 				$(function() {
-					$("#imgfile1").hide();
-
-					$(".thumbnailEdit").click(function() {
-						$("#imgfile1").click();
-					});
 					
+					$(".thumbnailEdit").click(function() {
+						$("#fileButton").click();
+						picUpdate(fileBtnN);
+					});
 				});
-				
-				<%-- function picUpdate(){
-				    
+			
+				function picUpdate(fileBtnN){
+					if(fileBtnN=="사진 등록"){
 				    $.ajax({
-				        url : '/updatethumbnail.sh',
-				        data : {WsNo:shopNo, file:thumbnailEdit2 } 
-				    }).success: function(file){
-				    	$("#titleImg").attr("src","<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/file.reName");
+				        url : 'updatethumbnail.sh',
+				        data : {WsNo:shopNo, file:fileButton } 
+				    }).success:function(file){
+				    	$("#titleImg").attr("src","<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/"+file.reName);
 
 				    	}
+					}
+					else{
+						 $.ajax({
+						        url : 'updatethumbnail.sh',
+						        data : {WsNo:shopNo, file:fileButton } 
+						    }).success:function(file){
+						    	$("#titleImg").attr("src","<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/"+file.reName);
+
+						    	}
+							}
+					
 				    this.submit();
-				} --%>
+				}
+				</script>
 
-
-				function picUpdate(){
+			<%-- 	function picUpdate(){
 					$("#thumbnailForm").attr("action", "<%=request.getContextPath()%>/updatethumbnail.sh");
 					$("#thumbnailForm").submit();
 					
@@ -254,8 +256,8 @@ h4 {
 					$("#thumbnailForm").attr("action", "<%=request.getContextPath()%>/insertthumbnail.sh");
 							$("#thumbnailForm").submit();
 						}
-
-					</script>
+ --%>
+					
 				</section>
 				<br> <br> <br> <br> <br> <br>
 				
@@ -428,7 +430,7 @@ h4 {
 			</div>
 			<% if(loginUser!=null&&loginUser.getUserId().equals(shop.getId())){%>
 			<div class="classbtn">
-				<button id="class_openclass" class="btn btn-outline-secondary">클래스
+				<button id="class_openclass" class="btn btn-outline-secondary" onclick="location.href='<%=request.getContextPath()%>/views/classdetail/insertClass.jsp'">클래스
 					열기</button>
 				&nbsp;
 				<button id="class_updateclass" class="btn btn-outline-secondary">수정하기</button>
@@ -478,7 +480,7 @@ h4 {
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">Close</button>
-							<button type="button" id="updateIntro3" onclick="updateIntro3();"
+							<button type="button" id="updateIntro3"
 								data-dismiss="modal" class="btn btn-primary">수정완료</button>
 						</div>
 					</div>
@@ -488,10 +490,11 @@ h4 {
 			<br><br>
 			
 			<!-- 공방 소개글  -->
-			<%if(shop.getIntro()!=null) {%>
-			<p id="introContent"><%=shop.getIntro()%></p>
+			<% 
+			if(shop.getIntro()!=null) {%>
+			<textarea id="introContent" cols="900" readonly><%=shop.getIntro()%></textarea>
 			<%}else{%>
-				<p id="introContent">환영합니다~~!</p>
+				<textarea id="introContent" cols="900" readonly></textarea>
 			<% } %>
 		</section>
 		<script>
@@ -503,23 +506,20 @@ h4 {
 			});
 
 			$(function() {
-				// 2. 버튼 클릭 시 POST 방식으로 서버에 데이터 전송 및 응답
-				$("#btn2").click(function() {
+				$("#updateIntro3").click(function() {
 					var input = $("#modalText").val();
-
+					var WsNo="<%=shop.getWsNo()%>";
+					
 					$.ajax({
 						url : "updateIntro.sh",
 						data : {
-							input : input
+							input:input, WsNo:WsNo
 						},
-						type : "post",
-						// dataType 속성 : 서버의 응답 데이터의 형식을 지정해주는 속성.
-						//	미작성 시 자동으로 응답데이터의 형식을 판단하여 알맞게 지정함.
-						//dataType : "text",
-						success : function(result) {
+						type:"post",
+						success: function(result) {
 							$("#introContent").val(result);
 						},
-						error : function(e) {
+						error:function(e) {
 							console.log(e);
 						}
 					});
