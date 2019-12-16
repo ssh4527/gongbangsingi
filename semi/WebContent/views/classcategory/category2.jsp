@@ -377,7 +377,7 @@ to {
       								icon.addClass("far fa-heart fa-lg fa-spin");
       		       					
       							
-      								alert("찜 해제d!!");
+      								alert("찜 해제!!");
       								
       								// 찜목록에 있어서 찜 해제 그리고 빈하트로 변경
       							}else{
