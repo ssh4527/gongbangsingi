@@ -4,6 +4,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<!--  클래스 입력후 미리보기창 -->
 <%
 	ArrayList<ClassFile> fileList = (ArrayList<ClassFile>)request.getAttribute("fileList");
 	Workclass wc = (Workclass)request.getAttribute("workclass");
