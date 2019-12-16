@@ -346,7 +346,7 @@ $(function(){
 				</div>
 				<div id="testinfo"
 					style="float: left; background-color: lightgrey; width: 80%; margin: 10%; margin-top: 5%;">
-					<a id="gomypage" href="<%= request.getContextPath() %>/showReservation.nomal">마이페이지</a><a id="logout"
+					<a id="gomypage" href="#" >마이페이지</a><a id="logout"
 						href="<%=request.getContextPath()%>/logout.me">로그아웃</a>
 
 				</div>
@@ -407,12 +407,11 @@ $(function(){
 				<%if (loginUser != null) {%>
 				<%if (loginUser.getAuthority() == 3) {%>
 					location.href='<%=request.getContextPath()%>/Admin.go';
-				<%} else if (loginUser.getAuthority() == 2) {%>
-					
 				<%} else {%>
+				    location.href="<%= request.getContextPath() %>/showReservation.nomal"
+				<%} %>
 					
-				<%}
-			}%>
+				<%}%>
 				 
 				
 			});
@@ -489,11 +488,11 @@ $(function(){
 							<div id="myInterest">
 								<input type="checkbox" id="inter1" value="도자기" name="interest"><label	for="inter1">도자기</label> 
 								<input type="checkbox" id="inter2" value="악세서리" name="interest"><label for="inter2">악세서리</label>
-								<input type="checkbox" id="inter3" value="가구" name="interest"><label for="inter3">가구</label>
+								<input type="checkbox" id="inter3" value="비누" name="interest"><label for="inter3">비누</label>
 								<input type="checkbox" id="inter4"value="향수" name="interest"><label for="inter4">향수</label>
 								<br> 
-								<input type="checkbox" id="inter5" value="제과"name="interest"><label for="inter5">제과</label>
-								 <input	type="checkbox" id="inter6" value="원예" name="interest"><label for="inter6">원예</label> 
+								<input type="checkbox" id="inter5" value="목걸이"name="interest"><label for="inter5">목걸이</label>
+								 <input	type="checkbox" id="inter6" value="반지" name="interest"><label for="inter6">반지</label> 
 								 <input type="checkbox" id="inter7"	value="가죽" name="interest"> <label for="inter7">가죽</label>
 								<input type="checkbox" id="inter8" value="기타" name="interest"><label for="inter8">기타</label> 
 								<br>

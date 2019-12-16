@@ -42,7 +42,9 @@ public class IndexOnLoadServlet extends HttpServlet {
 			interest = inter.split(",");
 			
 		}
+
 		list = new SearchService().findClass(interest);
+		
 		if(!list.isEmpty()) {
 			request.setAttribute("mainList", list);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
