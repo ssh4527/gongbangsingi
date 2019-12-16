@@ -18,6 +18,7 @@ import static common.JDBCTemplate.*;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
 import workclass.model.vo.Workclass;
+import workshop.model.vo.Workshop;
 
 public class ClassDao {
 	private Properties prop = new Properties();
@@ -448,6 +449,54 @@ public class ClassDao {
 	}
 
 
+	// made by ssh
+	public ArrayList<String[]> selectCheckClassList(Connection c) {
+		Statement st =null;
+		ResultSet rset = null;
+		String sql = "select wc_no,ws.ws_name,wc_name, ws.s_category  from work_class wc, workshop ws where ws.ws_no=wc.ws_no and wc.wc_yn='N'";
+		ArrayList<String[]> list = new ArrayList<String[]>();
+		
+		try {
+			st = c.createStatement();
+			rset  = st.executeQuery(sql);
+			
+			while (rset.next()) {
+				String[] text = {rset.getString(1),rset.getString(2),rset.getString(3),rset.getString(4)};
+				list.add(text);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(st);
+		}
+
+		return list;
+	}
+
+	// made by ssh
+	public int changeAuth(Connection c, String id) {
+		int result = 0;
+		
+		String q = "update work_class set WC_YN='Y' where wc_no=?";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, id.trim());
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+		
+		
+		return result;
+
+
 	public ArrayList<Review> selectReview(String wcNo, Connection conn) {
 		PreparedStatement pstmt = null;
 		ArrayList<Review> rList = new ArrayList<>();
@@ -514,6 +563,7 @@ public class ClassDao {
 			}
 		
 		return rList2;
+
 	}
 
 	

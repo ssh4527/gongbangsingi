@@ -1,7 +1,7 @@
-package common;
+package workclass.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,24 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
 import workclass.model.service.ClassService;
-import workclass.model.vo.Workclass;
 import workshop.model.service.ShopService;
-import workshop.model.vo.Workshop;
 
 /**
- * Servlet implementation class AdminCheckListServlet
+ * Servlet implementation class ChangeClassAuthServlet
  */
-@WebServlet("/Admin.go")
-public class AdminCheckListServlet extends HttpServlet {
+@WebServlet("/change.class")
+public class ChangeClassAuthServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminCheckListServlet() {
+    public ChangeClassAuthServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,14 +31,16 @@ public class AdminCheckListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Workshop> wsList = new ShopService().selectNewShopList();
-		ArrayList<Workshop> wsList2 = new ShopService().selectCheckShopList();
-		ArrayList<String[]> wcList = new ClassService().selectCheckClassList();
+		request.setCharacterEncoding("UTF-8");
+		String id = request.getParameter("classId");
 		
-		request.setAttribute("wsList", wsList);
-		request.setAttribute("wsList2", wsList2);
-		request.setAttribute("wcList", wcList);
-		request.getRequestDispatcher("views/mypage/AdminMyPage.jsp").forward(request, response);
+		int result = new ClassService().changeAuth(id);
+		PrintWriter out = response.getWriter();
+		if(result > 0) {
+			out.print("success");
+		}else {
+			out.print("fail");
+		}
 		
 	}
 
@@ -50,7 +48,6 @@ public class AdminCheckListServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		doGet(request, response);
 	}
 

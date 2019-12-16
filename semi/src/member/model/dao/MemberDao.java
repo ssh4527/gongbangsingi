@@ -177,10 +177,7 @@ public class MemberDao {
 		return result;
 	}
 
-	public ArrayList<Member> selectChangeMember() {
-		
-		return null;
-	}
+	
 
 	public int changeAuth(Connection c, String id) {
 		int result = 0;
