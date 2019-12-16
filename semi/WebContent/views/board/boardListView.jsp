@@ -58,7 +58,7 @@
 	<u><p class="font">고객센터<br></p></u>
 </font><BR>
      <!-- <table class="table table-dark table-striped"> -->
-            <table class="table table-hover">
+            <table class="table table-hover" id="Qlist">
                     <tr>
                         <th>NO</th>
                         <th>구분</th>
@@ -68,23 +68,37 @@
                         <th>VIEWS</th>
                         <th>DATE</th>
                     </tr>
+                       
+              	   <% if(list.isEmpty()){ %>
+					 	<tr>
+					 		<td>!!</td>
+					 	</tr>
+				     <%} else { %>
+						 <% for(Qna q : list) {%>
+						 	<tr>
+						 		<td ><%= q.getqNo() %></td> <!--  번호 -->
+						 		<td ><% if(loginUser.getAuthority()==1){%> 일반회원 <% }
+						 			else if(loginUser.getAuthority()==2){%> 사업자 <% } %></td> <!--  일반회원/사업자 구분 -->
+						 		<td ><%= q.isqSecret() %></td> <!--  비밀글 여부 -->
+						 		<td ><%= q.getqTitle() %></td> <!--  제목 -->
+						 		<td ><%= q.getcId() %></td> <!--  작성자 이름 -->
+						 		<td ><%= q.getqCount() %></td> <!--  조회수 -->
+						 		<td ><%= q.getqEntdate() %></td> <!--  날짜 -->
+						 	</tr>
+						 <% } %>
+					 <% } %>
                 </table>
                 
                 <hr>
                 <div align="center">
 			<form action="<%=request.getContextPath()%>/search.qna" method="get"
 				onsubmit="return checkSearchCondition();">
-			<!-- 	<select>
+				<select  id="searchCondition" name="searchCondition">
 					<option value="---">---</option>
-					<option value="week">일주일</option>
-					<option value="month">한달</option>
-					<option value="total">전체</option>
-				</select> --> 
-				<select>
-					<option value="---">---</option>
+								<option value="title">제목</option>
 					<option value="writer">작성자</option>
-					<option value="title">제목</option>
-				</select> <input type="text" id="board_input" placeholder="내용을 입력해주세요">
+				</select> 
+				<input type="search" name="board_search" id="board_search" placeholder="내용을 입력해주세요">
 				<button type="submit" class="btn btn-outline-secondary">Search</button>
 				
 				<% if(loginUser != null){%>
@@ -94,10 +108,20 @@
 			<script>
 			function checkSearchCondition() {
 				if ($("#searchCondition option:selected").val() == '---') {
+					alert('제목인지 작성자인지 선택해주세요^^');
 					return false;
 				}
 				return true;
 			}
+		
+			$(function(){
+				$("#Qlist td").click(function(){
+					var num=$(this).parent().children().eq(0).text();
+					location.href="<%= request.getContextPath() %>/detail.qna?nno="+num;
+				});
+			});
+			
+		
 		</script>
 		</div>
 

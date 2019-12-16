@@ -31,7 +31,7 @@ public class NupdateformServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int nno = Integer.parseInt(request.getParameter("nno"));
+		String nno = request.getParameter("nno");
 		
 		Notice notice = new NoticeService().selectNotice2(nno);
 		

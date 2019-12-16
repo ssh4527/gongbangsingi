@@ -5,6 +5,7 @@ import static common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,17 +40,22 @@ public class QnaDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				list.add(new Qna(rs.getString("qno"), // 여기서 오류 -> 부적합한 열 이름
-						rs.getString("cid"),
-						rs.getString("qtitle"),
-						rs.getString("qcontent"), rs.getDate("qentdate"), rs.getBoolean("qsecret"),
-						rs.getBoolean("qreplayck"), rs.getString("wcno"), rs.getInt("qcount"), rs.getString("qpwd")));
+				list.add(new Qna(rs.getString("q_no"),
+						rs.getString("c_id"),
+						rs.getString("q_title"),
+						rs.getString("q_content"), rs.getDate("q_ent_date"), rs.getBoolean("q_secret"),
+						/*rs.getBoolean("q_replay_ck"), */
+						/*rs.getString("wc_no"), */
+						rs.getInt("q_count")/*,
+						rs.getString("q_pwd")*/));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
 		}
-
-		return null;
+		return list;
 	}
 
 	public int insertQna(Connection conn, Qna q) {
@@ -75,6 +81,53 @@ public class QnaDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	public int increaseCount(Connection conn, String qno) {
+		PreparedStatement pstmt = null;
+
+		int result = 0;
+
+		String query = prop.getProperty("increaseCount");
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, qno);
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public Qna selectQna(Connection conn, String qno) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		Qna q=null;
+		String query=prop.getProperty("selectQna");
+		 try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1,qno);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				q=new Qna(rs.getString("q_no"), rs.getString("c_id"),rs.getString("q_title"),
+						rs.getString("q_content"),rs.getDate("q_ent_date"), rs.getBoolean("q_secret"),
+						rs.getBoolean("q_replay_ck"),rs.getString("wc_no"),rs.getInt("q_count"),rs.getString("q_pwd"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		
+		return q;
 	}
 
 }
