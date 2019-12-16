@@ -4,6 +4,7 @@
 	String searchCondition = (String)request.getAttribute("searchCondition");
 	String search = (String)request.getAttribute("search");
 %>   
+
  
 <!DOCTYPE html>
 <html>

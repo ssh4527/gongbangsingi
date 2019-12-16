@@ -4,6 +4,7 @@
 	Notice n = (Notice)request.getAttribute("notice");
 %>
 <!DOCTYPE html>
+
 <html>
 <head>
 <!--  ★공지사항 상세보기★ -->

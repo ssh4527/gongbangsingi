@@ -13,6 +13,7 @@ import java.util.Properties;
 import notice.model.vo.Notice;
 import static common.JDBCTemplate.*;
 
+
 public class NoticeDao {
 	private Properties prop = new Properties();
 
