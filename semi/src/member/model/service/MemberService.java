@@ -73,13 +73,7 @@ public class MemberService {
 		return result;
 	}
 
-	public ArrayList<Member> selectChangeMember() {
-		Connection c= getConnection();
-		ArrayList<Member> list = new MemberDao().selectChangeMember();
-		
-		close(c);
-		return list;
-	}
+	
 
 	public int changeAuth(String id) {
 		Connection c= getConnection();

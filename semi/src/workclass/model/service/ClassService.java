@@ -4,6 +4,8 @@ import workclass.model.dao.ClassDao;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
 import workclass.model.vo.Workclass;
+import workshop.model.dao.ShopDao;
+
 import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
@@ -184,6 +186,28 @@ public class ClassService {
 		}
 		
 		close(conn);
+		
+		return result;
+	}
+	// 클래스 승인안된거 가져오기 ssh
+	public ArrayList<String[]> selectCheckClassList() {
+		Connection c = getConnection();
+		
+		ArrayList<String[]> list = new ClassDao().selectCheckClassList(c);
+		close(c);
+		return list;
+	}
+	// 클래스 승인하기 ssh
+	public int changeAuth(String id) {
+		Connection c= getConnection();
+		
+		int result = new ClassDao().changeAuth(c,id);
+		if(result>0) {
+			commit(c);
+		}else {
+			rollback(c);
+		}
+		close(c);
 		
 		return result;
 	}
