@@ -5,6 +5,16 @@
 	Member loginUser = (Member) session.getAttribute("loginUser");
 	String loginmsg = (String) request.getAttribute("loginmsg");
 	String msg = (String) session.getAttribute("msg");
+	
+	// 2019 12 15 Hy 찜용
+		String userId = "";	
+		String log = "";
+		if(loginUser != null){
+			log =  loginUser.getUserId();	
+		}else{
+			log = "asd";	
+		}
+		
 %>
 <html>
 <head>
@@ -27,6 +37,10 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+		<!--  폰트  jh -->
+	<link href="https://fonts.googleapis.com/css?family=Noto+Serif+KR|Yeon+Sung&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/1f49e42371.js"
+	crossorigin="anonymous"></script> <!--  폰트어썸 라이브러리 -->
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"

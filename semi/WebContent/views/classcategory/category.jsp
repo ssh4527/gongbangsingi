@@ -11,6 +11,10 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+	<script src="https://kit.fontawesome.com/1f49e42371.js"
+	crossorigin="anonymous"></script>
+	
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+KR|Yeon+Sung&display=swap" rel="stylesheet">
 <style>
 #sortlist {
 	text-align: center;
@@ -266,8 +270,8 @@ a {
 
 
 
-	<div id="sortlist">
-		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; 
+	<div id="sortlist" style="font-family: 'Yeon Sung', cursive;">
+		<a id="sortlist1">카테고리 d∨</a>&nbsp;&nbsp;&nbsp; 
 		<a id="sortlist2">상태 ∨</a>&nbsp;&nbsp;&nbsp; 
 		<a id="sortlist3">정렬기준 ∨</a>
 	</div>
@@ -283,12 +287,15 @@ a {
     			<div class="col-md-4">
     				<div class="card mb-4 shadow-sm">
     					<div id="heartover">
-    						<img src="<%= request.getContextPath() %>/resources/images/jar1.jpg" width="100%" height="100%" id="gal">
-    						<div id="heartdiv"><img src="<%= request.getContextPath() %>/resources/images/EmptyHeart.png" width="50px" height="50px"></div>
+    						<img src="<%= request.getContextPath() %>/resources/images/jar1.jpg" width="100%" height="100%" id="gal" class="gal1">
+    						<div id="heartdiv">
+								<i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
+									id="icon1"></i>
+    						</div>
     					</div>
     					<div class="card-body">
-    						<small class="text-muted">Dish Factory</small>
-    						<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
+    						<small class="text-muted" style="text-align:left;">Dish Factory</small>
+    						<p class="card-text" align="left">안녕하세요.디시 팩토리입니다!</p>
     						<div class="d-flex justify-content-between align-items-center">
     							<small class="text-muted">♥4.2</small>
     							<small class="text-muted">바로 수강 가능</small>
@@ -300,13 +307,14 @@ a {
     				<div class="card mb-4 shadow-sm">
     					<div id="heartover">
     						<img src="<%= request.getContextPath() %>/resources/images/jar2.jpg" width="100%" height="100%" id="gal">
-    						<div id="heartdiv"><p id="heart">♥</p></div>
+    						<div id="heartdiv"><i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
+									id="icon1"></i></div>
     					</div>
     					<div class="card-body">
     						<small class="text-muted">도자기 공방 유일</small>
-    						<p class="card-text" align="left">클래스 간략한 소개</p>
+    						<p class="card-text" align="left">클래스 간략한 소개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
     						<div class="d-flex justify-content-between align-items-center">
-    							<small class="text-muted">♥ 평점? 추천수?</small>
+    							<small class="text-muted">♥4.1</small>
     							<small class="text-muted">12월 2일부터 수강가능</small>
     						</div>
     					</div>
@@ -316,13 +324,31 @@ a {
     				<div class="card mb-4 shadow-sm">
     					<div id="heartover">
     						<img src="<%= request.getContextPath() %>/resources/images/jar3.jpg" width="100%" height="100%" id="gal">
-    						<div id="heartdiv"><p id="heart">♡</p></div>
+    						<div id="heartdiv"><i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
+									id="icon1"></i></div>
     					</div>
     					<div class="card-body">
-    						<small class="text-muted">이은영 도자기 공방</small>
-    						<p class="card-text" align="left">클래스 간략한 소개</p>
+    						<small class="text-muted" style="text-align:left;">이은영 도자기 공방</small>
+    						<p class="card-text" align="left">클래스 간략한 소개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
     						<div class="d-flex justify-content-between align-items-center">
-    							<small class="text-muted">♥ 평점? 추천수?</small>
+    							<small class="text-muted">♥3.9</small>
+    							<small class="text-muted">바로 수강 가능</small>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    			<div class="col-md-4">
+    				<div class="card mb-4 shadow-sm">
+    					<div id="heartover">
+    						<img src="<%= request.getContextPath() %>/resources/preclass_uploadFiles/jar2.jpg" width="100%" height="100%" id="gal" class="gal4">
+    						<div id="heartdiv"><i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
+									id="icon1"></i></div>
+    					</div>
+    					<div class="card-body">
+    						<small class="text-muted">도자기 공방 숲</small>
+    						<p class="card-text" align="left">로맨틱한 도자기를 만들어요!</p>
+    						<div class="d-flex justify-content-between align-items-center">
+    							<small class="text-muted">♥3.7</small>
     						</div>
     					</div>
     				</div>
@@ -331,13 +357,14 @@ a {
     				<div class="card mb-4 shadow-sm">
     					<div id="heartover">
     						<img src="<%= request.getContextPath() %>/resources/images/city1.PNG" width="100%" height="100%" id="gal">
-    						<div id="heartdiv"><p id="heart">♡</p></div>
+    						<div id="heartdiv"><i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
+									id="icon1"></i></div>
     					</div>
     					<div class="card-body">
     						<small class="text-muted">공방 이름</small>
     						<p class="card-text" align="left">클래스 간략한 소개</p>
     						<div class="d-flex justify-content-between align-items-center">
-    							<small class="text-muted">♥ 평점? 추천수?</small>
+    							<small class="text-muted">♥3.6</small>
     						</div>
     					</div>
     				</div>
@@ -346,28 +373,14 @@ a {
     				<div class="card mb-4 shadow-sm">
     					<div id="heartover">
     						<img src="<%= request.getContextPath() %>/resources/images/city1.PNG" width="100%" height="100%" id="gal">
-    						<div id="heartdiv"><p id="heart">♡</p></div>
+    						<div id="heartdiv"><i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
+									id="icon1"></i></div>
     					</div>
     					<div class="card-body">
     						<small class="text-muted">공방 이름</small>
     						<p class="card-text" align="left">클래스 간략한 소개</p>
     						<div class="d-flex justify-content-between align-items-center">
-    							<small class="text-muted">♥ 평점? 추천수?</small>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-4">
-    				<div class="card mb-4 shadow-sm">
-    					<div id="heartover">
-    						<img src="<%= request.getContextPath() %>/resources/images/city1.PNG" width="100%" height="100%" id="gal">
-    						<div id="heartdiv"><p id="heart">♡</p></div>
-    					</div>
-    					<div class="card-body">
-    						<small class="text-muted">공방 이름</small>
-    						<p class="card-text" align="left">클래스 간략한 소개</p>
-    						<div class="d-flex justify-content-between align-items-center">
-    							<small class="text-muted">♥ 평점? 추천수?</small>
+    							<small class="text-muted">♥3.5</small>
     						</div>
     					</div>
     				</div>
@@ -385,8 +398,11 @@ a {
     			$(this).text("♥");
     		});
     		
-    		$("#gal").click(function(){
+    		$(".gal1").click(function(){
     			location.href="<%= request.getContextPath() %>/views/classdetail/detail.jsp";
+    		});
+    		$(".gal4").click(function(){
+    			location.href="<%= request.getContextPath() %>/views/classcategory/pre1.jsp";
     		});
     	});
     	

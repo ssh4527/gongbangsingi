@@ -5,7 +5,7 @@
 <% 
 	String keyword = (String)request.getAttribute("keyword");
 	ArrayList<Workclass> wList = (ArrayList<Workclass>)request.getAttribute("wclist");
-	String userid = "adminn";
+
 %>
 <!DOCTYPE html>
 <html>
@@ -312,7 +312,7 @@ to {
 								src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= wList.get(i).getRename() %>"
 								width="100%" height="100%" id="gal"></a>
 							<div id="heartdiv" class="div<%= wList.get(i).getWcNo() %>">
-								<i class="far fa-heart fa-lg fa-spin" style="color: pink;"
+								<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
 									id="icon<%= wList.get(i).getWcNo() %>"></i>
 								<!--  onclick="check(this,< %= i %>)" -->
 								<!-- <i class="fas fa-heart fa-2x"></i> -->
@@ -342,50 +342,58 @@ to {
       					var icon = $(this); // 아이콘
       					var id = $(this).attr('id'); // 아이콘 아이디값
       					var input = $(this).attr('id').replace("icon",""); // 클래스 번호 
-      					var div = $(".div"+input); // 아이콘이있는 div
+      					var div = $(".divnbn"+input); // 아이콘이있는 div
+      					console.log("<%= log %>");
       					
-      					console.log("input : " + input);
+      					console.log("inputs : " + input);
       					console.log("id : " + id);
-      					console.log("아아왜안ㄷ");
+      					console.log("classd : " + $(this).attr('class'));
+      					console.log("유저아이디설정완료")
       					
-       					<%-- $.ajax({ // 아작시작
+      					if(<%= log.equals("asd") %>){
+      						alert("로그인 후에 찜할수 있습니다.");	
+      					
+      					}else{
+      					
+      						
+       					$.ajax({ // 아작시작
       						url : "jjim.wc",
-      						data : { wcNo: input, id:"<%= userid %>"},
+      						data : { wcNo: input, id:"<%= log %>"},
       						type : "get",
       						success : function(num){ // 석세스 시작
-      							//var wcNoo = $(iconn).attr('id').replace("icon",""); // 클래스 번호 
-      							//var iconn = $("#icon"+wcNoo); // 아이콘
-      	      					//var id = $(this).attr('id'); // 아이콘 아이디값
-      	      					console.log(input);
-      	      					var div = $(".div"+input); // 아이콘이있는 div
-      	      					console.log(div);
-      	      					//console.log(icon);
       						
       							if(num > 0){
       								
-      								div.html("");
-      								div.html("<i class='fas fa-heart fa-lg fa-spin' style='color: pink;' id='icon" + input + "'></i>");
+      								icon.removeClass("far fa-heart fa-lg fa-spin");
+      		       					icon.addClass("fas fa-heart fa-lg fa-spin");
+      		       					
+      								
       								alert("찜 성공!!");
       								
       							// 찜목록에 없어서 찜 등록 그리고 꽉찬하트로 벽녕
-      							}else{
+      							}else if(num == 0){
       								
-      								div.html("");
-      								div.html("<i class='far fa-heart fa-lg fa-spin' style='color: pink;' id='icon" + input + "'></i>");
-      								alert("찜 해제!!");
-      								//div.html(input);
+      								icon.removeClass("fas fa-heart fa-lg fa-spin");
+      								icon.addClass("far fa-heart fa-lg fa-spin");
+      		       					
+      							
+      								alert("찜 해제d!!");
+      								
       								// 찜목록에 있어서 찜 해제 그리고 빈하트로 변경
+      							}else{
+      							alert("dd");	
+      							
       							}
       						}, // 석세스끝
       						
       						error : function(){
       							console.log('ajax 통신 실패!');
       						}
-      					}); // 아작끝   --%>
-       					div.html("<i class='fas fa-heart fa-lg fa-spin' style='color: pink;'></i>");
+      					}); // 아작끝 
+      					
+      					}
        					
-       					//var divv = document.getElementById('heartdiv');
-       					//divv.innerHTML = "<i class='fas fa-heart fa-lg fa-spin' style='color: pink;' class='dz'></i>";
+       					
       				});
       			
       			});
