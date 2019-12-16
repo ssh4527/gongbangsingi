@@ -4,6 +4,8 @@
 <%
 	ArrayList<Workshop> list = (ArrayList<Workshop>) request.getAttribute("list");
 	ArrayList<Attachment> flist = (ArrayList<Attachment>) request.getAttribute("flist");
+	
+	ArrayList<Workshop> clist=  (ArrayList<Workshop>) request.getAttribute("clist");
 %>
 <!DOCTYPE html>
 <html>
@@ -136,42 +138,23 @@ width: 300px;
 				<h2>카테고리</h2>
 				<br> <br>
 				<div class="custom-control custom-checkbox">
+				<form action="<%=request.getContextPath() %>/category.sh" method="post">
 					<table>
+					<%int idx=1;
+					for(Workshop shop: list){ %>
 						<tr>
 							<td><input type="checkbox" class="custom-control-input"
-								value="도자기" id="jar"> <label
-								class="custom-control-label" for="jar">도자기</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="액세서리" id="accessory"> <label
-								class="custom-control-label" for="accessory">액세서리</label></td>
+								value="<%=shop.getCategory() %>" id="<%=idx%>" name="category"> <label
+								class="custom-control-label" for="<%=idx %>"><%=shop.getCategory() %></label></td>
 						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="가구" id="furniture"> <label
-								class="custom-control-label" for="furniture">가구</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="향수" id="perfume"> <label
-								class="custom-control-label" for="perfume">향수</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="제과" id="cook"> <label
-								class="custom-control-label" for="cook">제과</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="원예" id="flower"> <label
-								class="custom-control-label" for="flower">원예</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="가죽" id="leather"> <label
-								class="custom-control-label" for="leather">가죽</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="기타" id="etc"> <label class="custom-control-label"
-								for="etc">기타</label></td>
-						</tr>
+						<%idx++; } %>
+						
 					</table>
 					<br> <br> <br> <br> <br> <br>
-					<button type="button" class="btn btn-warning" id="btnsort1">적용하기</button>
+				
+					<button type="submit" class="btn btn-warning" id="btnsort1">적용하기</button>
+					</form>
+					
 				</div>
 			</div>
 
@@ -207,6 +190,7 @@ width: 300px;
 	<script>
 		$(function() {
 			// 1번 버튼 누르면
+
 			$("#sortlist1").click(function() { 
 				$(".bigWrapper").css("display", "flex").show();
 				$(".sort1").css("display","inline_block").show();
@@ -260,7 +244,7 @@ width: 300px;
 						</div>
 						<div class="card-body">
 							<small class="text-muted">Dish Factory</small>
-							<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
+							<p class="card-text" align="left">반지나라</p>
 							<div class="d-flex justify-content-between align-items-center">
 								<small class="text-muted">★4.2</small> <small class="text-muted">구경하세요</small>
 							</div>
@@ -268,8 +252,14 @@ width: 300px;
 					</div>
 				</div>
 				<%
-					if (list != null) {
-						for (Workshop shop : list) {
+				
+				ArrayList<Workshop> viewList=null;
+				if(clist!=null){ 
+					viewList=clist;
+				}else if(list != null) {
+					viewList=list;
+				}
+						for (Workshop shop : viewList) {
 				%>
 				<div class="col-md-4">
 					<div class="card mb-4 shadow-sm shop">
@@ -300,7 +290,7 @@ width: 300px;
 				</div>
 				<%
 					}
-					}
+					
 				%>
 
 			</div>
