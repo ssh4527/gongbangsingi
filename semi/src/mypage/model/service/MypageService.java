@@ -15,10 +15,11 @@ public class MypageService {
 		
 		ArrayList<Reservation> list = new MypageDao().selectList(uId,conn);
 		
-		
 		close(conn);
 		return list;
 		
 	}
+	
+	
 
 }

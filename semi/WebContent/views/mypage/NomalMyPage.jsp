@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, reservation.model.vo.*" %>
+    pageEncoding="UTF-8" import="java.util.ArrayList, reservation.model.vo.*, member.model.*" %>
     <%
     ArrayList<Reservation> list = (ArrayList<Reservation>)request.getAttribute("list"); 
     
@@ -77,9 +77,14 @@
 	#header-info{
 		margin-left:50px;
 	}
-	#cancel{
+	.cancel{
 		position: absolute;
-		right: 100px;
+		right: 0px;
+		border: 2px solid orangered;
+		background-color: white;
+		border-radius: 10px;
+	}
+	.cancel:hover{
 		
 	}
 	#N-Reservation{
@@ -212,17 +217,14 @@
 					$("#changeInfoForm").css("display","none");
 					$("#deleteMember").css("display","block");
 				});
-				
-				
 			});
 			function deleteMember(){
-				
-				/* if( < % loginUser.getUserPwd%> == $("#ckPwd").val() ){
+				 if( <% loginUser.getUserPwd(); %> == $("#ckPwd").val() ){
 						if(window.confirm("정말 탈퇴하시겠습니까?")){
 							window.alert("회원 탈퇴 완료");
-							location.href = "< % request.getContextPath %>/deleteMember.nomal";
+							location.href = <% request.getContextPath();%>/deleteMember.nomal
 					}
-				} */
+				} 
 			}
 		</script>
 		<section>
@@ -232,7 +234,8 @@
 				<thead>
 					<tr>
 						<th>예약일자</th>
-						<th>예약번호</th>
+						<th>공방이름</th>
+						<th>클래스이름</th>
 						<th>인원수</th>
 						<th>가격</th>
 					</tr>
@@ -246,10 +249,11 @@
 					<% for(Reservation r : list) {%>
 						<tr>
 							<td><%=r.getResDate()%></td>
-							<td><%=r.getResCode()%></td>
+							<td><%=r.getWsName()%></td>
+							<td><%=r.getWcName() %></td>
 							<td><%=r.getResNop() %></td>
 							<td><%=r.getTotalPrice()%></td>
-							<td ><button type="button" id="cancel">취소하기</button></td>
+							<td ><button type="button" class="cancel">취소하기</button></td>
 						</tr>
 					<% } %>
 				<% } %>
@@ -352,7 +356,7 @@
 					<h4>회원 탈퇴</h4>
 					<hr>
 					비밀번호 확인 : <input type="password" id="ckPwd"><br><br>
-					<button type="button" onclick="deleteMember()">탈퇴하기</button>
+					<button type="button" id="deleteMember-btn" onclick="deleteMember()">탈퇴하기</button>
 			</div>
 		</section>
 	</div>
