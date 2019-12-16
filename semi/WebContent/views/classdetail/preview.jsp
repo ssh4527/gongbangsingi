@@ -333,7 +333,7 @@ ul {
 		<% int count = fileList.size() - 5; %>
 		<% for(int i = count; i >= 0 ; i--) { %>
 		
-		<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= fileList.get(i).getChangeName() %>" width=800px height=500px>
+		<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= fileList.get(i).getChangeName() %>" width="100%">
 						
 		<% } %>
 </div>

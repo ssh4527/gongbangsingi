@@ -349,10 +349,232 @@ ul {
 		<% int count = mList.size()-1; %>
 		<% for(int i = 0; i < mList.size()  ; i++) { %>
 		
-		<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= mList.get(count--).getChangeName() %>" width=800px height=500px>
+		<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= mList.get(count--).getChangeName() %>" width="100%">
 						
 		<% } %>
 </div>
+
+<!--  ??-->
+<!--  Map 부분 !!! -->
+		<div id="detail_come" style="text-align: center;">
+			<img src="<%=request.getContextPath()%>/resources/images/map1.PNG"
+				id="detail_comeimg">
+		</div>
+
+
+		<div id="detail_detail_content" style="line-height: 2em;">
+			<pre style="text-align: center">
+도자기만들기 도자기의 숲을 방문해 주셔서 감사합니다.
+저희 도자기의 숲은 고객이 직접 체험하는 도자기공방으로 당일 만들어서 바로 가져가실 수 있는 공방입니다.
+			</pre>
+		</div>
+
+
+
+		<!-- 리뷰 -->
+		<hr>
+		<div id="detail_review">
+			<div style="text-align: center;">
+				<p>R E V I E W</p>
+				<small style="color: gray; font-size: 14px;">클래스의 이용후기를
+					적어주세요.</small>
+				<hr>
+			</div>
+
+			<!-- 리뷰2 -->
+			<div class="ulpre" style="color: gray; font-size: 14px;">
+
+				<ul class="dept" style="color:black; font-family:나눔고딕">
+					<li style="cursor: pointer" class="reviewtitle"><span style="">
+							<small>★★★★☆</small> <small style="margin-left: 30px; color:black;">좋은
+								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁 | 
+								2019-12-05</small>
+					</span>
+						<ul class="dept02" style="display: none">
+							<li id="asd" style="margin-top:20px;">우와 색이 정말 이뻐요!!<br> 이쁘게 만들게 해주셔서 감사합니당 <br>
+								
+								<br><img src="<%= request.getContextPath() %>/resources/preclass_uploadFiles/jar8.jpg">
+								<br><button class="btn btn-outline-secondary" style="float:right;">수정</button>
+									<button class="btn btn-outline-secondary" style="float:right;">삭제</button><br><br>
+							</li>
+						</ul></li>
+					<hr>
+
+
+					<li style="cursor: pointer" class="reviewtitle"><span style="">
+							<small>★★★☆☆</small> <small style="margin-left: 30px; color:black;">
+								우와 도자기</small> <small style="float: right;">이진혁 | 
+								2019-12-05</small>
+					</span>
+						<ul class="dept02" style="display: none">
+							<li id="asd" style="margin-top:20px;">
+							ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ
+							<br><img src="<%= request.getContextPath() %>/resources/preclass_uploadFiles/jar9.jpg">
+							<br><button class="btn btn-outline-secondary" style="float:right;">수정</button>
+								<button class="btn btn-outline-secondary" style="float:right;">삭제</button><br><br>
+									
+							</li>
+						</ul></li>
+					<hr>
+
+					
+
+					<!-- 리뷰 페이징 -->
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">1</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">2</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">3</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Next" id="pa-link"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
+				</ul>
+				
+
+			</div>
+
+			<!-- 슬라이드 부분  -->
+			<script>
+				$(document).on('click', '.reviewtitle>span', function() {
+					var submenu = $(this).next("ul");
+
+					if (submenu.is(":visible")) {
+						submenu.slideUp();
+					} else {
+						submenu.slideDown();
+					}
+				});
+			</script>
+
+			<!-- 리뷰 버튼 -->
+			<div>
+				<button type="button" class="btn btn-outline-secondary"
+					style="float: right" onclick ="location.href ='<%= request.getContextPath()%>/views/classdetail/insertReview.jsp?wcNo=<%= "wcNo21" %>'">Review Write</button>
+					<hr>
+			</div>
+
+
+			<!-- 리뷰 작성 모달 -->
+			</div>
+
+
+
+
+
+			<!-- QnA -->
+			<hr>
+			<div id="detail_qna">
+				<div style="text-align: center;">
+					<p>Q & A</p>
+					<small style="color: gray; font-size: 14px;">클래스에 대한 궁금한 점을
+						해결해 드립니다.</small>
+					<hr>
+				</div>
+				<div id="qna_table">
+					<table class="table">
+						<thead style="font-size: 14px; color: gray; text-align: center;">
+							<tr>
+								<td scope="col" width=50px>No
+								</td>
+								<td scope="col" width=800px><span style="margin-left:250px">Titled</span>
+								</td>
+								<td scope="col" width="100px">Name
+								</td>
+								<td scope="col" width="150px">Date
+								</td>
+							</tr>
+						</thead>
+						<tbody style="font-size: 14px; color: gray; text-align: center;" id="tbody">
+							<tr style="color:black;">
+								<th scope="row" >3</th>
+								<td><span style="margin-left:250px">가는길 질문좀 드릴게요! &nbsp;</span><i class="fas fa-lock-open" style="float:right;"></i></td>
+								<td>이진혁</td>
+								<td>2019-10-16</td>
+							</tr>
+							<tr style="color:black;">
+								<th scope="row">2</th>
+								<td><span style="margin-left:250px">2번 입니다...&nbsp;</span><i class="fas fa-lock" style="float:right;"></i></td>
+								<td>오재원</td>
+								<td>2019-10-15</td>
+							</tr>
+							<tr style="color:black;">
+								<th scope="row">1</th>
+								<td><span style="margin-left:250px">1번 입니다...&nbsp;</span><i class="fas fa-lock" style="float:right;"></i></td>
+								<td>누군가</td>
+								<td>2019-10-14</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 리뷰 페이징 -->
+					<nav aria-label="Page navigation example" style="text-align: center;">
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">1</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">2</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								id="pa-link">3</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Next" id="pa-link"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
+			</div>
+			<button type="button" class="btn btn-outline-secondary"
+					style="float: right">QnA Write</button>
+		</div>
+		
+		<!-- qna 스크립트 -->
+		<script>
+			$(function(){
+				$("#tbody>tr").click(function(){
+					var trNum = $(this).closest('tr').prevAll().length;
+				
+					if(trNum == 0){
+						$(this).eq(-1).after("<tr><td colspan='2'>ㅎㅇ</td><td>Manager</td><td>2019-10-17</td></tr>");
+						console.log(trNum);
+					}
+					
+					if(trNum == 1){
+						$(this).eq(-1).after("<tr><td colspan='4'>작성한 회원만 볼 수 있습니다.</td></tr>");
+						console.log(trNum);
+					}
+					
+					if(trNum == 2){
+						$(this).eq(-1).after("<tr><td colspan='4'>작성한 회원만 볼 수 있습니다.</td></tr>");
+						console.log(trNum);
+					}
+				
+				
+				});
+			});
+		
+		</script>
+		
+		<br> <br> <br>
+
+		<div id="detail_warning">
+			<p id="detail_warning_p">&lt; 유의사항 &gt;</p>
+			<div id="detail_warning_text">
+				<p>
+					도자기를 만드시는 시간이 약 1시간 30분이 소요되기 때문에 마지막 오후 8시 20분 이전까지는 꼭 방문하여 주시길
+					부탁드립니다.<br> 아래 일정선택을 통하여 예약 가능하며 기타 자세한 내용은 010-8904-0156으로 연락
+					주시면 감사하겠습니다.
+				</p>
+			</div>
+		</div>
 
 
 	</div>

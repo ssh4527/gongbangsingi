@@ -271,7 +271,7 @@ a {
 
 
 	<div id="sortlist" style="font-family: 'Yeon Sung', cursive;">
-		<a id="sortlist1">카테고리 d∨</a>&nbsp;&nbsp;&nbsp; 
+		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; 
 		<a id="sortlist2">상태 ∨</a>&nbsp;&nbsp;&nbsp; 
 		<a id="sortlist3">정렬기준 ∨</a>
 	</div>
