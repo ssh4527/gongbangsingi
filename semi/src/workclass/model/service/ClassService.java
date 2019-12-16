@@ -188,4 +188,26 @@ public class ClassService {
 		return result;
 	}
 
+	// 리뷰가져오기
+	public ArrayList<Review> selectReview(String wcNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<Review> rList = new ClassDao().selectReview(wcNo,conn);
+		
+		close(conn);
+		
+		return rList;
+	}
+
+	// 리뷰 파일 가져오기
+	public ArrayList<ClassFile> selectReviewFile(String rNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<ClassFile> rfList = new ClassDao().selectReviewFile(rNo,conn);
+		
+		close(conn);
+		
+		return rfList;
+	}
+
 }
