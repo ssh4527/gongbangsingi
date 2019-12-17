@@ -9,23 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import attachment.Attachment;
-import workshop.model.vo.Workshop;
+import review.model.vo.Review;
 import workshop.model.service.ShopService;
+import workshop.model.vo.Workshop;
 
 /**
- * Servlet implementation class shopListServlet
+ * Servlet implementation class shopReviewMoreServlet
  */
-@WebServlet("/shopList.sh")
-public class shopListServlet extends HttpServlet {
+@WebServlet("/reviewMore.sh")
+public class shopReviewMoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
-     * 
-     * 
      * @see HttpServlet#HttpServlet()
      */
-    public shopListServlet() {
+    public shopReviewMoreServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,23 +32,13 @@ public class shopListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Workshop> clist=(ArrayList<Workshop>) request.getAttribute("clist");
-		ShopService ss = new ShopService();
-		ArrayList<Workshop> list = ss.selectShopList();
-		ArrayList<Attachment> flist= ss.selectShopListPic();
-		for(Workshop s: list) {
-			System.out.println(s.getWsNo());
-		}
+		String WsNo = request.getParameter("WsNo");
+		ArrayList<Review> rlist = new ShopService().selectReviewList(WsNo);
+		Workshop shop = new ShopService().selectShop(WsNo);
 		
-		for(Attachment s: flist) {
-			System.out.println(s.getReName());
-		}
-		
-		request.setAttribute("list", list);
-		request.setAttribute("flist", flist);
-		request.setAttribute("clist",clist);
-		request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);
-		
+		request.setAttribute("rlist", rlist);
+		request.setAttribute("shop", shop);
+		request.getRequestDispatcher("views/store/shopReview.jsp").forward(request, response);
 	}
 
 	/**

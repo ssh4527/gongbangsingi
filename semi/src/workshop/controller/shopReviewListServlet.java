@@ -9,23 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import attachment.Attachment;
-import workshop.model.vo.Workshop;
-import workshop.model.service.ShopService;
+import review.model.vo.Review;
 
 /**
- * Servlet implementation class shopListServlet
+ * Servlet implementation class shopReviewListServlet
  */
-@WebServlet("/shopList.sh")
-public class shopListServlet extends HttpServlet {
+@WebServlet("/review.sh")
+public class shopReviewListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
-     * 
-     * 
      * @see HttpServlet#HttpServlet()
      */
-    public shopListServlet() {
+    public shopReviewListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,22 +30,7 @@ public class shopListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Workshop> clist=(ArrayList<Workshop>) request.getAttribute("clist");
-		ShopService ss = new ShopService();
-		ArrayList<Workshop> list = ss.selectShopList();
-		ArrayList<Attachment> flist= ss.selectShopListPic();
-		for(Workshop s: list) {
-			System.out.println(s.getWsNo());
-		}
-		
-		for(Attachment s: flist) {
-			System.out.println(s.getReName());
-		}
-		
-		request.setAttribute("list", list);
-		request.setAttribute("flist", flist);
-		request.setAttribute("clist",clist);
-		request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);
+		String[] rlist = request.getParameterValues("rlist");
 		
 	}
 

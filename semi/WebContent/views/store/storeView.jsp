@@ -8,7 +8,7 @@
 	ArrayList<Review> rlist = (ArrayList<Review>) request.getAttribute("rlist");
 	ArrayList<Workclass> clist = (ArrayList<Workclass>) request.getAttribute("clist");
 	ArrayList<Attachment> cPictures = (ArrayList<Attachment>) request.getAttribute("cPictures");
-
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -165,9 +165,11 @@ h4 {
 	display: inline;
 }
 #fileButton{
-display:hidden;
+	visibility:hidden;
 }
-
+#reviewMore{
+	float: right;
+}
 </style>
 </head>
 <body>
@@ -179,14 +181,12 @@ display:hidden;
 			<section id="first_intro1">
 			<!-- 사진, 공방 이름 -->
 				<section id="intro1_1" style="padding: 10px;">
-
 					<%
-						String fileBtnN="";
+					String fileBtnN="사진 등록";
 						if (titlePic.getReName()==null) {
 					%>
-					<div id="thumbnail1" class="thumbnail"></div>
+					<img id="titleImg" class="thumbnail">
 					<%
-						fileBtnN="사진 등록";
 					} else {
 						fileBtnN="사진 변경";
 					%>
@@ -199,65 +199,58 @@ display:hidden;
 					%>
 					<form id="thumbnailForm" method="post"
 						enctype="multipart/form-data">
-						<input type="hidden" value="<%=shop.getWsNo()%> id="shopNo">
-					
+						<input type="hidden" value="<%=shop.getWsNo()%>" name="WsNo" id="shopNo">
+						<input type="hidden" value="<%=fileBtnN%>" name="fileBtnN" id="shopNo">
 						<%
 						boolean userCheck=false;
 						if(loginUser!=null&&loginUser.getUserId().equals(shop.getId())){
 							userCheck=true;
 							%>
-								<input type="file" id="fileButton">
-								<input type="button" value="<%=fileBtnN%>" id="thumbnailEdit"
-							name="thumbnailEdit">
+								<input type="file" id="fileButton" name="file" onchange="preview(this,1)">
+								<input type="button" value="<%=fileBtnN%>"  id="thumbnailEdit">
+								
 						<%} %>
 					</form>
 					<p id="storeName"><%=shop.getWsName()%></p>
-
+					
 					<script>
-				$(function() {
-					
-					$(".thumbnailEdit").click(function() {
-						$("#fileButton").click();
-						picUpdate(fileBtnN);
+					$(function() {
+						$("#thumbnailEdit").click(function() {
+							$("#fileButton").click();
+						});
+						
 					});
-				});
-			
-				function picUpdate(fileBtnN){
-					if(fileBtnN=="사진 등록"){
-				    $.ajax({
-				        url : 'updatethumbnail.sh',
-				        data : {WsNo:shopNo, file:fileButton } 
-				    }).success:function(file){
-				    	$("#titleImg").attr("src","<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/"+file.reName);
+					
+					function preview(value, num) {
+						if (value.files && value.files[0]) {
+							var reader = new FileReader();
 
-				    	}
-					}
-					else{
-						 $.ajax({
-						        url : 'updatethumbnail.sh',
-						        data : {WsNo:shopNo, file:fileButton } 
-						    }).success:function(file){
-						    	$("#titleImg").attr("src","<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/"+file.reName);
+							reader.readAsDataURL(value.files[0]);
 
-						    	}
+							reader.onload = function(e) {
+								$("#titleImg").attr("src" + reader.result + " width=350 height=200>");
 							}
-					
-				    this.submit();
-				}
-				</script>
-
-			<%-- 	function picUpdate(){
-					$("#thumbnailForm").attr("action", "<%=request.getContextPath()%>/updatethumbnail.sh");
-					$("#thumbnailForm").submit();
-					
-				}
-				
-				function picInsert(){
-					$("#thumbnailForm").attr("action", "<%=request.getContextPath()%>/insertthumbnail.sh");
-							$("#thumbnailForm").submit();
 						}
- --%>
-					
+						picUpdate();
+					}
+					function picUpdate(){
+						 var fm = $("#thumbnailForm")[0];
+						 console.log(fm);
+						 var fileData = new FormData(fm);
+
+						 $.ajax({
+						        url :"shopThumbnail.sh",
+						        data:fileData,
+						        type:"post",
+						        cache:false,
+						        contentType:false,
+						        processData:false,
+						    	success: function(file){
+						    	$("#titleImg").attr("src","<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/"+file);
+						    }
+						 });	
+					}
+				</script>
 				</section>
 				<br> <br> <br> <br> <br> <br>
 				
@@ -342,6 +335,7 @@ display:hidden;
 						<h4>&lt; 후기 &gt;</h4> &nbsp;
 						<div id="score">★<%=shop.getGrade()%>/ 5.0
 						</div>
+						<button id="reviewMore">더보기&lt;&lt;</button>
 						<table class="table table-hover" id="reviewList">
 							<thead>
 								<tr>
@@ -387,6 +381,9 @@ display:hidden;
 							location.href="<%= request.getContextPath() %>/detail.no?nno=" + num;
 						});
 						
+						$("#reviewMore").click(function(){
+							location.href="<%=request.getContextPath()%>/reviewMore.sh?WsNo="+<%=shop.getWsNo()%>;
+						})
 					});
 					</script>
 					
@@ -508,6 +505,9 @@ display:hidden;
 			$(function() {
 				$("#updateIntro3").click(function() {
 					var input = $("#modalText").val();
+					if(input==0){
+						alert("수정을 취소하였습니다.");
+					}else{
 					var WsNo="<%=shop.getWsNo()%>";
 					
 					$.ajax({
@@ -517,12 +517,13 @@ display:hidden;
 						},
 						type:"post",
 						success: function(result) {
-							$("#introContent").val(result);
+								$("#introContent").val(result);
 						},
 						error:function(e) {
-							console.log(e);
+							alert();
 						}
 					});
+					}
 				});
 			});
 		</script>
