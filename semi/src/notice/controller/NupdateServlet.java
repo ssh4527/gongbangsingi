@@ -37,7 +37,7 @@ public class NupdateServlet extends HttpServlet {
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		int nno = Integer.parseInt(request.getParameter("nno"));
+		String nno = request.getParameter("nno");
 		
 		Notice n = new Notice();
 		n.setnTitle(title);

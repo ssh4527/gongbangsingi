@@ -357,6 +357,7 @@ public class SearchDao {
 			close(ps);
 		}
 		
+		
 		return list;
 	}
 

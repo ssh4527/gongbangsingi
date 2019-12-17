@@ -1,3 +1,4 @@
+
 package workshop.model.dao;
 
 import java.io.FileReader;
@@ -415,6 +416,54 @@ public class ShopDao {
 		}
 
 		return list;
+	}
+
+
+	// made by ssh
+	public ArrayList<Workshop> selectCheckShopList(Connection con) {
+		Statement st =null;
+		ResultSet rset = null;
+		String sql = "select ws_no,ws_name,s_category from workshop where enrollyn = 'N'";
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+		
+		try {
+			st = con.createStatement();
+			rset  = st.executeQuery(sql);
+			
+
+			
+			while (rset.next()) {
+				list.add(new Workshop(rset.getString(1),rset.getString(2),rset.getString(3)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(st);
+		}
+
+		return list;
+	}
+	// made by ssh
+	public int changeAuth(Connection c, String id) {
+		int result = 0;
+		String q = "update workshop set ENROLLYN='Y' where WS_NO=? ";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, id);
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+		
+		
+		return result;
 	}
 
 }

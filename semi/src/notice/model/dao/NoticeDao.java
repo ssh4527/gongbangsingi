@@ -41,8 +41,9 @@ public class NoticeDao {
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
-				list.add(new Notice(rset.getInt("nno"), rset.getString("ntitle"), rset.getString("ncontent"),
-						 rset.getInt("ncount"), rset.getDate("ndate")));
+				list.add(new Notice(rset.getString("n_no"), rset.getString("n_title"), rset.getString("n_content"),
+						 rset.getInt("n_count"), rset.getDate("n_date")));
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,7 +76,7 @@ public class NoticeDao {
 		return result;
 	}
 
-	public int increaseCount(Connection conn, int nno) {
+	public int increaseCount(Connection conn, String nno) {
 		int result=0;
 		PreparedStatement pstmt=null;
 		
@@ -83,7 +84,7 @@ public class NoticeDao {
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, nno);
+			pstmt.setString(1, nno);
 			
 			result=pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -94,7 +95,7 @@ public class NoticeDao {
 		return result;
 	}
 
-	public Notice selectNotice(Connection conn, int nno) {
+	public Notice selectNotice(Connection conn, String nno) {
 		Notice n=null;
 		
 		PreparedStatement pstmt=null;
@@ -103,11 +104,11 @@ public class NoticeDao {
 		String sql=prop.getProperty("selectNotice");
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, nno);
+			pstmt.setString(1, nno);
 			rset=pstmt.executeQuery();
 			if(rset.next()) {
-				n= new Notice(rset.getInt("nno"), rset.getString("ntitle"), rset.getString("ncontent"),
-						rset.getInt("ncount"), rset.getDate("ndate"));
+				n= new Notice(rset.getString("n_no"), rset.getString("n_title"), rset.getString("n_content"),
+						rset.getInt("n_count"), rset.getDate("n_date"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,7 +120,7 @@ public class NoticeDao {
 		return n;
 	}
 
-	public int deleteNotice(Connection conn, int nno) {
+	public int deleteNotice(Connection conn, String nno) {
 		int result=0;
 		PreparedStatement pstmt = null;
 
@@ -127,7 +128,7 @@ public class NoticeDao {
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, nno);
+			pstmt.setString(1, nno);
 
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -149,7 +150,7 @@ public class NoticeDao {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, n.getnTitle());
 			pstmt.setString(2, n.getnContent());
-			pstmt.setInt(3, n.getnNo());
+			pstmt.setString(3, n.getnNo());
 			
 			result=pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -180,8 +181,8 @@ public class NoticeDao {
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new Notice(rset.getInt("nno"), rset.getString("ntitle"), rset.getString("ncontent"),
-						 rset.getInt("ncount"), rset.getDate("ndate")));
+				list.add(new Notice(rset.getString("n_no"), rset.getString("n_title"), rset.getString("n_content"),
+						 rset.getInt("n_count"), rset.getDate("n_date")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

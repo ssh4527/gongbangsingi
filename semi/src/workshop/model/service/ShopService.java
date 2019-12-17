@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import attachment.Attachment;
+import member.model.dao.MemberDao;
 import review.model.vo.Review;
 import workclass.model.vo.Workclass;
 import workshop.model.dao.ShopDao;
@@ -126,14 +127,49 @@ public class ShopService {
 
 		return list;
 	}
+
 	
 	//정렬 (최신순, 인기순)
-	public ArrayList<Workshop> selectSortlist(String sortType, String category) {
+public ArrayList<Workshop> selectSortlist(String sortType) {
+		Connection con = getConnection();
+
+		ArrayList<Workshop> list = new ShopDao().selectSortlist(con,sortType);
+		
+		close(con);
+
+		return list;
+	}
+
+	// 승인 안된 공방회원전환 요청 가져오기
+	public ArrayList<Workshop> selectNewShopList() {
 		Connection con = getConnection();
 		ArrayList<Workshop> list = new ShopDao().selectSortlist(con, sortType);
 		close(con);
 
 		return list;
+	}
+	// 공방 상세페이지 확인
+	public ArrayList<Workshop> selectCheckShopList() {
+		Connection con = getConnection();
+		
+		ArrayList<Workshop> list = new ShopDao().selectCheckShopList(con);
+		
+		close(con);
+
+		return list;
+	}
+
+	public int changeAuth(String id) {
+		Connection c= getConnection();
+		
+		int result = new ShopDao().changeAuth(c,id);
+		if(result>0) {
+			commit(c);
+		}else {
+			rollback(c);
+		}
+		close(c);
+		return result;
 	}
 
 	//카테고리별

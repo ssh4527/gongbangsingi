@@ -35,5 +35,26 @@ public class QnaService {
 		return result;
 	}
 
+	// 3. 고객센터 상세보기 (조회수 증가)
+	public Qna selectQna(String qno) {
+		Connection conn=getConnection();
+		QnaDao qDao=new QnaDao();
+		
+		int result=qDao.increaseCount(conn,qno);
+		
+		Qna q=null;
+		
+		if(result>0) {
+			commit(conn);
+			q=qDao.selectQna(conn,qno);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return q;
+	}
+
 
 }

@@ -18,6 +18,7 @@ import static common.JDBCTemplate.*;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
 import workclass.model.vo.Workclass;
+import workshop.model.vo.Workshop;
 
 public class ClassDao {
 	private Properties prop = new Properties();
@@ -445,6 +446,124 @@ public class ClassDao {
 		
 		
 		return result;
+	}
+
+
+	// made by ssh
+	public ArrayList<String[]> selectCheckClassList(Connection c) {
+		Statement st =null;
+		ResultSet rset = null;
+		String sql = "select wc_no,ws.ws_name,wc_name, ws.s_category  from work_class wc, workshop ws where ws.ws_no=wc.ws_no and wc.wc_yn='N'";
+		ArrayList<String[]> list = new ArrayList<String[]>();
+		
+		try {
+			st = c.createStatement();
+			rset  = st.executeQuery(sql);
+			
+			while (rset.next()) {
+				String[] text = {rset.getString(1),rset.getString(2),rset.getString(3),rset.getString(4)};
+				list.add(text);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(st);
+		}
+
+		return list;
+	}
+
+	// made by ssh
+	public int changeAuth(Connection c, String id) {
+		int result = 0;
+		
+		String q = "update work_class set WC_YN='Y' where wc_no=?";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, id.trim());
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+		
+		
+		return result;
+
+
+	public ArrayList<Review> selectReview(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ArrayList<Review> rList = new ArrayList<>();
+		ResultSet rset = null;
+		String sql  ="select * from review where wc_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Review r = new Review();
+				r.setRNo(rset.getString("r_no"));
+				r.setWcNo(wcNo);
+				r.setRTitle(rset.getString("r_title"));
+				r.setREnDate(rset.getDate("r_ent_date"));
+				r.setRContent(rset.getString("r_content"));
+				r.setRCount(rset.getInt("r_view_cnt"));
+				r.setRGrade(rset.getInt("r_grade"));
+				r.setcName(rset.getString("c_id"));
+				rList.add(r);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		
+		return rList;
+	}
+
+
+	// 리뷰파일가져오는부분
+	public ArrayList<ClassFile> selectReviewFile(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset =  null;
+		ArrayList<ClassFile> rList2 = new ArrayList<ClassFile>();
+		String sql = "select * from file_storage where fs_destination = ?";
+	
+			try {
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, wcNo);
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					ClassFile cf = new ClassFile(rset.getString("fs_no"),rset.getString("fs_original_file"),
+											rset.getString("fs_rename_file"),rset.getString("fs_destination"),rset.getInt("fs_level"), rset.getString("fs_path"));
+					rList2.add(cf);
+				}
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				close(rset);
+				close(pstmt);
+			}
+		
+		return rList2;
+
 	}
 
 	

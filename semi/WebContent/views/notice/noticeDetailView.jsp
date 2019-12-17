@@ -75,7 +75,7 @@
          <script>
          function deleteNotice(){
  			if(confirm("해당 글을 삭제하시겠습니까?")){
- 				location.href="<%= request.getContextPath() %>/delete.no?nno="+<%= n.getnNo() %>;
+ 				location.href="<%= request.getContextPath() %>/delete.no?nno=<%= n.getnNo() %>";
  			}}
          </script>
          <%@ include file="/views/common/footbar.jsp" %>

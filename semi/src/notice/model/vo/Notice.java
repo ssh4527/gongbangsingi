@@ -3,7 +3,7 @@ package notice.model.vo;
 import java.sql.Date;
 
 public class Notice {
-	private int nNo; // 공지사항 번호
+	private String nNo; // 공지사항 번호
 	private String nTitle; // 공지사항 제목
 	private String nContent; // 공지사항 내용 
 	private int nCount; // 공지사항 조회수
@@ -13,20 +13,22 @@ public class Notice {
 	
 	public Notice() {}
 
-
+	
 	public Notice(String nTitle, String nContent) {
 		super();
 		this.nTitle = nTitle;
 		this.nContent = nContent;
 	}
 
+	
+	
 
-	public int getnNo() {
+	public String getnNo() {
 		return nNo;
 	}
 
 
-	public void setnNo(int nNo) {
+	public void setnNo(String nNo) {
 		this.nNo = nNo;
 	}
 
@@ -71,7 +73,7 @@ public class Notice {
 	}
 
 
-	public Notice(int nNo, String nTitle, String nContent, int nCount, Date nDate) {
+	public Notice(String nNo, String nTitle, String nContent, int nCount, Date nDate) {
 		super();
 		this.nNo = nNo;
 		this.nTitle = nTitle;

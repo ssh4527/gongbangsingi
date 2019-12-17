@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, notice.model.vo.Notice" %>
-<% ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list");
+    pageEncoding="UTF-8" import="java.util.ArrayList, notice.model.vo.*" %>
+<%  ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list");
 	String searchCondition = (String)request.getAttribute("searchCondition");
 	String search = (String)request.getAttribute("search");
 %>   

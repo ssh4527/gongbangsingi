@@ -7,7 +7,6 @@
 	String today = sdf.format(date);
 
 	String wcNo = request.getParameter("wcNo");
-	String user = "작성자";
 %>
 <!DOCTYPE html>
 <html>
@@ -55,7 +54,7 @@
 				</tr>
 				<tr>
 					<th>작성자</th>
-					<td width=20%;><p><%=user%></p></td>
+					<td width=20%;><p><%=loginUser.getUserId()%></p></td>
 					<th>작성일</th>
 					<td><p id="date"><%=today%></p></td>
 					<td></td>
@@ -91,7 +90,7 @@
 			<input type="text" name="lastgrade" id="lastgrade"
 				style="display: none;" value="1"> <input type="text"
 				name="wcNo" id="wcNo" value="<%=wcNo%>" style="display: none;">
-			<input type="text" name="user" id="user" value="<%=user%>"
+			<input type="text" name="user" id="user" value="<%=loginUser.getUserId()%>"
 				style="display: none;">
 			<div id="imgArea">
 				<img id="titleImg1" style="display:none;">

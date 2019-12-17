@@ -15,6 +15,21 @@ public class Qna {
 	private String qPwd; // 비밀번호
 	
 	public Qna() {}
+	
+	
+
+	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, boolean qSecret, int qCount) {
+		super();
+		this.qNo = qNo;
+		this.cId = cId;
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qEntdate = qEntdate;
+		this.qSecret = qSecret;
+		this.qCount = qCount;
+	}
+
+
 
 	public String getqNo() {
 		return qNo;
