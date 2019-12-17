@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="review.model.vo.Review"%>
 <%@page import="workclass.model.vo.ClassTime"%>
 <%@page import="workclass.model.vo.Workclass"%>
@@ -248,7 +250,7 @@ ul {
 						</tr>
 						<tr>
 							<td><small style="color: gray">1인당 적립 포인트</small></td>
-							<td><small><%= wc.getWcNOP() %></small></td>
+							<td><small><%= (int)Math.floor(wc.getWcNOP() * 0.05) %>p</small></td>
 						</tr>
 					</table>
 					<hr>
@@ -383,6 +385,30 @@ ul {
 </script>
 
 <!-- 예약하기 모달 -->
+<form action="<%=request.getContextPath()%>/cash1.go" method="post" onsubmit="return ckform()">
+	<script>
+		function ckform(){
+			console.log($("#outnumber").val());
+			if($("#outtime").val() == 100){
+				alert("시간대를 입력해주세요!");
+				return false;
+			}
+			if($("#outnumber").val() == 100){
+				alert("인원수를 넣어주세요!");
+				return false;
+			}
+			
+		}	
+	</script>
+	<input type="text" name="outtime" id="outtime" style="display:none" value="100">
+	<input type="text" name="outnumber" id="outnumber" style="display:none" value="100">
+	<input type="text" name="outname" id="outname" style="display:none" value="<%= wc.getWcName() %>">
+	<input type="text" name="outprice" id="outprice" style="display:none" value="<%= wc.getWcNOP() %>">
+	<% if(!log.equals("asd")){ %>
+	<input type="text" name="outusername" id="outusername" style="display:none" value="<%= loginUser.getUserName() %>">
+	<input type="text" name="outcId" id="outcId" style="display:none" value="<%= loginUser.getUserId() %>">
+	<% } %>
+	<input type="text" name="outwcNo" id="outwcNo" style="display:none" value="<%= wc.getWcNo() %>">
 		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   			<div class="modal-dialog modal-lg">
     			<div class="modal-content">
@@ -395,7 +421,7 @@ ul {
       					<table style="margin-top:20px;">
 						<tr>
 							<td width=80%;><small style="color: gray">1인 기준 금액</small></td>
-							<td><small>60,000</small></td>
+							<td><small><%= wc.getWcNOP() %></small></td>
 						</tr>
 						<tr>
 							<td><small style="color: gray">보유 포인트</small></td>
@@ -407,7 +433,7 @@ ul {
 						</tr>
 						<tr>
 							<td><small style="color: gray">적립 포인트</small></td>
-							<td><small>3,000p</small></td>
+							<td><small id="jpoint"><%= (int)Math.floor(wc.getWcNOP() * 0.05) %>p</small></td>
 						</tr>
 						</table>
 					<hr>
@@ -416,20 +442,40 @@ ul {
       				
       				<div>
       					<table>
+      					<tr>
+      						<td width=150px;><small style="color: gray"> > 날짜 선택</small></td>
+      						<td><input id="ckdate" name="ckdate" type="date" max="<%= ct.getCtEndDate() %>" min="<%= ct.getCtDate() %>"></td>
+      						<%
+      							String start = ct.getCtDate();
+      							String end = ct.getCtEndDate();
+      							Date startdate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+      							Date enddate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+      						%>
+      						<script>
+      							$(function(){
+      								$("#ckdate").change(function(){
+      									
+      								
+      								});
+      							});
+      						</script>
+      					</tr>
 						<tr>
-							<td width=150px;><small style="color: gray"> > 날짜/시간
+							<td width=150px;><small style="color: gray"> > 시간
 							</small></td>
-							<td><select name="pretime" id="pretime" style="font-size: 15px">
+							<td><select name="pretime1" id="pretime1" style="font-size: 15px">
 									<option value="">-[필수] 시간대를 선택해주세요 -</option>
-									<option value="">----------------------</option>
-									<option value="1">12:00 - 14:00</option>
-									<option value="2">15:00 - 17:00</option>
+								<% for(int i = 0; i < time.length; i++) { %>								
+									<option value="">
+										<%= time[i] %>
+									</option>
+								<% } %>
 							</select></td>
 						</tr>
 						<tr>
 							<td><small style="color: gray"> > 인원수 </small></td>
-							<td><input type="number" width="10px" min="0" max="9"
-								id="precount2" name="precount2"></td>
+							<td><input type="number" width="10px" min="0" max=<%= wc.getWcMaxP() %>
+								id="precount2" name="precount2" value="0"></td>
 						<tr>
 							<td rowspan="2" style="text-align: right;"></td>
 						</tr>
@@ -439,27 +485,29 @@ ul {
       				
       				
       				<div>
-      					<small id="pretotal">TOTAL : 	 </small>
+      					<small id="pretotal">TOTAL : 0	 </small>
+      					
       				</div>
       				
       				<!-- pre모달 토탈부분 -->
       				<script>
       					$(function(){
-      						$("#pretime").change(function(){
-      							console.log(this.value);
-      			
+      						$("#pretime1").change(function(){
+      							$("#outtime").val($("#pretime1 option:selected").text());
       						});
+      						//$("#pretime1 option:selected").val();
       						
-      						$("#precount").change(function(){
-      							var count = $("#precount").val();
+      						$("#precount2").change(function(){
+      							$("#outnumber").val($("#precount2").val());
       							
-								$("#pretotal").text("TOTAL : " + count * 60000 + " 원");
+      							
+      							
+      							
+      							var count = $("#precount2").val();
+      							$("#jpoint").text(<%= ((int)Math.floor(wc.getWcNOP() * 0.05)) %> * count + "p");
+								$("#pretotal").text("TOTAL : " + count * <%= wc.getWcNOP() %> + " 원");
 								$("#pretotal").css("fontSize","14px");
 								
-      						});
-      						
-      						$("#reservationBtnn").click(function(){
-      							location.href = "<%= request.getContextPath() %>/views/cash/cash.jsp";
       						});
       					});
       					
@@ -467,46 +515,9 @@ ul {
       				</script>
       				
       				
-      				<div>
-<!--       				<textarea rows="10" cols="100" style="font-family:나눔고딕; font-size : 14px;" >
-WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처리되지 않는경우, 아래의 절차에 따라 해결하시기 바랍니다.
-	(1).  안심클릭 결제모듈이 설치되지 않은 경우 ActiveX 수동설치
-	(2). Service Pack 2에 대한 Microsoft사의 상세안내
-	(3). 결제보안을 위한 KCP Active-X가 자동설치되지 않을경우 수동설치하시기 바랍니다. 
-	
-아래의 쇼핑몰일 경우에는 모든 브라우저 사용이 가능합니다.
-
-	(1). KG이니시스, KCP, LG U+를 사용하는 쇼핑몰일 경우
-	(2). 결제가능브라우저 : 크롬,파이어폭스,사파리,오페라 브라우저에서 결제 가능
-		(단, window os 사용자에 한하며 리눅스/mac os 사용자는 사용불가)
-	(3). 최초 결제 시도시에는 플러그인을 추가 설치 후 반드시 브라우저 종료 후 재시작해야만 결제가 가능합니다.
-		(무통장, 휴대폰결제 포함)
-		
-세금계산서 발행 안내
-
-	(1). 부가가치세법 제 54조에 의거하여 세금계산서는 배송완료일로부터 다음달 10일까지만 요청하실 수 있습니다.
-	(2). 세금계산서는 사업자만 신청하실 수 있습니다.
-	(3). 배송이 완료된 주문에 한하여 세금계산서 발행신청이 가능합니다.
-	(4). [세금계산서 신청]버튼을 눌러 세금계산서 신청양식을 작성한 후 팩스로 사업자등록증사본을 보내셔야 세금계산서 발생이 가능합니다.
-	(5). [세금계산서 인쇄]버튼을 누르면 발행된 세금계산서를 인쇄하실 수 있습니다.
-	
-부가가치세법 변경에 따른 신용카드매출전표 및 세금계산서 변경안내
-
-	(1). 변경된 부가가치세법에 의거, 2004.7.1 이후 신용카드로 결제하신 주문에 대해서는 세금계산서 발행이 불가하며
-	(2). 신용카드매출전표로 부가가치세 신고를 하셔야 합니다.(부가가치세법 시행령 57조)
-	(3). 상기 부가가치세법 변경내용에 따라 신용카드 이외의 결제건에 대해서만 세금계산서 발행이 가능함을 양지하여 주시기 바랍니다.
-	
-현금영수증 이용안내
-
-	(1). 현금영수증은 1원 이상의 현금성거래(무통장입금, 실시간계좌이체, 에스크로, 예치금)에 대해 발행이 됩니다.
-	(2). 현금영수증 발행 금액에는 배송비는 포함되고, 적립금사용액은 포함되지 않습니다.
-	(3). 발행신청 기간제한 현금영수증은 입금확인일로 부터 48시간안에 발행을 해야 합니다.
-	(4). 현금영수증 발행 취소의 경우는 시간 제한이 없습니다. (국세청의 정책에 따라 변경 될 수 있습니다.)
-	(5). 현금영수증이나 세금계산서 중 하나만 발행 가능 합니다
-      				</textarea> -->
-      				</div>
+      				
       				<div style="hegiht:150px;">
-      					<button type="button" class="btn btn-outline-secondary"
+      					<button type="submit" class="btn btn-outline-secondary"
 							id="reservationBtnn" style="width: 100px; margin:auto; height:50px;">예약 하기</button>
       				</div>
     			</div>
@@ -532,6 +543,7 @@ WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처�
 								});
 			});
 		</script>
+	</form>
 		<!-- 모달 끝 -->
 
 
@@ -561,14 +573,15 @@ WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처�
 					적어주세요.</small>
 				<hr>
 			</div>
+			<div class="ulpre" style="color: gray; font-size: 14px;"> <!-- 리뷰div -->
 		<% if(rList.isEmpty()) { %>
 			리뷰없음
 		
 		<% } else { %>
 		<% for(int i = 0; i < rList.size(); i++) {%>
 			<!-- 리뷰2 -->
-			<div class="ulpre" style="color: gray; font-size: 14px;">
-				<ul class="dept" style="color:black; font-family:나눔고딕">
+			
+				<ul class="dept" style="color:black; font-family:나눔고딕" id="ul<%= rList.get(i).getRNo() %>">
 					<li style="cursor: pointer" class="reviewtitle">
 					<span style="">
 							<small id="star">
@@ -592,8 +605,8 @@ WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처�
 								<% } %>
 							<% } %>
 								<% if(rList.get(i).getcName().equals(log)){ %>
-								<br><button class="btn btn-outline-secondary" style="float:right;" id="updateBtn<%= rList.get(i).getRNo() %>">수정</button>
-									<button class="btn btn-outline-secondary" style="float:right;" id="deleteBtn<%= rList.get(i).getRNo() %>">삭제</button><br><br>
+								<br><button class="btn btn-outline-secondary" style="float:right;" id="updateBtn<%= rList.get(i).getRNo() %>" onclick="updatereview('<%= rList.get(i).getRNo() %>')">수정</button>
+									<button class="btn btn-outline-secondary" style="float:right;" id="deleteBtn<%= rList.get(i).getRNo() %>" onclick="deletereview('<%= rList.get(i).getRNo() %>')">삭제</button><br><br>
 								<% } %>
 							</li>
 						</ul>
@@ -604,14 +617,52 @@ WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처�
 			<% } %>
 				<!-- 리뷰 삭제, 수정 -->
 				<script>
-					$(function(){
-						$(".updateBtn").click(function(){
-							console.log("Dd");
-						});
-						$(".deleteBtn").click(function(){
-							console.log("dd");
-						});
-					});
+					function deletereview(review){
+						if(window.confirm('게시글을 정말 삭제하시겠습니까?')){
+							console.log("ㅇㅇ");
+							console.log($("#ul"+review));
+							
+							$.ajax({ // 아작시작
+	      						url : "delete.review",
+	      						data : { rNo: review },
+	      						type : "get",
+	      						success : function(num){ // 석세스 시작
+	      						
+	      							if(num > 0){
+	      								$("#ul"+review).remove();
+	      								alert("성공적으로 리뷰가 삭제되었습니다.");
+	      								
+	      							// 찜목록에 없어서 찜 등록 그리고 꽉찬하트로 벽녕
+	      							}else if(num == 0){
+	      								
+	      							
+	      								alert("리뷰 삭제실패..");
+	      								
+	      								// 찜목록에 있어서 찜 해제 그리고 빈하트로 변경
+	      							}else{
+	      							alert("리뷰 삭제실패..");	
+	      							
+	      							}
+	      						}, // 석세스끝
+	      						
+	      						error : function(){
+	      							console.log('ajax 통신 실패!');
+	      						}
+	      					}); // 아작끝 
+	      					
+						}else{
+							console.log("ㄴㄴ");
+						}
+					}
+					
+					function updatereview(review){
+						if(window.confirm('게시글을 정말 수정하시겠습니까?')){
+							alert("수정페이지로 이동합니다.");
+							location.href="select.review?rNo=" + review + "&wcNo=<%= wc.getWcNo() %>";
+						}
+					
+					}
+					
 				</script>
 				
 

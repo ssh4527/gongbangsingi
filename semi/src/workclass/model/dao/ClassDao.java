@@ -18,7 +18,6 @@ import static common.JDBCTemplate.*;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
 import workclass.model.vo.Workclass;
-import workshop.model.vo.Workshop;
 
 public class ClassDao {
 	private Properties prop = new Properties();
@@ -495,13 +494,15 @@ public class ClassDao {
 		
 		
 		return result;
+	}
 
 
+	// 리뷰리스트 가져오는부분
 	public ArrayList<Review> selectReview(String wcNo, Connection conn) {
 		PreparedStatement pstmt = null;
 		ArrayList<Review> rList = new ArrayList<>();
 		ResultSet rset = null;
-		String sql  ="select * from review where wc_no = ?";
+		String sql  ="select * from review where wc_no = ? order by r_ent_date desc";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -539,7 +540,7 @@ public class ClassDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset =  null;
 		ArrayList<ClassFile> rList2 = new ArrayList<ClassFile>();
-		String sql = "select * from file_storage where fs_destination = ?";
+		String sql = "select * from file_storage where fs_destination = ? order by FS_NO desc";
 	
 			try {
 				
@@ -566,6 +567,106 @@ public class ClassDao {
 
 	}
 
-	
+	// 리뷰삭제
+	public int deleteReview(String rNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = "delete from review where r_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}	
+		
+		return result;
+	}
+
+	// 리뷰 파일 삭제
+	public int deleteReviewFile(String rNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = "delete from file_storage where fs_destination = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+	// 리뷰 하나만 가져오기
+	public Review selectReviewOne(String rNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		Review review = new Review();
+		ResultSet rset = null;
+		
+		String sql = "select * from review where r_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				review.setRNo(rNo);
+				review.setRWriter(rset.getString("c_id"));
+				review.setRTitle(rset.getString("r_title"));
+				review.setREnDate(rset.getDate("r_ent_date"));
+				review.setRContent(rset.getString("r_content"));
+				review.setRGrade(rset.getInt("r_grade"));
+				review.setWcNo(rset.getString("wc_no"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return review;
+	}
+
+
+	// 리뷰수정
+	public int updateReview(Review review, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = "update review set r_title = ? , r_content = ? , r_ent_date = sysdate , r_grade = ? where r_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, review.getRTitle());
+			pstmt.setString(2, review.getRContent());
+			pstmt.setInt(3, review.getRGrade());
+			pstmt.setString(4, review.getRNo());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 
 }

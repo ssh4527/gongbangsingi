@@ -4,7 +4,6 @@ import workclass.model.dao.ClassDao;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
 import workclass.model.vo.Workclass;
-import workshop.model.dao.ShopDao;
 
 import static common.JDBCTemplate.*;
 
@@ -232,6 +231,60 @@ public class ClassService {
 		close(conn);
 		
 		return rfList;
+	}
+
+	// 리뷰 삭제
+	public int deleteReview(String rNo) {
+		Connection conn = getConnection();
+		
+		int result = new ClassDao().deleteReview(rNo,conn);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	// 리뷰파일 삭제
+	public int deleteReviewFile(String rNo) {
+		Connection conn = getConnection();
+		
+		int result = new ClassDao().deleteReviewFile(rNo,conn);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	// 리뷰 수정
+	public int updateReview(Review review) {
+		Connection conn = getConnection();
+		int result = new ClassDao().updateReview(review,conn);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	// 리뷰 하나만 가져오김
+	public Review selectReviewOne(String rNo) {
+		Connection conn = getConnection();
+				
+		Review review = new ClassDao().selectReviewOne(rNo,conn);
+		close(conn);
+		return review;
 	}
 
 }
