@@ -30,24 +30,27 @@ public class MemberLoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		String returnPath = request.getParameter("returnPath");
 		String id= request.getParameter("idinput");
 		String pwd= request.getParameter("pwdinput");
 		
 		Member m = new MemberService().LoginMember(id,pwd);
 		
 		if(m.getAuthority()==3) {
-			// 관리자에게 온 문의 갯수 파악
-			// 승인해야되는 것들 파악
-		}else if(m.getAuthority() ==2 ) {
-			
-			
+			int alarm = new MemberService().selectAlarm();
+			request.getSession().setAttribute("alarm", alarm);
+			int qnacount = new MemberService().selectQna();
+			request.getSession().setAttribute("qnacount", qnacount);
 		}else {
+			
 			
 		}
 		
 		if(m.getUserName() != null) {
 			request.getSession().setAttribute("loginUser", m);
-			response.sendRedirect(request.getContextPath());
+			
+		
+			response.sendRedirect(returnPath);
 		}else {
 			
 			request.setAttribute("loginmsg", "아이디 혹은 비밀번호가 틀렸습니다.");

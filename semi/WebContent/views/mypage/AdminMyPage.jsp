@@ -20,6 +20,33 @@
 	crossorigin="anonymous">
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawVisualization);
+	
+		function drawVisualization() { 
+			var stringtext = ['월', '가죽', '도자기', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'];
+			var data = google.visualization.arrayToDataTable([
+				stringtext,
+					['2004/05',  165,      938,         522,             998,           450,      614.6],
+					['2005/06',  135,      1120,        599,             1268,          288,      682],
+					['2006/07',  157,      1167,        587,             807,           397,      623],
+					['2007/08',  139,      1110,        615,             968,           215,      609.4],
+					['2008/09',  136,      691,         629,             1026,          366,      569.6]
+				]);
+			var options = {
+					title : '월 기준 카테고리별 예약수',
+					vAxis: {title: '카테고리'},
+					hAxis: {title: '월'}, 
+					seriesType: 'bars',
+					series: {5: {type: 'line'}}
+				};
+			
+			var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+			chart.draw(data, options);
+		}
+	</script>
 <style>
 #adminpage_maindiv {
 	width: 1300px;
@@ -66,9 +93,13 @@ aside>button {
 }
 
 .table {
-	width: 70%;
+	width: 80%;
 	margin: auto;
 	margin-top: 30px;
+}
+#chart_div{
+	width:90%;
+	height:400px;
 }
 </style>
 </head>
@@ -82,9 +113,7 @@ aside>button {
 				<li><a href="#" id="accept3">클래스승인</a></li>
 				<li><a href="#" id="accept4">수입통계</a></li>
 			</ul>
-			<button type="button" id="acceptbtn1"></button>
-			<button type="button" id="acceptbtn2"></button>
-			<button type="button" id="acceptbtn3"></button>
+			
 
 		</aside>
 		
@@ -92,30 +121,32 @@ aside>button {
 			$(function() {
 				
 				$("#accept1").click(function() {
-					$("#acceptbtn1").click();
-				})
-				$("#acceptbtn1").click(function() {
 					$("#accepttable1").css("display", "table");
 					$("#accepttable2").css("display","none");
 					$("#accepttable3").css("display","none");
+					$("#chart_div").css("display","none");
 				});
+				
 				$("#accept2").click(function() {
-					$("#acceptbtn2").click();
-				})
-				$("#acceptbtn2").click(function() {
 					$("#accepttable2").css("display", "table");
 					$("#accepttable1").css("display","none");
 					$("#accepttable3").css("display","none");
+					$("#chart_div").css("display","none");
 				});
+				
 				$("#accept3").click(function() {
-					$("#acceptbtn3").click();
-				})
-				$("#acceptbtn3").click(function() {
 					$("#accepttable3").css("display", "table");
 					$("#accepttable2").css("display","none");
 					$("#accepttable1").css("display","none");
+					$("#chart_div").css("display","none");
 				});
-
+				
+				$("#accept4").click(function(){
+					$("#accepttable3").css("display", "none");
+					$("#accepttable2").css("display","none");
+					$("#accepttable1").css("display","none");
+					$("#chart_div").css("display","block"); 
+				});
 			});
 		</script>
 		<div style="width:0px; min-height:600px; border:0.5px solid lightgrey; float:left;"></div>
@@ -123,15 +154,15 @@ aside>button {
 			<table class="table" id="accepttable1" style="display: none;">
 				<thead>
 					<tr>
-						<th scope="col" class="textalign">회원아이디</th>
-						<th scope="col" class="textalign">사업자명</th>
-						<th scope="col" class="textalign">사업자등록번호</th>
-						<th scope="col" class="textalign">공방주소</th>
-						<th scope="col" class="textalign">공방전화번호</th>
-						<th scope="col" class="textalign">가입승인여부</th>
+						<th scope="col" class="textalign" style="width:10%;">아이디</th>
+						<th scope="col" class="textalign"style="width:13%;">공방명</th>
+						<th scope="col" class="textalign"style="width:30%;">사업자등록번호</th>
+						<th scope="col" class="textalign"style="width:25%;">공방주소</th>
+						<th scope="col" class="textalign"style="width:10%;">전화번호</th>
+						<th scope="col" class="textalign"style="width:12%;">승인여부</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="checkGongBang">
 					<% 
 					for(int i=0; i<wsList.size();i++){
 						String enrolluser = "enrolluser"+i;
@@ -144,7 +175,7 @@ aside>button {
 						<td class="textalign"><%= wsList.get(i).getWsTel()%></td>
 						
 						<td class="textalign"><input type="radio" class="enrolluser" name=<%=enrolluser %>
-							value="y">&nbsp;Y <!-- name속성값 받아와서 각자 지정해줘야함-->
+							value="y">&nbsp;Y 
 							&nbsp;&nbsp; <input type="radio" name=<%=enrolluser %> value="n" checked>&nbsp;N
 						</td>
 					</tr>
@@ -171,7 +202,7 @@ aside>button {
 						<td class="textalign"><%= wsList2.get(i).getWsName()%></td>
 						<td class="textalign"><%= wsList2.get(i).getCategory() %></td>
 						<td class="textalign"><input type="radio" class="enrollshop" name=<%=enrollshop %>
-							value="y">&nbsp;Y <!-- name속성값 받아와서 각자 지정해줘야함-->
+							value="y">&nbsp;Y 
 							&nbsp;&nbsp; <input type="radio" name=<%=enrollshop %> value="n" checked>&nbsp;N
 						</td>
 					</tr>
@@ -200,14 +231,14 @@ aside>button {
 						
 						
 						<td class="textalign"><input type="radio" class="enrollclass" name=<%=enrollclass %>
-							value="y">&nbsp;Y <!-- name속성값 받아와서 각자 지정해줘야함-->
+							value="y">&nbsp;Y 
 							&nbsp;&nbsp; <input type="radio" name=<%=enrollclass %> value="n" checked>&nbsp;N
 						</td>
 					</tr>
 					<%} %>
 				</tbody>
 			</table>
-
+			<div id="chart_div" ></div>
 		</section>
 
 	</div>
@@ -217,6 +248,34 @@ aside>button {
 				var id = $(this).children().eq(0).html();
 				window.open("<%=request.getContextPath()%>/godetail.class?wcNo="+id);	
 			});
+			 $("#checkGongBang > tr").click(function(){
+				 	var $biz = $(this).children().eq(2);
+					var bizNum = $biz.html();
+		            $.ajax({
+		                url:'https://business.api.friday24.com/closedown/'+bizNum,
+		                headers : {"Authorization" : 'Bearer PHrcybTCv31Sit809Bld'},
+		                 type: 'get',
+		                    success: function(result){
+		                    	var text = result.state;
+		                    	var msg ="";
+		                    	console.log(text);
+		                    	if(text == 'normal'){
+		                    		msg = "정상영업중"
+		                    	}else if(text == 'down'){
+		                    		msg = "휴업중"
+		                    	}else if(text =='close'){
+		                    		msg = "폐업중"
+		                    	}else{
+		                    		msg = "미등록"
+		                    	}
+		                    	$biz.html(bizNum+" "+msg);	
+		                    },
+		                    error:function(e){
+		                    	$biz.html(bizNum+" 번호가 맞지않습니다.");	
+		                   }
+		            });
+		            
+		         });
 			
 			$(".enrolluser").click(function(){
 				
@@ -233,7 +292,7 @@ aside>button {
 							if(data=="fail"){
 								alert("알수없는 오류가 발생했습니다.");
 							}else{
-								
+								$("#acceptalert").html($("#acceptalert").html()-1);
 								$enroll.css("display","none");
 								
 							}
@@ -263,7 +322,7 @@ aside>button {
 							}else{
 								
 								$enroll.css("display","none");
-								
+								$("#acceptalert").html($("#acceptalert").html()-1);
 							}
 						}, error : function(){
 							console.log("서버 통신 안됨");
@@ -290,7 +349,7 @@ aside>button {
 							}else{
 								
 								$enroll.css("display","none");
-								
+								$("#acceptalert").html($("#acceptalert").html()-1);
 							}
 						}, error : function(){
 							console.log("서버 통신 안됨");
@@ -302,6 +361,8 @@ aside>button {
 				}
 			});
 		});
+		
+	     
 	
 	</script>
 	<%@ include file="../common/footbar.jsp"%>

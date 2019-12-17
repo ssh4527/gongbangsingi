@@ -33,6 +33,8 @@ public class IndexOnLoadServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String[] search = new SearchService().topKeyword();
+		request.getSession().setAttribute("search", search);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		String inter ="";
 		String[] interest=null;
