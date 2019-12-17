@@ -43,6 +43,14 @@ public class SearchService {
 		Connection c = getConnection();
 		SearchDao sd = new SearchDao();
 		ArrayList<Workclass> list = sd.findClassName(c, searchinput);
+		if(!list.isEmpty()) {
+			int result = sd.insertKeyword(c, searchinput);
+			if(result > 0) {
+				commit(c);
+			}else {
+				rollback(c);
+			}
+		}
 		close(c);
 		return list;
 	}
@@ -51,6 +59,14 @@ public class SearchService {
 		Connection c = getConnection();
 
 		ArrayList<Workshop> list = new SearchDao().searchWorkshop(keyword, c);
+		if(!list.isEmpty()) {
+			int result = new SearchDao().upCount(c, keyword);
+			if (result > 0) {
+				commit(c);
+			} else {
+				rollback(c);
+			}
+		}
 		close(c);
 		return list;
 	}
@@ -59,6 +75,7 @@ public class SearchService {
 		Connection c = getConnection();
 		
 		ArrayList<Workshop> list = new SearchDao().findWorkshopName(c, searchinput);
+		
 		close(c);
 		return list;
 	}
@@ -104,6 +121,14 @@ public class SearchService {
 		
 		close(c);
 		return list;
+	}
+
+	public String[] topKeyword() {
+		Connection c = getConnection();
+		String[] keyword = new SearchDao().topKeyword(c);
+		
+		close(c);
+		return keyword;
 	}
 
 	

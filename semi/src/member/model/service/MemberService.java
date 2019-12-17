@@ -88,6 +88,24 @@ public class MemberService {
 		return result;
 	}
 
+	public int selectAlarm() {
+		Connection c= getConnection();
+		
+		int result = new MemberDao().selectAlarm(c);
+		
+		close(c);
+		return result;
+	}
+
+	public int selectQna() {
+		Connection c= getConnection();
+		
+		int result = new MemberDao().selectQna(c);
+		
+		close(c);
+		return result;
+	}
+
 	
 	
 }

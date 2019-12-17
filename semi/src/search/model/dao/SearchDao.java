@@ -361,4 +361,47 @@ public class SearchDao {
 		return list;
 	}
 
+	public String[] topKeyword(Connection c) {
+		Statement st = null;
+		ResultSet rs = null;
+		int i=0;
+		String[] keyword = new String[5];
+		String q = "SELECT s_category FROM (SELECT s_count, s_category,RANK() OVER(ORDER BY s_count DESC) AS 순위 FROM search ORDER BY s_count DESC) where 순위 <= 5";
+		try {
+			st = c.createStatement();
+			rs = st.executeQuery(q);
+			while(rs.next()) {
+				keyword[i++] = rs.getString(1);
+				if(i==5) break;
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(st);
+		}
+		
+		
+		
+		return keyword;
+	}
+
+	public int insertKeyword(Connection c, String searchinput) {
+		int result =0;
+		PreparedStatement ps = null;
+		String q = "insert into search values(?,1)";
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, searchinput);
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+		return result;
+	}
+
 }
