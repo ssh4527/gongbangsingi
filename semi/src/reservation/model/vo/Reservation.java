@@ -8,7 +8,15 @@ public class Reservation {
 	private String resState;
 	private int resNop;
 	private int totalPrice;
-	private Date resDate;
+	private String resDate;
+	
+	
+	///////////////////////////
+	private String cid;
+	private String classtime;
+	private String wcNo;
+	
+	
 	
 	// -------------------------------
 	private String wsName; 
@@ -17,7 +25,8 @@ public class Reservation {
 	
 	public Reservation() {}
 
-	public Reservation(Date resDate, String wsName, String wcName,int resNop, int totalPrice) {
+
+	public Reservation(String resDate, String wsName, String wcName,int resNop, int totalPrice) {
 		super();
 		this.wsName = wsName;
 		this.wcName = wcName;
@@ -25,13 +34,31 @@ public class Reservation {
 		this.totalPrice = totalPrice;
 		this.resDate = resDate;
 	}
+
 	
-	public Reservation(String resCode, String resState, int resNop, int totalPrice, Date resDate) {
+	
+
+	public Reservation(String resCode, String resState, int resNop, int totalPrice, String resDate, String cid,
+			String classtime, String wcNo) {
 		super();
 		this.resCode = resCode;
 		this.resState = resState;
 		this.resNop = resNop;
 		this.totalPrice = totalPrice;
+		this.resDate = resDate;
+		this.cid = cid;
+		this.classtime = classtime;
+		this.wcNo = wcNo;
+	}
+
+
+
+
+	public String getResDate() {
+		return resDate;
+	}
+
+	public void setResDate(String resDate) {
 		this.resDate = resDate;
 	}
 
@@ -74,6 +101,23 @@ public class Reservation {
 	public void setResNop(int resNop) {
 		this.resNop = resNop;
 	}
+	
+
+	public String getCid() {
+		return cid;
+	}
+
+	public void setCid(String cid) {
+		this.cid = cid;
+	}
+
+	public String getClasstime() {
+		return classtime;
+	}
+
+	public void setClasstime(String classtime) {
+		this.classtime = classtime;
+	}
 
 	public int getTotalPrice() {
 		return totalPrice;
@@ -83,19 +127,25 @@ public class Reservation {
 		this.totalPrice = totalPrice;
 	}
 
-	public Date getResDate() {
-		return resDate;
+	
+
+	public String getWcNo() {
+		return wcNo;
+	}
+	public void setWcNo(String wcNo) {
+		this.wcNo = wcNo;
 	}
 
-	public void setResDate(Date resDate) {
-		this.resDate = resDate;
-	}
+
+
 
 	@Override
 	public String toString() {
 		return "Reservation [resCode=" + resCode + ", resState=" + resState + ", resNop=" + resNop + ", totalPrice="
-				+ totalPrice + ", resDate=" + resDate + "]";
+				+ totalPrice + ", resDate=" + resDate + ", cid=" + cid + ", classtime=" + classtime + ", wcNo=" + wcNo
+				+ "]";
 	}
+
 	
 	
 	

@@ -99,7 +99,7 @@ public class InsertReviewServlet extends HttpServlet {
 					response.sendRedirect("godetail.class?wcNo=" + wcNo);
 							
 				}else {
-					System.out.println("파일 안들어갔는대요;;");
+					response.sendRedirect("godetail.class?wcNo=" + wcNo);
 				}
 			}else {
 				System.out.println("리뷰 안들어갔는대?");
