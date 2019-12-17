@@ -10,11 +10,17 @@ public class Reservation {
 	private int totalPrice;
 	private Date resDate;
 	
+	// -------------------------------
+	private String wsName; 
+	private String wcName;
+	
+	
 	public Reservation() {}
 
-	public Reservation(Date resDate, String resCode, int resNop, int totalPrice) {
+	public Reservation(Date resDate, String wsName, String wcName,int resNop, int totalPrice) {
 		super();
-		this.resCode = resCode;
+		this.wsName = wsName;
+		this.wcName = wcName;
 		this.resNop = resNop;
 		this.totalPrice = totalPrice;
 		this.resDate = resDate;
@@ -27,6 +33,22 @@ public class Reservation {
 		this.resNop = resNop;
 		this.totalPrice = totalPrice;
 		this.resDate = resDate;
+	}
+
+	public String getWsName() {
+		return wsName;
+	}
+
+	public void setWsName(String wsName) {
+		this.wsName = wsName;
+	}
+
+	public String getWcName() {
+		return wcName;
+	}
+
+	public void setWcName(String wcName) {
+		this.wcName = wcName;
 	}
 
 	public String getResCode() {
