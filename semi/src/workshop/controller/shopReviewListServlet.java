@@ -1,25 +1,27 @@
 package workshop.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import workshop.model.service.ShopService;
+import review.model.vo.Review;
 
 /**
- * Servlet implementation class shopUpdateDetailServlet
+ * Servlet implementation class shopReviewListServlet
  */
-@WebServlet("/updateIntro.sh")
-public class shopIntroUpdateServlet extends HttpServlet {
+@WebServlet("/review.sh")
+public class shopReviewListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public shopIntroUpdateServlet() {
+    public shopReviewListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,22 +30,7 @@ public class shopIntroUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		
-		String WsNo= request.getParameter("WsNo");
-		String input = request.getParameter("input");
-		
-		int result= new ShopService().updateIntro(WsNo,input);
-
-
-		System.out.println(input);
-		if(result>0) {
-			System.out.println(input);
-			response.setCharacterEncoding("utf-8");
-			response.getWriter().print(input);
-		}else {
-			
-		}
+		String[] rlist = request.getParameterValues("rlist");
 		
 	}
 

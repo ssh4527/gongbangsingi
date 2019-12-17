@@ -1,25 +1,29 @@
 package workshop.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import review.model.vo.Review;
 import workshop.model.service.ShopService;
+import workshop.model.vo.Workshop;
 
 /**
- * Servlet implementation class shopUpdateDetailServlet
+ * Servlet implementation class shopReviewMoreServlet
  */
-@WebServlet("/updateIntro.sh")
-public class shopIntroUpdateServlet extends HttpServlet {
+@WebServlet("/reviewMore.sh")
+public class shopReviewMoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public shopIntroUpdateServlet() {
+    public shopReviewMoreServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,23 +32,13 @@ public class shopIntroUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		String WsNo = request.getParameter("WsNo");
+		ArrayList<Review> rlist = new ShopService().selectReviewList(WsNo);
+		Workshop shop = new ShopService().selectShop(WsNo);
 		
-		String WsNo= request.getParameter("WsNo");
-		String input = request.getParameter("input");
-		
-		int result= new ShopService().updateIntro(WsNo,input);
-
-
-		System.out.println(input);
-		if(result>0) {
-			System.out.println(input);
-			response.setCharacterEncoding("utf-8");
-			response.getWriter().print(input);
-		}else {
-			
-		}
-		
+		request.setAttribute("rlist", rlist);
+		request.setAttribute("shop", shop);
+		request.getRequestDispatcher("views/store/shopReview.jsp").forward(request, response);
 	}
 
 	/**

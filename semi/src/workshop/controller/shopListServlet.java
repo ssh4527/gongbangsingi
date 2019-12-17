@@ -41,7 +41,7 @@ public class shopListServlet extends HttpServlet {
 		for(Workshop s: list) {
 			System.out.println(s.getWsNo());
 		}
-		
+	
 		
 		request.setAttribute("list", list);
 		request.setAttribute("flist", flist);
