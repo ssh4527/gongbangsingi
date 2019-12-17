@@ -1,13 +1,20 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="review.model.vo.Review"%>
 <%@page import="workclass.model.vo.ClassTime"%>
 <%@page import="workclass.model.vo.Workclass"%>
 <%@page import="workclass.model.vo.ClassFile"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<!--  검색후 해당 클래스 디테일 창 -->
 <%
 	ArrayList<ClassFile> fileList = (ArrayList<ClassFile>)request.getAttribute("cfList");
 	Workclass wc = (Workclass)request.getAttribute("wc");
 	ClassTime ct = (ClassTime)request.getAttribute("ct");
+	ArrayList<Review> rList = (ArrayList<Review>)request.getAttribute("rList");
+	ArrayList<ClassFile> rfList = (ArrayList<ClassFile>)request.getAttribute("rfList");
+	
 	
 	String[] time = ct.getCtTime().split(",");
 	
@@ -235,11 +242,15 @@ ul {
 						</tr>
 						<tr>
 							<td><small style="color: gray">보유 포인트</small></td>
-							
+							<% if(log.equals("asd")) { %>
+								<td> 로그인 후 포인트 확인이 가능합니다.</td>
+							<% }  else { %>
+								 <td><%= loginUser.getPoint() %></td>
+							<% } %>
 						</tr>
 						<tr>
 							<td><small style="color: gray">1인당 적립 포인트</small></td>
-							<td><small><%= wc.getWcNOP() %></small></td>
+							<td><small><%= (int)Math.floor(wc.getWcNOP() * 0.05) %>p</small></td>
 						</tr>
 					</table>
 					<hr>
@@ -251,7 +262,11 @@ ul {
 				<div id="detail4">
 					<table>
 						<tr>
-							<td width=150px;><small style="color: gray"> > 날짜/시간
+							<td> > 날짜 </td>
+							<td><%= ct.getCtDate() %> - <%= ct.getCtEndDate() %> </td> 
+						</tr>
+						<tr>
+							<td width=150px;><small style="color: gray"> > 시간
 							</small></td>
 							<td>
 							<select name="time" id="time" style="font-size: 15px">
@@ -355,6 +370,184 @@ ul {
 </div>
 
 <!--  ??-->
+<script>
+	$(function(){
+		$("#reservationBtn").click(function(){
+			if(<%= log.equals("asd") %>){
+				
+				alert("로그인 후 이용가능합니다.");
+			}else{
+				$("#precount2").val($("#count").val());
+			}
+		});
+	});
+
+</script>
+
+<!-- 예약하기 모달 -->
+<form action="<%=request.getContextPath()%>/cash1.go" method="post" onsubmit="return ckform()">
+	<script>
+		function ckform(){
+			console.log($("#outnumber").val());
+			if($("#outtime").val() == 100){
+				alert("시간대를 입력해주세요!");
+				return false;
+			}
+			if($("#outnumber").val() == 100){
+				alert("인원수를 넣어주세요!");
+				return false;
+			}
+			
+		}	
+	</script>
+	<input type="text" name="outtime" id="outtime" style="display:none" value="100">
+	<input type="text" name="outnumber" id="outnumber" style="display:none" value="100">
+	<input type="text" name="outname" id="outname" style="display:none" value="<%= wc.getWcName() %>">
+	<input type="text" name="outprice" id="outprice" style="display:none" value="<%= wc.getWcNOP() %>">
+	<% if(!log.equals("asd")){ %>
+	<input type="text" name="outusername" id="outusername" style="display:none" value="<%= loginUser.getUserName() %>">
+	<input type="text" name="outcId" id="outcId" style="display:none" value="<%= loginUser.getUserId() %>">
+	<% } %>
+	<input type="text" name="outwcNo" id="outwcNo" style="display:none" value="<%= wc.getWcNo() %>">
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  			<div class="modal-dialog modal-lg">
+    			<div class="modal-content">
+      				<div style="width:100%; height:30px; text-align: center;">
+      					로맨틱 도자기 만들기
+      				<hr>	
+      				</div>
+      				
+      				<div>
+      					<table style="margin-top:20px;">
+						<tr>
+							<td width=80%;><small style="color: gray">1인 기준 금액</small></td>
+							<td><small><%= wc.getWcNOP() %></small></td>
+						</tr>
+						<tr>
+							<td><small style="color: gray">보유 포인트</small></td>
+							<% if(log.equals("asd")) { %>
+								<td> 로그인 후 포인트 확인이 가능합니다.</td>
+							<% }  else { %>
+								 <td><%= loginUser.getPoint() %></td>
+							<% } %>
+						</tr>
+						<tr>
+							<td><small style="color: gray">적립 포인트</small></td>
+							<td><small id="jpoint"><%= (int)Math.floor(wc.getWcNOP() * 0.05) %>p</small></td>
+						</tr>
+						</table>
+					<hr>
+      				</div>
+      				
+      				
+      				<div>
+      					<table>
+      					<tr>
+      						<td width=150px;><small style="color: gray"> > 날짜 선택</small></td>
+      						<td><input id="ckdate" name="ckdate" type="date" max="<%= ct.getCtEndDate() %>" min="<%= ct.getCtDate() %>"></td>
+      						<%
+      							String start = ct.getCtDate();
+      							String end = ct.getCtEndDate();
+      							Date startdate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+      							Date enddate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+      						%>
+      						<script>
+      							$(function(){
+      								$("#ckdate").change(function(){
+      									
+      								
+      								});
+      							});
+      						</script>
+      					</tr>
+						<tr>
+							<td width=150px;><small style="color: gray"> > 시간
+							</small></td>
+							<td><select name="pretime1" id="pretime1" style="font-size: 15px">
+									<option value="">-[필수] 시간대를 선택해주세요 -</option>
+								<% for(int i = 0; i < time.length; i++) { %>								
+									<option value="">
+										<%= time[i] %>
+									</option>
+								<% } %>
+							</select></td>
+						</tr>
+						<tr>
+							<td><small style="color: gray"> > 인원수 </small></td>
+							<td><input type="number" width="10px" min="0" max=<%= wc.getWcMaxP() %>
+								id="precount2" name="precount2" value="0"></td>
+						<tr>
+							<td rowspan="2" style="text-align: right;"></td>
+						</tr>
+					</table>
+					<hr>
+      				</div>
+      				
+      				
+      				<div>
+      					<small id="pretotal">TOTAL : 0	 </small>
+      					
+      				</div>
+      				
+      				<!-- pre모달 토탈부분 -->
+      				<script>
+      					$(function(){
+      						$("#pretime1").change(function(){
+      							$("#outtime").val($("#pretime1 option:selected").text());
+      						});
+      						//$("#pretime1 option:selected").val();
+      						
+      						$("#precount2").change(function(){
+      							$("#outnumber").val($("#precount2").val());
+      							
+      							
+      							
+      							
+      							var count = $("#precount2").val();
+      							$("#jpoint").text(<%= ((int)Math.floor(wc.getWcNOP() * 0.05)) %> * count + "p");
+								$("#pretotal").text("TOTAL : " + count * <%= wc.getWcNOP() %> + " 원");
+								$("#pretotal").css("fontSize","14px");
+								
+      						});
+      					});
+      					
+      					$("div").append("");
+      				</script>
+      				
+      				
+      				
+      				<div style="hegiht:150px;">
+      					<button type="submit" class="btn btn-outline-secondary"
+							id="reservationBtnn" style="width: 100px; margin:auto; height:50px;">예약 하기</button>
+      				</div>
+    			</div>
+  			</div>
+		</div>
+		
+		
+		<script>
+          var count = 0;
+          		$(function(){
+          			$("#detail_img").click(function(){
+          				var urlArr = new Array();
+          				urlArr[0] =  "<%=request.getContextPath()%>/resources/images/jar2.jpg";
+          				urlArr[1] =  "<%=request.getContextPath()%>/resources/images/jar3.jpg";
+          				urlArr[2] =  "<%=request.getContextPath()%>/resources/images/city1.PNG";
+          				urlArr[3] =  "<%=request.getContextPath()%>/resources/images/jar1.jpg";
+
+									if (count > 3) {
+										count = 0;
+									}
+									$("#detail_img").attr("src",
+											urlArr[count++]);
+								});
+			});
+		</script>
+	</form>
+		<!-- 모달 끝 -->
+
+
+
 <!--  Map 부분 !!! -->
 		<div id="detail_come" style="text-align: center;">
 			<img src="<%=request.getContextPath()%>/resources/images/map1.PNG"
@@ -380,47 +573,102 @@ ul {
 					적어주세요.</small>
 				<hr>
 			</div>
-
+			<div class="ulpre" style="color: gray; font-size: 14px;"> <!-- 리뷰div -->
+		<% if(rList.isEmpty()) { %>
+			리뷰없음
+		
+		<% } else { %>
+		<% for(int i = 0; i < rList.size(); i++) {%>
 			<!-- 리뷰2 -->
-			<div class="ulpre" style="color: gray; font-size: 14px;">
-
-				<ul class="dept" style="color:black; font-family:나눔고딕">
-					<li style="cursor: pointer" class="reviewtitle"><span style="">
-							<small>★★★★☆</small> <small style="margin-left: 30px; color:black;">좋은
-								상담과 좋은 클래스 둘다만족해요 다른 클래스도 배우고싶습니다!!</small> <small style="float: right;">이진혁 | 
-								2019-12-05</small>
+			
+				<ul class="dept" style="color:black; font-family:나눔고딕" id="ul<%= rList.get(i).getRNo() %>">
+					<li style="cursor: pointer" class="reviewtitle">
+					<span style="">
+							<small id="star">
+								<% for(int c = 0; c < rList.get(i).getRGrade(); c++) { %>
+									★
+								<% } %>
+								<% int counttt = 5 - rList.get(i).getRGrade(); %>
+								<% for(int d = 0; d < counttt ; d++){  %>
+									☆
+								<% } %> 
+							</small>
+							<small style="margin-left: 30px; color:black;"><%= rList.get(i).getRTitle() %></small> 
+							<small style="float: right;"><%= rList.get(i).getcName() %> | <%= rList.get(i).getREnDate() %></small>
 					</span>
 						<ul class="dept02" style="display: none">
-							<li id="asd" style="margin-top:20px;">우와 색이 정말 이뻐요!!<br> 이쁘게 만들게 해주셔서 감사합니당 <br>
+							<li id="asd" style="margin-top:20px;"><%= rList.get(i).getRContent() %>
+							<% for(int j = 0 ; j < rfList.size(); j++) { %>
+								<% if(rList.get(i).getRNo().equals(rfList.get(j).getDestination())) { %>
+								<br><img src="<%= request.getContextPath() %>/resources/review_uploadFiles/<%= rfList.get(j).getChangeName() %>" width="400px" height="400px"><br>
 								
-								<br><img src="<%= request.getContextPath() %>/resources/preclass_uploadFiles/jar8.jpg">
-								<br><button class="btn btn-outline-secondary" style="float:right;">수정</button>
-									<button class="btn btn-outline-secondary" style="float:right;">삭제</button><br><br>
+								<% } %>
+							<% } %>
+								<% if(rList.get(i).getcName().equals(log)){ %>
+								<br><button class="btn btn-outline-secondary" style="float:right;" id="updateBtn<%= rList.get(i).getRNo() %>" onclick="updatereview('<%= rList.get(i).getRNo() %>')">수정</button>
+									<button class="btn btn-outline-secondary" style="float:right;" id="deleteBtn<%= rList.get(i).getRNo() %>" onclick="deletereview('<%= rList.get(i).getRNo() %>')">삭제</button><br><br>
+								<% } %>
 							</li>
-						</ul></li>
+						</ul>
+					</li>
 					<hr>
-
-
-					<li style="cursor: pointer" class="reviewtitle"><span style="">
-							<small>★★★☆☆</small> <small style="margin-left: 30px; color:black;">
-								우와 도자기</small> <small style="float: right;">이진혁 | 
-								2019-12-05</small>
-					</span>
-						<ul class="dept02" style="display: none">
-							<li id="asd" style="margin-top:20px;">
-							ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ
-							<br><img src="<%= request.getContextPath() %>/resources/preclass_uploadFiles/jar9.jpg">
-							<br><button class="btn btn-outline-secondary" style="float:right;">수정</button>
-								<button class="btn btn-outline-secondary" style="float:right;">삭제</button><br><br>
-									
-							</li>
-						</ul></li>
-					<hr>
-
+				</ul>
+				<% } %>
+			<% } %>
+				<!-- 리뷰 삭제, 수정 -->
+				<script>
+					function deletereview(review){
+						if(window.confirm('게시글을 정말 삭제하시겠습니까?')){
+							console.log("ㅇㅇ");
+							console.log($("#ul"+review));
+							
+							$.ajax({ // 아작시작
+	      						url : "delete.review",
+	      						data : { rNo: review },
+	      						type : "get",
+	      						success : function(num){ // 석세스 시작
+	      						
+	      							if(num > 0){
+	      								$("#ul"+review).remove();
+	      								alert("성공적으로 리뷰가 삭제되었습니다.");
+	      								
+	      							// 찜목록에 없어서 찜 등록 그리고 꽉찬하트로 벽녕
+	      							}else if(num == 0){
+	      								
+	      							
+	      								alert("리뷰 삭제실패..");
+	      								
+	      								// 찜목록에 있어서 찜 해제 그리고 빈하트로 변경
+	      							}else{
+	      							alert("리뷰 삭제실패..");	
+	      							
+	      							}
+	      						}, // 석세스끝
+	      						
+	      						error : function(){
+	      							console.log('ajax 통신 실패!');
+	      						}
+	      					}); // 아작끝 
+	      					
+						}else{
+							console.log("ㄴㄴ");
+						}
+					}
 					
+					function updatereview(review){
+						if(window.confirm('게시글을 정말 수정하시겠습니까?')){
+							alert("수정페이지로 이동합니다.");
+							location.href="select.review?rNo=" + review + "&wcNo=<%= wc.getWcNo() %>";
+						}
+					
+					}
+					
+				</script>
+				
 
 					<!-- 리뷰 페이징 -->
-					<nav aria-label="Page navigation example">
+				
+				<nav aria-label="Page navigation example">
 						<ul class="pagination">
 							<li class="page-item"><a class="page-link" href="#"
 								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
@@ -436,8 +684,6 @@ ul {
 							</a></li>
 						</ul>
 					</nav>
-				</ul>
-				
 
 			</div>
 
@@ -453,12 +699,20 @@ ul {
 					}
 				});
 			</script>
-
 			<!-- 리뷰 버튼 -->
 			<div>
-				<button type="button" class="btn btn-outline-secondary"
-					style="float: right" onclick ="location.href ='<%= request.getContextPath()%>/views/classdetail/insertReview.jsp?wcNo=<%= "wcNo21" %>'">Review Write</button>
-					<hr>
+				<button type="button" class="btn btn-outline-secondary" id="reviewbtnn"
+					style="float: right" onclick="goreviews()"<%-- onclick ="location.href ='<%= request.getContextPath()%>/views/classdetail/insertReview.jsp?wcNo=<%= wc.getWcNo() %>' "--%>>Review Write</button>
+				<script>
+					function goreviews(){
+						if(<%= log.equals("asd") %>){
+							alert("로그인 후에 작성가능합니다.");
+						}else{
+							location.href="<%= request.getContextPath()%>/views/classdetail/insertReview.jsp?wcNo=<%= wc.getWcNo() %>";
+						}
+					}
+				</script>
+					<br><br><hr>
 			</div>
 
 

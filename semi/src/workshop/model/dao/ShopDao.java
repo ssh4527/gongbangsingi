@@ -1,3 +1,4 @@
+
 package workshop.model.dao;
 
 import java.io.FileReader;
@@ -66,14 +67,15 @@ public class ShopDao {
 			ppst.setString(1, wsNo);
 			rset = ppst.executeQuery();
 			if (rset.next()) {
-				// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1),WS_SNS,C_ID,WS_Introduce
+				// WS_NO,WS_NAME,WS_ADDR,WS_TEL,
+				// WS_CATEGORY,ROUND(AVG(R_GRADE),1),WS_SNS,C_ID,WS_Introduce
 				shop = new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-						rset.getString(5), rset.getDouble(6),rset.getString(7),rset.getString(8),rset.getString(9));
+						rset.getString(5), rset.getDouble(6), rset.getString(7), rset.getString(8), rset.getString(9));
 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(ppst);
 		}
@@ -201,8 +203,8 @@ public class ShopDao {
 
 			list = new ArrayList<Review>();
 			while (rset.next()) {
-				//String cName, Date rEnDate, int rGrade, String rWriter
-				Review c = new Review(rset.getString(1),rset.getDate(2),rset.getInt(3),rset.getString(4));
+				// String cName, Date rEnDate, int rGrade, String rWriter
+				Review c = new Review(rset.getString(1), rset.getDate(2), rset.getInt(3), rset.getString(4));
 				list.add(c);
 			}
 		} catch (SQLException e) {
@@ -229,8 +231,9 @@ public class ShopDao {
 
 			list = new ArrayList<Workclass>();
 			while (rset.next()) {
-				//String wcName, int wcNOP, String wcOpenClose
-				Workclass c = new Workclass(rset.getString("WC_NAME"),rset.getInt("WC_NOP"),rset.getString("WC_DATE"));
+				// String wcName, int wcNOP, String wcOpenClose
+				Workclass c = new Workclass(rset.getString("WC_NAME"), rset.getInt("WC_NOP"),
+						rset.getString("WC_DATE"));
 				list.add(c);
 			}
 		} catch (SQLException e) {
@@ -310,23 +313,70 @@ public class ShopDao {
 		return list;
 	}
 
-	public ArrayList<Workshop> selectSortlist(Connection con,String sortType) {
+
+	public ArrayList<Workshop> selectNewShopList(Connection con) {
+		Statement st = null;
+		ResultSet rset = null;
+		String sql = "select WS_NO,WS_NAME,WS_ADDR,WS_TEL,ws.C_ID,S_CATEGORY from workshop ws,Client c where c.c_id = ws.c_id And AUTHORITY =1";
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+
+		try {
+			st = con.createStatement();
+			rset = st.executeQuery(sql);
+
+			while (rset.next()) {
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
+						rset.getString(5), rset.getString(6)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(st);
+		}
+
+		return list;
+	}
+
+	public ArrayList<Workshop> selectSortlist(Connection con, String sortType) {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
-		String sql="";
+		String sql = "";
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		if(sortType.equals("인기순")) {
+		if (sortType.equals("인기순")) {
 			sql = prop.getProperty("selectSortPoplist");
-		}else {
+		} else {
 			sql = prop.getProperty("selectSortNewlist");
 		}
 		try {
 			ppst = con.prepareStatement(sql);
 			rset = ppst.executeQuery();
 
-			// String wsNo, String wsName, String address, String wsTel, String category,
-			// String intro, double grade
-			// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
+			while (rset.next()) {
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(ppst);
+		}
+
+		return list;
+	}
+	
+	public ArrayList<Workshop> selectedCategory(Connection con, String category) {
+		PreparedStatement ppst = null;
+		ResultSet rset = null;
+
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+		String sql = prop.getProperty("selectedCategory");
+
+		try {
+			ppst = con.prepareStatement(sql);
+			ppst.setString(1, category);
+			rset = ppst.executeQuery();
+
 			while (rset.next()) {
 				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4)));
 			}
@@ -340,30 +390,35 @@ public class ShopDao {
 		return list;
 	}
 
-	public ArrayList<Workshop> selectNewShopList(Connection con) {
-		Statement st =null;
+	public ArrayList<Workshop> selectCSortlist(Connection con, String sortType, String category) {
+		PreparedStatement ppst = null;
 		ResultSet rset = null;
-		String sql = "select WS_NO,WS_NAME,WS_ADDR,WS_TEL,ws.C_ID,S_CATEGORY,WS_ACCNUM from workshop ws,Client c where c.c_id = ws.c_id And AUTHORITY =1";
+		String sql = "";
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		
+		if (sortType.equals("인기순")) {
+			sql = prop.getProperty("selectCSortPoplist");
+		} else {
+			sql = prop.getProperty("selectCSortNewlist");
+		}
 		try {
-			st = con.createStatement();
-			rset  = st.executeQuery(sql);
-			
+			ppst = con.prepareStatement(sql);
+			ppst.setString(1, category);
+			rset = ppst.executeQuery();
 
-			
 			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3),rset.getString(4),rset.getString(5),rset.getString(6),rset.getString(7)));
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(st);
+			close(ppst);
 		}
 
 		return list;
 	}
+
+
 	// made by ssh
 	public ArrayList<Workshop> selectCheckShopList(Connection con) {
 		Statement st =null;

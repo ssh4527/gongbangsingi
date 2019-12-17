@@ -34,16 +34,18 @@ public class shopListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<Workshop> clist=(ArrayList<Workshop>) request.getAttribute("clist");
 		ShopService ss = new ShopService();
 		ArrayList<Workshop> list = ss.selectShopList();
 		ArrayList<Attachment> flist= ss.selectShopListPic();
 		for(Workshop s: list) {
 			System.out.println(s.getWsNo());
 		}
-		
+	
 		
 		request.setAttribute("list", list);
 		request.setAttribute("flist", flist);
+		request.setAttribute("clist",clist);
 		request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);
 		
 	}

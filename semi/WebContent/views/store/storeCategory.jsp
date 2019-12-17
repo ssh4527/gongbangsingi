@@ -4,12 +4,18 @@
 <%
 	ArrayList<Workshop> list = (ArrayList<Workshop>) request.getAttribute("list");
 	ArrayList<Attachment> flist = (ArrayList<Attachment>) request.getAttribute("flist");
+
+	ArrayList<Workshop> clist = null;
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>카테고리</title>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet"
@@ -87,7 +93,7 @@ a {
 	}
 }
 
-#gal {
+.gal {
 	position: relative;
 	width: 350px;
 	height: 300px;
@@ -99,7 +105,7 @@ a {
 	overflow: hidden;
 }
 
-#gal:hover {
+.gal:hover {
 	transform: scale(1.5, 1.5);
 	transition: all 0.5s ease-in-out;
 }
@@ -117,10 +123,11 @@ to {
 	opacity: 1;
 }
 
-.shortIntro{
-width: 300px;
+.shortIntro {
+	width: 300px;
 }
-.gradeDis{
+
+.gradeDis {
 	float: left;
 }
 </style>
@@ -136,42 +143,28 @@ width: 300px;
 				<h2>카테고리</h2>
 				<br> <br>
 				<div class="custom-control custom-checkbox">
-					<table>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="도자기" id="jar"> <label
-								class="custom-control-label" for="jar">도자기</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="액세서리" id="accessory"> <label
-								class="custom-control-label" for="accessory">액세서리</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="가구" id="furniture"> <label
-								class="custom-control-label" for="furniture">가구</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="향수" id="perfume"> <label
-								class="custom-control-label" for="perfume">향수</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="제과" id="cook"> <label
-								class="custom-control-label" for="cook">제과</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="원예" id="flower"> <label
-								class="custom-control-label" for="flower">원예</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="가죽" id="leather"> <label
-								class="custom-control-label" for="leather">가죽</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="기타" id="etc"> <label class="custom-control-label"
-								for="etc">기타</label></td>
-						</tr>
-					</table>
-					<br> <br> <br> <br> <br> <br>
-					<button type="button" class="btn btn-warning" id="btnsort1">적용하기</button>
+					<form method="post" id="category">
+						<table>
+							<%
+								int idx = 1;
+								for (Workshop shop : list) {
+							%>
+							<tr>
+								<td><input type="checkbox" class="custom-control-input"
+									value="<%=shop.getCategory()%>" id="<%=idx%>" name="category">
+									<label class="custom-control-label" for="<%=idx%>"><%=shop.getCategory()%></label></td>
+							</tr>
+							<%
+								idx++;
+								}
+							%>
+
+						</table>
+						<br> <br> <br> <br> <br> <br>
+
+						<button type="button" class="btn btn-warning" id="btnsort1">적용하기</button>
+					</form>
+
 				</div>
 			</div>
 
@@ -180,21 +173,23 @@ width: 300px;
 				<h2>카테고리</h2>
 				<br> <br>
 				<div class="custom-control custom-checkbox">
-				<form action="<%=request.getContextPath() %>/sort.sh" method="post">
-					<table>
-						<tr>
-							<td><input type="checkbox" name="sort"
-								class="custom-control-input sort2" value="인기순" id="sort2_check1">
-								<label class="custom-control-label" for="sort2_check1">인기순</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="sort"
-								class="custom-control-input sort2" value="최신순" id="sort2_check2">
-								<label class="custom-control-label" for="sort2_check2">최신순</label></td>
-						</tr>
-					</table>
-					<br> <br> <br> <br> <br> <br>
-					<button type="submit" class="btn btn-warning" id="btnsort2">적용하기</button>
+					<form method="post" id="sort">
+						<table>
+							<tr>
+								<td><input type="checkbox" name="sort"
+									class="custom-control-input sort2" value="인기순"
+									id="sort2_check1"> <label class="custom-control-label"
+									for="sort2_check1">인기순</label></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="sort"
+									class="custom-control-input sort2" value="최신순"
+									id="sort2_check2"> <label class="custom-control-label"
+									for="sort2_check2">최신순</label></td>
+							</tr>
+						</table>
+						<br> <br> <br> <br> <br> <br>
+						<button type="button" class="btn btn-warning" id="btnsort2">적용하기</button>
 					</form>
 				</div>
 			</div>
@@ -202,11 +197,12 @@ width: 300px;
 
 		</div>
 	</div>
-	
+
 	<!-- 정렬 리스트 script -->
 	<script>
 		$(function() {
 			// 1번 버튼 누르면
+
 			$("#sortlist1").click(function() { 
 				$(".bigWrapper").css("display", "flex").show();
 				$(".sort1").css("display","inline_block").show();
@@ -240,9 +236,43 @@ width: 300px;
 		});
 	</script>
 
+	<script>
+	$(function() {
+		$("#btnsort1").click(function() {
+			sortFunc();
+		});
+		$("#btnsort2").click(function() {
+			sortFunc();
+		});
+		
+		function sortFunc(){ 
+			console.log("hh");
+			 var s = document.getElementsByName("sort").value;
+			 var ct= document.getElementsByName("category").value;
+			
+			 $.ajax({
+				url :"sort.sh",
+				type:"post",
+				data :{sort:s, category:ct},
+				dataType : "json",
+				success: function(result) {
+					
+				console.log("hh");
+					/* clist=result; */
+				},
+				error:function(e) {
+					alert();
+				}
+			});
+			
+		}
+	});
+	</script>
+
 
 	<div id="sortlist">
-		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; <a id="sortlist2">정렬기준 ∨</a>
+		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; <a id="sortlist2">정렬기준
+			∨</a>
 	</div>
 	<hr>
 
@@ -256,11 +286,11 @@ width: 300px;
 						<div id="thumbnail">
 							<img
 								src="<%=request.getContextPath()%>/resources/images/jar1.jpg"
-								width="100%" height="100%" id="gal">
+								width="100%" height="100%" class="gal">
 						</div>
 						<div class="card-body">
 							<small class="text-muted">Dish Factory</small>
-							<p class="card-text" align="left">안녕하세요. 팟하우스 입니다:) 도자기 체험</p>
+							<p class="card-text" align="left">반지나라</p>
 							<div class="d-flex justify-content-between align-items-center">
 								<small class="text-muted">★4.2</small> <small class="text-muted">구경하세요</small>
 							</div>
@@ -268,8 +298,13 @@ width: 300px;
 					</div>
 				</div>
 				<%
-					if (list != null) {
-						for (Workshop shop : list) {
+					ArrayList<Workshop> viewList = null;
+					if (clist != null) {
+						viewList = clist;
+					} else if (list != null) {
+						viewList = list;
+					}
+					for (Workshop shop : viewList) {
 				%>
 				<div class="col-md-4">
 					<div class="card mb-4 shadow-sm shop">
@@ -277,29 +312,28 @@ width: 300px;
 						<div id="thumbnail">
 							<%
 								for (Attachment at : flist) {
-							%>
-							<%
-								if (shop.getWsNo() == at.getFs_destination()) {
+										if (shop.getWsNo().equals(at.getFs_destination())) {
 							%>
 							<img
 								src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=at.getReName()%>"
-								width="100%" height="100%" id="gal">
+								width="100%" height="100%" class="gal">
 							<%
-								}}
+								}
+									}
 							%>
-							
+
 						</div>
 						<div class="card-body">
 							<small class="text-muted"><%=shop.getCategory()%></small>
-							<p class="card-text"><%=shop.getWsName()%></p>
-							<div class="d-flex justify-content-between align-items-center shortIntro">
-								<small class="gradeDis" class="text-muted">★<%=shop.getGrade()%></small> <small class="text-muted">구경하세요</small>
+							<p class="card-text">공방명 : <%=shop.getWsName()%></p>
+							<div class="">
+								★<%=shop.getGrade()%>
+								<small class="text-muted">구경하세요</small>
 							</div>
 						</div>
 					</div>
 				</div>
 				<%
-					}
 					}
 				%>
 

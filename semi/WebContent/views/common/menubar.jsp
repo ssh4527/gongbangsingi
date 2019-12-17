@@ -366,8 +366,10 @@ $(function(){
 					</div>
 				</div>
 				<div id="testinfo"
+
 					style="float: left; background-color: lightgrey; width: 80%; margin: 5%; margin-top: 5%;">
 					<a id="gomypage" href="#" >마이페이지</a><a id="logout"
+
 						href="<%=request.getContextPath()%>/logout.me">로그아웃</a>
 
 				</div>

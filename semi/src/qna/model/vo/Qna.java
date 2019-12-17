@@ -9,12 +9,35 @@ public class Qna {
 	private String qContent; // 내용
 	private Date qEntdate; // 작성일
 	private boolean qSecret; // 비밀여부 default 'N'
-	private boolean qReplayck; // 답글확인체크 default 'N'
+	private String qReplayck; // 답글확인체크 default 'N'
 	private String wcNo; // 받는 사람 아이디 default null -> 관리자
 	private int qCount; // 조회수
 	private String qPwd; // 비밀번호
 	
 	public Qna() {}
+	
+	public Qna(String qTitle, String qContent, Date qEntdate, String qReplayck) {
+		super();
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qEntdate = qEntdate;
+		this.qReplayck = qReplayck;
+	}
+
+
+
+	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, boolean qSecret, int qCount) {
+		super();
+		this.qNo = qNo;
+		this.cId = cId;
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qEntdate = qEntdate;
+		this.qSecret = qSecret;
+		this.qCount = qCount;
+	}
+
+
 
 	public String getqNo() {
 		return qNo;
@@ -64,11 +87,11 @@ public class Qna {
 		this.qSecret = qSecret;
 	}
 
-	public boolean isqReplayck() {
+	public String isqReplayck() {
 		return qReplayck;
 	}
 
-	public void setqReplayck(boolean qReplayck) {
+	public void setqReplayck(String qReplayck) {
 		this.qReplayck = qReplayck;
 	}
 
@@ -97,7 +120,7 @@ public class Qna {
 	}
 
 	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, boolean qSecret,
-			boolean qReplayck, String wcNo, int qCount, String qPwd) {
+			String qReplayck, String wcNo, int qCount, String qPwd) {
 		super();
 		this.qNo = qNo;
 		this.cId = cId;
