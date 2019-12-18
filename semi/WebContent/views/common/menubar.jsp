@@ -325,6 +325,8 @@ $(function(){
 					<button id="findmypwdbtn" type="button" data-toggle="modal"
 						data-target="#findmypwddiv" style="display: none"></button>
 					<input style="display:none;" name = returnPath value=<%= request.getRequestURI() %>>
+					<input style="display:none;" name="loginwcNo" value=<%=request.getParameter("wcNo") %>>
+					<input style="display:none;" name="loginwsNo" value=<%=request.getParameter("wsNo") %>>
 				</div>
 			</form>
 			<%
@@ -395,7 +397,7 @@ $(function(){
 		<li class="nav-item"><a class="nav-link"
 			href="<%=request.getContextPath()%>/views/review/reviewList.jsp">리뷰</a></li>
 		<li class="nav-item"><a class="nav-link"
-			href="<%=request.getContextPath()%>/views/notice/board.jsp">고객센터</a></li>
+			href="<%=request.getContextPath()%>/list.qna">고객센터</a></li>
 	</ul>
 	<script>
 		$(function(){

@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="member.model.vo.*"%>
-	<%@page import="java.util.ArrayList"%>
+	<%@page import="java.util.*"%>
 	<%@page import="workshop.model.vo.*"%>
 <%
 	ArrayList<Workshop> wsList = (ArrayList<Workshop>)request.getAttribute("wsList"); 	
 	ArrayList<Workshop> wsList2 = (ArrayList<Workshop>)request.getAttribute("wsList2"); 
 	ArrayList<String[]> wcList = (ArrayList<String[]>)request.getAttribute("wcList"); 
+	ArrayList<Map> statistics = (ArrayList<Map>)request.getAttribute("statistics");
+	ArrayList<String> category = (ArrayList<String>)request.getAttribute("category");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -24,33 +27,43 @@
 	<script type="text/javascript">
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawVisualization);
-	
 		function drawVisualization() { 
-			var stringtext = ['월', '가죽', '도자기', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'];
+			var stringtext = ['월',
+			<% for(int b=0; b<category.size(); b++){ %>
+				'<%=category.get(b) %>'
+				<%if(b != category.size()-1){ %>,<%}%>
+			<%} %>
+			];
 			var data = google.visualization.arrayToDataTable([
 				stringtext,
-					['2004/05',  165,      938,         522,             998,           450,      614.6],
-					['2005/06',  135,      1120,        599,             1268,          288,      682],
-					['2006/07',  157,      1167,        587,             807,           397,      623],
-					['2007/08',  139,      1110,        615,             968,           215,      609.4],
-					['2008/09',  136,      691,         629,             1026,          366,      569.6]
+				<% for(int i=0;i<statistics.size();i++){%>
+					[<%=i+1%>,  
+					<% for(int b=0; b<category.size(); b++){ %>
+						<%=statistics.get(i).get(category.get(b))%>
+						<%if(b != category.size()-1){ %>,<%}%>
+					<%} %>
+					]
+				<% if (i != statistics.size()-1){ %>,<%}%>
+				<%}%>
 				]);
 			var options = {
-					title : '월 기준 카테고리별 예약수',
-					vAxis: {title: '카테고리'},
+					title : '2019년 카테고리별 예약금액',
+					vAxis: {title: '금액'},
 					hAxis: {title: '월'}, 
 					seriesType: 'bars',
-					series: {5: {type: 'line'}}
+					series: {6: {type: 'line'}}
 				};
 			
-			var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+			var chart = new google.visualization.ComboChart(document.getElementById('yearchart_div'));
 			chart.draw(data, options);
 		}
+		
 	</script>
 <style>
 #adminpage_maindiv {
 	width: 1300px;
 	min-height: 600px;
+	border:1px solid black;
 }
 
 aside {
@@ -97,7 +110,7 @@ aside>button {
 	margin: auto;
 	margin-top: 30px;
 }
-#chart_div{
+.chart_div{
 	width:90%;
 	height:400px;
 }
@@ -119,6 +132,8 @@ aside>button {
 		
 		<script>
 			$(function() {
+				
+				
 				
 				$("#accept1").click(function() {
 					$("#accepttable1").css("display", "table");
@@ -150,7 +165,7 @@ aside>button {
 			});
 		</script>
 		<div style="width:0px; min-height:600px; border:0.5px solid lightgrey; float:left;"></div>
-		<section>
+		<section style="border: 1px solid red;">
 			<table class="table" id="accepttable1" style="display: none;">
 				<thead>
 					<tr>
@@ -238,12 +253,54 @@ aside>button {
 					<%} %>
 				</tbody>
 			</table>
-			<div id="chart_div" ></div>
+			<div id="yearchart_div" class="chart_div" ></div>
+			<div id="selectstatus" align="center">
+				
+				<input name="selectstatus" type="radio" id="yearradio"checked>년도별 /&nbsp; 
+				<input name="selectstatus" type="radio" id="monthradio"> 월별 
+				
+				<br>
+				<div id="datadiv">
+				<select name="yearselect"id="yearselect">
+					<option selected>2019년</option>
+					<option>2018년</option>
+					<option>2017년</option>
+				</select>
+				<select name="monthselect"id="monthselect"  style="display:none;">
+					<option selected>1월</option>
+					<option>2월</option>
+					<option>3월</option>
+					<option>4월</option>
+					<option>5월</option>
+					<option>6월</option>
+					<option>7월</option>
+					<option>8월</option>
+					<option>9월</option>
+					<option>10월</option>
+					<option>11월</option>
+					<option>12월</option>
+				</select>
+				
+				<button type="button" id="selectdatabtn" >조회</button>
+				</div>
+			</div>
 		</section>
 
 	</div>
 	<script>
 		$(function(){
+			$("#selectdatabtn").click(function(){
+				
+				
+			});		
+			$("#monthradio").click(function(){
+				$("#monthselect").css("display","inline-block");
+			});
+			
+			$("#yearradio").click(function(){
+				$("#monthselect").css("display","none");
+			});
+			
 			$(".goCheckClassPage > tr").click(function(){
 				var id = $(this).children().eq(0).html();
 				window.open("<%=request.getContextPath()%>/godetail.class?wcNo="+id);	
