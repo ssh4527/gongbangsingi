@@ -15,17 +15,14 @@ public class Workshop {
 	private Date WsEnrollDate; // 공방 등록일자
 	private String Category;  // 공방 카테고리
 	private String PayAccount; // 공방계좌번호
-
 	private String id; //사업자아이디
 	private String intro; //소개글
 	private double grade; //평점
 	private String sns; //sns계정
-
 	private String AccountNum; // 사업자 등록번호
+	
+	
 	public Workshop() {}
-
-
-
 
 	public Workshop(String wsNo, String wsName, String address, String wsTel,String id, String category,String accountNum) {
 		super();
@@ -37,7 +34,6 @@ public class Workshop {
 		Category = category;
 		AccountNum =accountNum;
 	}
-	
 
 	public Workshop(String wsNo, String wsName,  String category) {
 		super();
@@ -46,16 +42,12 @@ public class Workshop {
 		Category = category;
 	}
 
-
-
-
 	public Workshop(String wsNo, String wsName, String category, double grade) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Category = category;
 		this.grade = grade;
 	}
-
 
 	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade, String sns,String id,String intro) {
 		WsNo = wsNo;
@@ -68,8 +60,6 @@ public class Workshop {
 		this.id=id;
 		this.intro=intro;
 	}
-
-
 
 	public String getWsNo() {
 		return WsNo;
@@ -180,8 +170,5 @@ public class Workshop {
 		AccountNum = accountNum;
 	}
 
-	
-	
-	
 	
 }
