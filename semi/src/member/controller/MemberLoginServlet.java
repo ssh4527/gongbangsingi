@@ -1,6 +1,8 @@
 package member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
+import reservation.model.service.ReservationService;
 
 /**
  * Servlet implementation class MemberLoginServlet
@@ -42,8 +45,23 @@ public class MemberLoginServlet extends HttpServlet {
 			int qnacount = new MemberService().selectQna();
 			request.getSession().setAttribute("qnacount", qnacount);
 		}else {
+			ArrayList<Integer> rs = new ReservationService().selectUserReservation(m.getUserId());
+			int price = rs.get(0);
+			int reservationcount = rs.get(1);
+			String usergrade =  "브론즈";
+			if(price >= 1000000){
+				usergrade =  "다이아";
+			}else if(price>= 700000){
+				usergrade =  "플래티넘";
+			}else if(price >= 400000){
+				usergrade =  "골드";
+			}else if(price >=100000){
+				usergrade =  "실버";
+			}
 			
 			
+			request.getSession().setAttribute("reservationcount", reservationcount);
+			request.getSession().setAttribute("usergrade", usergrade);
 		}
 		
 		if(m.getUserName() != null) {
