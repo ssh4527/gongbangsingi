@@ -8,11 +8,11 @@ public class Payment {
 	private Date payDate;		// 결제 날짜
 	private String payMethod;	// 결제 수단
 	private String resCode;		// 예메 코드
-	private int wcNo;			// 클래스 번호
+	private String wcNo;			// 클래스 번호
 	
 	public Payment() {}
 
-	public Payment(String payCode, Date payDate, String payMethod, String resCode, int wcNo) {
+	public Payment(String payCode, Date payDate, String payMethod, String resCode, String wcNo) {
 		super();
 		this.payCode = payCode;
 		this.payDate = payDate;
@@ -53,11 +53,11 @@ public class Payment {
 		this.resCode = resCode;
 	}
 
-	public int getWcNo() {
+	public String getWcNo() {
 		return wcNo;
 	}
 
-	public void setWcNo(int wcNo) {
+	public void setWcNo(String wcNo) {
 		this.wcNo = wcNo;
 	}
 
@@ -66,6 +66,8 @@ public class Payment {
 		return "Payment [payCode=" + payCode + ", payDate=" + payDate + ", payMethod=" + payMethod + ", resCode="
 				+ resCode + ", wcNo=" + wcNo + "]";
 	}
+
+	
 	
 	
 }
