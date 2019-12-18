@@ -3,6 +3,8 @@ package search.model.dao;
 import static common.JDBCTemplate.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import workclass.model.vo.Workclass;
 import workshop.model.vo.Workshop;
@@ -402,6 +404,53 @@ public class SearchDao {
 			close(ps);
 		}
 		return result;
+	}
+
+	public Map selectstatistics(Connection c,int m) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Map<String,String> map = new HashMap<String,String>();
+		m++;
+		String q = "select sum(total_price),s_category from reservation rs,work_class wc,workshop ws where rs.wc_no = wc.wc_no and ws.ws_no = wc.ws_no and SUBSTR(res_date, 4, 2)=? group by s_category";
+		try {
+			ps = c.prepareStatement(q);
+			
+			ps.setInt(1, m);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				map.put(rs.getString(2), rs.getString(1));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(ps);
+		}
+		return map;
+	}
+
+	public ArrayList<String> selectCategory(Connection c) {
+		String q = "select distinct s_category from workshop";
+		Statement st = null;
+		ResultSet rs =null;
+		ArrayList<String> category = new ArrayList<String>();
+		try {
+			st = c.createStatement();
+			rs=st.executeQuery(q);
+			while(rs.next()) {
+				category.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(st);
+		}
+		return category;
 	}
 
 }

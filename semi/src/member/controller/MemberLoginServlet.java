@@ -34,6 +34,10 @@ public class MemberLoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String returnPath = request.getParameter("returnPath");
+		String wcNo = request.getParameter("loginwcNo");
+		
+		String returnpath = returnPath.substring(6);
+		System.out.println(returnpath);
 		String id= request.getParameter("idinput");
 		String pwd= request.getParameter("pwdinput");
 		
@@ -66,9 +70,13 @@ public class MemberLoginServlet extends HttpServlet {
 		
 		if(m.getUserName() != null) {
 			request.getSession().setAttribute("loginUser", m);
+			if(returnpath.equals("views/classdetail/preview2.jsp")) {
+				returnpath = "godetail.class?wcNo="+wcNo;
+				request.getRequestDispatcher(returnpath).forward(request, response);
+			}else {
+				response.sendRedirect(returnPath);
+			}
 			
-		
-			response.sendRedirect(returnPath);
 		}else {
 			
 			request.setAttribute("loginmsg", "아이디 혹은 비밀번호가 틀렸습니다.");

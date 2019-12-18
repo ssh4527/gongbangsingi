@@ -2,6 +2,7 @@ package common;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
+import search.model.service.SearchService;
 import workclass.model.service.ClassService;
 import workclass.model.vo.Workclass;
 import workshop.model.service.ShopService;
@@ -38,7 +40,11 @@ public class AdminCheckListServlet extends HttpServlet {
 		ArrayList<Workshop> wsList = new ShopService().selectNewShopList();
 		ArrayList<Workshop> wsList2 = new ShopService().selectCheckShopList();
 		ArrayList<String[]> wcList = new ClassService().selectCheckClassList();
+		ArrayList<Map> statistics = new SearchService().selectstatistics();
+		ArrayList<String> category = new SearchService().selectCategory();
 		
+		request.setAttribute("category", category);
+		request.setAttribute("statistics", statistics);
 		request.setAttribute("wsList", wsList);
 		request.setAttribute("wsList2", wsList2);
 		request.setAttribute("wcList", wcList);

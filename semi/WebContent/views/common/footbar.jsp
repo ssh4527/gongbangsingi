@@ -64,7 +64,7 @@
     			<a href="/semi/shopList.sh" id="foota">공방</a>&nbsp;
     			<a href="/semi/views/classcategory/category.jsp" id="foota">클래스</a>&nbsp;
     			<a href="/semi/views/review/reviewList.jsp" id="foota">리뷰</a>&nbsp;
-    			<a href="/semi/views/notice/board.jsp" id="foota">고객센터</a>
+    			<a href="/semi/list.qna" id="foota">고객센터</a>
     		</div>
     		<div class="rows_2" style="width:300px; height:80px; float:left;">
     		   	<p id="footp">사업자</p>

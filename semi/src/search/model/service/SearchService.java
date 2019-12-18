@@ -4,6 +4,7 @@ import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Map;
 
 import search.model.dao.SearchDao;
 import workclass.model.vo.Workclass;
@@ -129,6 +130,25 @@ public class SearchService {
 		
 		close(c);
 		return keyword;
+	}
+
+	public ArrayList<Map> selectstatistics() {
+		Connection c = getConnection();
+		ArrayList<Map> statistics = new ArrayList<Map>();
+		for(int m=9; m<12; m++) {
+			statistics.add(new SearchDao().selectstatistics(c,m));
+			
+		}
+		
+		return statistics;
+	}
+
+	public ArrayList<String> selectCategory() {
+		Connection c = getConnection();
+		ArrayList<String> category = new SearchDao().selectCategory(c);
+		
+		close(c);
+		return category;
 	}
 
 	
