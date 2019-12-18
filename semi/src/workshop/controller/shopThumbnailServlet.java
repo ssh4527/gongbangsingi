@@ -2,8 +2,6 @@ package workshop.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,13 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-
 import com.oreilly.servlet.MultipartRequest;
 
-import attachment.Attachment;
 import common.MyFileRenamePolicy;
 import workshop.model.service.ShopService;
+import workshop.model.vo.ShopFile;
 
 /**
  * Servlet implementation class shopThumbnailEditServlet
@@ -60,16 +56,21 @@ public class shopThumbnailServlet extends HttpServlet {
 		String WsNo = multipartRequest.getParameter("WsNo");
 		String fileBtnN = multipartRequest.getParameter("fileBtnN");
 
-		Attachment file = new Attachment();
+		ShopFile file = new ShopFile();
 		file.setOriginName(originName);
 		file.setReName(changeName);
 		file.setFilePath(savePath);
 
 		System.out.println(fileBtnN);
 		System.out.println(WsNo);
-
-		int result = new ShopService().insertThumbnail(WsNo, fileBtnN, file);
-
+		int result=0;
+		if (fileBtnN.equals("사진 등록")) {
+		result = new ShopService().insertThumbnail(WsNo, file);
+		}else {
+			result = new ShopService().updateThumbnail(WsNo, file);
+		}
+		
+		
 		if (result > 0) {
 			System.out.println(file.getReName());
 			System.out.println(file.getFilePath());

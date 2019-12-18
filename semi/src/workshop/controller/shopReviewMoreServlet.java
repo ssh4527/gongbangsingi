@@ -32,12 +32,14 @@ public class shopReviewMoreServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("hihi");
 		String WsNo = request.getParameter("WsNo");
 		ArrayList<Review> rlist = new ShopService().selectReviewList(WsNo);
 		Workshop shop = new ShopService().selectShop(WsNo);
 		
 		request.setAttribute("rlist", rlist);
 		request.setAttribute("shop", shop);
+		System.out.println(shop.getGrade());
 		request.getRequestDispatcher("views/store/shopReview.jsp").forward(request, response);
 	}
 

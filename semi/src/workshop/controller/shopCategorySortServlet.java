@@ -33,10 +33,14 @@ public class shopCategorySortServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String category=request.getParameter("category");
-		ArrayList<Workshop> clist = new ShopService().selectedCategory(category);
+		String[] category=request.getParameterValues("category");
+		String c=String.join(", ", category);
+		
+		ArrayList<Workshop> clist=new ShopService().selectedCategory(c);
+		
 		for(Workshop s:clist)
 		System.out.println(s.getGrade());
+		
 		request.setAttribute("clist",clist);
 		request.getRequestDispatcher("/shopList.sh").forward(request, response);
 	}
