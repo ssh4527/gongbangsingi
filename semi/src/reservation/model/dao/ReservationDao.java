@@ -91,12 +91,11 @@ public class ReservationDao {
 		PreparedStatement pstmt  = null;
 		int result = 0;
 		
-		String sql = "insert into payment values('PCODE' || PAY_SEQ.NEXTVAL, SYSDATE, '카드', ? , ?)";
+		String sql = "insert into payment values('PCODE' || PAY_SEQ.NEXTVAL, SYSDATE, '카드', ? )";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pay.getResCode());
-			pstmt.setString(2, pay.getWcNo());
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
