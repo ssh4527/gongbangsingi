@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import attachment.Attachment;
-import review.model.vo.PageInfo;
 import review.model.vo.Review;
+import workclass.model.vo.ClassFile;
 import workclass.model.vo.Workclass;
-import workshop.model.vo.Workshop;
 import workshop.model.service.ShopService;
+import workshop.model.vo.ShopFile;
+import workshop.model.vo.Workshop;
 
 /**
  * Servlet implementation class shopDetailServlet
@@ -42,7 +42,7 @@ public class shopDetailServlet extends HttpServlet {
 		Workshop shop = service.selectShop(WsNo);
 		
 		//타이블 사진 
-		Attachment titlePic = service.selectThumbnail(WsNo);
+		ShopFile titlePic = service.selectThumbnail(WsNo);
 		
 		//리뷰목록
 		ArrayList<Review> rlist = service.selectReviewList(WsNo);
@@ -51,7 +51,7 @@ public class shopDetailServlet extends HttpServlet {
 		ArrayList<Workclass> clist = service.selectClassList(WsNo);
 		
 		//공방의 클래스 사진들
-		ArrayList<Attachment> cPictures= service.selectClassPictures(WsNo);
+		ArrayList<ClassFile> cPictures= service.selectClassPictures(WsNo);
 		
 		
 		//////////////////////////////////

@@ -1,18 +1,23 @@
 package workshop.model.service;
 
+import static common.JDBCTemplate.close;
+import static common.JDBCTemplate.commit;
+import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import attachment.Attachment;
-import member.model.dao.MemberDao;
 import review.model.vo.Review;
+import workclass.model.vo.ClassFile;
 import workclass.model.vo.Workclass;
 import workshop.model.dao.ShopDao;
+import workshop.model.vo.ShopFile;
 import workshop.model.vo.Workshop;
-import static common.JDBCTemplate.*;
 
 public class ShopService {
 
+	//공방리스트 가져오기
 	public ArrayList<Workshop> selectShopList() {
 		Connection con = getConnection();
 
@@ -23,6 +28,7 @@ public class ShopService {
 		return list;
 	}
 
+	//해당 공방 가져오기
 	public Workshop selectShop(String wsNo) {
 		Connection con = getConnection();
 		Workshop shop = new ShopDao().selectShop(con, wsNo);
@@ -31,24 +37,22 @@ public class ShopService {
 		return shop;
 	}
 
-	public Attachment selectThumbnail(String wsNo) {
+	//공방 썸네일 가져오기
+	public ShopFile selectThumbnail(String wsNo) {
 		Connection con = getConnection();
 
-		Attachment at = new ShopDao().selectThumbnail(con, wsNo);
+		ShopFile at = new ShopDao().selectThumbnail(con, wsNo);
 
 		close(con);
 
 		return at;
 	}
 
-	public int insertThumbnail(String wsNo, String fileBtnN, Attachment file) {
+	//공방 썸네일 등록하기
+	public int insertThumbnail(String wsNo,ShopFile file) {
 		Connection con = getConnection();
-		int result = 0;
-		if (fileBtnN.equals("사진 등록")) {
-			result = new ShopDao().insertThumbnail(con, wsNo, file);
-		} else {
-			result = new ShopDao().updateThumbnail(con, wsNo, file);
-		}
+		int result = new ShopDao().insertThumbnail(con, wsNo, file);
+		
 		if (result > 0) {
 			commit(con);
 		} else {
@@ -59,7 +63,24 @@ public class ShopService {
 
 		return result;
 	}
+	
+	//썸네일 수정하기
+	public int updateThumbnail(String wsNo, ShopFile file) {
+		Connection con = getConnection();
+		int result = new ShopDao().updateThumbnail(con, wsNo, file);
+		
+		if (result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
 
+		close(con);
+
+		return result;
+	}
+	
+	//공방 소개글 업데이트하기
 	public int updateIntro(String wsNo, String input) {
 		Connection con = getConnection();
 
@@ -77,6 +98,7 @@ public class ShopService {
 		return result;
 	}
 
+	//공방 후기 목록 가져오기
 	public ArrayList<Review> selectReviewList(String wsNo) {
 		Connection con = getConnection();
 
@@ -87,6 +109,7 @@ public class ShopService {
 		return list;
 	}
 
+	//공방 클래스 목록 가져오기 
 	public ArrayList<Workclass> selectClassList(String wsNo) {
 		Connection con = getConnection();
 
@@ -96,20 +119,22 @@ public class ShopService {
 		return list;
 	}
 
-	public ArrayList<Attachment> selectClassPictures(String wsNo) {
+	//클래스 사진들 가져오기
+	public ArrayList<ClassFile> selectClassPictures(String wsNo) {
 		Connection con = getConnection();
 
-		ArrayList<Attachment> list = new ShopDao().selectClassPictures(con, wsNo);
+		ArrayList<ClassFile> list = new ShopDao().selectClassPictures(con, wsNo);
 
 		close(con);
 
 		return list;
 	}
 
-	public ArrayList<Attachment> selectShopListPic() {
+	//공방 썸네일들 가져오기
+	public ArrayList<ShopFile> selectShopListPic() {
 		Connection con = getConnection();
 
-		ArrayList<Attachment> list = new ShopDao().selectShopListPic(con);
+		ArrayList<ShopFile> list = new ShopDao().selectShopListPic(con);
 
 		close(con);
 
@@ -129,25 +154,7 @@ public class ShopService {
 	}
 
 	
-	//정렬 (최신순, 인기순)
-public ArrayList<Workshop> selectSortlist(String sortType) {
-		Connection con = getConnection();
-
-		ArrayList<Workshop> list = new ShopDao().selectSortlist(con,sortType);
-		
-		close(con);
-
-		return list;
-	}
-
-	// 승인 안된 공방회원전환 요청 가져오기
-	public ArrayList<Workshop> selectNewShopList() {
-		Connection con = getConnection();
-		ArrayList<Workshop> list = new ShopDao().selectSortlist(con, sortType);
-		close(con);
-
-		return list;
-	}
+	
 	// 공방 상세페이지 확인
 	public ArrayList<Workshop> selectCheckShopList() {
 		Connection con = getConnection();
@@ -172,11 +179,23 @@ public ArrayList<Workshop> selectSortlist(String sortType) {
 		return result;
 	}
 
-	//카테고리별
-	public ArrayList<Workshop> selectedCategory(String category) {
+	//정렬 (최신순, 인기순)
+	public ArrayList<Workshop> selectSortlist(String sortType) {
 		Connection con = getConnection();
 
-		ArrayList<Workshop> list = new ShopDao().selectedCategory(con, category);
+		ArrayList<Workshop> list = new ShopDao().selectSortlist(con,sortType);
+		
+		close(con);
+
+		return list;
+	}
+
+
+	//카테고리별
+	public ArrayList<Workshop> selectedCategory(String[] c) {
+		Connection con = getConnection();
+
+		ArrayList<Workshop> list = new ShopDao().selectedCategory(con, c);
 
 		close(con);
 
@@ -184,14 +203,16 @@ public ArrayList<Workshop> selectSortlist(String sortType) {
 	}
 
 	//카테고리 && 정렬
-	public ArrayList<Workshop> selectCSortlist(String sortType, String category) {
+	public ArrayList<Workshop> selectCSortlist(String sortType, String[] c) {
 		Connection con = getConnection();
 
-		ArrayList<Workshop> list = new ShopDao().selectCSortlist(con, sortType,category);
+		ArrayList<Workshop> list = new ShopDao().selectCSortlist(con, sortType,c);
 
 		close(con);
 
 		return list;
 	}
+
+	
 
 }

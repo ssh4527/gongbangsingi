@@ -1,23 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
-	import="java.util.*, workshop.model.vo.*,attachment.*"%>
+	pageEncoding="UTF-8" import="java.util.*, workshop.model.vo.*"%>
 <%
 	ArrayList<Workshop> list = (ArrayList<Workshop>) request.getAttribute("list");
-	ArrayList<Attachment> flist = (ArrayList<Attachment>) request.getAttribute("flist");
-
-	ArrayList<Workshop> clist = null;
+	ArrayList<ShopFile> flist = (ArrayList<ShopFile>) request.getAttribute("flist");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>카테고리</title>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -151,8 +143,9 @@ to {
 							%>
 							<tr>
 								<td><input type="checkbox" class="custom-control-input"
-									value="<%=shop.getCategory()%>" id="<%=idx%>" name="category">
-									<label class="custom-control-label" for="<%=idx%>"><%=shop.getCategory()%></label></td>
+									value="<%=shop.getCategory()%>" id="<%=idx%>" name="category"
+									checked> <label class="custom-control-label"
+									for="<%=idx%>"><%=shop.getCategory()%></label></td>
 							</tr>
 							<%
 								idx++;
@@ -239,30 +232,68 @@ to {
 	<script>
 	$(function() {
 		$("#btnsort1").click(function() {
+			$("#sortlist1").css("color","red");
 			sortFunc();
 		});
 		$("#btnsort2").click(function() {
+			$("#sortlist2").css("color","red");
 			sortFunc();
 		});
 		
 		function sortFunc(){ 
-			console.log("hh");
-			 var s = document.getElementsByName("sort").value;
-			 var ct= document.getElementsByName("category").value;
-			
+			 var s ="null";
+			 $("input[name='sort']:checked").each(function(i) {
+			        s=$(this).val();
+			    });
+			 var category =[];
+			 $("input[name='category']:checked").each(function(i) {
+				 /* category.push("'"+$(this).val()+"'"); */
+				 category.push($(this).val());
+			    });
+			 var c=category.join(",");
+			 console.log(c);
+			 console.log(s);
 			 $.ajax({
 				url :"sort.sh",
 				type:"post",
-				data :{sort:s, category:ct},
-				dataType : "json",
-				success: function(result) {
+				data :{sort:s, category:c},
+				success: function(slist) {
+					$("#glist").html("");
+				
+					$.each(slist, function(index, value){
+						console.log("hh");
 					
-				console.log("hh");
-					/* clist=result; */
+						var $div1 = $('<div class="col-md-4">');
+						var $div2 = $('<div class="card mb-4 shadow-sm shop">'); 
+						var $input1 = $('<input type="hidden">').val(value.WsNo); 
+						console.log(value.WsNo);
+						var $thumbnailDiv = $("<div id='thumbnail'>");
+						
+						var $thumbnail = $("<img class='gal'>")/* .attr("src","request.getContextPath()/resources/thumbnail_uploadFiles/value.ReName").css({"width":"100%","height":"100%"}) */;
+						
+						var $cardBody = $("<div class='card-body'>");
+						var $category=$("<small class='text-muted'>").text(value.Category);
+						var $name = $("<p class='card-text'>").text(value.WsName);
+						var $grade = $("<b>").text("★"+value.grade);
+						var $wel= $("<small class='text-muted'>").text("구경하세요");
+					
+						$div1.append($div2);
+						$div2.append($input1);	
+						$div2.append($thumbnailDiv);
+						$thumbnailDiv.append($thumbnail);
+						$div2.append($cardBody);
+						$cardBody.append($category);
+						$cardBody.append($name);
+						$cardBody.append($grade);
+						$cardBody.append($wel);
+						$("#glist").append($div1);
+						
+					});
 				},
+						
 				error:function(e) {
 					alert();
-				}
+				} 
 			});
 			
 		}
@@ -280,7 +311,7 @@ to {
 
 	<div class="album py-5 bg-light" id="whole">
 		<div class="container">
-			<div class="row">
+			<div class="row" id="glist">
 				<div class="col-md-4">
 					<div class="card mb-4 shadow-sm">
 						<div id="thumbnail">
@@ -297,11 +328,10 @@ to {
 						</div>
 					</div>
 				</div>
+				
 				<%
 					ArrayList<Workshop> viewList = null;
-					if (clist != null) {
-						viewList = clist;
-					} else if (list != null) {
+					if (list != null) {
 						viewList = list;
 					}
 					for (Workshop shop : viewList) {
@@ -311,7 +341,7 @@ to {
 						<input type="hidden" value="<%=shop.getWsNo()%>">
 						<div id="thumbnail">
 							<%
-								for (Attachment at : flist) {
+								for (ShopFile at : flist) {
 										if (shop.getWsNo().equals(at.getFs_destination())) {
 							%>
 							<img
@@ -325,7 +355,9 @@ to {
 						</div>
 						<div class="card-body">
 							<small class="text-muted"><%=shop.getCategory()%></small>
-							<p class="card-text">공방명 : <%=shop.getWsName()%></p>
+							<p class="card-text">
+								공방명 :
+								<%=shop.getWsName()%></p>
 							<div class="">
 								★<%=shop.getGrade()%>
 								<small class="text-muted">구경하세요</small>
@@ -345,13 +377,13 @@ to {
 	$(".shop").click(function(){
 		var WsNo = $(this).children().eq(0).val();
 		
-		location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+WsNo;
+		location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+ WsNo;
 	});
 	</script>
 	<%@ include file="../common/footbar.jsp"%>
 
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script

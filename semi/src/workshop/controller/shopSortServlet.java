@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import attachment.Attachment;
-import workshop.model.dao.ShopDao;
 import workshop.model.service.ShopService;
 import workshop.model.vo.Workshop;
 
@@ -39,20 +37,23 @@ public class shopSortServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String sortType = request.getParameter("sort");
-		String category = request.getParameter("category");
-
-		System.out.println(category);
-		System.out.println(sortType);
+		System.out.println("s"+sortType);
+		String category=request.getParameter("category");
+		System.out.println("c"+category);
+		
+		String[] c=category.split(",");
+		
 		ShopService ss = new ShopService();
 		ArrayList<Workshop> slist = null;
-		if (category != null && sortType != null) {
-			slist = ss.selectCSortlist(sortType, category);
-		} else if(category==null&& sortType!=null){
-			slist = ss.selectSortlist(sortType, category);
+		if (category != null && !sortType.equals("null")) {
+			slist = ss.selectCSortlist(sortType, c);
+		} else if(category==null&& !sortType.equals("null")){
+			slist = ss.selectSortlist(sortType);
 		}else{
-			slist = ss.selectedCategory(category);
+			slist = ss.selectedCategory(c);
 		}
-
+		for(Workshop w: slist)
+			System.out.println(w.getWsNo());
 		response.setContentType("application/json; charset=utf-8");
 		//첫번쨰 요소 - 응답할 객체, 두번째 = 응답할 스트림
 		new Gson().toJson(slist,response.getWriter());

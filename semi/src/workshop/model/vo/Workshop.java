@@ -49,10 +49,11 @@ public class Workshop {
 
 
 
-	public Workshop(String wsNo, String wsName, String category, double grade) {
+	public Workshop(String wsNo, String wsName, String category, double grade, String address) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Category = category;
+		Address = address;
 		this.grade = grade;
 	}
 
