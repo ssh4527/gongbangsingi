@@ -108,5 +108,32 @@ public class ReservationDao {
 		
 		return result;
 	}
-
+	// 유저 예약정보 가져오기 ssh
+	public ArrayList<Integer> selectUserReservation(String userId, Connection c) {
+		PreparedStatement ps  = null;
+		ResultSet rset = null;
+		ArrayList<Integer> list = new ArrayList<>();
+		int totalprice = 0;
+		int reservationcount = 0;
+		
+		String q= "select * from reservation where c_id = ? and RES_DATE >= sysdate";
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, userId);
+			rset = ps.executeQuery();
+			while(rset.next()) {
+				totalprice += (rset.getInt("TOTAL_PRICE"));
+				reservationcount++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(ps);
+			close(rset);
+		}
+		list.add(totalprice);
+		list.add(reservationcount);
+		
+		return list;
+	}
 }
