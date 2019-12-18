@@ -6,10 +6,7 @@
 	String loginmsg = (String) request.getAttribute("loginmsg");
 	String msg = (String) session.getAttribute("msg");
 	String[] search = (String[]) session.getAttribute("search");
-	 
-	
-	
-	
+
 	
 	// 2019 12 15 Hy 찜용
 		String userId = "";	
@@ -250,10 +247,6 @@ $(function(){
 		alert(msg);
 		<%session.removeAttribute("msg");%>
 	}
-	if(loginUser != null){
-		$("#acceptalert").html(;
-	}
-	
 });
 
 </script>
@@ -349,11 +342,8 @@ $(function(){
 						<%
 							if (loginUser.getAuthority() != 3) {
 						%>
-						예약건수 : <span id="myreservation">2</span><br> 
-						나의 등급 : <span	id="mydunggul">
-						Pt
-						</span>
-						<!-- 포인트 등급으로 if문처리 -->
+						예약건수 : <span id="myreservation"><%=(int) session.getAttribute("reservationcount") %></span><br> 
+						등급 : <span	id="mydunggul">	<%= (String) session.getAttribute("usergrade") %></span>
 						<%
 							} else {
 						%>
