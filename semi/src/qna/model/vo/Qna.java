@@ -10,7 +10,7 @@ public class Qna {
 	private Date qEntdate; // 작성일
 	private String qSecret; // 비밀여부 default 'FALSE'
 	private String qReplayck; // 답글확인체크 default 'FALSE'
-	private String wcNo; // 받는 사람 아이디 default null -> 관리자
+	private String wcNo; // 받는 사람 아이디 default null  , admin->관리자
 	private int qCount; // 조회수
 	private String qPwd; // 비밀번호
 	

@@ -11,6 +11,7 @@
 <title>Insert title here</title>
 <style>
 
+
   	#board_wrap2{
   	width:40%;
   	height:100%;

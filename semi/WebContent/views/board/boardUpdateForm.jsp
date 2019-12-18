@@ -78,6 +78,7 @@
 				</p></u>
 		</font> <br>
 		<form action="<%= request.getContextPath() %>/update.qna" method="post">
+		  <input type="hidden" name="qno" value="<%= q.getqNo() %>" >
 			<table class="table table-hover">
 				<tr>
 					<th>문의</th>

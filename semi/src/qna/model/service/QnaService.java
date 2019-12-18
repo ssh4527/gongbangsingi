@@ -59,6 +59,7 @@ public class QnaService {
 		return q;
 	}
 
+	// 4. 고객센터 삭제
 	public int deleteQna(String qno) {
 		Connection conn = getConnection();
 
@@ -75,11 +76,57 @@ public class QnaService {
 		return result;
 	}
 
+	// 5. 고객센터 수정 updateform
 	public Qna selectNotice2(String qno) {
-		Connection conn=getConnection();
-		Qna q=new QnaDao().selectQna(conn, qno);
+		Connection conn = getConnection();
+		Qna q = new QnaDao().selectQna(conn, qno);
 		close(conn);
 		return q;
 	}
+
+	// 6. 고객센터 수정 update
+	public int updateQna(Qna q) {
+		Connection conn = getConnection();
+		int result = new QnaDao().updateQna(conn, q);
+
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return result;
+	}
+
+	// 7. 고객센터 찾기 
+	public ArrayList<Qna> selectList(String search, String searchCondition) {
+		Connection conn=getConnection();
+		ArrayList<Qna> list=new QnaDao().selectList(conn,search,searchCondition);
+		close(conn);
+		return list;
+	}
+
+	public int getListCount() {
+		Connection conn = getConnection();
+
+		int listCount = new QnaDao().getListCount(conn);
+
+		close(conn);
+
+		return listCount;
+	}
+
+	public ArrayList<Qna> selectList(int currentPage, int boardLimit) {
+		Connection conn = getConnection();
+
+		ArrayList<Qna> list = new QnaDao().selectList(conn, currentPage, boardLimit);
+
+		close(conn);
+
+		return list;
+	}
+
 
 }
