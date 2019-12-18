@@ -79,7 +79,7 @@
 						 		<td ><%= q.getqNo() %></td> <!--  번호 -->
 						 		<td ><% if(loginUser.getAuthority()==1){%> 일반회원 <% }
 						 			else if(loginUser.getAuthority()==2){%> 사업자 <% } %></td> <!--  일반회원/사업자 구분 -->
-						 		<td ><%= q.isqSecret() %></td> <!--  비밀글 여부 -->
+						 		<td ><%= q.getqSecret() %></td> <!--  비밀글 여부 -->
 						 		<td ><%= q.getqTitle() %></td> <!--  제목 -->
 						 		<td ><%= q.getcId() %></td> <!--  작성자 이름 -->
 						 		<td ><%= q.getqCount() %></td> <!--  조회수 -->
@@ -124,6 +124,9 @@
 		
 		</script>
 		</div>
+		<% if(searchCondition != null && search != null) { %>
+				<p align="center"><%= searchCondition %> : <%= search %>의 검색결과</p>
+			<% } %>
 
 <%@ include file="/views/common/footbar.jsp"%>
 </body>

@@ -43,7 +43,7 @@ public class QnaDao {
 				list.add(new Qna(rs.getString("q_no"),
 						rs.getString("c_id"),
 						rs.getString("q_title"),
-						rs.getString("q_content"), rs.getDate("q_ent_date"), rs.getBoolean("q_secret"),
+						rs.getString("q_content"), rs.getDate("q_ent_date"), rs.getString("q_secret"),
 						/*rs.getBoolean("q_replay_ck"), */
 						/*rs.getString("wc_no"), */
 						rs.getInt("q_count")/*,
@@ -70,7 +70,7 @@ public class QnaDao {
 			pstmt.setString(1, q.getcId());
 			pstmt.setString(2, q.getqTitle());
 			pstmt.setString(3, q.getqContent());
-			pstmt.setBoolean(4, q.isqSecret());
+			pstmt.setString(4, q.getqSecret());
 			pstmt.setString(5, q.getWcNo());
 			pstmt.setString(6, q.getqPwd());
 		
@@ -117,8 +117,11 @@ public class QnaDao {
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				q=new Qna(rs.getString("q_no"), rs.getString("c_id"),rs.getString("q_title"),
-						rs.getString("q_content"),rs.getDate("q_ent_date"), rs.getBoolean("q_secret"),
-						rs.getBoolean("q_replay_ck"),rs.getString("wc_no"),rs.getInt("q_count"),rs.getString("q_pwd"));
+						rs.getString("q_content"),rs.getDate("q_ent_date"), rs.getString("q_secret"),
+						rs.getString("q_replay_ck"),
+						rs.getString("wc_no"),
+						rs.getInt("q_count"),
+						rs.getString("q_pwd"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,6 +131,26 @@ public class QnaDao {
 		}
 		
 		return q;
+	}
+
+	public int deleteQna(Connection conn, String qno) {
+		int result=0;
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("deleteQna");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, qno);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
 	}
 
 }

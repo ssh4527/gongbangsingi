@@ -32,7 +32,6 @@ public class QnaDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String qno=request.getParameter("qno");
-		
 		Qna qna=new QnaService().selectQna(qno);
 		
 		String page="";

@@ -46,23 +46,22 @@
 		$("br:last").remove();
 	}
 
-/* 	function pass() {
-		var bpwd = document.getElementById('password');
-		if (!chk(/^[0-9]{4}$/, bpwd, "비밀번호는 숫자 4자리 입력해주세요!"))
-			return false;
-		function chk(re, e, msg) { //정규식, element, 메세지
-			if (re.test(e.value)) {
-				document.form.submit();
-				return true;
-			} else {
-				alert(msg);
-				e.value = "";
-				e.focus();
-				return false;
-			}
-		}
-	} */
-
+	/* 	function pass() {
+	 var bpwd = document.getElementById('password');
+	 if (!chk(/^[0-9]{4}$/, bpwd, "비밀번호는 숫자 4자리 입력해주세요!"))
+	 return false;
+	 function chk(re, e, msg) { //정규식, element, 메세지
+	 if (re.test(e.value)) {
+	 document.form.submit();
+	 return true;
+	 } else {
+	 alert(msg);
+	 e.value = "";
+	 e.focus();
+	 return false;
+	 }
+	 }
+	 } */
 </script>
 
 </head>
@@ -78,8 +77,7 @@
 					문의글 작성하기<br>
 				</p></u>
 		</font> <br>
-		<form action="<%=request.getContextPath()%>/insert.qna" name="form"
-			method="post">
+		<form action="<%= request.getContextPath() %>/update.qna" method="post">
 			<table class="table table-hover">
 				<tr>
 					<th>문의</th>
@@ -88,7 +86,7 @@
 				<tr>
 					<th>제목</th>
 					<td><input type="text" size="50" name="title"
-						value="<%=q.getqTitle()%>" readonly></td>
+						value="<%=q.getqTitle()%>"></td>
 				</tr>
 				<tr>
 					<th>작성자</th>
@@ -110,8 +108,7 @@
 				</tr>
 				<tr>
 					<th>내용</th>
-					<td colspan="5"><textarea name="content" cols="115" rows="10"
-							readonly>
+					<td colspan="5"><textarea name="content" cols="115" rows="10">
 					<%=q.getqContent()%></textarea></td>
 				</tr>
 				<tr>
@@ -121,7 +118,7 @@
 						value="삭제" onclick="delFile()"></td>
 				<tr>
 			</table>
-		</form>
+	
 		<hr>
 
 		<!-- ajax를 이용한 댓글 기능 구현 -->
@@ -143,31 +140,17 @@
 			<%
 				if (loginUser == null || loginUser.getUserName() != q.getcId()) {
 			%>
-			<input type="button" class="btn btn-outline-secondary" value="뒤로가기"
-				onclick="javascript:history.back();">
-			<%-- 	<input type="text" value="<%=loginUser.getUserName() %>" >
-					<input type="text" value="<%=loginUser.getUserId() %>" >
-						<input type="text" value="<%=q.getcId() %>" > --%>
+			<button type="button" class="btn btn-outline-secondary"
+				onclick="location.href='<%=request.getContextPath()%>/list.qna'">목록으로~</button>
+			<button type="submit" class="btn btn-outline-secondary">수정완료</button>
 
-			<%-- <%
-				} else if (loginUser.getUserName() == q.getcId()) {
-			%> --%>
-			 <button id="updateBtn" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/updateForm.qna?qno=<%= q.getqNo() %>'">수정하기</button>
-			<button id="deleteBtn"  class="btn btn-outline-secondary" type="button" onclick="deleteQna();">삭제하기</button>
-			<input type="button" class="btn btn-outline-secondary" value="뒤로가기"
-				onclick="javascript:history.back();">
+			<input type="button" class="btn btn-outline-secondary"
+				value="취소(뒤로가기)" onclick="javascript:history.back();">
 			<%
 				}
 			%>
 		</div>
-
-		<script>
-         function deleteQna(){
- 			if(confirm("해당 글을 삭제하시겠습니까?")){
- 				location.href="<%=request.getContextPath()%>/delete.qna?qno=<%=q.getqNo()%>";
-				}
-			}
-		</script>
+			</form>
 		<%@ include file="/views/common/footbar.jsp"%>
 </body>
 </html>

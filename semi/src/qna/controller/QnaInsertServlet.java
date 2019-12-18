@@ -37,16 +37,17 @@ public class QnaInsertServlet extends HttpServlet {
 		
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		String writer = String.valueOf(loginUser.getUserName());
+	/*	Member CID = (Member)request.getSession().getAttribute("c");*/
+		
 		
 		// 받는 사람 아이디 관리자
-	
-		
 		Member admin = (Member)request.getSession().getAttribute("loginUser");
 	    String admin2 = String.valueOf(loginUser.getUserId().equals("admin"));
 		
 		
 		// secret 값 받아오기
-		boolean secret=request.getParameter("secret") != null;
+		String secret=request.getParameter("secret");
+		
 		String password=request.getParameter("password");
 		
 		

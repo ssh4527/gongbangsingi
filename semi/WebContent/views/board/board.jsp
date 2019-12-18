@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, qna.model.vo.Qna" %>
+<%  ArrayList<Qna> list = (ArrayList<Qna>)request.getAttribute("list");
+	String searchCondition = (String)request.getAttribute("searchCondition");
+	String search = (String)request.getAttribute("search");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,7 +128,7 @@
 	<u><p class="font">고객센터<br></p></u>
 </font><BR>
      <!-- <table class="table table-dark table-striped"> -->
-            <table class="table table-hover">
+            <table class="table table-hover" id="Qlist">
                     <tr>
                         <th>NO</th>
                         <th>구분</th>
@@ -134,40 +138,66 @@
                         <th>VIEWS</th>
                         <th>DATE</th>
                     </tr>
+                     <% if(list.isEmpty()){ %>
+					 	<tr>
+					 		<td>없음!!</td>
+					 	</tr>
+				     <%} else { %>
+						 <% for(Qna q : list) {%>
+						 	<tr>
+						 		<td ><%= q.getqNo() %></td> <!--  번호 -->
+						 		<td ><%-- <% if(loginUser.getAuthority()==1){%> 일반회원 <% }
+						 			else if(loginUser.getAuthority()==2){%> 사업자 <% } %> --%>회원/사업자</td> <!--  일반회원/사업자 구분 -->
+						 		<td ><%= q.getqSecret() %></td> <!--  비밀글 여부 -->
+						 		<td ><%= q.getqTitle() %></td> <!--  제목 -->
+						 		<td ><%= q.getcId() %></td> <!--  작성자 이름 -->
+						 		<td ><%= q.getqCount() %></td> <!--  조회수 -->
+						 		<td ><%= q.getqEntdate() %></td> <!--  날짜 -->
+						 	</tr>
+						 <% } %>
+					 <% } %>
                 </table>
-                
-                <hr>
+              
+                 <hr>
                 <div align="center">
-			<form action="<%=request.getContextPath()%>/search.no" method="get"
+			<form action="<%=request.getContextPath()%>/search.qna" method="get"
 				onsubmit="return checkSearchCondition();">
-				<select>
+				<select  id="searchCondition" name="searchCondition">
 					<option value="---">---</option>
-					<option value="week">일주일</option>
-					<option value="month">한달</option>
-					<option value="total">전체</option>
-				</select> 
-				<select>
-					<option value="---">---</option>
+								<option value="title">제목</option>
 					<option value="writer">작성자</option>
-					<option value="title">제목</option>
-				</select> <input type="text" id="notice2_input" placeholder="내용을 입력해주세요">
+				</select> 
+				<input type="search" name="board_search" id="board_search" placeholder="내용을 입력해주세요">
 				<button type="submit" class="btn btn-outline-secondary">Search</button>
 				
-				<!--  회원(일반/사업자)만 WRITE 할 수 있음 -->
-				<% if(loginUser != null) {%>
+				<% if(loginUser != null){%>
 				<button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/board/bInsertForm.jsp'">WRITE</button>
 				<% } %>
 			</form>
 			<script>
 			function checkSearchCondition() {
 				if ($("#searchCondition option:selected").val() == '---') {
+					alert('제목인지 작성자인지 선택해주세요^^');
 					return false;
 				}
 				return true;
 			}
 		</script>
 		</div>
+		<% if(searchCondition != null && search != null) { %>
+				<p align="center"><%= searchCondition %> : <%= search %>의 검색결과</p>
+			<% } %>
+		
                 <br><br>
+                <script>
+                $(function(){
+    				$("#Qlist td").click(function(){
+    					// 자기 자신만 글 볼 수 있도록 
+    					var num=$(this).parent().children().eq(0).text();
+    					location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
+    				});
+    			});
+                </script>
                 
                 <div>
                         <ul class="pagination justify-content-center">
