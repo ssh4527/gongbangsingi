@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import payment.model.vo.Payment;
 import reservation.model.service.ReservationService;
 import reservation.model.vo.Reservation;
 
@@ -49,7 +50,23 @@ public class InsertReservationServlet extends HttpServlet {
 		if(result > 0 ) {
 			int result2 = new ReservationService().updatepoint(cId,totalprice);
 			if(result2 > 0) {
-				response.sendRedirect(request.getContextPath());
+				// 예약번호 가져오는부분
+				Reservation preres = new ReservationService().selectRno(wcNo,cId);
+				if(preres.getResCode() != null) {
+					
+					Payment pay = new Payment();
+					pay.setResCode(preres.getResCode());
+					pay.setWcNo(wcNo);
+					int result3 = new ReservationService().insertPatment(pay);
+					if(result3 > 0) {
+						response.sendRedirect(request.getContextPath());
+					}else {
+						System.out.println("페이먼트안들감");
+					}
+				}else {
+					System.out.println("rcode못가져옴;");
+				}
+				
 			}else {
 				System.out.println("포인트 업뎃 안됨;;");
 			}

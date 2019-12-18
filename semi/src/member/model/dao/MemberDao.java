@@ -34,6 +34,7 @@ public class MemberDao {
 				m.setUserBirth(rs.getString("C_BIRTH"));
 				m.setAuthority(rs.getInt("AUTHORITY"));
 				m.setUserName(rs.getString("C_NAME"));
+				m.setPoint(rs.getInt("c_point"));
 			}
 		} catch (SQLException e) {
 			
