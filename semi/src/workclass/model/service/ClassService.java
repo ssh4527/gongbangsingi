@@ -10,6 +10,8 @@ import static common.JDBCTemplate.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+
+import qna.model.vo.Qna;
 import review.model.vo.Review;
 
 
@@ -287,4 +289,49 @@ public class ClassService {
 		return review;
 	}
 
+	// 해당 클래스 공방 번호 가져오는부분
+	public String selectWsNo(String wcNo) {
+		Connection conn = getConnection();
+		
+		String WsNo = new ClassDao().selectWsNo(wcNo,conn);
+		
+		
+		close(conn);
+		return WsNo;
+	}
+
+	// 클래스 QnA 작성 by.jh
+	public int insertClassQna(Qna q) {
+	
+			Connection conn = getConnection();
+			
+			int result = new ClassDao().insertClassQna(q,conn);
+			if(result > 0 ) {
+				commit(conn);
+			}else {
+				rollback(conn);
+			}
+			close(conn);
+			return result;
+
+	}
+
+	
+	// QnA 가져오는부분
+	public ArrayList<Qna> selectQna(String wcNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<Qna> qList = new ClassDao().selectQna(wcNo,conn);
+			close(conn);
+		return qList;
+	}
+
+	public String selectOrnerId(String wcNo) {
+		Connection conn = getConnection();
+		String id = new ClassDao().selectOrnerId(wcNo,conn);
+		close(conn);
+		return id;
+	}
+	
+	
 }

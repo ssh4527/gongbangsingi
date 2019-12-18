@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import qna.model.vo.Qna;
 import review.model.vo.Review;
 
 import static common.JDBCTemplate.*;
@@ -666,6 +667,134 @@ public class ClassDao {
 		}
 		
 		return result;
+	}
+
+
+	public String selectWsNo(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String wsNo = "";
+		
+		String sql = "select ws_no from work_class where wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				wsNo = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return wsNo;
+	}
+
+	// 클래스 QnA 작성 by.jh
+	public int insertClassQna(Qna q, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String secret = "Y";
+		if(!q.isqSecret()) {
+			secret = "N";
+		}
+		
+		
+		String sql = "insert into qna values('Qno' ||SEQ_QNO.NEXTVAL,?,?,?,sysdate,?,default,?,default,'1234')";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q.getcId());
+			pstmt.setString(2, q.getqTitle());
+			pstmt.setString(3, q.getqContent());
+			pstmt.setString(4, secret);
+			pstmt.setString(5, q.getWcNo());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+
+	public ArrayList<Qna> selectQna(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ArrayList<Qna> qList = new ArrayList<>();
+		ResultSet rset = null;
+		
+		String sql = "select * from qna where wc_no = ? order by q_ent_date desc";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Qna q = new Qna();
+				boolean secret = true;
+				
+				q.setqNo(rset.getString("q_no"));
+				q.setcId(rset.getString("c_id"));
+				q.setqTitle(rset.getString("q_title"));
+				q.setqContent(rset.getString("q_content"));
+				q.setqEntdate(rset.getDate("q_ent_date"));
+				if(rset.getString("q_secret").equals("Y")) {
+					secret = true;
+				}else {
+					secret = false;
+				}
+				q.setqSecret(secret);
+				q.setqReplayck(rset.getString("q_replay_ck"));
+				q.setWcNo(rset.getString("wc_no"));
+				q.setqCount(rset.getInt("q_count"));
+				qList.add(q);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return qList;
+	}
+
+
+	public String selectOrnerId(String wcNo,Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String id = "";
+		
+		String sql = "select c.c_id from CLIENT c , workshop s , work_class w where c.c_id = s.c_id and s.ws_no = w.ws_no and w.wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				id = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return id;
 	}
 
 
