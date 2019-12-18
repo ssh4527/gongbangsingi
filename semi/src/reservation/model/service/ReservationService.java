@@ -64,5 +64,13 @@ public class ReservationService {
 		close(conn);
 		return result;
 	}
-
+	// 사용자가 사용한 금액 가져오기 ssh
+	public ArrayList<Integer> selectUserReservation(String userId) {
+		Connection c = getConnection();
+		
+		ArrayList<Integer> result = new ReservationDao().selectUserReservation(userId,c);
+		
+		close(c);
+		return result;
+	}
 }
