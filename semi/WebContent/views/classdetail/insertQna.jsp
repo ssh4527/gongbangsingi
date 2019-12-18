@@ -5,6 +5,9 @@
 	Date date = new Date();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 	String today = sdf.format(date);
+	
+	String wsNo = (String)request.getParameter("wsNo");
+	String wcNo = (String)request.getParameter("wcNo");
 %>
 <!DOCTYPE html>
 <html>
@@ -49,66 +52,53 @@
 	<%@ include file="/views/common/menubar.jsp"%>
 	<div id="qna4_wrap">
 		<br>
-		<font class="font_underline"> <u><p class="font">
-					문의글 작성하기<br>
+		<font class="font_underline"> <u><p class="font"> 문의글 작성하기<br>
 				</p></u>
 		</font> <br>
-		<form action="<%=request.getContextPath()%>/insert.qna" name="form"
-			method="post">
+		<form action="<%=request.getContextPath()%>/insert.class.qna" name="form" method="post">
+			<input type="text" id="wsNo" name="wsNo" value="<%= wsNo %>" style="display:none;">
+			<input type="text" id="wcNo" name="wcNo" value="<%= wcNo %>" style="display:none;">
 			<table class="table table-hover">
 				<tr>
 					<th>문의</th>
-					<th colspan="5">고객센터문의 <공방 (클래스) 관련 문의는 각 공방(클래스) 페이지에서 해주세요></th>
+					<th colspan="5">운영에 관한 문의는 고객센터를 통해 문의 부탁드립니다.</th>
 				</tr>
 				<tr>
 					<th>제목</th>
 					<td><textarea name="title" cols="60" rows="1"
 							style="resize: none" placeholder="제목을 입력해주세요"></textarea></td>
 				</tr>
+			</table>
+			<table class="table table-hover">
 				<tr>
 					<th>작성자</th>
-					<td><input name="writer" type="text"
-						value="<%= loginUser.getUserName() %>" name="writer"
-						readonly></td>
+					<td><input name="writer" type="text" value="<%= loginUser.getUserId() %>" name="writer" readonly></td>
 					<th>작성일</th>
-					<td><input type="text" name="date" value="<%=today%>"></td>
-					<th>비밀번호</th>
-					<td><input type="password" name="password" id="password"
-						placeholder="숫자 4자리 입력" maxlength="4"></td>
-					<th>비밀글 설정</th>
+					<td><input type="text" name="date" value="<%=today%>" style="display:none;">
+							<%=today %></td>
+				</tr>
+				<tr>
+				<th>비밀글 설정</th>
 					<td>
 					<input type="radio" value="Y" name="secret" id="private" checked> 
-					<label for="private"> <img src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; 
+					<label for="private" style="cursor:pointer;"> <i class="fas fa-lock"></i></label> &nbsp; 
 					<input type="radio" value="N" name="secret" id="public"> 
-					<label for="public"><img src="../../img/222.jpg" width="30px" heigh="30px"></label>
+					<label for="public" style="cursor:pointer;"><i class="fas fa-lock-open"></i></label>
 					</td>
-					<!-- <td>
-							<select name="secret">
-								<option value="Y">비밀글</option>
-								<option value="N">공개글</option>
-							</select>
-							</td> -->
 				</tr>
 				<tr>
 					<th>내용</th>
 					<td colspan="5"><textarea name="content" cols="115" rows="10"
 							placeholder="내용을 입력해주세요"></textarea></td>
 				</tr>
-				<tr>
-					<th>파일첨부</th>
-					<td><input type="file"> <input type="button"
-						value="추가" onclick="addFile()"> <input type="button"
-						value="삭제" onclick="delFile()"></td>
-				<tr>
 			</table>
 			<hr>
 
 			<div id="qna4_wrap2">
-				<!-- <button type="submit" class="btn btn-outline-secondary" onclick="b_pass();">WRITE</button> -->
-				<input type="button" class="btn btn-outline-secondary" value="WRITE"
-					 onclick="pass()" /> <input type="button"
+				<input type="submit" class="btn btn-outline-secondary" value="WRITE" /> <input type="button"
 					class="btn btn-outline-secondary" value="CANCEL"
 					onclick="javascript:history.back();">
+			</div>
 		</form>
 	</div>
 

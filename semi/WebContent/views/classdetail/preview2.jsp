@@ -1,3 +1,4 @@
+<%@page import="qna.model.vo.Qna"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="review.model.vo.Review"%>
@@ -14,7 +15,9 @@
 	ClassTime ct = (ClassTime)request.getAttribute("ct");
 	ArrayList<Review> rList = (ArrayList<Review>)request.getAttribute("rList");
 	ArrayList<ClassFile> rfList = (ArrayList<ClassFile>)request.getAttribute("rfList");
-	
+	String wsNo = (String)request.getAttribute("wsNo");
+	ArrayList<Qna> qList = (ArrayList<Qna>)request.getAttribute("qList");
+	String ornerid = (String)request.getAttribute("ornerid");
 	
 	String[] time = ct.getCtTime().split(",");
 	
@@ -114,7 +117,12 @@ a {
 a:hover {
 	color: black;
 }
-
+.textareaa{
+		width:90%;
+        height:90%;
+        padding:0;
+        margin:0;
+        }
 #detail_come {
 	padding: 10px;
 	font-weight: bold;
@@ -186,7 +194,7 @@ ul {
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
-
+	<% if(!log.equals("asd")){ String me = loginUser.getUserId(); }%>
 	<div id="outer">
 		<div id="top_div">
 			<div id="detail_img_div" style="padding: 10px;">
@@ -748,26 +756,104 @@ ul {
 							</tr>
 						</thead>
 						<tbody style="font-size: 14px; color: gray; text-align: center;" id="tbody">
-							<tr style="color:black;">
-								<th scope="row" >3</th>
-								<td><span style="margin-left:250px">가는길 질문좀 드릴게요! &nbsp;</span><i class="fas fa-lock-open" style="float:right;"></i></td>
-								<td>이진혁</td>
-								<td>2019-10-16</td>
+						
+						<% if(qList.isEmpty()){ %>
+								<tr>
+									<td colspan="4">QnA가 존재하지 않습니다.</td>
+								</tr>
+						<% }else { %>
+							<% for(int i = 0 ; i < qList.size(); i++) { %>
+							<tr style="color:black;" id="tr<%= qList.get(i).getqNo().replace("Qno","")%>">
+								<th scope="row" ><%= qList.get(i).getqNo().replace("Qno","") %></th>
+								<td><span style="margin-left:250px"><%= qList.get(i).getqTitle() %></span>
+									<% if(qList.get(i).isqSecret()){ %>
+										<i class="fas fa-lock" style="float:right;"></i>
+									<% } else if(qList.get(i).isqSecret() == false) { %>
+										<i class="fas fa-lock-open" style="float:right;"></i>
+									<% } %></td>
+								<td><%= qList.get(i).getcId() %></td>
+								<td><%= qList.get(i).getqEntdate() %></td>
+								<td style="display:none;"><%= qList.get(i).isqSecret() %></td>
 							</tr>
-							<tr style="color:black;">
-								<th scope="row">2</th>
-								<td><span style="margin-left:250px">2번 입니다...&nbsp;</span><i class="fas fa-lock" style="float:right;"></i></td>
-								<td>오재원</td>
-								<td>2019-10-15</td>
+							<tr style="display:none;" height="200px"> <!-- 내용 -->
+								<td></td>
+								<td colspan="2"><span style="margin-left:50px"><%=qList.get(i).getqContent() %></span>
+										<% if(log.equals(qList.get(i).getcId())){ %>
+											<br><br><br><br><br><br><br><br>
+											<button type="button" class="btn btn-outline-secondary" style="float:right;">삭제</button>
+											<button type="button" class="btn btn-outline-secondary" style="float:right;">수정</button>
+										<% } %>
+								</td>
+								<td colspan="2"></td>
 							</tr>
-							<tr style="color:black;">
-								<th scope="row">1</th>
-								<td><span style="margin-left:250px">1번 입니다...&nbsp;</span><i class="fas fa-lock" style="float:right;"></i></td>
-								<td>누군가</td>
-								<td>2019-10-14</td>
+							
+							<tr style="display:none;"> <!--  비밀글 -->
+								<td></td>
+								<td colspan="2"><span style="margin-left:50px">비밀글로 작성되어 있습니다.</span></td>
+								<td colspan="2"></td>
 							</tr>
+							
+							<tr style="display:none"> <!-- 클래스 주인 답글 -->
+								
+								<td colspan="3"><textarea class="textareaa" rows=4></textarea></td>
+								<td><button type="button" class="btn btn-outline-secondary" style="text-align:center; margin-top:6px; width:100px; height:80px;">작성</button></td>
+								
+							</tr>
+							<% } %>
+						<% } %>
 						</tbody>
 					</table>
+					<!-- QnA 스크립트부분 -->
+					<script>
+						$(function(){
+							$("tr").click(function(){
+								if($(this).children().last().html()=="false" && "<%= log %>"=="<%=ornerid%>"){ 
+									// 공개글이면서 클래스주인이면 답글작성가능
+									if($(this).next().css("display")=='none'){
+									  	$(this).next().css("display","table-row");
+									  	$(this).next().next().next().css("display","table-row");
+									}else{
+									  	$(this).next().css("display","none");
+									  	$(this).next().next().next().css("display",'none');
+									}
+									
+								}else if($(this).children().last().html()=="true" && $(this).children().eq(2).html() == "<%= log %>"){
+									// 비밀글이여도 작성자면 열람가능
+									if($(this).next().css("display")=='none'){
+									  	$(this).next().css("display","table-row");
+									}else{
+									  	$(this).next().css("display","none");
+									}
+								
+								}else if($(this).children().last().html()=="true" && "<%= log %>"=="<%=ornerid%>" ){
+									// 클래스주인이면 열람가능
+									if($(this).next().css("display") == 'none'){ 
+										$(this).next().css("display","table-row");
+										$(this).next().next().next().css("display","table-row");
+									}else{
+										$(this).next().css("display",'none');
+										$(this).next().next().next().css("display",'none');
+									}
+								}else if($(this).children().last().html()=="true"){
+									// 비밀글 설정인대 작성자도 아니고 클래스 주인도아니면 볼수없음.
+									if($(this).next().next().css("display") == 'none'){ 
+										$(this).next().next().css("display","table-row");
+									}else{
+										$(this).next().next().css("display",'none');
+									}
+								}else if($(this).children().last().html()=="false"){ 
+									// 모두가 볼 수 있음
+									if($(this).next().css("display")=='none'){
+									  	$(this).next().css("display","table-row");
+									}else{
+									  	$(this).next().css("display","none");
+									}
+								}
+								
+							});
+							
+						}); 
+					</script>
 				</div>
 				<!-- 리뷰 페이징 -->
 					<nav aria-label="Page navigation example" style="text-align: center;">
@@ -792,7 +878,7 @@ ul {
 		</div>
 		
 		<!-- qna 스크립트 -->
-		<script>
+		<!-- <script>
 			$(function(){
 				$("#tbody>tr").click(function(){
 					var trNum = $(this).closest('tr').prevAll().length;
@@ -815,7 +901,7 @@ ul {
 				
 				});
 			});
-		</script>
+		</script> -->
 		<!--  QnA작성으로 이동! -->
 		<script>
 			$(function(){
@@ -823,7 +909,8 @@ ul {
 					if(<%=log.equals("asd")%>){
 						alert("로그인 후에 작성가능합니다.");
 					}else{
-						//location.href="<%= request.getContextPath()%>/views/classdetail/"
+						location.href="<%= request.getContextPath()%>/views/classdetail/insertReview.jsp?wcNo=<%= wc.getWcNo() %>";
+						location.href="<%= request.getContextPath()%>/views/classdetail/insertQna.jsp?wsNo=<%=wsNo%>&wcNo=<%=wc.getWcNo()%>";
 					}
 				});
 			});

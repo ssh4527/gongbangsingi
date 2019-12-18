@@ -64,12 +64,12 @@
 			<table class="table table-hover">
 				<tr id="grade">
 					<th width="10%">평점</th>
-					<td width="18%"><input type="radio" name="grade" value="1"
-						checked>★☆☆☆☆</td>
-					<td width="18%"><input type="radio" name="grade" value="2">★★☆☆☆</td>
-					<td width="18%"><input type="radio" name="grade" value="3">★★★☆☆</td>
-					<td width="18%"><input type="radio" name="grade" value="4">★★★★☆</td>
-					<td width="18%"><input type="radio" name="grade" value="5">★★★★★</td>
+					<td width="18%"><input type="radio" name="grade" id="grade1" value="1" 
+						checked><label for="grade1" style="cursor:pointer;">★☆☆☆☆</label></td>
+					<td width="18%"><input type="radio" name="grade" id="grade2" value="2"><label for="grade2" style="cursor:pointer;">★★☆☆☆</label></td>
+					<td width="18%"><input type="radio" name="grade" id="grade3" value="3"><label for="grade3" style="cursor:pointer;">★★★☆☆</label></td>
+					<td width="18%"><input type="radio" name="grade" id="grade4" value="4"><label for="grade4" style="cursor:pointer;">★★★★☆</label></td>
+					<td width="18%"><input type="radio" name="grade" id="grade5" value="5"><label for="grade5" style="cursor:pointer;">★★★★★</label></td>
 				</tr>
 			</table>
 			<table class="table table-hover">
