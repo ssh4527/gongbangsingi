@@ -245,7 +245,7 @@ ul {
 							<% if(log.equals("asd")) { %>
 								<td> 로그인 후 포인트 확인이 가능합니다.</td>
 							<% }  else { %>
-								 <td><%= loginUser.getPoint() %></td>
+								 <td><small><%= loginUser.getPoint() %></small></td>
 							<% } %>
 						</tr>
 						<tr>
@@ -428,7 +428,7 @@ ul {
 							<% if(log.equals("asd")) { %>
 								<td> 로그인 후 포인트 확인이 가능합니다.</td>
 							<% }  else { %>
-								 <td><%= loginUser.getPoint() %></td>
+								 <td><small><%= loginUser.getPoint() %></small></td>
 							<% } %>
 						</tr>
 						<tr>
@@ -575,8 +575,9 @@ ul {
 			</div>
 			<div class="ulpre" style="color: gray; font-size: 14px;"> <!-- 리뷰div -->
 		<% if(rList.isEmpty()) { %>
-			리뷰없음
-		
+			<div style="text-align:center; margin:auto;">
+				<span>리뷰가 존재하지 않습니다.</span>
+			</div>
 		<% } else { %>
 		<% for(int i = 0; i < rList.size(); i++) {%>
 			<!-- 리뷰2 -->
@@ -670,16 +671,16 @@ ul {
 				
 				<nav aria-label="Page navigation example">
 						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_review"
 								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
 							</a></li>
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_review"
 								id="pa-link">1</a></li>
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_review"
 								id="pa-link">2</a></li>
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_review"
 								id="pa-link">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_review"
 								aria-label="Next" id="pa-link"> <span aria-hidden="true">&raquo;</span>
 							</a></li>
 						</ul>
@@ -771,22 +772,22 @@ ul {
 				<!-- 리뷰 페이징 -->
 					<nav aria-label="Page navigation example" style="text-align: center;">
 						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_qna"
 								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
 							</a></li>
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_qna"
 								id="pa-link">1</a></li>
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_qna"
 								id="pa-link">2</a></li>
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_qna"
 								id="pa-link">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
+							<li class="page-item"><a class="page-link" href="#detail_qna"
 								aria-label="Next" id="pa-link"> <span aria-hidden="true">&raquo;</span>
 							</a></li>
 						</ul>
 					</nav>
 			</div>
-			<button type="button" class="btn btn-outline-secondary"
+			<button type="button" class="btn btn-outline-secondary" id="goQna"
 					style="float: right">QnA Write</button>
 		</div>
 		
@@ -814,7 +815,18 @@ ul {
 				
 				});
 			});
-		
+		</script>
+		<!--  QnA작성으로 이동! -->
+		<script>
+			$(function(){
+				$("#goQna").click(function(){
+					if(<%=log.equals("asd")%>){
+						alert("로그인 후에 작성가능합니다.");
+					}else{
+						//location.href="<%= request.getContextPath()%>/views/classdetail/"
+					}
+				});
+			});
 		</script>
 		
 		<br> <br> <br>
