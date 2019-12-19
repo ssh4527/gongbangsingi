@@ -22,8 +22,32 @@ public class Reservation {
 	private String wsName; 
 	private String wcName;
 	
+	//------------------------------
+	private String cName;
 	
 	public Reservation() {}
+
+	
+	public Reservation(String resDate, String cName, String wcName, int resNop, int totalPrice,  String resState /*String classtime,*/) {
+		super();
+		this.resState = resState;
+		this.resNop = resNop;
+		this.totalPrice = totalPrice;
+		this.resDate = resDate;
+		//this.classtime = classtime;
+		this.wcName = wcName;
+		this.cName = cName;
+	}
+
+
+	public String getcName() {
+		return cName;
+	}
+
+
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
 
 
 	public Reservation(String resDate, String wsName, String wcName,int resNop, int totalPrice) {

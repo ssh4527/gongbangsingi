@@ -7,21 +7,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.model.vo.Member;
 import mypage.model.service.MypageService;
 
 /**
- * Servlet implementation class ShowMyLevelServlet
+ * Servlet implementation class UpdateMyPwdServlet
  */
-@WebServlet("/myLevel")
-public class ShowMyLevelServlet extends HttpServlet {
+@WebServlet("/updatePwd.normal")
+public class UpdateMyPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShowMyLevelServlet() {
+    public UpdateMyPwdServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,24 +31,24 @@ public class ShowMyLevelServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		Member m = (Member) request.getSession().getAttribute("loginUser");
+		HttpSession session = request.getSession();
+		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
 		
-		int result = new MypageService().showMyLevel(m.getUserId());
+		// 현재 비밀번호
+		String userPwd = request.getParameter("userPwd");
+		// 새로운 비밀번호
+		String newPwd = request.getParameter("newPwd");
 		
-		if(result<=1000) {
-			request.setAttribute("level", "일반 회원");
-		}else if( 1000 < result  && result <= 2500 ) {
-			request.setAttribute("level", "골드 회원");
-		}else if(2500 < result && result <= 4000 ) {
-			request.setAttribute("level", "플레티넘 회원");
-		}else if(4000< result && result <= 6000) {
-			request.setAttribute("level", "vip");
-		}else if(6000< result && result <=7000) {
-			request.setAttribute("level", "vvip");
+		Member updateMember = new MypageService().updatePwd(userId, userPwd, newPwd);
+		
+		if(updateMember != null) {
+			request.setAttribute("msg", "성공적으로 비밀번호를 변경하였습니다.");
+			request.getSession().setAttribute("loginUser", updateMember);
 		}else {
-			request.setAttribute("level", "대장장이");
+			request.setAttribute("msg", "비밀번호 변경에 실패했습니다.");
 		}
+		
+		request.getRequestDispatcher("views/member/pwdUpdateForm.jsp").forward(request, response);
 		
 	}
 

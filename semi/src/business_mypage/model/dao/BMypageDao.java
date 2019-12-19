@@ -1,4 +1,4 @@
-package mypage.model.dao;
+package business_mypage.model.dao;
 
 import static common.JDBCTemplate.close;
 
@@ -15,12 +15,12 @@ import qna.model.vo.Qna;
 import reservation.model.vo.Reservation;
 import review.model.vo.Review;
 
-public class MypageDao {
+public class BMypageDao {
 
 	private Properties prop = new Properties();
 	
-	public MypageDao() {
-		String fileName = MypageDao.class.getResource("/sql/mypage/mypage-query.properties").getPath();
+	public BMypageDao() {
+		String fileName = BMypageDao.class.getResource("/sql/b_mypage/Bmypage-query.properties").getPath();
 
 		try {
 			prop.load(new FileReader(fileName));
@@ -30,7 +30,7 @@ public class MypageDao {
 	}
 
 	// 1. 예약 목록 확인
-	public ArrayList<Reservation> selectList(String uId,Connection conn) {
+	public ArrayList<Reservation> selectList(String wNo,Connection conn) {
 		ArrayList<Reservation> list = new ArrayList<>();
 	
 		PreparedStatement pstmt = null;
@@ -40,14 +40,13 @@ public class MypageDao {
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, uId);
+			pstmt.setString(1, wNo);
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
-				list.add(new Reservation(rset.getString("res_Date"), rset.getString("ws_name"), rset.getString("wc_name"), rset.getInt("res_Nop"),
-						 rset.getInt("total_price")));
+				list.add(new Reservation(rset.getString("res_Date"), rset.getString("c_name"), rset.getString("wc_name"), rset.getInt("res_Nop"),
+						 rset.getInt("total_price"), rset.getString("res_state")));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -59,7 +58,7 @@ public class MypageDao {
 	}
 
 	//2. 후기내역 확인
-	public ArrayList<Review> selectReviewList(String uId, Connection conn) {
+	public ArrayList<Review> selectReviewList(String wNo, Connection conn) {
 		ArrayList<Review> relist = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
@@ -69,7 +68,7 @@ public class MypageDao {
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, uId);
+			pstmt.setString(1, wNo);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				relist.add(new Review(rset.getString(9),rset.getString("r_title"),rset.getString("r_content"),rset.getDate("r_ent_date"),rset.getInt("r_grade")));
@@ -84,7 +83,7 @@ public class MypageDao {
 		return relist;
 	}
 
-	public ArrayList<Qna> selectQnaList(String uId, Connection conn) {
+	public ArrayList<Qna> selectQnaList(String wNo, Connection conn) {
         ArrayList<Qna> qnalist = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
@@ -94,11 +93,11 @@ public class MypageDao {
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, uId);
+			pstmt.setString(1, wNo);
 			rset = pstmt.executeQuery();
 			System.out.println(sql);
 			while (rset.next()) {
-				qnalist.add(new Qna(rset.getString("Q_TITLE"),rset.getString("Q_CONTENT"),rset.getDate("Q_ENT_DATE"),rset.getString("Q_REPLAY_CK")));
+				qnalist.add(new Qna(rset.getString("C_NAME"),rset.getString("Q_TITLE"),rset.getString("Q_CONTENT"),rset.getDate("Q_ENT_DATE"),rset.getString("Q_REPLAY_CK")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -171,29 +170,6 @@ public class MypageDao {
 			close(pstmt);
 		}
 		return result;
-	}
-
-	public String selectWsNo(String userId, Connection conn) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = "select ws_no from workshop where c_id =?";
-		String wsNo = "";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userId);
-			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				wsNo = rset.getString(1);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-			close(rset);
-		}
-		
-		return wsNo;
 	}
 
 }
