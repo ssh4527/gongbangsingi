@@ -766,14 +766,14 @@ ul {
 							<tr style="color:black;" id="tr<%= qList.get(i).getqNo().replace("Qno","")%>">
 								<th scope="row" ><%= qList.get(i).getqNo().replace("Qno","") %></th>
 								<td><span style="margin-left:250px"><%= qList.get(i).getqTitle() %></span>
-									<% if(qList.get(i).isqSecret()){ %>
+									<% if(qList.get(i).getqSecret().equals("Y")){ %>
 										<i class="fas fa-lock" style="float:right;"></i>
-									<% } else if(qList.get(i).isqSecret() == false) { %>
+									<% } else if(qList.get(i).getqSecret().equals("N")) { %>
 										<i class="fas fa-lock-open" style="float:right;"></i>
 									<% } %></td>
 								<td><%= qList.get(i).getcId() %></td>
 								<td><%= qList.get(i).getqEntdate() %></td>
-								<td style="display:none;"><%= qList.get(i).isqSecret() %></td>
+								<td style="display:none;"><%= qList.get(i).getqSecret() %></td>
 							</tr>
 							<tr style="display:none;" height="200px"> <!-- 내용 -->
 								<td></td>
@@ -807,7 +807,7 @@ ul {
 					<script>
 						$(function(){
 							$("tr").click(function(){
-								if($(this).children().last().html()=="false" && "<%= log %>"=="<%=ornerid%>"){ 
+								if($(this).children().last().html()=="N" && "<%= log %>"=="<%=ornerid%>"){ 
 									// 공개글이면서 클래스주인이면 답글작성가능
 									if($(this).next().css("display")=='none'){
 									  	$(this).next().css("display","table-row");
@@ -817,7 +817,7 @@ ul {
 									  	$(this).next().next().next().css("display",'none');
 									}
 									
-								}else if($(this).children().last().html()=="true" && $(this).children().eq(2).html() == "<%= log %>"){
+								}else if($(this).children().last().html()=="Y" && $(this).children().eq(2).html() == "<%= log %>"){
 									// 비밀글이여도 작성자면 열람가능
 									if($(this).next().css("display")=='none'){
 									  	$(this).next().css("display","table-row");
@@ -825,7 +825,7 @@ ul {
 									  	$(this).next().css("display","none");
 									}
 								
-								}else if($(this).children().last().html()=="true" && "<%= log %>"=="<%=ornerid%>" ){
+								}else if($(this).children().last().html()=="Y" && "<%= log %>"=="<%=ornerid%>" ){
 									// 클래스주인이면 열람가능
 									if($(this).next().css("display") == 'none'){ 
 										$(this).next().css("display","table-row");
@@ -834,14 +834,14 @@ ul {
 										$(this).next().css("display",'none');
 										$(this).next().next().next().css("display",'none');
 									}
-								}else if($(this).children().last().html()=="true"){
+								}else if($(this).children().last().html()=="Y"){
 									// 비밀글 설정인대 작성자도 아니고 클래스 주인도아니면 볼수없음.
 									if($(this).next().next().css("display") == 'none'){ 
 										$(this).next().next().css("display","table-row");
 									}else{
 										$(this).next().next().css("display",'none');
 									}
-								}else if($(this).children().last().html()=="false"){ 
+								}else if($(this).children().last().html()=="N"){ 
 									// 모두가 볼 수 있음
 									if($(this).next().css("display")=='none'){
 									  	$(this).next().css("display","table-row");

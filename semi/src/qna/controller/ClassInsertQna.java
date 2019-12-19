@@ -39,12 +39,7 @@ public class ClassInsertQna extends HttpServlet {
 		String secret = request.getParameter("secret");
 		String wsNo = request.getParameter("wsNo");
 		String wcNo = request.getParameter("wcNo");
-		boolean realsecret = true;
 		
-		// 트루면 잠금글 펄스면 공개글
-		if(secret.charAt(0) == 'N') {
-			realsecret = false;
-		}
 		
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		
@@ -52,7 +47,7 @@ public class ClassInsertQna extends HttpServlet {
 		q.setcId(loginUser.getUserId());
 		q.setqTitle(title);
 		q.setqContent(content);
-		q.setqSecret(realsecret);
+		q.setqSecret(secret);
 		q.setWcNo(wcNo);
 		
 		int result = new ClassService().insertClassQna(q);

@@ -700,11 +700,7 @@ public class ClassDao {
 	public int insertClassQna(Qna q, Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String secret = "Y";
-		if(!q.isqSecret()) {
-			secret = "N";
-		}
-		
+				
 		
 		String sql = "insert into qna values('Qno' ||SEQ_QNO.NEXTVAL,?,?,?,sysdate,?,default,?,default,'1234')";
 		
@@ -713,7 +709,7 @@ public class ClassDao {
 			pstmt.setString(1, q.getcId());
 			pstmt.setString(2, q.getqTitle());
 			pstmt.setString(3, q.getqContent());
-			pstmt.setString(4, secret);
+			pstmt.setString(4, q.getqSecret());
 			pstmt.setString(5, q.getWcNo());
 			result = pstmt.executeUpdate();
 			
@@ -742,19 +738,15 @@ public class ClassDao {
 			
 			while(rset.next()) {
 				Qna q = new Qna();
-				boolean secret = true;
+				
 				
 				q.setqNo(rset.getString("q_no"));
 				q.setcId(rset.getString("c_id"));
 				q.setqTitle(rset.getString("q_title"));
 				q.setqContent(rset.getString("q_content"));
 				q.setqEntdate(rset.getDate("q_ent_date"));
-				if(rset.getString("q_secret").equals("Y")) {
-					secret = true;
-				}else {
-					secret = false;
-				}
-				q.setqSecret(secret);
+				
+				q.setqSecret(rset.getString("q_secret"));
 				q.setqReplayck(rset.getString("q_replay_ck"));
 				q.setWcNo(rset.getString("wc_no"));
 				q.setqCount(rset.getInt("q_count"));
