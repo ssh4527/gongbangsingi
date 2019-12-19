@@ -189,34 +189,34 @@ public class ShopDao {
 	}
 
 	// 해당 공방의 리뷰 리스트
-	public ArrayList<Review> selectReviewList(Connection con, String wsNo) {
-		PreparedStatement ppst = null;
-		ResultSet rset = null;
-		ArrayList<Review> list = null;
+		public ArrayList<Review> selectReviewList(Connection con, String wsNo) {
+			PreparedStatement ppst = null;
+			ResultSet rset = null;
+			ArrayList<Review> list = null;
 
-		String sql = prop.getProperty("selectReviewLIst");
-		try {
-			ppst = con.prepareStatement(sql);
+			String sql = prop.getProperty("selectReviewLIst");
+			try {
+				ppst = con.prepareStatement(sql);
 
-			ppst.setString(1, wsNo);
+				ppst.setString(1, wsNo);
 
-			rset = ppst.executeQuery();
+				rset = ppst.executeQuery();
 
-			list = new ArrayList<Review>();
-			while (rset.next()) {
-				// String cName, Date rEnDate, int rGrade, String rWriter
-				Review c = new Review(rset.getString(1), rset.getDate(2), rset.getInt(3), rset.getString(4));
-				list.add(c);
+				list = new ArrayList<Review>();
+				while (rset.next()) {
+					// String cName, Date rEnDate, int rGrade, String rWriter
+					Review c = new Review(rset.getString("WC_NAME"), rset.getDate("R_ENT_DATE"), rset.getInt("R_GRADE"), rset.getString("C_ID"));
+					list.add(c);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(ppst);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(ppst);
-		}
 
-		return list;
-	}
+			return list;
+		}
 
 	// 해당 공방의 클래스 목록
 	public ArrayList<Workclass> selectClassList(Connection con, String wsNo) {
@@ -367,22 +367,24 @@ public class ShopDao {
 	}
 	
 	public ArrayList<Workshop> selectedCategory(Connection con, String[] c) {
-		PreparedStatement ppst = null;
+		Statement ppst = null;
 		ResultSet rset = null;
 
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		String sql = prop.getProperty("selectedCategory");
-
+		String sql = "SELECT * FROM SHOPLIST WHERE S_CATEGORY IN(";
+		for(int i=0;i<c.length;i++) {
+			if(i==c.length-1) {
+				sql+="'"+c[i]+"') ";
+			}else sql+="'"+c[i]+"' "+",";
+		} 
 		try {
-			for(int i=0;i<c.length;i++) {
-			ppst = con.prepareStatement(sql);
-			ppst.setString(1, c[i]);
-			rset = ppst.executeQuery();
+			ppst = con.createStatement();
+			rset = ppst.executeQuery(sql);
 
 			while (rset.next()) {
 				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
 			}
-			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -393,28 +395,38 @@ public class ShopDao {
 		return list;
 	}
 
+	///////////////////////////////////////////////////////////////////////////
 	public ArrayList<Workshop> selectCSortlist(Connection con, String sortType, String[] c) {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
-		String sql = "";
+		String sql="SELECT * FROM SHOPLIST ";
+		
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
 		if (sortType.equals("인기순")) {
-			sql = prop.getProperty("selectCSortPoplist");
+			sql += "WHERE S_CATEGORY IN(";
+			for(int i=0;i<c.length;i++) {
+				if(i==c.length-1) {
+					sql+="'"+c[i]+"') "+" ORDER BY(SELECT COUNT(WC_NO) FROM RESERVATION) DESC";
+				}else sql+="'"+c[i]+"' "+",";
+			}
+			System.out.println(sql);
 		} else {
-			sql = prop.getProperty("selectCSortNewlist");
+			sql += "JOIN WORKSHOP s USING(WS_NO) WHERE s.S_CATEGORY IN(";
+			for(int i=0;i<c.length;i++) {
+				if(i==c.length-1) {
+					sql+="'"+c[i]+"')"+" ORDER BY WS_ENROLLDATE DESC";
+				}else sql+="'"+c[i]+"' "+",";
+			}
+			System.out.println(sql);
 		}
 		try {
-			for(int i=0;i<c.length;i++) {
 				ppst = con.prepareStatement(sql);
-				
-				ppst.setString(1,c[i]);
-				System.out.println(c[i]);
 				rset = ppst.executeQuery();
 
 				while (rset.next()) {
 					list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
 				}
-			}
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
