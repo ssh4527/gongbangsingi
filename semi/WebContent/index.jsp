@@ -4,7 +4,7 @@
 <%
 	ArrayList<Workclass> mainClassList = null; 
 	mainClassList=(ArrayList<Workclass>)request.getAttribute("mainList"); 
-	
+	ArrayList<ClassFile> maincfList = (ArrayList<ClassFile>)request.getAttribute("maincfList");
 %>
 <!DOCTYPE html>
 <html>
@@ -27,39 +27,14 @@
 }
 
 .col-md-4 {
-	width: 10%;
+	
 	margin: 0px;
 	float: left;
+	
 }
 
 h2 {
 	margin-left:30px;
-}
-
-#1stclass {
-	width: 100%;
-	height: 60%;
-}
-
-.img-body {
-	width: 100%;
-	height: 300px; <%--
-	background:
-		url('<%=request.getContextPath()%>/resources/images/jar1.jpg')
-		no-repeat; --%>
-	background: green;
-	background-size: cover;
-}
-
-.heart {
-	font-size: 2.0em;
-	margin-top: 0px;
-	margin-right: 10px;
-	float: right;
-}
-
-.heart:hover {
-	cursor: pointer;
 }
 
 .subtext {
@@ -74,6 +49,33 @@ h2 {
 	width:100%;
 	height:100%;
 }
+.heartover {
+	
+	position: relative;
+	overflow: hidden;
+}
+
+.heartdiv {
+	position: absolute;
+	top: 10%;
+	right: 0%;
+	transform: translate(-50%, -50%);
+	font-size: 2em;
+	color: gray;
+	z-index: 2;
+	text-align: center;
+}
+.gal {
+	position: relative;
+	width: 100%;
+	height: 300px;
+	cursor: pointer;
+}
+.gal:hover {
+	transform: scale(1.5, 1.5);
+	transition: all 0.5s ease-in-out;
+}
+
 </style>
 </head>
 <body>
@@ -112,23 +114,27 @@ h2 {
 						<h4 style="text-align:center;">당신만을 위한 <%= interest[ic++]  %> 클래스</h4>
 				<%} grade=1;
 				} %>
-		<div class="col-md-4 bg-light">
+		<div class="col-md-4 bg-light" >
 			<p class="subtext"><%=grade++ %>st ♕</p>
-			<div class="card mb-4 shadow-sm">
-				<div class="img-body" id="<%=i %>stclass">
-
-					<span class="heart">♡</span>
-
-				</div>
-				<div class="card-body">
-					<small class="text-muted"><%= mainClassList.get(i).getWcName() %></small>
-					<p class="card-text" align="left"><%= mainClassList.get(i).getWcIntroduce() %></p>
-					<div class="d-flex justify-content-between align-items-center">
-						<small class="text-muted">☆<%= mainClassList.get(i).getAvgGrade() %></small> 
-						<small class="text-muted">바로 수강 가능</small>
+			<div class="card mb-4 shadow-sm" style="width:85%;">
+						<div class="heartover" style="width:100%">
+							<a	href="<%= request.getContextPath()%>/godetail.class?wcNo=<%= mainClassList.get(i).getWcNo() %>">
+							<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= mainClassList.get(i).getRename() %>"
+								width="100%" height="100%" class="gal"></a>
+							<div class="heartdiv" id="div<%= mainClassList.get(i).getWcNo() %>">
+								<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+									id="icon<%= mainClassList.get(i).getWcNo() %>"></i>
+							</div>
+						</div>
+						<div class="card-body">
+							<small class="text-muted"><%= mainClassList.get(i).getWcName() %></small>
+							<p class="card-text" align="left"><%= mainClassList.get(i).getWcIntroduce() %></p>
+							<div class="d-flex justify-content-between align-items-center">
+								<small class="text-muted">♥<%= mainClassList.get(i).getAvgGrade() %></small>
+								<small class="text-muted"><%= mainClassList.get(i).getWcOpenClose() %></small>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
 		</div>
 		<%  }}%>
 		
