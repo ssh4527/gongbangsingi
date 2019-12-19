@@ -11,6 +11,7 @@ import static common.JDBCTemplate.*;
 import qna.model.dao.QnaDao;
 import qna.model.vo.Qna;
 
+
 public class QnaService {
 
 	// 1. 고객센터 리스트 조회

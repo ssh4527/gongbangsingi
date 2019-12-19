@@ -14,17 +14,16 @@ import qna.model.vo.Qna;
 
 
 /**
- * Servlet implementation class QnaDetailServlet
+ * Servlet implementation class QnaUpdateServlet
  */
-@WebServlet("/detail.qna")
-public class QnaDetailServlet extends HttpServlet {
+@WebServlet("/update.qna")
+public class QnaUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaDetailServlet() {
+    public QnaUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,17 +32,24 @@ public class QnaDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String qno=request.getParameter("qno");
-		Qna qna=new QnaService().selectQna(qno);
+		request.setCharacterEncoding("utf-8");
 		
-		String page="";
-		if(qna != null) {
-			request.setAttribute("qna", qna);
-			page = "views/board/boardDetailView.jsp";
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		String qno = request.getParameter("qno");
+		
+		Qna q = new Qna();
+		q.setqTitle(title);
+		q.setqContent(content);
+		q.setqNo(qno);
+	
+		int result = new QnaService().updateQna(q);
+		
+		if(result > 0) {
+			response.sendRedirect("detail.qna?qno="+qno);
 		}else {
-			request.setAttribute("msg","공지사항 조회 실패!");
+			request.setAttribute("msg", "공지사항 수정 실패!");
 		}
-		request.getRequestDispatcher(page).forward(request, response);
 	}
 
 	/**

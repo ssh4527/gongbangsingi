@@ -382,7 +382,7 @@ $(function(){
 		<li class="nav-item"><a class="nav-link"
 			href="<%=request.getContextPath()%>/views/review/reviewList.jsp">리뷰</a></li>
 		<li class="nav-item"><a class="nav-link"
-			href="<%=request.getContextPath()%>/views/notice/board.jsp">고객센터</a></li>
+			href="<%=request.getContextPath()%>/list.qna">고객센터</a></li>
 	</ul>
 	<script>
 		$(function(){

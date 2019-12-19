@@ -16,6 +16,7 @@ import java.util.Properties;
 import notice.model.vo.Notice;
 import qna.model.vo.Qna;
 
+
 public class QnaDao {
 	private Properties prop = new Properties();
 
