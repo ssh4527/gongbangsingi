@@ -213,6 +213,17 @@ public class ShopService {
 		return list;
 	}
 
+	public int requestToChangeShop(String userName, String shopName, String shopAddr, String sns, String tel,
+			String num, String account, String intro, String category) {
+		Connection con = getConnection();
+
+		int result = new ShopDao().requestToChangeShop(con,userName,shopName,shopAddr,sns,tel,num,account,intro,category);
+
+		close(con);
+
+		return result;
+	}
+
 	
 
 }

@@ -24,7 +24,7 @@
 			return false;
 		if (!chk(/^[가-힣]{9,}$/, address, "OO시 OO구 OO동 자세히 입력하세요~"))
 			return false;
-		
+
 		if (!chk(/^01[01679]$/, tel1, "공방 전화번호1 : 3자리 번호 입력"))
 			return false;
 		if (!chk(/^[0-9]{4}$/, tel2, "공방 전화번호2 : 4자리 번호 입력"))
@@ -61,6 +61,14 @@
 </script>
 
 <style>
+#outer {
+	width: 1000px;
+	height: 100%;
+	/* div를 화면 가운데로 오게 하기 */
+	margin: auto;
+	padding: 3%;
+}
+
 .font {
 	font-size: 30px;
 	color: black;
@@ -73,27 +81,29 @@
 
 #business_p1 {
 	font-size: 30px;
+	float: left;
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>사업자로 회원전환</title>
 </head>
 <body>
-	<%@ include file="/views/common/menubar.jsp"%>
-	<form action="regFormImpl2.jsp" name="form" method="post">
-		<br>
-		<table width="1400" height="650">
-			<tr>
-				<td width="100%" height="10%"><font class="font_underline">
-						<u><p class="font">사업자로 회원전환</p></u>
-				</font></td>
-			</tr>
-			<tr>
-				<td width="100%" height="50%" align="center">
-					<p align="left">
-						<span style="padding-left: 160px" id="business_p1">
-							GONGBANGSINGI 약관동의</span>
-					</p> <textarea rows="10" cols="150">가. 수집하는 개인정보의 항목첫째, 회사는 회원가 입, 원활한 고객상담, 각종 서비스의 제공을 위해 최초 회원가입 당시 아래와 같은 최소한의 개인정보를 필수항목으로 수집하고 있습니다.
+	<%-- <%@ include file="/views/common/menubar.jsp"%> --%>
+	<div id="outer">
+		<form action="request.sh" name="form" method="post">
+			<br>
+			<table width="100%" height="100%">
+				<tr>
+					<td width="100%" height="10%"><font class="font_underline">
+							<u><p class="font">사업자로 회원전환</p></u>
+					</font></td>
+				</tr>
+				<tr>
+					<td width="100%" height="50%" align="center">
+						<p align="left">
+							<span style="padding-left: 160px" id="business_p1">
+								GONGBANGSINGI 약관동의</span>
+						</p> <textarea rows="10" cols="90">가. 수집하는 개인정보의 항목첫째, 회사는 회원가 입, 원활한 고객상담, 각종 서비스의 제공을 위해 최초 회원가입 당시 아래와 같은 최소한의 개인정보를 필수항목으로 수집하고 있습니다.
 회원가입
 - 이름, 생년월일, 성별, 아이디, 비밀번호, 별명, 연락처(메일주소, 휴대폰 번호 중 선택), 가입인증정보
 만14세 미만 아동 회원가입
@@ -115,107 +125,117 @@
 - 홈페이지, 서면양식, 팩스, 전화, 상담 게시판, 이메일, 이벤트 응모, 배송요청
 - 협력회사로부터의 제공
 - 생성정보 수집 툴을 통한 수집
-   </textarea> <br> 
-   <input type="checkbox" name="req"> 개인정보 수집 및 이용에 동의합니다.
-				</td>
-			</tr>
+   </textarea> <br> <input type="checkbox" name="req"> 개인정보 수집 및 이용에
+						동의합니다.
+					</td>
+				</tr>
 
-			<tr>
-				<td width="100%" height="50%" align="center">
-					<p align="left">
-						<span style="padding-left: 160px" id="business_p1"> 실명확인</span>
-					</p>
-				</td>
-			</tr>
+				<tr>
+					<td>
+						<p>
+							<span style="padding-left: 160px" id="business_p1"> 실명확인</span>
+						</p>
+					</td>
+				</tr>
 
-			<tr>
-				<td>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					※ 대표자명 &nbsp;<input type="text" name="business_name" id="b_name"
-					size="15">
-				</td>
-			</tr>
-			<tr>
-				<td><br></td>
-			</tr>
+				<tr>
+					<td>※ 대표자명 &nbsp;<input type="text" name="business_name"
+						id="b_name"
+						<%-- value="<%=loginUser.getUserName() %>" --%>
+					size="15"
+						readonly>
+					</td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
 
-			<tr>
-				<td>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					※ 공방 이름 &nbsp;<input type="text" name="businessmember_name"
-					id="b_name2" size="15">
-				</td>
-			</tr>
-			<tr>
-				<td><br></td>
-			</tr>
+				<tr>
+					<td>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						※ 공방 이름 &nbsp;<input type="text" name="businessmember_name"
+						id="b_name2" size="15">
+					</td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
+				<tr>
+					<td>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						※ 카테고리 &nbsp; <input type="text" name="category" id="category"
+						maxlength="3">
+					</td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
+				<tr>
+					<td>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						※ 공방 주소 &nbsp; <input type="text" name="business_address"
+						id="b_address" size="30">
+					</td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
 
-			<tr>
-				<td>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					※ 공방 주소 &nbsp; <input type=text " name="business_address"
-					id="b_address" size="30">
-				</td>
-			</tr>
-			<tr>
-				<td><br></td>
-			</tr>
-
-			<tr>
-				<td>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					※ SNS 계정 &nbsp; <input type=text " name="business_sns" id="b_sns"
-					size="30" placeholder=" SNS 계정이 있으시면 등록해주세요!">
-				</td>
-			</tr>
-			<tr>
-				<td><br></td>
-			</tr>
-
-
-			<tr>
-				<td>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					※ 공방 전화번호 &nbsp; <input type="text" name="tel1" id="tel1"
-					maxlength="3">- <input type="text" name="tel2" id="tel2"
-					maxlength="4">- <input type="text" name="tel3" id="tel3"
-					maxlength="4">
-				</td>
-			</tr>
-			<tr>
-				<td><br></td>
-			</tr>
-
-			<tr>
-				<td>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					※ 사업자 등록번호 &nbsp; <input type="text" name="tel4" id="tel4"
-					maxlength="3">- <input type="text" name="tel5" id="tel5"
-					maxlength="2">- <input type="text" name="tel6" id="tel6"
-					maxlength="5">
-				</td>
-			</tr>
-			<tr>
-				<td><br></td>
-			</tr>
+				<tr>
+					<td>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						※ SNS 계정 &nbsp; <input type=text " name="business_sns" id="b_sns"
+						size="30" placeholder=" SNS 계정이 있으시면 등록해주세요!">
+					</td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
 
 
+				<tr>
+					<td>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						※ 공방 전화번호 &nbsp; <input type="text" name="tel1" id="tel1"
+						maxlength="3">- <input type="text" name="tel2" id="tel2"
+						maxlength="4">- <input type="text" name="tel3" id="tel3"
+						maxlength="4">
+					</td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
 
-			<tr>
-				<td align="center" valign="top">
-				<input type="button"   class="btn btn-outline-secondary"value="사업자 회원전환 하기" onclick="chk()" />&nbsp;&nbsp;&nbsp; 
-				<input type="button"  class="btn btn-outline-secondary" value="뒤로가기" onclick="javascript:history.back();" /></td>
-			</tr>
+				<tr>
+					<td>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						※ 사업자 등록번호 &nbsp; <input type="text" name="num1" id="num1"
+						maxlength="3">- <input type="text" name="num2" id="num2"
+						maxlength="2">- <input type="text" name="num3" id="num3"
+						maxlength="5">
+					</td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
 
-		</table>
-	</form>
-	<br>
+				<tr>
+					<td align="center" valign="top"><input type="button"
+						class="btn btn-outline-secondary" value="사업자 회원전환 하기"
+						onclick="chk()" />&nbsp;&nbsp;&nbsp; <input type="button"
+						class="btn btn-outline-secondary" value="뒤로가기"
+						onclick="javascript:history.back();" /></td>
+				</tr>
+
+			</table>
+		</form>
+	</div>
 
 	<%@ include file="/views/common/footbar.jsp"%>
 </body>
