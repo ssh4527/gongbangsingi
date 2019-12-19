@@ -27,7 +27,7 @@ public class Workshop {
 
 
 
-	public Workshop(String wsNo, String wsName, String address, String wsTel,String id, String category) {
+	public Workshop(String wsNo, String wsName, String address, String wsTel,String id, String category,String accountNum) {
 		super();
 		WsNo = wsNo;
 		WsName = wsName;
@@ -35,13 +35,25 @@ public class Workshop {
 		WsTel = wsTel;
 		this.id = id;
 		Category = category;
+		AccountNum =accountNum;
 	}
+	
 
-
-	public Workshop(String wsNo, String wsName, String category, double grade) {
+	public Workshop(String wsNo, String wsName,  String category) {
+		super();
 		WsNo = wsNo;
 		WsName = wsName;
 		Category = category;
+	}
+
+
+
+
+	public Workshop(String wsNo, String wsName, String category, double grade, String address) {
+		WsNo = wsNo;
+		WsName = wsName;
+		Category = category;
+		Address = address;
 		this.grade = grade;
 	}
 

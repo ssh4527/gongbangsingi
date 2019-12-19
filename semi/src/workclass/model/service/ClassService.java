@@ -4,11 +4,14 @@ import workclass.model.dao.ClassDao;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
 import workclass.model.vo.Workclass;
+
 import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
+
+import qna.model.vo.Qna;
 import review.model.vo.Review;
 
 
@@ -187,5 +190,148 @@ public class ClassService {
 		
 		return result;
 	}
+	// 클래스 승인안된거 가져오기 ssh
+	public ArrayList<String[]> selectCheckClassList() {
+		Connection c = getConnection();
+		
+		ArrayList<String[]> list = new ClassDao().selectCheckClassList(c);
+		close(c);
+		return list;
+	}
+	// 클래스 승인하기 ssh
+	public int changeAuth(String id) {
+		Connection c= getConnection();
+		
+		int result = new ClassDao().changeAuth(c,id);
+		if(result>0) {
+			commit(c);
+		}else {
+			rollback(c);
+		}
+		close(c);
+		
+		return result;
+	}
 
+	// 리뷰가져오기
+	public ArrayList<Review> selectReview(String wcNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<Review> rList = new ClassDao().selectReview(wcNo,conn);
+		
+		close(conn);
+		
+		return rList;
+	}
+
+	// 리뷰 파일 가져오기
+	public ArrayList<ClassFile> selectReviewFile(String rNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<ClassFile> rfList = new ClassDao().selectReviewFile(rNo,conn);
+		
+		close(conn);
+		
+		return rfList;
+	}
+
+	// 리뷰 삭제
+	public int deleteReview(String rNo) {
+		Connection conn = getConnection();
+		
+		int result = new ClassDao().deleteReview(rNo,conn);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	// 리뷰파일 삭제
+	public int deleteReviewFile(String rNo) {
+		Connection conn = getConnection();
+		
+		int result = new ClassDao().deleteReviewFile(rNo,conn);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	// 리뷰 수정
+	public int updateReview(Review review) {
+		Connection conn = getConnection();
+		int result = new ClassDao().updateReview(review,conn);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	// 리뷰 하나만 가져오김
+	public Review selectReviewOne(String rNo) {
+		Connection conn = getConnection();
+				
+		Review review = new ClassDao().selectReviewOne(rNo,conn);
+		close(conn);
+		return review;
+	}
+
+	// 해당 클래스 공방 번호 가져오는부분
+	public String selectWsNo(String wcNo) {
+		Connection conn = getConnection();
+		
+		String WsNo = new ClassDao().selectWsNo(wcNo,conn);
+		
+		
+		close(conn);
+		return WsNo;
+	}
+
+	// 클래스 QnA 작성 by.jh
+	public int insertClassQna(Qna q) {
+	
+			Connection conn = getConnection();
+			
+			int result = new ClassDao().insertClassQna(q,conn);
+			if(result > 0 ) {
+				commit(conn);
+			}else {
+				rollback(conn);
+			}
+			close(conn);
+			return result;
+
+	}
+
+	
+	// QnA 가져오는부분
+	public ArrayList<Qna> selectQna(String wcNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<Qna> qList = new ClassDao().selectQna(wcNo,conn);
+			close(conn);
+		return qList;
+	}
+
+	public String selectOrnerId(String wcNo) {
+		Connection conn = getConnection();
+		String id = new ClassDao().selectOrnerId(wcNo,conn);
+		close(conn);
+		return id;
+	}
+	
+	
 }

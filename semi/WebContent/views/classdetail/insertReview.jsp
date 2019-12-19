@@ -7,7 +7,6 @@
 	String today = sdf.format(date);
 
 	String wcNo = request.getParameter("wcNo");
-	String user = "작성자";
 %>
 <!DOCTYPE html>
 <html>
@@ -55,7 +54,7 @@
 				</tr>
 				<tr>
 					<th>작성자</th>
-					<td width=20%;><p><%=user%></p></td>
+					<td width=20%;><p><%=loginUser.getUserId()%></p></td>
 					<th>작성일</th>
 					<td><p id="date"><%=today%></p></td>
 					<td></td>
@@ -65,12 +64,12 @@
 			<table class="table table-hover">
 				<tr id="grade">
 					<th width="10%">평점</th>
-					<td width="18%"><input type="radio" name="grade" value="1"
-						checked>★☆☆☆☆</td>
-					<td width="18%"><input type="radio" name="grade" value="2">★★☆☆☆</td>
-					<td width="18%"><input type="radio" name="grade" value="3">★★★☆☆</td>
-					<td width="18%"><input type="radio" name="grade" value="4">★★★★☆</td>
-					<td width="18%"><input type="radio" name="grade" value="5">★★★★★</td>
+					<td width="18%"><input type="radio" name="grade" id="grade1" value="1" 
+						checked><label for="grade1" style="cursor:pointer;">★☆☆☆☆</label></td>
+					<td width="18%"><input type="radio" name="grade" id="grade2" value="2"><label for="grade2" style="cursor:pointer;">★★☆☆☆</label></td>
+					<td width="18%"><input type="radio" name="grade" id="grade3" value="3"><label for="grade3" style="cursor:pointer;">★★★☆☆</label></td>
+					<td width="18%"><input type="radio" name="grade" id="grade4" value="4"><label for="grade4" style="cursor:pointer;">★★★★☆</label></td>
+					<td width="18%"><input type="radio" name="grade" id="grade5" value="5"><label for="grade5" style="cursor:pointer;">★★★★★</label></td>
 				</tr>
 			</table>
 			<table class="table table-hover">
@@ -91,7 +90,7 @@
 			<input type="text" name="lastgrade" id="lastgrade"
 				style="display: none;" value="1"> <input type="text"
 				name="wcNo" id="wcNo" value="<%=wcNo%>" style="display: none;">
-			<input type="text" name="user" id="user" value="<%=user%>"
+			<input type="text" name="user" id="user" value="<%=loginUser.getUserId()%>"
 				style="display: none;">
 			<div id="imgArea">
 				<img id="titleImg1" style="display:none;">

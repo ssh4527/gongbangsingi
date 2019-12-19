@@ -34,6 +34,7 @@ public class MemberDao {
 				m.setUserBirth(rs.getString("C_BIRTH"));
 				m.setAuthority(rs.getInt("AUTHORITY"));
 				m.setUserName(rs.getString("C_NAME"));
+				m.setPoint(rs.getInt("c_point"));
 			}
 		} catch (SQLException e) {
 			
@@ -177,10 +178,7 @@ public class MemberDao {
 		return result;
 	}
 
-	public ArrayList<Member> selectChangeMember() {
-		
-		return null;
-	}
+	
 
 	public int changeAuth(Connection c, String id) {
 		int result = 0;
@@ -200,6 +198,55 @@ public class MemberDao {
 		}
 		
 		
+		return result;
+	}
+
+	public int selectAlarm(Connection c) {
+		int result = 0;
+		Statement st = null;
+		ResultSet rs =null;
+		String q = "select aa.a+bb.b+cc.c as 알람 from (" + 
+				"select count(*) a from client c, workshop ws where c.c_id = ws.c_id and c.authority = 1) aa,(" + 
+				"select count(enrollyn) b from workshop where enrollyn='N') bb,(" + 
+				"select count(wc_yn) c from work_class where wc_yn='N') cc";
+		try {
+			st = c.createStatement();
+			rs = st.executeQuery(q);
+			if(rs.next()) {
+				result += rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(st);
+		}
+		
+		
+		return result;
+	}
+
+	public int selectQna(Connection c) {
+		int result = 0;
+		Statement st = null;
+		ResultSet rs =null;
+		String q = "select count(*) from qna where wc_no = 'admin' and q_replay_ck = 'N'";
+		
+		try {
+			st = c.createStatement();
+			rs = st.executeQuery(q);
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(st);
+		}
 		return result;
 	}
 

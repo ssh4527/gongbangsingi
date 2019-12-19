@@ -1,9 +1,11 @@
+
 package workshop.model.dao;
+
+import static common.JDBCTemplate.close;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,11 +13,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import attachment.Attachment;
 import review.model.vo.Review;
+import workclass.model.vo.ClassFile;
 import workclass.model.vo.Workclass;
+import workshop.model.vo.ShopFile;
 import workshop.model.vo.Workshop;
-import static common.JDBCTemplate.*;
 
 public class ShopDao {
 	private Properties prop = new Properties();
@@ -43,7 +45,7 @@ public class ShopDao {
 
 			// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
 			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4)));
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,10 +86,10 @@ public class ShopDao {
 	}
 
 	// 공방 타이틀 사진 불러오기
-	public Attachment selectThumbnail(Connection con, String wsNo) {
+	public ShopFile selectThumbnail(Connection con, String wsNo) {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
-		Attachment at = null;
+		ShopFile at = null;
 
 		String sql = prop.getProperty("selectThumbnail");
 
@@ -97,7 +99,7 @@ public class ShopDao {
 
 			rset = ppst.executeQuery();
 
-			at = new Attachment();
+			at = new ShopFile();
 
 			if (rset.next()) {
 				at.setFs_no(rset.getString("FS_NO"));
@@ -117,7 +119,7 @@ public class ShopDao {
 	}
 
 	// 공방 타이틀 사진 등록하기
-	public int insertThumbnail(Connection con, String wsNo, Attachment file) {
+	public int insertThumbnail(Connection con, String wsNo, ShopFile file) {
 		PreparedStatement ppst = null;
 
 		int result = 0;
@@ -141,7 +143,7 @@ public class ShopDao {
 	}
 
 	// 공방 타이틀 사진 수정하기
-	public int updateThumbnail(Connection con, String wsNo, Attachment file) {
+	public int updateThumbnail(Connection con, String wsNo, ShopFile file) {
 		PreparedStatement ppst = null;
 
 		int result = 0;
@@ -246,10 +248,10 @@ public class ShopDao {
 
 	}
 
-	public ArrayList<Attachment> selectClassPictures(Connection con, String wsNo) {
+	public ArrayList<ClassFile> selectClassPictures(Connection con, String wsNo) {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
-		ArrayList<Attachment> list = null;
+		ArrayList<ClassFile> list = null;
 
 		String sql = prop.getProperty("selectClassPictures");
 
@@ -259,13 +261,13 @@ public class ShopDao {
 
 			rset = ppst.executeQuery();
 
-			list = new ArrayList<Attachment>();
+			list = new ArrayList<ClassFile>();
 
 			while (rset.next()) {
-				Attachment at = new Attachment();
-				at.setFs_no(rset.getString("FS_NO"));
+				ClassFile at = new ClassFile();
+				at.setFsNo(rset.getString("FS_NO"));
 				at.setOriginName(rset.getString("fs_original_file"));
-				at.setReName(rset.getString("fs_rename_file"));
+				at.setChangeName(rset.getString("fs_rename_file"));
 				// at.setFs_destination(fs_destination);
 
 				list.add(at);
@@ -280,10 +282,10 @@ public class ShopDao {
 		return list;
 	}
 
-	public ArrayList<Attachment> selectShopListPic(Connection con) {
+	public ArrayList<ShopFile> selectShopListPic(Connection con) {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
-		ArrayList<Attachment> list = null;
+		ArrayList<ShopFile> list = null;
 
 		String sql = prop.getProperty("selectShopListPictures");
 
@@ -292,10 +294,10 @@ public class ShopDao {
 
 			rset = ppst.executeQuery();
 
-			list = new ArrayList<Attachment>();
+			list = new ArrayList<ShopFile>();
 
 			while (rset.next()) {
-				Attachment at = new Attachment();
+				ShopFile at = new ShopFile();
 				at.setOriginName(rset.getString("FS_ORIGINAL_FILE"));
 				at.setReName(rset.getString("FS_RENAME_FILE"));
 				at.setFs_destination(rset.getString("FS_DESTINATION"));
@@ -307,6 +309,31 @@ public class ShopDao {
 		} finally {
 			close(rset);
 			close(ppst);
+		}
+
+		return list;
+	}
+
+
+	public ArrayList<Workshop> selectNewShopList(Connection con) {
+		Statement st = null;
+		ResultSet rset = null;
+		String sql = "select WS_NO,WS_NAME,WS_ADDR,WS_TEL,ws.C_ID,S_CATEGORY, ws_accnum from workshop ws,Client c where c.c_id = ws.c_id And AUTHORITY =1";
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+
+		try {
+			st = con.createStatement();
+			rset = st.executeQuery(sql);
+
+			while (rset.next()) {
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
+						rset.getString(5), rset.getString(6),rset.getString(7)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(st);
 		}
 
 		return list;
@@ -327,7 +354,34 @@ public class ShopDao {
 			rset = ppst.executeQuery();
 
 			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4)));
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(ppst);
+		}
+
+		return list;
+	}
+	
+	public ArrayList<Workshop> selectedCategory(Connection con, String[] c) {
+		PreparedStatement ppst = null;
+		ResultSet rset = null;
+
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+		String sql = prop.getProperty("selectedCategory");
+
+		try {
+			for(int i=0;i<c.length;i++) {
+			ppst = con.prepareStatement(sql);
+			ppst.setString(1, c[i]);
+			rset = ppst.executeQuery();
+
+			while (rset.next()) {
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
+			}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -339,19 +393,55 @@ public class ShopDao {
 		return list;
 	}
 
-	public ArrayList<Workshop> selectNewShopList(Connection con) {
-		Statement st = null;
+	public ArrayList<Workshop> selectCSortlist(Connection con, String sortType, String[] c) {
+		PreparedStatement ppst = null;
 		ResultSet rset = null;
-		String sql = "select WS_NO,WS_NAME,WS_ADDR,WS_TEL,ws.C_ID,S_CATEGORY from workshop ws,Client c where c.c_id = ws.c_id And AUTHORITY =1";
+		String sql = "";
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
+		if (sortType.equals("인기순")) {
+			sql = prop.getProperty("selectCSortPoplist");
+		} else {
+			sql = prop.getProperty("selectCSortNewlist");
+		}
+		try {
+			for(int i=0;i<c.length;i++) {
+				ppst = con.prepareStatement(sql);
+				
+				ppst.setString(1,c[i]);
+				System.out.println(c[i]);
+				rset = ppst.executeQuery();
 
+				while (rset.next()) {
+					list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(ppst);
+		}
+
+		return list;
+	}
+
+
+	// made by ssh
+	public ArrayList<Workshop> selectCheckShopList(Connection con) {
+		Statement st =null;
+		ResultSet rset = null;
+		String sql = "select ws_no,ws_name,s_category from workshop where enrollyn = 'N'";
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+		
 		try {
 			st = con.createStatement();
-			rset = st.executeQuery(sql);
+			rset  = st.executeQuery(sql);
+			
 
+			
 			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-						rset.getString(5), rset.getString(6)));
+				list.add(new Workshop(rset.getString(1),rset.getString(2),rset.getString(3)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -362,30 +452,28 @@ public class ShopDao {
 
 		return list;
 	}
-
-	public ArrayList<Workshop> selectedCategory(Connection con, String category) {
-		PreparedStatement ppst = null;
-		ResultSet rset = null;
-
-		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		String sql = prop.getProperty("selectedCategory");
-
+	// made by ssh
+	public int changeAuth(Connection c, String id) {
+		int result = 0;
+		String q = "update workshop set ENROLLYN='Y' where WS_NO=? ";
+		PreparedStatement ps = null;
+		
 		try {
-			ppst = con.prepareStatement(sql);
-			ppst.setString(1, category);
-			rset = ppst.executeQuery();
-
-			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4)));
-			}
+			ps = c.prepareStatement(q);
+			ps.setString(1, id);
+			
+			result = ps.executeUpdate();
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(ppst);
+		}finally {
+			close(ps);
 		}
-
-		return list;
+		
+		
+		return result;
 	}
+
+
 
 }

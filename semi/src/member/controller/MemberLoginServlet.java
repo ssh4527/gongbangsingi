@@ -1,6 +1,8 @@
 package member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
+import reservation.model.service.ReservationService;
 
 /**
  * Servlet implementation class MemberLoginServlet
@@ -30,24 +33,50 @@ public class MemberLoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		String returnPath = request.getParameter("returnPath");
+		String wcNo = request.getParameter("loginwcNo");
+		
+		String returnpath = returnPath.substring(6);
+		System.out.println(returnpath);
 		String id= request.getParameter("idinput");
 		String pwd= request.getParameter("pwdinput");
 		
 		Member m = new MemberService().LoginMember(id,pwd);
 		
 		if(m.getAuthority()==3) {
-			// 관리자에게 온 문의 갯수 파악
-			// 승인해야되는 것들 파악
-		}else if(m.getAuthority() ==2 ) {
-			
-			
+			int alarm = new MemberService().selectAlarm();
+			request.getSession().setAttribute("alarm", alarm);
+			int qnacount = new MemberService().selectQna();
+			request.getSession().setAttribute("qnacount", qnacount);
 		}else {
+			ArrayList<Integer> rs = new ReservationService().selectUserReservation(m.getUserId());
+			int price = rs.get(0);
+			int reservationcount = rs.get(1);
+			String usergrade =  "브론즈";
+			if(price >= 1000000){
+				usergrade =  "다이아";
+			}else if(price>= 700000){
+				usergrade =  "플래티넘";
+			}else if(price >= 400000){
+				usergrade =  "골드";
+			}else if(price >=100000){
+				usergrade =  "실버";
+			}
 			
+			
+			request.getSession().setAttribute("reservationcount", reservationcount);
+			request.getSession().setAttribute("usergrade", usergrade);
 		}
 		
 		if(m.getUserName() != null) {
 			request.getSession().setAttribute("loginUser", m);
-			response.sendRedirect(request.getContextPath());
+			if(returnpath.equals("views/classdetail/preview2.jsp")) {
+				returnpath = "godetail.class?wcNo="+wcNo;
+				request.getRequestDispatcher(returnpath).forward(request, response);
+			}else {
+				response.sendRedirect(returnPath);
+			}
+			
 		}else {
 			
 			request.setAttribute("loginmsg", "아이디 혹은 비밀번호가 틀렸습니다.");

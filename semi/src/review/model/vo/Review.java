@@ -21,7 +21,15 @@ public class Review {
 		RGrade = rGrade;
 		RWriter = rWriter;
 	}
-
+	//"wc_name" "r_title" "r_content" "r_ent_date" "r_grade"
+	public Review(String cName, String RTitle, String RContent, Date REnDate, int RGrade) {
+		super();
+		this.cName = cName;
+		this.RTitle = RTitle;
+		this.RContent = RContent;
+		this.REnDate = REnDate;
+		this.RGrade = RGrade;
+	}
 
 	public Review(String rNo, String rTitle, Date rEnDate, String rContent, int rCount, int rGrade, String rWriter,
 			String wcNo) {

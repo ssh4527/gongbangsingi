@@ -1,19 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
-	import="java.util.*, workshop.model.vo.*,attachment.*"%>
+	pageEncoding="UTF-8" import="java.util.*, workshop.model.vo.*"%>
 <%
 	ArrayList<Workshop> list = (ArrayList<Workshop>) request.getAttribute("list");
-	ArrayList<Attachment> flist = (ArrayList<Attachment>) request.getAttribute("flist");
-	
-	ArrayList<Workshop> clist=  (ArrayList<Workshop>) request.getAttribute("clist");
+	ArrayList<ShopFile> flist = (ArrayList<ShopFile>) request.getAttribute("flist");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>카테고리</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -89,7 +85,7 @@ a {
 	}
 }
 
-#gal {
+.gal {
 	position: relative;
 	width: 350px;
 	height: 300px;
@@ -101,7 +97,7 @@ a {
 	overflow: hidden;
 }
 
-#gal:hover {
+.gal:hover {
 	transform: scale(1.5, 1.5);
 	transition: all 0.5s ease-in-out;
 }
@@ -119,10 +115,11 @@ to {
 	opacity: 1;
 }
 
-.shortIntro{
-width: 300px;
+.shortIntro {
+	width: 300px;
 }
-.gradeDis{
+
+.gradeDis {
 	float: left;
 }
 </style>
@@ -138,23 +135,29 @@ width: 300px;
 				<h2>카테고리</h2>
 				<br> <br>
 				<div class="custom-control custom-checkbox">
-				<form action="<%=request.getContextPath() %>/category.sh" method="post">
-					<table>
-					<%int idx=1;
-					for(Workshop shop: list){ %>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="<%=shop.getCategory() %>" id="<%=idx%>" name="category"> <label
-								class="custom-control-label" for="<%=idx %>"><%=shop.getCategory() %></label></td>
-						</tr>
-						<%idx++; } %>
-						
-					</table>
-					<br> <br> <br> <br> <br> <br>
-				
-					<button type="submit" class="btn btn-warning" id="btnsort1">적용하기</button>
+					<form method="post" id="category">
+						<table>
+							<%
+								int idx = 1;
+								for (Workshop shop : list) {
+							%>
+							<tr>
+								<td><input type="checkbox" class="custom-control-input"
+									value="<%=shop.getCategory()%>" id="<%=idx%>" name="category"
+									checked> <label class="custom-control-label"
+									for="<%=idx%>"><%=shop.getCategory()%></label></td>
+							</tr>
+							<%
+								idx++;
+								}
+							%>
+
+						</table>
+						<br> <br> <br> <br> <br> <br>
+
+						<button type="button" class="btn btn-warning" id="btnsort1">적용하기</button>
 					</form>
-					
+
 				</div>
 			</div>
 
@@ -163,21 +166,23 @@ width: 300px;
 				<h2>카테고리</h2>
 				<br> <br>
 				<div class="custom-control custom-checkbox">
-				<form action="<%=request.getContextPath() %>/sort.sh" method="post">
-					<table>
-						<tr>
-							<td><input type="checkbox" name="sort"
-								class="custom-control-input sort2" value="인기순" id="sort2_check1">
-								<label class="custom-control-label" for="sort2_check1">인기순</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="sort"
-								class="custom-control-input sort2" value="최신순" id="sort2_check2">
-								<label class="custom-control-label" for="sort2_check2">최신순</label></td>
-						</tr>
-					</table>
-					<br> <br> <br> <br> <br> <br>
-					<button type="submit" class="btn btn-warning" id="btnsort2">적용하기</button>
+					<form method="post" id="sort">
+						<table>
+							<tr>
+								<td><input type="checkbox" name="sort"
+									class="custom-control-input sort2" value="인기순"
+									id="sort2_check1"> <label class="custom-control-label"
+									for="sort2_check1">인기순</label></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="sort"
+									class="custom-control-input sort2" value="최신순"
+									id="sort2_check2"> <label class="custom-control-label"
+									for="sort2_check2">최신순</label></td>
+							</tr>
+						</table>
+						<br> <br> <br> <br> <br> <br>
+						<button type="button" class="btn btn-warning" id="btnsort2">적용하기</button>
 					</form>
 				</div>
 			</div>
@@ -185,7 +190,7 @@ width: 300px;
 
 		</div>
 	</div>
-	
+
 	<!-- 정렬 리스트 script -->
 	<script>
 		$(function() {
@@ -224,9 +229,81 @@ width: 300px;
 		});
 	</script>
 
+	<script>
+	$(function() {
+		$("#btnsort1").click(function() {
+			$("#sortlist1").css("color","red");
+			sortFunc();
+		});
+		$("#btnsort2").click(function() {
+			$("#sortlist2").css("color","red");
+			sortFunc();
+		});
+		
+		function sortFunc(){ 
+			 var s ="null";
+			 $("input[name='sort']:checked").each(function(i) {
+			        s=$(this).val();
+			    });
+			 var category =[];
+			 $("input[name='category']:checked").each(function(i) {
+				 /* category.push("'"+$(this).val()+"'"); */
+				 category.push($(this).val());
+			    });
+			 var c=category.join(",");
+			 console.log(c);
+			 console.log(s);
+			 $.ajax({
+				url :"sort.sh",
+				type:"post",
+				data :{sort:s, category:c},
+				success: function(slist) {
+					$("#glist").html("");
+				
+					$.each(slist, function(index, value){
+						console.log("hh");
+					
+						var $div1 = $('<div class="col-md-4">');
+						var $div2 = $('<div class="card mb-4 shadow-sm shop">'); 
+						var $input1 = $('<input type="hidden">').val(value.WsNo); 
+						console.log(value.WsNo);
+						var $thumbnailDiv = $("<div id='thumbnail'>");
+						
+						var $thumbnail = $("<img class='gal'>")/* .attr("src","request.getContextPath()/resources/thumbnail_uploadFiles/value.ReName").css({"width":"100%","height":"100%"}) */;
+						
+						var $cardBody = $("<div class='card-body'>");
+						var $category=$("<small class='text-muted'>").text(value.Category);
+						var $name = $("<p class='card-text'>").text(value.WsName);
+						var $grade = $("<b>").text("★"+value.grade);
+						var $wel= $("<small class='text-muted'>").text("구경하세요");
+					
+						$div1.append($div2);
+						$div2.append($input1);	
+						$div2.append($thumbnailDiv);
+						$thumbnailDiv.append($thumbnail);
+						$div2.append($cardBody);
+						$cardBody.append($category);
+						$cardBody.append($name);
+						$cardBody.append($grade);
+						$cardBody.append($wel);
+						$("#glist").append($div1);
+						
+					});
+				},
+						
+				error:function(e) {
+					alert();
+				} 
+			});
+			
+		}
+	});
+	</script>
+
 
 	<div id="sortlist">
-		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; <a id="sortlist2">정렬기준 ∨</a>
+		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; <a id="sortlist2">정렬기준
+			∨</a>
 	</div>
 	<hr>
 
@@ -234,13 +311,13 @@ width: 300px;
 
 	<div class="album py-5 bg-light" id="whole">
 		<div class="container">
-			<div class="row">
+			<div class="row" id="glist">
 				<div class="col-md-4">
 					<div class="card mb-4 shadow-sm">
 						<div id="thumbnail">
 							<img
 								src="<%=request.getContextPath()%>/resources/images/jar1.jpg"
-								width="100%" height="100%" id="gal">
+								width="100%" height="100%" class="gal">
 						</div>
 						<div class="card-body">
 							<small class="text-muted">Dish Factory</small>
@@ -251,46 +328,45 @@ width: 300px;
 						</div>
 					</div>
 				</div>
-				<%
 				
-				ArrayList<Workshop> viewList=null;
-				if(clist!=null){ 
-					viewList=clist;
-				}else if(list != null) {
-					viewList=list;
-				}
-						for (Workshop shop : viewList) {
+				<%
+					ArrayList<Workshop> viewList = null;
+					if (list != null) {
+						viewList = list;
+					}
+					for (Workshop shop : viewList) {
 				%>
 				<div class="col-md-4">
 					<div class="card mb-4 shadow-sm shop">
 						<input type="hidden" value="<%=shop.getWsNo()%>">
 						<div id="thumbnail">
 							<%
-								for (Attachment at : flist) {
-							%>
-							<%
-								if (shop.getWsNo() == at.getFs_destination()) {
+								for (ShopFile at : flist) {
+										if (shop.getWsNo().equals(at.getFs_destination())) {
 							%>
 							<img
 								src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=at.getReName()%>"
-								width="100%" height="100%" id="gal">
+								width="100%" height="100%" class="gal">
 							<%
-								}}
+								}
+									}
 							%>
-							
+
 						</div>
 						<div class="card-body">
 							<small class="text-muted"><%=shop.getCategory()%></small>
-							<p class="card-text"><%=shop.getWsName()%></p>
-							<div class="d-flex justify-content-between align-items-center shortIntro">
-								<small class="gradeDis" class="text-muted">★<%=shop.getGrade()%></small> <small class="text-muted">구경하세요</small>
+							<p class="card-text">
+								공방명 :
+								<%=shop.getWsName()%></p>
+							<div class="">
+								★<%=shop.getGrade()%>
+								<small class="text-muted">구경하세요</small>
 							</div>
 						</div>
 					</div>
 				</div>
 				<%
 					}
-					
 				%>
 
 			</div>
@@ -301,13 +377,13 @@ width: 300px;
 	$(".shop").click(function(){
 		var WsNo = $(this).children().eq(0).val();
 		
-		location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+WsNo;
+		location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+ WsNo;
 	});
 	</script>
 	<%@ include file="../common/footbar.jsp"%>
 
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script

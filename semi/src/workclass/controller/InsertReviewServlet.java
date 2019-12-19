@@ -96,11 +96,10 @@ public class InsertReviewServlet extends HttpServlet {
 				int result1 = new ClassService().insertReviewFile(fileList,rNo);
 				
 				if(result1 > 0) {
-					request.setAttribute("wcNo", wcNo);
-					// 추가해야함
-					System.out.println("일단 여긴끝");
+					response.sendRedirect("godetail.class?wcNo=" + wcNo);
+							
 				}else {
-					System.out.println("파일 안들어갔는대요;;");
+					response.sendRedirect("godetail.class?wcNo=" + wcNo);
 				}
 			}else {
 				System.out.println("리뷰 안들어갔는대?");

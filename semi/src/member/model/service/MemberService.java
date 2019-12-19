@@ -73,13 +73,7 @@ public class MemberService {
 		return result;
 	}
 
-	public ArrayList<Member> selectChangeMember() {
-		Connection c= getConnection();
-		ArrayList<Member> list = new MemberDao().selectChangeMember();
-		
-		close(c);
-		return list;
-	}
+	
 
 	public int changeAuth(String id) {
 		Connection c= getConnection();
@@ -90,6 +84,24 @@ public class MemberService {
 		}else {
 			rollback(c);
 		}
+		close(c);
+		return result;
+	}
+
+	public int selectAlarm() {
+		Connection c= getConnection();
+		
+		int result = new MemberDao().selectAlarm(c);
+		
+		close(c);
+		return result;
+	}
+
+	public int selectQna() {
+		Connection c= getConnection();
+		
+		int result = new MemberDao().selectQna(c);
+		
 		close(c);
 		return result;
 	}

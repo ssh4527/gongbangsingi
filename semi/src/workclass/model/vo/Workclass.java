@@ -20,6 +20,8 @@ public class Workclass {
 	
 	public Workclass() {}
 	
+	
+	
 	// 기본생성자 by h
 	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
 			String wcWarning, String wcIntroduce, String wsNo, double avgGrade, String path, String rename) {

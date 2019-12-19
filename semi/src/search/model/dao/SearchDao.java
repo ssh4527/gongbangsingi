@@ -3,6 +3,8 @@ package search.model.dao;
 import static common.JDBCTemplate.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import workclass.model.vo.Workclass;
 import workshop.model.vo.Workshop;
@@ -314,7 +316,7 @@ public class SearchDao {
 	}
 
 	public ArrayList<Workclass> findClass(Connection c, String interest, ArrayList<Workclass> list) {
-		System.out.println("내 관심분야느!"+interest);
+		
 		String q = "select * from work_class wc, (select AVG(R_GRADE) 평점 ,wc_no from review group by wc_no)r, workshop ws where wc.wc_no = r.wc_no and wc.ws_no = ws.ws_no and ws.s_category in (?) order by 평점 desc";
 //		String q= "select * from work_class wc, workshop ws " + 
 //				"where wc.ws_no = ws.ws_no and ws.s_category in (?)";
@@ -359,6 +361,96 @@ public class SearchDao {
 		
 		
 		return list;
+	}
+
+	public String[] topKeyword(Connection c) {
+		Statement st = null;
+		ResultSet rs = null;
+		int i=0;
+		String[] keyword = new String[5];
+		String q = "SELECT s_category FROM (SELECT s_count, s_category,RANK() OVER(ORDER BY s_count DESC) AS 순위 FROM search ORDER BY s_count DESC) where 순위 <= 5";
+		try {
+			st = c.createStatement();
+			rs = st.executeQuery(q);
+			while(rs.next()) {
+				keyword[i++] = rs.getString(1);
+				if(i==5) break;
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(st);
+		}
+		
+		
+		
+		return keyword;
+	}
+
+	public int insertKeyword(Connection c, String searchinput) {
+		int result =0;
+		PreparedStatement ps = null;
+		String q = "insert into search values(?,1)";
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, searchinput);
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+		return result;
+	}
+
+	public Map selectstatistics(Connection c,int m) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Map<String,String> map = new HashMap<String,String>();
+		m++;
+		String q = "select sum(total_price),s_category from reservation rs,work_class wc,workshop ws where rs.wc_no = wc.wc_no and ws.ws_no = wc.ws_no and SUBSTR(res_date, 4, 2)=? group by s_category";
+		try {
+			ps = c.prepareStatement(q);
+			
+			ps.setInt(1, m);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				map.put(rs.getString(2), rs.getString(1));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(ps);
+		}
+		return map;
+	}
+
+	public ArrayList<String> selectCategory(Connection c) {
+		String q = "select distinct s_category from workshop";
+		Statement st = null;
+		ResultSet rs =null;
+		ArrayList<String> category = new ArrayList<String>();
+		try {
+			st = c.createStatement();
+			rs=st.executeQuery(q);
+			while(rs.next()) {
+				category.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(st);
+		}
+		return category;
 	}
 
 }

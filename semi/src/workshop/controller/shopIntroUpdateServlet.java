@@ -12,7 +12,7 @@ import workshop.model.service.ShopService;
 /**
  * Servlet implementation class shopUpdateDetailServlet
  */
-@WebServlet("/updateDetail.sh")
+@WebServlet("/updateIntro.sh")
 public class shopIntroUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,10 +34,17 @@ public class shopIntroUpdateServlet extends HttpServlet {
 		String input = request.getParameter("input");
 		
 		int result= new ShopService().updateIntro(WsNo,input);
+
+
+		System.out.println(input);
 		if(result>0) {
-		response.setCharacterEncoding("utf-8");
-		response.getWriter().print("입력된 값 : "+input+", 길이 : "+input.length());
+			System.out.println(input);
+			response.setCharacterEncoding("utf-8");
+			response.getWriter().print(input);
+		}else {
+			
 		}
+		
 	}
 
 	/**

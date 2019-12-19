@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import attachment.Attachment;
-import workshop.model.vo.Workshop;
 import workshop.model.service.ShopService;
+import workshop.model.vo.ShopFile;
+import workshop.model.vo.Workshop;
 
 /**
  * Servlet implementation class shopListServlet
@@ -37,11 +37,11 @@ public class shopListServlet extends HttpServlet {
 		ArrayList<Workshop> clist=(ArrayList<Workshop>) request.getAttribute("clist");
 		ShopService ss = new ShopService();
 		ArrayList<Workshop> list = ss.selectShopList();
-		ArrayList<Attachment> flist= ss.selectShopListPic();
+		ArrayList<ShopFile> flist= ss.selectShopListPic();
 		for(Workshop s: list) {
 			System.out.println(s.getWsNo());
 		}
-		
+	
 		
 		request.setAttribute("list", list);
 		request.setAttribute("flist", flist);

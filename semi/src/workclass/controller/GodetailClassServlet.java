@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import qna.model.vo.Qna;
+import review.model.vo.Review;
 import workclass.model.service.ClassService;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
@@ -40,10 +42,40 @@ public class GodetailClassServlet extends HttpServlet {
 		ArrayList<ClassFile> cfList = new ClassService().selectClassFile(wcNo);
 		ClassTime ct = new ClassService().selectClassTime(wcNo);
 		
+		ArrayList<Review> rList = new ClassService().selectReview(wcNo);
+		ArrayList<ClassFile> rfList = new ArrayList<>();
+		ArrayList<Qna> qList = new ClassService().selectQna(wcNo);
+		
+		// 해당 클래스 공방 번호 가져오는부분
+		String wsNo = new ClassService().selectWsNo(wcNo);
+		// 클래스 주인 아이디
+		String ornerid = new ClassService().selectOrnerId(wcNo);
+		
+		for(int i = 0 ; i < rList.size(); i++) {
+			ArrayList<ClassFile> rfList2 = new ClassService().selectReviewFile(rList.get(i).getRNo());
+			
+			
+			for(int j = 0 ; j < rfList2.size(); j++) {
+				rfList.add(rfList2.get(j));
+			}
+		}
+		
+		
+		
+		
+	
+		//ArrayList<ClassFile> rfList = new ClassService().selectReviewFile(wcNo);
+
+		
 		if(ct.getCtNo() != null) {
+			request.setAttribute("wsNo", wsNo);
 			request.setAttribute("wc", wc);
 			request.setAttribute("cfList", cfList);
 			request.setAttribute("ct", ct);
+			request.setAttribute("rList", rList);
+			request.setAttribute("rfList", rfList);
+			request.setAttribute("qList", qList);
+			request.setAttribute("ornerid", ornerid);
 			request.getRequestDispatcher("/views/classdetail/preview2.jsp").forward(request, response);
 		}else {
 			System.out.println("에렄");

@@ -5,6 +5,8 @@
 	Member loginUser = (Member) session.getAttribute("loginUser");
 	String loginmsg = (String) request.getAttribute("loginmsg");
 	String msg = (String) session.getAttribute("msg");
+	String[] search = (String[]) session.getAttribute("search");
+
 	
 	// 2019 12 15 Hy 찜용
 		String userId = "";	
@@ -23,10 +25,7 @@
 
 <title>공방신기에 오신걸 환영합니다.</title>
 
-
-<link
-	href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo:700&display=swap" rel="stylesheet">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet"
@@ -37,8 +36,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-		<!--  폰트  jh -->
-	<link href="https://fonts.googleapis.com/css?family=Noto+Serif+KR|Yeon+Sung&display=swap" rel="stylesheet">
+
 	<script src="https://kit.fontawesome.com/1f49e42371.js"
 	crossorigin="anonymous"></script> <!--  폰트어썸 라이브러리 -->
 <script
@@ -54,9 +52,7 @@ body {
 }
 
 * {
-	 font-family: 'Nanum Pen Script', cursive; 
-	
-	font-size: large;
+	font-family: 'Nanum Myeongjo', serif;
 	
 }
 
@@ -209,8 +205,11 @@ body {
 	margin-top: 15px;
 }
 
-#newMember, #gomypage {
-	margin-left: 42px;
+#newMember  {
+	margin-left: 10px;
+}
+#gomypage{
+	margin-left: 30px;
 }
 
 .idpwdinputouter {
@@ -263,7 +262,7 @@ $(function(){
 			style="float: left; width: 54%; height: 100%; margin-right: 0px;" >
 			<form method="post" action="<%=request.getContextPath()%>/search.all" >
 				<div class="input-group mb-3" id="searchdiv" >
-    				<button class="btn btn-outline-secondary dropdown-toggle"id="searchtype"name="searchtype" type="button" style="height:50px; width:71px;margin-left:50px;" >클래스</button>
+    				<button class="btn btn-outline-secondary dropdown-toggle"id="searchtype"name="searchtype" type="button" style="height:50px; width:71px;margin-left:50px; font-size:0.9em;" >클래스</button>
   					<input type="text"style="display:none;" id="searchtypeinput" name="searchtypeinput" value="클래스">
   					<input type="text"placeholder="클래스를 검색해주세요."
 						id="searchinput" name="searchinput" >
@@ -271,15 +270,26 @@ $(function(){
 						id="searchbtn">검색</button> 
 					
 					<div style="width: 70%; height: 50px;margin-top:-50px; margin-left: 150px; ">
-						<span class="searchspan">인기 검색어 : </span> <span class="searchspan">도자기</span>
-						<span class="searchspan">반지</span> <span class="searchspan">악세사리</span>
+						<span class="searchspan">인기 검색어 : </span> 
+						<% if(search != null){
+							for(int i=0; i<search.length; i++){ %>
+						<span class="searchspan"><%= search[i] %></span>
+						<%} 
+						}%>
+						
 					<!-- span 태그에 온클릭 달아서 눌르면 그 단어로 검색되게 펑션처리 해야함-->
 					</div>
 				</div>
 				
 			</form>
 		</div>
-		
+		<script>
+			$(function(){
+				$(".searchspan").click(function(){
+					$("#searchinput").val($(this).html());
+				});
+			});
+		</script>
 		
 		<div id="logindiv">
 			<%
@@ -302,7 +312,7 @@ $(function(){
 				<div id="loginbtndiv"
 					style="width: 25%; height: 60%; float: left; margin: 5%; margin-left: 0%;">
 					<button id="loginbtn" type="submit" class="btn btn-primary"
-						style="width: 100%; height: 89%; margin-bottom: 5%; margin-top: 10%;">로그인</button>
+						style="width: 100%; height: 89%;font-size:0.75em; margin-bottom: 5%; margin-top: 10%;">로그인</button>
 				</div>
 				<div id="newmemberdiv" style="background-color: lightgrey;">
 					<a id="newMember" href="#">회원가입</a> / <a id="findmyid" href="#">아이디</a>,
@@ -314,6 +324,9 @@ $(function(){
 						data-target="#findmyiddiv" style="display: none"></button>
 					<button id="findmypwdbtn" type="button" data-toggle="modal"
 						data-target="#findmypwddiv" style="display: none"></button>
+					<input style="display:none;" name = returnPath value=<%= request.getRequestURI() %>>
+					<input style="display:none;" name="loginwcNo" value=<%=request.getParameter("wcNo") %>>
+					<input style="display:none;" name="loginwsNo" value=<%=request.getParameter("wsNo") %>>
 				</div>
 			</form>
 			<%
@@ -331,22 +344,24 @@ $(function(){
 						<%
 							if (loginUser.getAuthority() != 3) {
 						%>
-						예약건수 : <span id="myreservation">2</span><br> 나의 등급 : <span
-							id="mydunggul">Pt</span>
-						<!-- 포인트 등급으로 if문처리 -->
+						예약건수 : <span id="myreservation"><%=(int) session.getAttribute("reservationcount") %></span><br> 
+						등급 : <span	id="mydunggul">	<%= (String) session.getAttribute("usergrade") %></span>
 						<%
 							} else {
 						%>
-						문의개수 : <span id="qna"> 2</span><br> 승인요청 : <span
-							id="acceptalert">3</span>
+						문의개수 : <span id="qna"><%=(int)request.getSession().getAttribute("qnacount") %>	</span><br> 
+						승인요청 : <span	id="acceptalert"><%=(int)request.getSession().getAttribute("alarm") %>		
+						 </span>
 						<%
 							}
 						%>
 					</div>
 				</div>
 				<div id="testinfo"
-					style="float: left; background-color: lightgrey; width: 80%; margin: 10%; margin-top: 5%;">
+
+					style="float: left; background-color: lightgrey; width: 80%; margin: 5%; margin-top: 5%;">
 					<a id="gomypage" href="#" >마이페이지</a><a id="logout"
+
 						href="<%=request.getContextPath()%>/logout.me">로그아웃</a>
 
 				</div>
