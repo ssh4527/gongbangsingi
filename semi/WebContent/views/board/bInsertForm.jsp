@@ -120,19 +120,14 @@
 					<td>
 						<%
 							if (loginUser == null) {
-						%> <input name="writer" type="text"> <%
- 	} else {
- %> <input name="writer" type="text"
+						%> <input name="writer" type="text" value="비회원"> <%
+ 						} else {
+ 							%> <input name="writer" type="text"
 						value="<%=loginUser.getUserName()%>" readonly> <%
- 	}
- %>
+ 						}
+ 						%>
 					</td>
-					<%-- 	 		
-					<td><input name="writer" type="text"
-						value="<%= loginUser.getUserName() %>" name="writer"
-						readonly></td> --%>
 					<th>작성일</th>
-					<%-- <% java.sql.Date d=java.sql.Date.valueOf(today);%> --%>
 					<td><input type="text" name="date" value="<%=today%>"></td>
 
 					<%-- <th>비밀번호</th>
@@ -145,11 +140,9 @@
 						placeholder="숫자 4자리 입력" maxlength="4"></td>
 					<th>비밀글 설정</th>
 					<td><input type="radio" value="true" name="secret"
-						id="private"> <label for="private"> <img
-							src="../../img/111.jpg" width="30px" height="30px"></label> &nbsp;
+						id="private"> <label for="private"> <img src="../../img/111.jpg" width="30px" height="30px"></label> &nbsp;
 						<input type="radio" value="false" name="secret" id="public"
-						checked> <label for="public"><img
-							src="../../img/222.jpg" width="30px" height="30px"></label></td>
+						checked> <label for="public"><img src="../../img/222.jpg" width="30px" height="30px"></label></td>
 				</tr>
 				<tr>
 					<th>내용</th>

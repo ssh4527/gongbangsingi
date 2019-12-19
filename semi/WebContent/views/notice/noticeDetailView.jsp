@@ -60,8 +60,8 @@
                     	<td colspan="4"><textarea name="content" cols="115" rows="10" readonly><%= n.getnContent() %></textarea></td>
                     </tr>
                 </table>
-                </form>
-                <hr>
+             </form>
+             
          <div id="qna6_wrap2">
          <button class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/list.no'">목록으로~</button>
           

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import notice.model.dao.NoticeDao;
 import notice.model.vo.Notice;
+import qna.model.vo.Qna;
 
 
 public class NoticeService {
@@ -102,9 +103,9 @@ public class NoticeService {
 	}
 
 	// 7. 공지사항 검색 search
-	public ArrayList<Notice> selectList(String search, String searchCondition) {
+	public ArrayList<Notice> selectList(String search3, String searchCondition) {
 		Connection conn=getConnection();
-		ArrayList<Notice> list=new NoticeDao().selectList(conn,search,searchCondition);
+		ArrayList<Notice> list=new NoticeDao().selectList(conn,search3,searchCondition);
 		close(conn);
 		return list;
 	}
@@ -118,7 +119,7 @@ public class NoticeService {
 	}
 
 	
-	/*//페이징 처리
+	
 	public ArrayList<Notice> selectList3(int ncurrentPage, int nLimit) {
 		Connection conn = getConnection();
 
@@ -127,7 +128,7 @@ public class NoticeService {
 		close(conn);
 
 		return list;
-	}*/
+	}
 
 
 	

@@ -81,6 +81,14 @@ public class Notice {
 		this.nCount = nCount;
 		this.nDate = nDate;
 	}
+	public Notice(String nNo, String nTitle, String nContent, Date nDate,int nCount) {
+		super();
+		this.nNo = nNo;
+		this.nTitle = nTitle;
+		this.nContent = nContent;
+		this.nCount = nCount;
+		this.nDate = nDate;
+	}
 
 
 	@Override

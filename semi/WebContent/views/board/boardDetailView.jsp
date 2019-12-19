@@ -75,7 +75,7 @@
 		<!-- <table class="table table-dark table-striped"> -->
 
 		<font class="font_underline"> <u><p class="font">
-					문의글 작성하기<br>
+					문의글<br>
 				</p></u>
 		</font> <br>
 		<form action="<%=request.getContextPath()%>/insert.qna" name="form"
@@ -102,11 +102,8 @@
 						value="<%=q.getqPwd()%>" maxlength="4"></td>
 					<th>비밀글 설정</th>
 					<td><input type="radio" value="Y" name="secret" id="private"
-						checked> <label for="private"> <img
-							src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; <input
-						type="radio" value="N" name="secret" id="public"> <label
-						for="public"><img src="../../img/222.jpg" width="30px"
-							heigh="30px"></label></td>
+						checked> <label for="private"> <img src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; 
+						<input type="radio" value="N" name="secret" id="public"> <label for="public"><img src="../../img/222.jpg" width="30px" heigh="30px"></label></td>
 				</tr>
 				<tr>
 					<th>내용</th>
@@ -127,6 +124,9 @@
 		<!-- ajax를 이용한 댓글 기능 구현 -->
 
 		<!-- 댓글 작성하는 부분 -->
+		<!--  관리자일때만 댓글작성 가능 -->
+		<% Member loginUser2= (Member)request.getSession().getAttribute("loginUser");%>
+		<% if(loginUser != null && loginUser.getUserId().equals("admin")) {%>
 		<div class="replyWriterArea">
 			<table>
 				<tr>
@@ -138,6 +138,7 @@
 			</table>
 		</div>
 		<hr>
+		<%} %>
 
 		<div id="qna4_wrap2">
 			<%
@@ -145,17 +146,11 @@
 			%>
 			<input type="button" class="btn btn-outline-secondary" value="뒤로가기"
 				onclick="javascript:history.back();">
-			<%-- 	<input type="text" value="<%=loginUser.getUserName() %>" >
-					<input type="text" value="<%=loginUser.getUserId() %>" >
-						<input type="text" value="<%=q.getcId() %>" > --%>
 
-			<%-- <%
-				} else if (loginUser.getUserName() == q.getcId()) {
-			%> --%>
-			 <button id="updateBtn" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/updateForm.qna?qno=<%= q.getqNo() %>'">수정하기</button>
-			<button id="deleteBtn"  class="btn btn-outline-secondary" type="button" onclick="deleteQna();">삭제하기</button>
-			<input type="button" class="btn btn-outline-secondary" value="뒤로가기"
-				onclick="javascript:history.back();">
+			<button id="updateBtn" class="btn btn-outline-secondary"
+				onclick="location.href='<%=request.getContextPath()%>/updateForm.qna?qno=<%=q.getqNo()%>'">수정하기</button>
+			<button id="deleteBtn" class="btn btn-outline-secondary"
+				type="button" onclick="deleteQna();">삭제하기</button>
 			<%
 				}
 			%>
