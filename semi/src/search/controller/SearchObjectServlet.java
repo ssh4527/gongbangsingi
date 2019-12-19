@@ -56,6 +56,8 @@ public class SearchObjectServlet extends HttpServlet {
 				Workclass prewc = ss.selectPathRename(wclist.get(i).getWcNo());
 				wclist.get(i).setPath(prewc.getPath());
 				wclist.get(i).setRename(prewc.getRename());
+				
+				// 내일 class time에서 시작날짜랑 끝나는날짜 가져오기!!
 			}
 			
 			request.setAttribute("keyword", searchinput );

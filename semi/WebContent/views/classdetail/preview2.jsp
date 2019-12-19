@@ -1,3 +1,4 @@
+<%@page import="qna.model.vo.QnaRe"%>
 <%@page import="qna.model.vo.Qna"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -18,6 +19,7 @@
 	String wsNo = (String)request.getAttribute("wsNo");
 	ArrayList<Qna> qList = (ArrayList<Qna>)request.getAttribute("qList");
 	String ornerid = (String)request.getAttribute("ornerid");
+	ArrayList<QnaRe> qrList = (ArrayList<QnaRe>)request.getAttribute("qrList");
 	
 	String[] time = ct.getCtTime().split(",");
 	
@@ -606,7 +608,7 @@ ul {
 							<small style="float: right;"><%= rList.get(i).getcName() %> | <%= rList.get(i).getREnDate() %></small>
 					</span>
 						<ul class="dept02" style="display: none">
-							<li id="asd" style="margin-top:20px;"><%= rList.get(i).getRContent() %>
+							<li id="asd" style="margin-top:20px;"><%= rList.get(i).getRContent().replace("\r\n", "<br>") %>
 							<% for(int j = 0 ; j < rfList.size(); j++) { %>
 								<% if(rList.get(i).getRNo().equals(rfList.get(j).getDestination())) { %>
 								<br><img src="<%= request.getContextPath() %>/resources/review_uploadFiles/<%= rfList.get(j).getChangeName() %>" width="400px" height="400px"><br>
@@ -775,30 +777,50 @@ ul {
 								<td><%= qList.get(i).getqEntdate() %></td>
 								<td style="display:none;"><%= qList.get(i).getqSecret() %></td>
 							</tr>
-							<tr style="display:none;" height="200px"> <!-- 내용 -->
-								<td></td>
-								<td colspan="2"><span style="margin-left:50px"><%=qList.get(i).getqContent() %></span>
+							<tr style="display:none;text-align:left;" height="200px;"> <!-- 내용 next() -->
+								<td><i class="fas fa-reply fa-rotate-180"></i></td>
+								<td colspan="2"><%=(qList.get(i).getqContent()).replace("\r\n", "<br>") %>
 										<% if(log.equals(qList.get(i).getcId())){ %>
-											<br><br><br><br><br><br><br><br>
-											<button type="button" class="btn btn-outline-secondary" style="float:right;">삭제</button>
-											<button type="button" class="btn btn-outline-secondary" style="float:right;">수정</button>
+											<br><br>
+											<button type="button" class="btn btn-outline-secondary" style="float:right;" onclick=dqna(this) id="dbtn<%= qList.get(i).getqNo()%>">삭제</button>
+											<button type="button" class="btn btn-outline-secondary" style="float:right;" onclick=uqna(this) id="ubtn<%= qList.get(i).getqNo()%>">수정</button>
 										<% } %>
 								</td>
 								<td colspan="2"></td>
 							</tr>
 							
-							<tr style="display:none;"> <!--  비밀글 -->
-								<td></td>
+							<tr style="display:none;"> <!--  비밀글next()next() -->
+								<td><i class="fas fa-reply fa-rotate-180"></i></td>
 								<td colspan="2"><span style="margin-left:50px">비밀글로 작성되어 있습니다.</span></td>
 								<td colspan="2"></td>
 							</tr>
 							
-							<tr style="display:none"> <!-- 클래스 주인 답글 -->
-								
-								<td colspan="3"><textarea class="textareaa" rows=4></textarea></td>
-								<td><button type="button" class="btn btn-outline-secondary" style="text-align:center; margin-top:6px; width:100px; height:80px;">작성</button></td>
-								
+							<tr style="display:none"> <!-- 클래스 주인 답글 달기 next()next()next() -->
+								<td><i class="fas fa-reply-all fa-rotate-180"></i></td>
+								<td colspan="2"><textarea class="textareaa" rows=4 id="retext<%= qList.get(i).getqNo()%>"></textarea></td>
+								<td><button type="button" class="btn btn-outline-secondary" style="text-align:center; margin-top:6px; width:100px; height:80px;"
+									 onclick=reqna('<%= qList.get(i).getqNo() %>') id="rebtn<%= qList.get(i).getqNo()%>">작성</button></td>
 							</tr>
+							
+							<tr style="display:none; color:black;"> <!-- 답글 next()next()next()next() -->
+							 <% for(int c = 0 ; c < qrList.size(); c++){ %>
+								<% if(qrList.get(c).getqNo().equals(qList.get(i).getqNo())){ %>
+									<td><i class="fas fa-reply-all fa-rotate-180"></i></td>
+									<td style="text-align:left;">
+										<%= (qrList.get(c).getRqComment()).replace("\r\n", "<br>") %>
+										<% if(log.equals(ornerid)){ %>
+										 <button type="button" class="btn btn-outline-secondary" style="text-align:center; width:60px; height:40px; float:right;"
+									 		onclick=deleteqnare('<%= qrList.get(c).getRqNo()%>') id="rebtn">삭제</button>
+										<% } %>
+									</td>
+									<th><%= qrList.get(c).getcId() %></th>
+									<td style="display:none;">OK</td>
+									<td><%= qrList.get(c).getRqEntDate() %></td>
+								
+								<% } %>
+							<% } %> 
+							</tr>
+							
 							<% } %>
 						<% } %>
 						</tbody>
@@ -807,7 +829,8 @@ ul {
 					<script>
 						$(function(){
 							$("tr").click(function(){
-								if($(this).children().last().html()=="N" && "<%= log %>"=="<%=ornerid%>"){ 
+								console.log($(this).next().next().next().next().children().eq(3).html());
+								if($(this).children().last().html()=="N" && "<%= log %>"=="<%=ornerid%>" &&!($(this).next().next().next().next().children().eq(3).html() == 'OK')){ 
 									// 공개글이면서 클래스주인이면 답글작성가능
 									if($(this).next().css("display")=='none'){
 									  	$(this).next().css("display","table-row");
@@ -825,6 +848,16 @@ ul {
 									  	$(this).next().css("display","none");
 									}
 								
+								}else if($(this).next().next().next().next().children().eq(3).html() == 'OK' && "<%= log %>"=="<%=ornerid%>"){
+									// 클래스 주인이고 이미 답글이달려있다면
+									if($(this).next().css("display")=='none'){
+									  	$(this).next().css("display","table-row");
+									  	$(this).next().next().next().next().css("display","table-row"); // 답글 오픈
+									}else{
+									  	$(this).next().css("display","none");
+									  	$(this).next().next().next().next().css("display",'none'); // 답글 오픈
+									}
+									
 								}else if($(this).children().last().html()=="Y" && "<%= log %>"=="<%=ornerid%>" ){
 									// 클래스주인이면 열람가능
 									if($(this).next().css("display") == 'none'){ 
@@ -845,14 +878,42 @@ ul {
 									// 모두가 볼 수 있음
 									if($(this).next().css("display")=='none'){
 									  	$(this).next().css("display","table-row");
+									  	$(this).next().next().next().next().css("display","table-row"); // 답글 오픈
 									}else{
 									  	$(this).next().css("display","none");
+									  	$(this).next().next().next().next().css("display",'none'); // 답글 오픈
 									}
 								}
-								
-							});
+							}); // 여기까지가 tr클릭
+							
+							
 							
 						}); 
+						
+						function dqna(qna){
+							var Qno = $(qna).attr('id').replace("dbtn","");
+							if(window.confirm('게시글을 정말 삭제하시겠습니까?')){
+								location.href="delete.class.qna?Qno="+Qno+"&wcNo=<%= wc.getWcNo()%>";
+								alert("삭제가 완료되었습니다.");
+							}
+						}
+						function uqna(qna){
+							var Qno = $(qna).attr('id').replace("ubtn","");
+							location.href="update.class.qna?Qno="+Qno+"&wcNo=<%= wc.getWcNo()%>";
+							
+						}
+						function reqna(qno){
+							// qna 는 Qno
+							
+							var text = $("#retext"+qno).val();
+							location.href="insert.class.qna.re?Qno="+qno+"&text="+text+"&wcNo=<%=wc.getWcNo()%>";
+							
+						}
+						function deleteqnare(rqno){
+							if(window.confirm('답글을 정말 삭제하시겠습니까?')){
+								location.href="delete.class.qna.re?rqno="+rqno+"&wcNo=<%=wc.getWcNo()%>";
+							}
+						}
 					</script>
 				</div>
 				<!-- 리뷰 페이징 -->
