@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import attachment.Attachment;
 import notice.model.vo.Notice;
 import qna.model.vo.Qna;
 
@@ -174,7 +175,7 @@ public class QnaDao {
 		return result;
 	}
 
-	public ArrayList<Qna> selectList(Connection conn, String search, String searchCondition) {
+	public ArrayList<Qna> selectList(Connection conn, String search2, String searchCondition2) {
 		ArrayList<Qna> list=new ArrayList<>();
 		
 		PreparedStatement pstmt=null;
@@ -182,14 +183,16 @@ public class QnaDao {
 		
 		String sql="";
 		
-		if(searchCondition.equals("title")) {
+		if(searchCondition2.equals("title")) {
 			sql=prop.getProperty("searchTitleList");
-		}else {
+		}else if(searchCondition2.equals("content")) {
 			sql=prop.getProperty("searchContentList");
+		}else {
+			sql=prop.getProperty("searchMem");
 		}
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1,search);
+			pstmt.setString(1,search2);
 			
 			rs=pstmt.executeQuery();
 			
@@ -253,10 +256,10 @@ public class QnaDao {
 			rset = pstmt.executeQuery();
 			
 			while (rset.next()) {
-				/*list.add(new Qna(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-						rset.getDate(5),
-						rset.getString(6), 
-						rset.getInt(9)));*/
+				list.add(new Qna(rset.getString(2), rset.getString(3), rset.getString(4), rset.getString(5),
+						rset.getDate(6),
+						rset.getString(7), 
+						rset.getInt(10)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

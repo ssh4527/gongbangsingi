@@ -14,6 +14,7 @@ import qna.model.vo.Qna;
 
 
 /**
+ * 
  * Servlet implementation class QnaUpdateServlet
  */
 @WebServlet("/update.qna")

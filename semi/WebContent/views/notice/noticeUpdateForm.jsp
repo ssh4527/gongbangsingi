@@ -5,6 +5,7 @@
 %>
 <!DOCTYPE html>
 <html>
+
 <head>
 <!--  ★공지사항 상세보기★ -->
 <meta charset="UTF-8">

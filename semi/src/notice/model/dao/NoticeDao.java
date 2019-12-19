@@ -161,7 +161,7 @@ public class NoticeDao {
 		return result;
 	}
 
-	public ArrayList<Notice> selectList(Connection conn, String search, String searchCondition) {
+	public ArrayList<Notice> selectList(Connection conn, String search3, String searchCondition) {
 		ArrayList<Notice> list=new ArrayList<>();
 		
 		PreparedStatement pstmt=null;
@@ -176,7 +176,7 @@ public class NoticeDao {
 		}
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1,search);
+			pstmt.setString(1,search3);
 			
 			rset=pstmt.executeQuery();
 			
@@ -213,8 +213,7 @@ public class NoticeDao {
 		return listCount;
 	}
 
-	// 페이징 처리 
-	/*public ArrayList<Notice> selectList3(Connection conn, int ncurrentPage, int nLimit) {
+	public ArrayList<Notice> selectList3(Connection conn, int ncurrentPage, int nLimit) {
 		ArrayList<Notice> list = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
@@ -235,7 +234,8 @@ public class NoticeDao {
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
-				list.add(new Notice(rset.getInt(2), rset.getInt(3), rset.getString(4));
+				list.add(new Notice(rset.getString(2), rset.getString(3),
+						rset.getString(4),rset.getDate(5),rset.getInt(6)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -244,7 +244,7 @@ public class NoticeDao {
 			close(pstmt);
 		}
 		return list;
-	}*/
+	}
 
 	
 

@@ -75,7 +75,7 @@
 		<!-- <table class="table table-dark table-striped"> -->
 
 		<font class="font_underline"> <u><p class="font">
-					문의글 작성하기<br>
+					문의글 수정하기<br>
 				</p></u>
 		</font> <br>
 		<form action="<%= request.getContextPath() %>/update.qna" method="post">
@@ -126,6 +126,7 @@
 		<!-- ajax를 이용한 댓글 기능 구현 -->
 
 		<!-- 댓글 작성하는 부분 -->
+		
 		<div class="replyWriterArea">
 			<table>
 				<tr>
@@ -137,10 +138,11 @@
 			</table>
 		</div>
 		<hr>
+	
 
 		<div id="qna4_wrap2">
 			<%
-				if (loginUser == null || loginUser.getUserName() != q.getcId()) {
+				if (loginUser == null) {
 			%>
 			<button type="button" class="btn btn-outline-secondary"
 				onclick="location.href='<%=request.getContextPath()%>/list.qna'">목록으로~</button>

@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, notice.model.vo.*" %>
+    pageEncoding="UTF-8" import="java.util.ArrayList, notice.model.vo.*,review.model.vo.PageInfo" %>
 <%  ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list");
 	String searchCondition = (String)request.getAttribute("searchCondition");
-	String search = (String)request.getAttribute("search");
+	String search3 = (String)request.getAttribute("search3");
+	
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
 %>   
 
  
@@ -23,7 +31,7 @@
     .page-link{
        color:black;
     }
-    #search{
+    #search3{
         height: 26px;
         width: 300px;
     }
@@ -83,6 +91,38 @@
 					
                 </table>
                 <hr>
+                <!-- 페이징바 -->
+		<div class="pagingArea" align="center">
+			<!-- 맨 처음으로 (<<) -->
+			<button onclick="location.href='<%= request.getContextPath() %>/list.no?currentPage=1'"> &lt;&lt; </button>
+		
+			<!-- 이전 페이지로 (<) -->
+			<% if(currentPage == 1){ %>
+				<button disabled> &lt; </button>
+			<% } else { %>
+				<button onclick="location.href='<%= request.getContextPath() %>/list.no?currentPage=<%= currentPage - 1 %>'"> &lt; </button>
+			<% } %>
+			
+			<!-- 10개의 페이지 목록 -->
+			<% for(int p = startPage; p <= endPage; p++){ %>
+				<% if(p == currentPage){ %>
+					<button disabled> <%= p %></button>
+				<% } else { %>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.no?currentPage=<%= p %>'"> <%= p %> </button>
+				<% } %>
+			<% } %>
+			
+			<!-- 다음 페이지로(>) -->
+			<% if(currentPage == maxPage) { %>
+				<button disabled> &gt; </button>
+			<% } else { %>
+				<button onclick="location.href='<%= request.getContextPath() %>/list.no?currentPage=<%= currentPage + 1 %>'"> &gt; </button>
+			<% } %>
+			
+			<!--  맨 끝으로 (>>) -->
+			<button onclick="location.href='<%= request.getContextPath() %>/list.no?currentPage=<%= maxPage %>'"> &gt;&gt; </button>
+			
+		</div>
 
 		<div align="center">
 		<form action="<%=request.getContextPath()%>/search.no" method="get" onsubmit="return checkSearchCondition();">
@@ -91,7 +131,7 @@
 				<option value="title">제목</option>
 				<option value="content" >내용</option>
 				</select>
-				<input type="search" id=search" placeholder="내용을 입력해주세요" name="search">
+				<input type="search" id=search3" placeholder="내용을 입력해주세요" name="search3">
                 <button type="submit" class="btn btn-outline-secondary">SEARCH</button>
                 
                 	<!--  관리자만 WRITE 할 수 있음 -->
@@ -111,8 +151,8 @@
 		
 	
 		</div>
-				<% if(searchCondition != null && search != null) { %>
-				<p align="center"><%= searchCondition %> : <%= search %>의 검색결과</p>
+				<% if(searchCondition != null && search3 != null) { %>
+				<p align="center"><%= searchCondition %> : <%= search3 %>의 검색결과</p>
 			<% } %>
 		<br> <br>
 		
@@ -125,15 +165,6 @@
 		});
 		
 		</script>
-		
-		<div>
-			<ul class="pagination justify-content-center">
-				<li><a href='#' class="page-link">&lt;&lt;</a></li>
-				<li><a href='#' class="page-link">1</a></li>
-				<li><a href='#' class="page-link">2</a></li>
-				<li><a href='#' class="page-link">&gt;&gt;</a></li>
-			</ul>
-		</div>
 	</div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 

@@ -3,6 +3,7 @@ package qna.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import attachment.Attachment;
 import notice.model.dao.NoticeDao;
 import notice.model.vo.Notice;
 
@@ -101,10 +102,10 @@ public class QnaService {
 		return result;
 	}
 
-	// 7. 고객센터 찾기 
-	public ArrayList<Qna> selectList(String search, String searchCondition) {
+	// 7. 고객센터 찾기  search
+	public ArrayList<Qna> selectList(String search2, String searchCondition2) {
 		Connection conn=getConnection();
-		ArrayList<Qna> list=new QnaDao().selectList(conn,search,searchCondition);
+		ArrayList<Qna> list=new QnaDao().selectList(conn,search2,searchCondition2);
 		close(conn);
 		return list;
 	}
@@ -128,6 +129,7 @@ public class QnaService {
 
 		return list;
 	}
+
 
 
 }

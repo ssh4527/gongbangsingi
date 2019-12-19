@@ -36,16 +36,17 @@ public class QnaSearchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String searchCondition = request.getParameter("searchCondition");
-		String search = request.getParameter("search");
+		String searchCondition2 = request.getParameter("searchCondition2");
+		String search2 = request.getParameter("search2");
 		
-		ArrayList<Qna> list = new QnaService().selectList(search, searchCondition);
+		ArrayList<Qna> list = new QnaService().selectList(search2, searchCondition2);
 		
 		request.setAttribute("list", list);
-		request.setAttribute("searchCondition", searchCondition);
-		request.setAttribute("search", search);
+		request.setAttribute("searchCondition2", searchCondition2);
+		request.setAttribute("search2", search2);
 		
 		request.getRequestDispatcher("views/board/board.jsp").forward(request, response);
+		
 	}
 
 	/**

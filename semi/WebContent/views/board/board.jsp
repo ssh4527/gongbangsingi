@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.ArrayList, qna.model.vo.Qna, review.model.vo.PageInfo" %>
 <%  ArrayList<Qna> list = (ArrayList<Qna>)request.getAttribute("list");
-	String searchCondition = (String)request.getAttribute("searchCondition");
-	String search = (String)request.getAttribute("search");
+	String searchCondition2 = (String)request.getAttribute("searchCondition2");
+	String search2 = (String)request.getAttribute("search2");
 	
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	
@@ -155,10 +155,12 @@
 						 <% for(Qna q : list) {%>
 						 	<tr>
 						 		<td ><%= q.getqNo() %></td> <!--  번호 -->
-						 		<td ><%-- <% if(loginUser.getAuthority()==1){%> 일반회원 <% }
-						 			else if(loginUser.getAuthority()==2){%> 사업자 <% } %> --%>회원/사업자</td> <!--  일반회원/사업자 구분 -->
-						 		<td ><% if(q.getqSecret()=="true"){%> <img src="../../img/111.jpg" width="30px" height="30px">  <% }
-						 			else if(q.getqSecret()=="false"){%> <img src="../../img/222.jpg" width="30px" height="30px"> <% } %></td> <!--  비밀글 여부 -->
+						 		<td><% if(q.getcId().equals("비회원")) {%> 비회원
+						 			<%} else {%>   회원 <%} %> </td><!-- 회원/비회원 구분 -->
+						 		<td><% if(q.getqSecret().equals("true")){%> <img src="../../img/111.jpg" width="30px" height="30px"> 비밀  <% }
+						 		
+						 			else if(q.getqSecret().equals("false")){%> <img src="../../img/222.jpg" width="30px" height="30px"> <% } %>
+						 		</td><!--  비밀글 여부 -->
 						 		<td ><%= q.getqTitle() %></td> <!--  제목 -->
 						 		<td ><%= q.getcId() %></td> <!--  작성자 이름 -->
 						 		<td ><%= q.getqCount() %></td> <!--  조회수 -->
@@ -202,12 +204,13 @@
                  <hr>
               <div align="center">
 		<form action="<%=request.getContextPath()%>/search.qna" method="get" onsubmit="return checkSearchCondition();">
-			<select  id="searchCondition" name="searchCondition">
+			<select  id="searchCondition2" name="searchCondition2">
 				<option value="---">---</option>
 				<option value="title">제목</option>
 				<option value="content" >내용</option>
+				<option value="mem">회원/비회원</option>
 				</select>
-				<input type="search" id=search" placeholder="내용을 입력해주세요" name="search">
+				<input type="search" id=search2" placeholder="내용을 입력해주세요" name="search2">
                 <button type="submit" class="btn btn-outline-secondary">SEARCH</button>
              
 				<button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/board/bInsertForm.jsp'">WRITE</button>
@@ -216,8 +219,8 @@
 		</form>
 		<script>
 			function checkSearchCondition() {
-				if ($("#searchCondition option:selected").val() == '---') {
-					alert('제목인지 내용인지 선택해주세요^^');
+				if ($("#searchCondition2 option:selected").val() == '---') {
+					alert('옵션을 선택해주세요^^');
 					return false;
 				}
 				return true;
@@ -226,8 +229,8 @@
 		
 	
 		</div>
-				<% if(searchCondition != null && search != null) { %>
-				<p align="center"><%= searchCondition %> : <%= search %>의 검색결과</p>
+			<% if(searchCondition2 != null && search2 != null) { %>
+				<p align="center"><%= searchCondition2 %> : <%= search2 %>의 검색결과</p>
 			<% } %>
 		<br> <br>
 	

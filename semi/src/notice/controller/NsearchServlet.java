@@ -37,13 +37,13 @@ public class NsearchServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		String searchCondition = request.getParameter("searchCondition");
-		String search = request.getParameter("search");
+		String search3 = request.getParameter("search3");
 		
-		ArrayList<Notice> list = new NoticeService().selectList(search, searchCondition);
+		ArrayList<Notice> list = new NoticeService().selectList(search3, searchCondition);
 		
 		request.setAttribute("list", list);
 		request.setAttribute("searchCondition", searchCondition);
-		request.setAttribute("search", search);
+		request.setAttribute("search3", search3);
 		
 		request.getRequestDispatcher("views/notice/noticeListView.jsp").forward(request, response);
 		
