@@ -8,13 +8,16 @@ public class Qna {
 	private String qTitle; // 제목
 	private String qContent; // 내용
 	private Date qEntdate; // 작성일
-	private boolean qSecret; // 비밀여부 default 'N'
-	private String qReplayck; // 답글확인체크 default 'N'
-	private String wcNo; // 받는 사람 아이디 default null -> 관리자
+
+	private String qSecret; // 비밀여부 default 'FALSE'
+	private String qReplayck; // 답글확인체크 default 'FALSE'
+	private String wcNo; // 받는 사람 아이디 default null  , admin->관리자
+
 	private int qCount; // 조회수
 	private String qPwd; // 비밀번호
 	
 	public Qna() {}
+
 	
 	public Qna(String qTitle, String qContent, Date qEntdate, String qReplayck) {
 		super();
@@ -24,18 +27,6 @@ public class Qna {
 		this.qReplayck = qReplayck;
 	}
 
-
-
-	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, boolean qSecret, int qCount) {
-		super();
-		this.qNo = qNo;
-		this.cId = cId;
-		this.qTitle = qTitle;
-		this.qContent = qContent;
-		this.qEntdate = qEntdate;
-		this.qSecret = qSecret;
-		this.qCount = qCount;
-	}
 
 
 
@@ -79,12 +70,17 @@ public class Qna {
 		this.qEntdate = qEntdate;
 	}
 
-	public boolean isqSecret() {
+	public String getqSecret() {
 		return qSecret;
 	}
 
-	public void setqSecret(boolean qSecret) {
+	public void setqSecret(String qSecret) {
 		this.qSecret = qSecret;
+	}
+
+
+	public String getqReplayck() {
+  return qReplayck;
 	}
 
 	public String isqReplayck() {
@@ -103,7 +99,7 @@ public class Qna {
 		this.wcNo = wcNo;
 	}
 
-	public Number getqCount() {
+	public int getqCount() {
 		return qCount;
 	}
 
@@ -119,8 +115,10 @@ public class Qna {
 		this.qPwd = qPwd;
 	}
 
-	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, boolean qSecret,
-			String qReplayck, String wcNo, int qCount, String qPwd) {
+
+	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, String qSecret, String qReplayck,
+			String wcNo, int qCount, String qPwd) {
+
 		super();
 		this.qNo = qNo;
 		this.cId = cId;
@@ -134,13 +132,25 @@ public class Qna {
 		this.qPwd = qPwd;
 	}
 
+
+	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, String qSecret, int qCount) {
+		super();
+		this.qNo = qNo;
+		this.cId = cId;
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qEntdate = qEntdate;
+		this.qSecret = qSecret;
+		this.qCount = qCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Qna [qNo=" + qNo + ", cId=" + cId + ", qTitle=" + qTitle + ", qContent=" + qContent + ", qEntdate="
 				+ qEntdate + ", qSecret=" + qSecret + ", qReplayck=" + qReplayck + ", wcNo=" + wcNo + ", qCount="
 				+ qCount + ", qPwd=" + qPwd + "]";
 	}
-
+	
 	
 	
 }

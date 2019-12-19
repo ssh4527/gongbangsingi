@@ -8,23 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
 import qna.model.service.QnaService;
-import qna.model.vo.Qna;
 
 
 /**
- * Servlet implementation class QnaDetailServlet
+ * Servlet implementation class QnaDeleteServlet
  */
-@WebServlet("/detail.qna")
-public class QnaDetailServlet extends HttpServlet {
+@WebServlet("/delete.qna")
+public class QnaDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaDetailServlet() {
+    public QnaDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,16 +32,15 @@ public class QnaDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String qno=request.getParameter("qno");
-		Qna qna=new QnaService().selectQna(qno);
 		
-		String page="";
-		if(qna != null) {
-			request.setAttribute("qna", qna);
-			page = "views/board/boardDetailView.jsp";
+		int result= new QnaService().deleteQna(qno);
+		
+		if(result>0) {
+			response.sendRedirect("list.qna");
 		}else {
-			request.setAttribute("msg","공지사항 조회 실패!");
+			request.setAttribute("msg", "공지사항 삭제 실패!");
 		}
-		request.getRequestDispatcher(page).forward(request, response);
+		
 	}
 
 	/**

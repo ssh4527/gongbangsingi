@@ -14,17 +14,17 @@ import qna.model.vo.Qna;
 
 
 /**
- * Servlet implementation class QnaDetailServlet
+ * Servlet implementation class QnaUpdateformServlet
  */
-@WebServlet("/detail.qna")
-public class QnaDetailServlet extends HttpServlet {
+@WebServlet("/updateForm.qna")
+public class QnaUpdateformServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaDetailServlet() {
+    public QnaUpdateformServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,16 +33,18 @@ public class QnaDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String qno=request.getParameter("qno");
-		Qna qna=new QnaService().selectQna(qno);
+		String qno = request.getParameter("qno");
 		
-		String page="";
+		Qna qna = new QnaService().selectNotice2(qno);
+		
+		String page = "";
 		if(qna != null) {
 			request.setAttribute("qna", qna);
-			page = "views/board/boardDetailView.jsp";
+			page = "views/board/boardUpdateForm.jsp";
 		}else {
-			request.setAttribute("msg","공지사항 조회 실패!");
+			request.setAttribute("msg", "공지사항 수정페이지 조회 실패!");
 		}
+		
 		request.getRequestDispatcher(page).forward(request, response);
 	}
 
