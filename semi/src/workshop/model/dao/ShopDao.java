@@ -486,6 +486,35 @@ public class ShopDao {
 		return result;
 	}
 
+	public int requestToChangeShop(Connection con, String userName, String shopName, String shopAddr, String sns,
+			String tel, String num, String account, String intro, String category) {
+		
+		PreparedStatement ppst = null;
+		int result = 0;
+		String sql = "insert into workshop values('ws'||WSNO_SEQ.NEXTVAL,?,?,?,default,sysdate,?,(select C_ID from CLIENT where C_NAME= ?),?,?,?)";
+		
+		try {
+			ppst = con.prepareStatement(sql);
+			ppst.setString(1, shopName);
+			ppst.setString(2, shopAddr);
+			ppst.setString(3, tel);
+			ppst.setString(4, shopName);
+			ppst.setString(5, account);
+			ppst.setString(6, userName);
+			ppst.setString(7, intro);
+			ppst.setString(8, sns);
+			ppst.setString(9, category);
+			
+			result = ppst.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(ppst);
+		}
+		return result;
+	}
+
 
 
 }
