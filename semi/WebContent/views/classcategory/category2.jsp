@@ -308,22 +308,20 @@ to {
 					<div class="card mb-4 shadow-sm">
 						<div id="heartover">
 							<a
-								href="<%= request.getContextPath()%>/godetail.class?wcNo=<%= wList.get(i).getWcNo() %>"><img
-								src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= wList.get(i).getRename() %>"
+								href="<%= request.getContextPath()%>/godetail.class?wcNo=<%= wList.get(i).getWcNo() %>">
+								<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= wList.get(i).getRename() %>"
 								width="100%" height="100%" id="gal"></a>
 							<div id="heartdiv" class="div<%= wList.get(i).getWcNo() %>">
 								<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
 									id="icon<%= wList.get(i).getWcNo() %>"></i>
-								<!--  onclick="check(this,< %= i %>)" -->
-								<!-- <i class="fas fa-heart fa-2x"></i> -->
 							</div>
 						</div>
 						<div class="card-body">
 							<small class="text-muted"><%= wList.get(i).getWcName() %></small>
 							<p class="card-text" align="left"><%= wList.get(i).getWcIntroduce() %></p>
 							<div class="d-flex justify-content-between align-items-center">
-								<small class="text-muted">♥<%= wList.get(i).getAvgGrade() %></small>
-								<small class="text-muted"><%= wList.get(i).getWcOpenClose() %></small>
+								<div style="float:left;"><small class="text-muted">♥<%= wList.get(i).getAvgGrade() %></small></div>
+								<div style="float:right;"><small class="text-muted"><%= wList.get(i).getWcOpenClose() %></small></div>
 							</div>
 						</div>
 					</div>

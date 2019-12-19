@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import qna.model.vo.Qna;
+import qna.model.vo.QnaRe;
 import review.model.vo.Review;
 
 import static common.JDBCTemplate.*;
@@ -787,6 +788,174 @@ public class ClassDao {
 		}
 		
 		return id;
+	}
+
+
+	public Qna selectQnaOne(String qno, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Qna q = new Qna();
+		String sql = "select * from qna where q_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, qno);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				q.setqContent(rset.getString("q_content"));
+				q.setqSecret(rset.getString("q_secret"));
+				q.setqTitle(rset.getString("q_title"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return q;
+	}
+
+
+	public int updateQna(Qna q, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "update qna set q_title = ?, q_content = ?, q_secret = ? where q_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q.getqTitle());
+			pstmt.setString(2, q.getqContent());
+			pstmt.setString(3, q.getqSecret());
+			pstmt.setString(4, q.getqNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+	public int deleteQna(String qno, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from qna where q_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, qno);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	// Qna 시크릿인지 가져옴
+	public String selectSecret(String qno, Connection conn) {
+		PreparedStatement pstmt = null;
+		String secret = "";
+		ResultSet rset = null;
+		String sql = "select q_secret from qna where q_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, qno);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				secret = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return secret;
+	}
+
+
+	// qna 리플 집언허음
+	public int insertClassQnaRe(Connection conn, QnaRe q) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = "insert into reply_qna values('REQ' || REQ_SEQ.NEXTVAL,?,SYSDATE,?,?,?,DEFAULT)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q.getRqComment());
+			pstmt.setString(2, q.getSecret());
+			pstmt.setString(3, q.getqNo());
+			pstmt.setString(4, q.getcId());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	public QnaRe selectQnaRe(Connection conn, String qno) {
+		PreparedStatement pstmt = null;
+		QnaRe qr = new QnaRe();
+		ResultSet rset = null;
+		String sql = "select * from reply_qna where q_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, qno);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				qr.setRqNo(rset.getString(1));
+				qr.setRqComment(rset.getString(2));
+				qr.setRqEntDate(rset.getDate(3));
+				qr.setSecret(rset.getString(4));
+				qr.setqNo(rset.getString(5));
+				qr.setcId(rset.getString(6));
+				qr.setRqChk(rset.getString(7));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return qr;
+	}
+
+	
+	// qna 리플 삭제
+	public int deleteQnaRe(Connection conn, String rqNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from reply_qna where rq_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rqNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
 	}
 
 

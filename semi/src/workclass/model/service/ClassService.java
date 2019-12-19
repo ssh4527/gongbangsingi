@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 
 import qna.model.vo.Qna;
+import qna.model.vo.QnaRe;
 import review.model.vo.Review;
 
 
@@ -332,6 +333,83 @@ public class ClassService {
 		close(conn);
 		return id;
 	}
+	
+	
+	// Qna 하나만 가져오기
+	public Qna selectQnaOne(String qno) {
+		Connection conn = getConnection();
+		Qna q = new ClassDao().selectQnaOne(qno,conn);
+		close(conn);
+		return q;
+	}
+
+	// Qna 수정
+	public int updateQna(Qna q) {
+		Connection conn = getConnection();
+		int result = new ClassDao().updateQna(q,conn);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	
+	// Qna 삭제
+	public int deleteQna(String qno) {
+		Connection conn = getConnection();
+		int result = new ClassDao().deleteQna(qno,conn);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	// Qna 시크릿인지 가져옴
+	public String selectSecret(String qno) {
+		Connection conn = getConnection();
+		String secret = new ClassDao().selectSecret(qno,conn);
+		close(conn);
+		return secret;
+	}
+
+	public int insertClassQnaRe(QnaRe q) {
+		Connection conn = getConnection();
+		int result = new ClassDao().insertClassQnaRe(conn,q);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	// qNo에 맞는 qNaList 가져옴
+	public QnaRe selectQnaRe(String qno) {
+		Connection conn = getConnection();
+		QnaRe qr = new ClassDao().selectQnaRe(conn,qno);
+		close(conn);
+		return qr;
+	}
+
+	public int deleteQnaRe(String rqNo) {
+		Connection conn = getConnection();
+		int result = new ClassDao().deleteQnaRe(conn,rqNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
 	
 	
 }

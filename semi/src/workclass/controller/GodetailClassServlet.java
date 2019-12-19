@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import qna.model.vo.Qna;
+import qna.model.vo.QnaRe;
 import review.model.vo.Review;
 import workclass.model.service.ClassService;
 import workclass.model.vo.ClassFile;
@@ -45,6 +46,21 @@ public class GodetailClassServlet extends HttpServlet {
 		ArrayList<Review> rList = new ClassService().selectReview(wcNo);
 		ArrayList<ClassFile> rfList = new ArrayList<>();
 		ArrayList<Qna> qList = new ClassService().selectQna(wcNo);
+		ArrayList<QnaRe> qrList = new ArrayList<>();
+		
+		if(!qList.isEmpty()) {
+			for(int i = 0 ; i < qList.size(); i++) {
+				
+				QnaRe qr = new ClassService().selectQnaRe(qList.get(i).getqNo());
+				if(qr.getRqNo() != null) {
+					qrList.add(qr);
+				}
+			}
+		}
+		
+		
+		
+		
 		
 		// 해당 클래스 공방 번호 가져오는부분
 		String wsNo = new ClassService().selectWsNo(wcNo);
@@ -63,11 +79,12 @@ public class GodetailClassServlet extends HttpServlet {
 		
 		
 		
-	
+		System.out.println(rfList);
 		//ArrayList<ClassFile> rfList = new ClassService().selectReviewFile(wcNo);
 
 		
 		if(ct.getCtNo() != null) {
+			request.setAttribute("qrList", qrList);
 			request.setAttribute("wsNo", wsNo);
 			request.setAttribute("wc", wc);
 			request.setAttribute("cfList", cfList);
