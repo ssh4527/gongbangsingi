@@ -1,9 +1,8 @@
-package common;
+package search.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,25 +11,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import org.json.simple.*;
+
 import search.model.service.SearchService;
 import workclass.model.service.ClassService;
-import workclass.model.vo.Workclass;
 import workshop.model.service.ShopService;
 import workshop.model.vo.Workshop;
 
 /**
- * Servlet implementation class AdminCheckListServlet
+ * Servlet implementation class SelectStatisticServlet
  */
-@WebServlet("/Admin.go")
-public class AdminCheckListServlet extends HttpServlet {
+@WebServlet("/statistic.admin")
+public class SelectStatisticServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminCheckListServlet() {
+    public SelectStatisticServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,27 +37,34 @@ public class AdminCheckListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		int year = Integer.parseInt(request.getParameter("yearselect"));
+		int month = Integer.parseInt(request.getParameter("monthselect"));
+		
+		ArrayList<Map> statistics = new ArrayList<Map>();
+		
+		if(month==0) {
+			// 년별 조회
+			 statistics= new SearchService().selectYearStatistics(year);
+			
+		}else {
+			// 월별 조회
+			statistics= new SearchService().selectMonthStatistics(year,month);
+		}
 		ArrayList<Workshop> wsList = new ShopService().selectNewShopList();
 		ArrayList<Workshop> wsList2 = new ShopService().selectCheckShopList();
 		ArrayList<String[]> wcList = new ClassService().selectCheckClassList();
-		
-		Date da = new Date();
-		int year = da.getYear()+1900;
-		int month = da.getMonth()+1;
-		
-		ArrayList<Map> statistics= new SearchService().selectMonthStatistics(year,12);
 		ArrayList<String> category = new SearchService().selectCategory();
-		
-		
-		
-		request.setAttribute("year", year);
-		request.setAttribute("month", 12);
+		request.setAttribute("year",year);
+		request.setAttribute("month",month);
 		request.setAttribute("category", category);
-		request.setAttribute("statistics", statistics);
 		request.setAttribute("wsList", wsList);
 		request.setAttribute("wsList2", wsList2);
 		request.setAttribute("wcList", wcList);
+		request.setAttribute("statistics", statistics);
 		request.getRequestDispatcher("views/mypage/AdminMyPage.jsp").forward(request, response);
+		
+		
 		
 	}
 
@@ -67,7 +72,7 @@ public class AdminCheckListServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

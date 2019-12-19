@@ -8,7 +8,14 @@
 	ArrayList<String[]> wcList = (ArrayList<String[]>)request.getAttribute("wcList"); 
 	ArrayList<Map> statistics = (ArrayList<Map>)request.getAttribute("statistics");
 	ArrayList<String> category = (ArrayList<String>)request.getAttribute("category");
-
+	int year = (int)request.getAttribute("year");
+	int month = (int)request.getAttribute("month");
+	String text  = year+"년";
+	String tagname = "월";
+	if(month!=0){
+		text += " "+month+"월";
+		tagname = "일";
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -25,44 +32,52 @@
 	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript">
-		google.charts.load('current', {'packages':['corechart']});
-		google.charts.setOnLoadCallback(drawVisualization);
-		function drawVisualization() { 
-			var stringtext = ['월',
-			<% for(int b=0; b<category.size(); b++){ %>
-				'<%=category.get(b) %>'
-				<%if(b != category.size()-1){ %>,<%}%>
-			<%} %>
-			];
-			var data = google.visualization.arrayToDataTable([
-				stringtext,
-				<% for(int i=0;i<statistics.size();i++){%>
-					[<%=i+1%>,  
-					<% for(int b=0; b<category.size(); b++){ %>
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawVisualization);
+	function drawVisualization() { 
+		var stringtext = ['<%=tagname%>',
+		<% for(int b=0; b<category.size(); b++){ %>
+			'<%=category.get(b) %>'
+			<%if(b != category.size()-1){ %>,<%}%>
+		<%} %>
+		];
+		var data = google.visualization.arrayToDataTable([
+			stringtext,
+			<% for(int i=0;i<statistics.size();i++){%>
+				
+				 <%if(!statistics.get(i).isEmpty()) {%> 
+					[ 	<%=(i+1)%> , 
+				<%for(int b=0; b<category.size(); b++){ %>
+					<%if(statistics.get(i).get(category.get(b))!=null ){%>
 						<%=statistics.get(i).get(category.get(b))%>
-						<%if(b != category.size()-1){ %>,<%}%>
-					<%} %>
-					]
-				<% if (i != statistics.size()-1){ %>,<%}%>
-				<%}%>
-				]);
-			var options = {
-					title : '2019년 카테고리별 예약금액',
-					vAxis: {title: '금액'},
-					hAxis: {title: '월'}, 
-					seriesType: 'bars',
-					series: {6: {type: 'line'}}
-				};
-			
-			var chart = new google.visualization.ComboChart(document.getElementById('yearchart_div'));
-			chart.draw(data, options);
-		}
+					<%}else{%>
+						<%=0%>
+					<%}%>
+					<%if(b != category.size()-1){ %>,<%}%>
+				<%} %>]	
+				<%}%> 
+				
+			<% if (i != statistics.size()-1 && !statistics.get(i).isEmpty()){ %>,<%}%>
+			<%}%>
+			]);
+		var options = {
+				title : '<%=text%>'+' 카테고리별 예약금액',
+				vAxis: {title: '금액'},
+				hAxis: {title: '<%=tagname%>'}, 
+				seriesType: 'bars',
+				series: {<%=category.size()%>: {type: 'line'}}
+			};
+		
+		var chart = new google.visualization.ComboChart(document.getElementById('yearchart_div'));
+		chart.draw(data, options);
+	}
+		
 		
 	</script>
 <style>
 #adminpage_maindiv {
 	width: 1300px;
-	min-height: 600px;
+	min-height: 800px;
 	border:1px solid black;
 }
 
@@ -133,39 +148,42 @@ aside>button {
 		<script>
 			$(function() {
 				
-				
-				
+	
 				$("#accept1").click(function() {
 					$("#accepttable1").css("display", "table");
 					$("#accepttable2").css("display","none");
 					$("#accepttable3").css("display","none");
-					$("#chart_div").css("display","none");
+					$(".chart_div").css("display","none");
+					$("#selectstatus").css("display","none");
 				});
 				
 				$("#accept2").click(function() {
 					$("#accepttable2").css("display", "table");
 					$("#accepttable1").css("display","none");
 					$("#accepttable3").css("display","none");
-					$("#chart_div").css("display","none");
+					$(".chart_div").css("display","none");
+					$("#selectstatus").css("display","none");
 				});
 				
 				$("#accept3").click(function() {
 					$("#accepttable3").css("display", "table");
 					$("#accepttable2").css("display","none");
 					$("#accepttable1").css("display","none");
-					$("#chart_div").css("display","none");
+					$(".chart_div").css("display","none");
+					$("#selectstatus").css("display","none");
 				});
 				
 				$("#accept4").click(function(){
 					$("#accepttable3").css("display", "none");
 					$("#accepttable2").css("display","none");
 					$("#accepttable1").css("display","none");
-					$("#chart_div").css("display","block"); 
+					$(".chart_div").css("display","block"); 
+					$("#selectstatus").css("display","block");
 				});
 			});
 		</script>
 		<div style="width:0px; min-height:600px; border:0.5px solid lightgrey; float:left;"></div>
-		<section style="border: 1px solid red;">
+		<section >
 			<table class="table" id="accepttable1" style="display: none;">
 				<thead>
 					<tr>
@@ -260,39 +278,38 @@ aside>button {
 				<input name="selectstatus" type="radio" id="monthradio"> 월별 
 				
 				<br>
-				<div id="datadiv">
+				<form id="datadiv" method="get" action="<%=request.getContextPath()%>/statistic.admin">
 				<select name="yearselect"id="yearselect">
-					<option selected>2019년</option>
-					<option>2018년</option>
-					<option>2017년</option>
+					<option selected value="2019">2019년</option>
+					<option value="2020">2020년</option>
+					<option value="2021">2021년</option>
 				</select>
 				<select name="monthselect"id="monthselect"  style="display:none;">
-					<option selected>1월</option>
-					<option>2월</option>
-					<option>3월</option>
-					<option>4월</option>
-					<option>5월</option>
-					<option>6월</option>
-					<option>7월</option>
-					<option>8월</option>
-					<option>9월</option>
-					<option>10월</option>
-					<option>11월</option>
-					<option>12월</option>
+					<option selected value="0">----</option>
+					<option value="1">1월</option>
+					<option value="2">2월</option>
+					<option value="3">3월</option>
+					<option value="4">4월</option>
+					<option value="5">5월</option>
+					<option value="6">6월</option>
+					<option value="7">7월</option>
+					<option value="8">8월</option>
+					<option value="9">9월</option>
+					<option value="10">10월</option>
+					<option value="11">11월</option>
+					<option value="12">12월</option>
 				</select>
 				
-				<button type="button" id="selectdatabtn" >조회</button>
-				</div>
+				<button type="submit" >조회</button>
+				</form>
+				계 : <span></span>
 			</div>
 		</section>
 
 	</div>
 	<script>
 		$(function(){
-			$("#selectdatabtn").click(function(){
 				
-				
-			});		
 			$("#monthradio").click(function(){
 				$("#monthselect").css("display","inline-block");
 			});

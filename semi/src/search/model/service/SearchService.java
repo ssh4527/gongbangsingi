@@ -4,6 +4,8 @@ import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import search.model.dao.SearchDao;
@@ -132,14 +134,35 @@ public class SearchService {
 		return keyword;
 	}
 
-	public ArrayList<Map> selectstatistics() {
+	public ArrayList<Map> selectYearStatistics(int year) {
 		Connection c = getConnection();
 		ArrayList<Map> statistics = new ArrayList<Map>();
-		for(int m=9; m<12; m++) {
-			statistics.add(new SearchDao().selectstatistics(c,m));
+		year = year-2000;
+		for(int m=1; m<=12; m++) {
+			statistics.add(new SearchDao().selectYearStatistics(c,m,year));
 			
 		}
 		
+		return statistics;
+	}
+
+	public ArrayList<Map> selectMonthStatistics(int year, int month) {
+		Connection c = getConnection();
+		ArrayList<Map> statistics = new ArrayList<Map>();
+	
+	    int END_DAY = 0;
+	    Calendar eDay = Calendar.getInstance();
+	    eDay.set(year, month, 1-1);
+	    END_DAY = eDay.get(Calendar.DATE);
+	   
+		year= year-2000;
+		
+		for(int d=1; d<=END_DAY; d++) {
+		
+			
+				statistics.add(new SearchDao().selectMonthStatistics(c,month,year,d));
+			
+		}
 		return statistics;
 	}
 
@@ -150,6 +173,7 @@ public class SearchService {
 		close(c);
 		return category;
 	}
+
 
 	
 }

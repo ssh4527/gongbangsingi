@@ -37,7 +37,7 @@ public class MemberLoginServlet extends HttpServlet {
 		String wcNo = request.getParameter("loginwcNo");
 		
 		String returnpath = returnPath.substring(6);
-		System.out.println(returnpath);
+		
 		String id= request.getParameter("idinput");
 		String pwd= request.getParameter("pwdinput");
 		

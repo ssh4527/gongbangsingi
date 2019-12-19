@@ -69,8 +69,13 @@ public class Workshop {
 		this.id=id;
 		this.intro=intro;
 	}
-
-
+	
+	public Workshop(String wsNo, String wsName, String category, double grade) {
+		WsNo = wsNo;
+		WsName = wsName;
+		Category = category;
+		this.grade = grade;
+	}
 
 	public String getWsNo() {
 		return WsNo;

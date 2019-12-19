@@ -159,7 +159,7 @@ public class SearchDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		;
+		
 		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY from  (select wc.ws_no,AVG(R_GRADE)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ?";
 		try {
 			ps = c.prepareStatement(q);
@@ -406,17 +406,17 @@ public class SearchDao {
 		return result;
 	}
 
-	public Map selectstatistics(Connection c,int m) {
+	public Map selectYearStatistics(Connection c,int m,int year) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		Map<String,String> map = new HashMap<String,String>();
-		m++;
-		String q = "select sum(total_price),s_category from reservation rs,work_class wc,workshop ws where rs.wc_no = wc.wc_no and ws.ws_no = wc.ws_no and SUBSTR(res_date, 4, 2)=? group by s_category";
+		String q = "select sum(total_price),s_category from reservation rs,work_class wc,workshop ws where rs.wc_no = wc.wc_no and ws.ws_no = wc.ws_no and SUBSTR(res_date, 4, 2)=? and SUBSTR(res_date, 1, 2) = ? group by s_category";
 		try {
 			ps = c.prepareStatement(q);
 			
 			ps.setInt(1, m);
+			ps.setInt(2, year);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				map.put(rs.getString(2), rs.getString(1));
@@ -429,6 +429,34 @@ public class SearchDao {
 			close(rs);
 			close(ps);
 		}
+		return map;
+	}
+
+	public Map selectMonthStatistics(Connection c, int month, int year, int day) {
+		String q = "select sum(total_price),s_category from reservation rs,work_class wc,workshop ws where rs.wc_no = wc.wc_no and ws.ws_no = wc.ws_no and SUBSTR(res_date, 4, 2)=? and SUBSTR(res_date, 1, 2) = ? and SUBSTR(res_date, 7, 2) = ? group by s_category";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Map<String,String> map = new HashMap<String,String>();
+		
+		try {
+			ps = c.prepareStatement(q);
+			
+			ps.setInt(1, month);
+			ps.setInt(2, year);
+			ps.setInt(3, day);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				map.put(rs.getString(2), rs.getString(1));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(ps);
+		}
+	
 		return map;
 	}
 
