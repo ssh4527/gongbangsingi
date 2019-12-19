@@ -1,6 +1,7 @@
-package mypage.controller;
+package business_mypage.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,18 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.model.vo.Member;
 import mypage.model.service.MypageService;
+import qna.model.vo.Qna;
+import reservation.model.vo.Reservation;
+import review.model.vo.Review;
+import workshop.model.vo.Workshop;
 
 /**
- * Servlet implementation class ShowMyLevelServlet
+ * Servlet implementation class BusinessMyPageServlet
  */
-@WebServlet("/myLevel")
-public class ShowMyLevelServlet extends HttpServlet {
+@WebServlet("/Business.go")
+public class BusinessMyPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShowMyLevelServlet() {
+    public BusinessMyPageServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,24 +35,27 @@ public class ShowMyLevelServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
 		Member m = (Member) request.getSession().getAttribute("loginUser");
+		//Workshop w = (Workshop) request.getSession().getAttribute("loginUser");
+		String wsNo = new MypageService().selectWsNo(m.getUserId());
 		
-		int result = new MypageService().showMyLevel(m.getUserId());
+		System.out.println(wsNo);
+		// 예약 정보 가져오기
+		ArrayList<Reservation> list = new MypageService().selectList(wsNo);
+
+		// 후기 정보 가져오기
+		ArrayList<Review> reviewlist = new MypageService().selectReviewList(wsNo);
 		
-		if(result<=1000) {
-			request.setAttribute("level", "일반 회원");
-		}else if( 1000 < result  && result <= 2500 ) {
-			request.setAttribute("level", "골드 회원");
-		}else if(2500 < result && result <= 4000 ) {
-			request.setAttribute("level", "플레티넘 회원");
-		}else if(4000< result && result <= 6000) {
-			request.setAttribute("level", "vip");
-		}else if(6000< result && result <=7000) {
-			request.setAttribute("level", "vvip");
-		}else {
-			request.setAttribute("level", "대장장이");
-		}
+		// 문의 내역 가져오기
+		ArrayList<Qna> qnalist = new MypageService().selectQnaList(wsNo);
+		
+		
+
+		request.setAttribute("list", list);
+		request.setAttribute("reviewlist", reviewlist);
+		request.setAttribute("qnalist", qnalist);
+		request.getRequestDispatcher("views/mypage/businessman.jsp").forward(request, response);
+		
 		
 	}
 

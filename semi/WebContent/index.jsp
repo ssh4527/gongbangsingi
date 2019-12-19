@@ -208,8 +208,6 @@ h2 {
 		});
 	</script>
 
-
-
 	<%@ include file="views/common/footbar.jsp"%>
 </body>
 </html>

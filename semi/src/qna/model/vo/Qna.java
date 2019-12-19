@@ -16,9 +16,25 @@ public class Qna {
 	private int qCount; // 조회수
 	private String qPwd; // 비밀번호
 	
+	private String cName;
+	
 	public Qna() {}
 
 	
+	
+	
+	public Qna(String cName, String qTitle, String qContent, Date qEntdate, String qReplayck) {
+		super();
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qEntdate = qEntdate;
+		this.qReplayck = qReplayck;
+		this.cName = cName;
+	}
+
+
+
+
 	public Qna(String qTitle, String qContent, Date qEntdate, String qReplayck) {
 		super();
 		this.qTitle = qTitle;

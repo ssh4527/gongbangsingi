@@ -10,9 +10,46 @@ public class Review {
 	private int RCount; // 조회수
 	private int RGrade; // 평점
 	private String RWriter; //작성자
+	public String getWcName() {
+		return wcName;
+	}
+
+
+	public void setWcName(String wcName) {
+		this.wcName = wcName;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	private String wcNo; // 클래스 번호
 	private String cName;
+	private String wcName;
+	
 	public Review() {}
+
+	
+	public Review(String rWriter, String wcName,String rTitle,  String rContent, Date rEnDate, int rGrade ) {
+		super();
+		RTitle = rTitle;
+		REnDate = rEnDate;
+		RContent = rContent;
+		RGrade = rGrade;
+		RWriter = rWriter;
+		this.wcName = wcName;
+	}
+
+
 
 
 	public Review(String cName, Date rEnDate, int rGrade, String rWriter) {

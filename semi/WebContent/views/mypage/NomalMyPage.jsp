@@ -1,10 +1,12 @@
+<%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="java.util.ArrayList, reservation.model.vo.*, member.model.*, review.model.vo.*, qna.model.vo.*"%>
 	<%
     	ArrayList<Reservation> list = (ArrayList<Reservation>)request.getAttribute("list"); 
     	ArrayList<Review> relist = (ArrayList<Review>)request.getAttribute("reviewlist");
-    	  ArrayList<Qna> qnalist = (ArrayList<Qna>)request.getAttribute("qnalist");
+    	ArrayList<Qna> qnalist = (ArrayList<Qna>)request.getAttribute("qnalist");
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -31,14 +33,15 @@ aside {
 	border-right: 1px solid lightgray;
 }
 
+#menu{
+	
+}
 #menu>li {
+	list-style: none;
 	margin-top: 30px;
 	margin-botton: 30px;
 }
 
-.menuLi {
-	
-}
 
 section {
 	margin: 1%;
@@ -115,18 +118,19 @@ section {
 	<div id="nomalPage-maindiv">
 		<header>
 			<div id="profile">
-				<p style="text-align: center; padding-top: 25px;">프로필 사진</p>
+				<div id="usericon">
+				</div>
 			</div>
 			<table id="header-info">
 				<tr>
 					<td width=110px>등급</td>
-					<td></td>
-					<!-- (< % loginUser.get총 결제금액 %>)  -->
+					<td>
+						<%= (String) session.getAttribute("usergrade") %>
+					</td>
 				</tr>
-				<tr>
+				<tr >
 					<td>포인트</td>
-					<td></td>
-					<!-- <  %= loginUser.getPoint() %>   -->
+					<td><%= loginUser.getPoint() %></td>
 				</tr>
 			</table>
 		</header>
@@ -135,12 +139,11 @@ section {
 				<li class="menuLi" id="N-Reservation">예약 내역</li>
 				<li class="menuLi" id="N-Review">내 후기</li>
 				<li class="menuLi" id="N-Qna">문의 내역</li>
-				<li class="menuLi" id="N-PayMent">결제 내역</li>
 				<li class="menuLi" id="N-Update-info">회원정보 수정하기</li>
 				<li class="menuLi" id="N-Delete-Member">회원 탈퇴</li>
 			</ul>
 		</aside>
-
+		
 		<script>								
 			$(function(){
 				$("#profile").click(function(){
@@ -150,14 +153,12 @@ section {
 					$(this).css("color","green");
 					$("#N-Review").css("color","black");
 					$("#N-Qna").css("color","black");
-					$("#N-PayMent").css("color","black");
 					$("#N-Update-info").css("color","black");
 					$("#N-Delete-Member").css("color","black");
 					
 					$("#ReserTable").css("display","block");
 					$("#ReviewTable").css("display","none");
 					$("#QnaTable").css("display","none");
-					$("#PayTable").css("display","none");
 					$("#changeInfoForm").css("display","none");
 					$("#deleteMember").css("display","none");
 				});
@@ -165,14 +166,12 @@ section {
 					$("#N-Reservation").css("color","black");
 					$(this).css("color","green");
 					$("#N-Qna").css("color","black");
-					$("#N-PayMent").css("color","black");
 					$("#N-Update-info").css("color","black");
 					$("#N-Delete-Member").css("color","black");
 					
 					$("#ReserTable").css("display","none");
 					$("#ReviewTable").css("display","block");
 					$("#QnaTable").css("display","none");
-					$("#PayTable").css("display","none");
 					$("#changeInfoForm").css("display","none");
 					$("#deleteMember").css("display","none");
 				});
@@ -180,36 +179,18 @@ section {
 					$("#N-Reservation").css("color","black");
 					$("#N-Review").css("color","black");
 					$(this).css("color","green");
-					$("#N-PayMent").css("color","black");
 					$("#N-Update-info").css("color","black");
 					$("#N-Delete-Member").css("color","black");
 					
 					$("#ReserTable").css("display","none");
 					$("#ReviewTable").css("display","none");
 					$("#QnaTable").css("display","block");
-					$("#PayTable").css("display","none");
-					$("#changeInfoForm").css("display","none");
-					$("#deleteMember").css("display","none");
-				});
-				$("#N-PayMent").click(function(){			//메뉴 스크립트
-					$("#N-Reservation").css("color","black");
-					$("#N-Qna").css("color","black");
-					$("#N-Review").css("color","black");
-					$(this).css("color","green");
-					$("#N-Update-info").css("color","black");
-					$("#N-Delete-Member").css("color","black");
-					
-					$("#ReserTable").css("display","none");
-					$("#ReviewTable").css("display","none");
-					$("#QnaTable").css("display","none");
-					$("#PayTable").css("display","block");
 					$("#changeInfoForm").css("display","none");
 					$("#deleteMember").css("display","none");
 				});
 				$("#N-Update-info").click(function(){		//메뉴 스크립트
 					$("#N-Reservation").css("color","black");
 					$("#N-Qna").css("color","black");
-					$("#N-PayMent").css("color","black");
 					$("#N-Review").css("color","black");
 					$(this).css("color","green");
 					$("#N-Delete-Member").css("color","black");
@@ -217,14 +198,12 @@ section {
 					$("#ReserTable").css("display","none");
 					$("#ReviewTable").css("display","none");
 					$("#QnaTable").css("display","none");
-					$("#PayTable").css("display","none");
 					$("#changeInfoForm").css("display","block");
 					$("#deleteMember").css("display","none");
 				});
 				$("#N-Delete-Member").click(function(){		//회원 탈퇴
 					$("#N-Reservation").css("color","black");
 					$("#N-Qna").css("color","black");
-					$("#N-PayMent").css("color","black");
 					$("#N-Review").css("color","black");
 					$("#N-Update-info").css("color","black");
 					$(this).css("color","red");
@@ -232,7 +211,6 @@ section {
 					$("#ReserTable").css("display","none");
 					$("#ReviewTable").css("display","none");
 					$("#QnaTable").css("display","none");
-					$("#PayTable").css("display","none");
 					$("#changeInfoForm").css("display","none");
 					$("#deleteMember").css("display","block");
 				});
@@ -243,7 +221,9 @@ section {
 							window.alert("회원 탈퇴 완료");
 							location.href = "<%= request.getContextPath()%>/deleteMember.nomal";
 					}
-				}  
+				}else{
+					window.alert("비밀번호가 일치하지 않습니다.")
+				}
 			}
 		</script>
 		<section>
@@ -252,17 +232,17 @@ section {
 				<table class="table">
 					<thead>
 						<tr>
-							<th>예약일자</th>
-							<th>공방이름</th>
-							<th>클래스이름</th>
-							<th>인원수</th>
+							<th>예약 일자</th>
+							<th>공방 이름</th>
+							<th>클래스 이름</th>
+							<th>인원 수</th>
 							<th>가격</th>
 						</tr>
 					</thead>
 					<tbody>
 						<% if(list.isEmpty()){ %>
 						<tr>
-							<td colspan="6" style="text-align: center">조회된 예약내역이 없습니다.</td>
+							<td colspan="6" style="text-align: center">조회된 예약 내역이 없습니다.</td>
 						</tr>
 						<% } else { %>
 						<% for(Reservation r : list) {%>
@@ -270,15 +250,18 @@ section {
 							<td><%=r.getResDate()%></td>
 							<td><%=r.getWsName()%></td>
 							<td><%=r.getWcName() %></td>
-							<td><%=r.getResNop() %></td>
-							<td><%=r.getTotalPrice()%></td>
-							<td><button type="button" class="cancel">취소하기</button></td>
+							<td><%=r.getResNop() %>명</td>
+							<td><%=r.getTotalPrice()%>원</td>
+							<%-- <td><button type="button" class="cancel">취소하기</button></td> --%>
 						</tr>
 						<% } %>
 						<% } %>
 					</tbody>
 				</table>
+				<hr>
+				<h4>총 결제 금액 : </h4> <input type="text" disabled="disabled" id="Payment"> <!-- 값 자동으로 넣어야 함 -->
 			</div>
+			
 			<div id="ReviewTable">
 				<h2>내 후기</h2>
 				<table class="table">
@@ -324,7 +307,7 @@ section {
 					<tbody>
 						<% if(list.isEmpty()){ %>
 						<tr>
-							<td colspan="4" style="text-align: center">조회된 예약내역이 없습니다.</td>
+							<td colspan="4" style="text-align: center">조회된 문의 내역이 없습니다.</td>
 						</tr>
 						<% } else { %>
 						<% for(Qna q : qnalist) {%>
@@ -332,7 +315,7 @@ section {
 							<td><%=q.getqTitle()%></td>
 							<td><%=q.getqContent()%></td>
 							<td><%=q.getqEntdate()%></td>
-							<% if (q.getqReplayck()){ %>
+							<% if (q.getqReplayck().contains("Y")){ %>
 								<td>
 									<p style="color:green;">답변 완료</p>
 								</td>
@@ -341,49 +324,26 @@ section {
 									<p style="color:red">답변 없음</p>
 								</td>
 							<% } %>
-							
 						</tr>
 						<% } %>
 						<% } %>
 					</tbody>
 				</table>
-			</div>
-			<div id="PayTable">
-				<h2>결제 내역</h2>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>일자</th>
-							<th>공방이름</th>
-							<th>클래스이름</th>
-							<th>인원수</th>
-							<th>가격</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>2019/09/22</td>
-							<td>기자도자기</td>
-							<td>도자기로 죽부인 만들기</td>
-							<td>3명</td>
-							<td>70,000</td>
-						</tr>
-					</tbody>
-				</table>
-				<hr>
-				<h4 id="sum">
-					합계 : <input type="text" disabled="disabled">
-				</h4>
 			</div>
 			<div id="changeInfoForm">
 				<h2>회원정보 수정</h2>
 				<hr>
-				<form
-					action="location.href ='<%= request.getContextPath() %>/updateMember.nomal'">
+					<form action="location.href='<%= request.getContextPath()%>/updatePwd.normal'">
 					<h4>비밀번호 변경</h4>
-					비밀번호 입력 : <input type="password"><br>
-					<br> 비밀번호 확인 : <input type="password">
+					비밀번호 입력 : <input type="password" id="pwd1">
+					<br>
+					<br> 
+					비밀번호 확인 : <input type="password" id="pwd2">
+					<div ><button id="changePwd" disabled="disabled">변경하기</button></div>
+					</form>
+					
 					<hr>
+					<form action="location.href ='<%= request.getContextPath() %>/updateMember.nomal'">
 					<h4>관심분야</h4>
 					<input class="ckhobby" type="checkbox" name="hobby" value="도자기">도자기
 					<input class="ckhobby" type="checkbox" name="hobby" value="액세서리">액세서리
@@ -397,7 +357,7 @@ section {
 					<hr>
 					<h3>공방 사업자 신청하기</h3>
 					<button type="button"
-						onclick="location.href ='<%= request.getContextPath() %> /views/mypage/businessmember.jsp'">신청하기</button>
+						onclick="location.href ='<%= request.getContextPath() %>/views/mypage/businessmember.jsp'">신청하기</button>
 					<hr>
 					<button type="submit">변경 완료</button>
 				</form>
@@ -405,15 +365,17 @@ section {
 			<div id="deleteMember">
 				<h4>회원 탈퇴</h4>
 				<hr>
-				비밀번호 확인 : <input type="password" id="ckPwd"><br>
+					비밀번호 확인 : <input type="password" id="ckPwd"><br>
 				<br>
 				<button type="button" id="deleteMember-btn" onclick="deleteMember()">탈퇴하기</button>
 			</div>
 		</section>
 	</div>
-
-	<div id="jjim list"></div>
-
+	
+	<div id="jjim list" >
+		<h4>찜 목록</h4><hr>
+	</div>
+	
 	<%@ include file="../common/footbar.jsp"%>
 </body>
 </html>
