@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.model.vo.Member;
 import search.model.service.SearchService;
+import workclass.model.service.ClassService;
+import workclass.model.vo.ClassFile;
 import workclass.model.vo.Workclass;
 
 /**
@@ -48,11 +50,23 @@ public class IndexOnLoadServlet extends HttpServlet {
 		list = new SearchService().findClass(interest);
 		
 		if(!list.isEmpty()) {
+			for(int i = 0 ; i < list.size(); i++) {
+				// 각클래스의 썸네일 가져옴
+				Workclass prewc = new SearchService().selectPathRename(list.get(i).getWcNo());
+				list.get(i).setPath(prewc.getPath());
+				list.get(i).setRename(prewc.getRename());
+			}
 			request.setAttribute("mainList", list);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}else {
 			interest=null;
 			list = new SearchService().findClass(interest);
+			for(int i = 0 ; i < list.size(); i++) {
+				// 각클래스의 썸네일 가져옴
+				Workclass prewc = new SearchService().selectPathRename(list.get(i).getWcNo());
+				list.get(i).setPath(prewc.getPath());
+				list.get(i).setRename(prewc.getRename());
+			}
 			request.setAttribute("mainList", list);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
