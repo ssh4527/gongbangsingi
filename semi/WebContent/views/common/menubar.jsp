@@ -422,8 +422,10 @@ $(function(){
 				<%if (loginUser != null) {%>
 				<%if (loginUser.getAuthority() == 3) {%>
 					location.href='<%=request.getContextPath()%>/Admin.go';
+				<%} else if(loginUser.getAuthority() == 2){%>
+					location.href='<%=request.getContextPath()%>/Business.go';
 				<%} else {%>
-				    location.href="<%= request.getContextPath() %>/showReservation.nomal"
+				    location.href="<%= request.getContextPath() %>/showReservation.nomal";
 				<%} %>
 					
 				<%}%>

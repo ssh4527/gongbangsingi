@@ -57,4 +57,19 @@ public class BMypageService {
 			close(conn);
 			return result;
 		}
+		// 공방 번호 가져오기
+		public String selectWsNo(String userId) {
+			Connection conn = getConnection();
+			String wsNo = new MypageDao().selectWsNo(userId,conn);
+			close(conn);
+			return wsNo;
+		}
+		public int showMyLevel(String wsNo) {
+			Connection conn = getConnection();
+			
+			int result = new MypageDao().showMyLevel(wsNo,conn);
+			
+			close(conn);
+			return result;
+		}
 }

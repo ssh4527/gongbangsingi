@@ -80,14 +80,15 @@ public class MypageService {
 		close(conn);
 		return result;
 	}
-
+	
+	
+	// 공방 번호 가져오기
 	public String selectWsNo(String userId) {
 		Connection conn = getConnection();
 		String wsNo = new MypageDao().selectWsNo(userId,conn);
 		close(conn);
 		return wsNo;
 	}
-	
 	
 
 }
