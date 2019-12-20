@@ -53,12 +53,9 @@ body {
 
 * {
 	font-family: 'Nanum Myeongjo', serif;
-	
+	/* border:0.5px solid black; */
 }
 
-#logoimg {
-	margin-top: 18%;
-}
 
 #searchdiv {
 	width: 100%;
@@ -67,86 +64,33 @@ body {
 	
 }
 
-#searchinput {
-	width: 60%;
-	height: 50px;
-	margin: 0px;
-	padding: 0px;
-	margin-left: 10px;
-	margin-right: 10px;
-	float: left
-}
-
-#searchbtn {
-	width: 10%;
-	height: 50px;
-}
-
 #nav>ul {
 	list-style: none;
 }
 
-.nav-item {
-	width: 15%;
-	margin-left: 5%;
-	margin-right: 5%;
-	height: 80px;
-}
 
 .nav-link {
 	text-align: center;
 	width: 100%;
 	height: 100%;
-	line-height: 50px;
-}
-
-#logindiv {
-	float: left;
-	width: 24%;
-	height: 70%;
-	margin-top: 50px;
-}
-
-#loginform {
-	background-color: lightgrey;
-	width: 80%;
-	height: 70%;
-	margin: 30px;
-	margin-top: 50px;
+	
 }
 
 #loginbtn {
-	font-size: 85%;
-}
+	width:90%;
+	height:80%;
+	margin-left:5%;
+	margin-right:5%;
+	margin-top:3.5%;
+	font-size:0.8em;
+} 
 
 .searchspan {
-	margin-top: 10px;
+	margin-top: 5px;
 	float: left;
 	margin-right: 15px;
 }
 
-#userdiv {
-	background-color: lightgrey;
-	width: 80%;
-	height: 70%;
-	margin: 30px;
-	margin-top: 50px;
-	border: 1px solid black;
-}
-
-#usericon {
-	background:
-		url('<%=request.getContextPath()%>/resources/images/city1.PNG')
-		no-repeat;
-	background-size: cover;
-	width: 35%;
-	height: 60%;
-	margin-left: 8%;
-	margin-top: 6%;
-	border-radius: 50%;
-	float: left;
-	border: 1px solid black;
-}
 
 #testinfo>* {
 	margin: 10px;
@@ -212,16 +156,15 @@ body {
 	margin-left: 30px;
 }
 
-.idpwdinputouter {
-	width: 90%;
-	height: 40%;
-	margin: 5%;
-}
 
 .idpwdinput {
-	width: 100%;
-	height: 100%;
-}
+	width:90%;
+	height:90%;
+	margin-left:5%;
+	margin-right:5%;
+	margin-top:5%;
+	
+} 
 
 #alarmicon {
 	text-align: center;
@@ -238,6 +181,66 @@ body {
 }
 #alarmicon:hover{
 	cursor: pointer;
+}
+.searchspan:hover{
+cursor: pointer;
+}
+.newmemberdiv > a{
+	line-height:40px;
+}
+#mainlogo{
+	width: 20%;
+	height: 100%;
+	float: right;
+	margin-right:10%;
+}
+#maintitle{
+	float:left;
+	margin-left:240px;
+	width:50%;
+	height:100%;
+	text-align:center;
+}
+#idpwddiv{
+	float: left;
+	height:100%;
+	width:250px;
+}
+.idpwdinputdiv{
+	float:left;
+	width:50%;
+	height:100%;
+}
+#loginbtndiv{
+	float:left;
+	height:100%;
+	width:100px;
+}
+.newmemberdiv{
+	float:left;
+	height:100%;
+}
+#myinfo{
+	float:left;
+	height:100%;
+	width:150px;
+}
+#mynameinfo{
+	float:left;
+	width:100%;
+	height:100%;
+	line-height:40px;
+	text-align:center;
+}
+#mydetailinfo{
+	float:left;
+	height:100%;
+	width:230px;
+	line-height:40px;
+	text-align:center;
+}
+.nav-item{
+	margin-right:20px;
 }
 </style>
 <script>
@@ -257,71 +260,29 @@ $(function(){
 </script>
 </head>
 <body>
-	<div id="menubar" style="width: 1300px; height: 300px;">
-		<div id="mainlogo"
-			style="width: 18%; height: 80%; float: left; margin-right: 20px; margin-left: 30px;">
-			<img src='<%=request.getContextPath()%>/resources/images/logo.jpg'
-				id="logoimg" style="width: 100%; height: 80%; margin-top: 30%;">
-		</div>
-		<div id="middlediv"
-			style="float: left; width: 54%; height: 100%; margin-right: 0px;" >
-			<form method="post" action="<%=request.getContextPath()%>/search.all" >
-				<div class="input-group mb-3" id="searchdiv" >
-    				<button class="btn btn-outline-secondary dropdown-toggle"id="searchtype"name="searchtype" type="button" style="height:50px; width:71px;margin-left:50px; font-size:0.9em;" >클래스</button>
-  					<input type="text"style="display:none;" id="searchtypeinput" name="searchtypeinput" value="클래스">
-  					<input type="text"placeholder="클래스를 검색해주세요."
-						id="searchinput" name="searchinput" >
-  					<button type="submit" class="btn btn-outline-success"
-						id="searchbtn">검색</button> 
-					
-					<div style="width: 70%; height: 50px;margin-top:-50px; margin-left: 150px; ">
-						<span class="searchspan">인기 검색어 : </span> 
-						<% if(search != null){
-							for(int i=0; i<search.length; i++){ %>
-						<span class="searchspan"><%= search[i] %></span>
-						<%} 
-						}%>
-						
-					<!-- span 태그에 온클릭 달아서 눌르면 그 단어로 검색되게 펑션처리 해야함-->
+
+	<div style="width:100%; height:40px; background: lightgrey;">
+	
+	<%	if (loginUser == null) { %>
+			<form id="loginform" action="<%=request.getContextPath()%>/login.me"method="post">
+
+				<div id="idpwddiv">
+					<div class="idpwdinputdiv" >
+					<input type="text" name="idinput" id="idinput" class="idpwdinput"placeholder="아이디">
+					</div>
+					<div class="idpwdinputdiv" >
+					<input type="password" name="pwdinput" id="pwdinput"class="idpwdinput" placeholder="패스워드">
 					</div>
 				</div>
 				
-			</form>
-		</div>
-		<script>
-			$(function(){
-				$(".searchspan").click(function(){
-					$("#searchinput").val($(this).html());
-				});
-			});
-		</script>
-		
-		<div id="logindiv">
-			<%
-				if (loginUser == null) {
-			%>
-			<form id="loginform" action="<%=request.getContextPath()%>/login.me"
-				method="post">
-				<!-- onsubmit="return validate();" -->
-				<div id="idpwddiv"
-					style="width: 63%; height: 60%; float: left; margin: 5%; margin-right: 2%;">
-					<div id="iddiv" class="idpwdinputouter">
-						<input type="text" name="idinput" id="idinput" class="idpwdinput"
-							placeholder="아이디">
-					</div>
-					<div id="pwddiv" class="idpwdinputouter">
-						<input type="password" name="pwdinput" id="pwdinput"
-							class="idpwdinput" placeholder="패스워드">
-					</div>
+				<div id="loginbtndiv">
+					<button id="loginbtn" type="submit" class="btn btn-primary"	>로그인</button>
 				</div>
-				<div id="loginbtndiv"
-					style="width: 25%; height: 60%; float: left; margin: 5%; margin-left: 0%;">
-					<button id="loginbtn" type="submit" class="btn btn-primary"
-						style="width: 100%; height: 89%;font-size:0.75em; margin-bottom: 5%; margin-top: 10%;">로그인</button>
-				</div>
-				<div id="newmemberdiv" style="background-color: lightgrey;">
+				
+				<div class="newmemberdiv" >
 					<a id="newMember" href="#">회원가입</a> / <a id="findmyid" href="#">아이디</a>,
 					<a id="findmypwd" href="#">비밀번호 찾기</a>
+					
 					<!-- Button trigger modal -->
 					<button id="newMemberbtn" type="button" data-toggle="modal"
 						data-target="#newMembermodal" style="display: none"></button>
@@ -329,78 +290,113 @@ $(function(){
 						data-target="#findmyiddiv" style="display: none"></button>
 					<button id="findmypwdbtn" type="button" data-toggle="modal"
 						data-target="#findmypwddiv" style="display: none"></button>
-					<input style="display:none;" name = returnPath value=<%= request.getRequestURI() %>>
+					<input style="display:none;" name="returnPath" value=<%= request.getRequestURI() %>>
 					<input style="display:none;" name="loginwcNo" value=<%=request.getParameter("wcNo") %>>
 					<input style="display:none;" name="loginwsNo" value=<%=request.getParameter("wsNo") %>>
+					
 				</div>
 			</form>
-			<%
-				} else {
-			%>
-			<div id="userdiv" style="border:1px solid red;">
-				
-				<div id="usericon" >
-				
-					<%	if (loginUser.getAuthority() != 3) {	%>
-					<div id="alarmicon">
-					<%=(int) session.getAttribute("useralarm") %></div>
+			
+			<%	} else {%>
+			<div id="myinfo">
+					<div id="mynameinfo">
+						<%=loginUser.getUserName()%>님
+						<%	if (loginUser.getAuthority() != 3) {	%>
+						<span id="alarmicon" class="badge badge-light"><%=(int) session.getAttribute("useralarm") %></span>
+					
 					<div id="alarmtextdiv" style="background:white; float:right; width:150%; height:80%; text-align:left; display:none;" >
 						<span style="font-size:12px; ">내문의에 <%=(int) session.getAttribute("useralarm") %>개의
-						<br> 답변이 있습니다.</span>
+						<br> 답변이 있습니다.</span>		
 					</div>
-					
-					
 					<%	}	%>
-				</div>
-				<script>
-					$(function(){
-						$("#alarmicon").click(function(){
-							if($(this).html()!=0){
-								if($("#alarmtextdiv").css("display")=="block"){
-									$("#alarmtextdiv").css("display","none");
-								}else{
-									$("#alarmtextdiv").css("display","block");
-								}
-							}
-						});
-						
-					});
-				</script>
-				
-				<div
-					style="text-align: center; width: 45%; height: 30%; margin-left: 8%; margin-top: 8%; float: left; background-color: lightgrey;">
-
-					<div>
-						<%=loginUser.getUserName()%>님 <br>
-						<%	if (loginUser.getAuthority() != 3) {	%>
-						예약건수 : <span id="myreservation"><%=(int) session.getAttribute("reservationcount") %></span><br> 
-						등급 : <span	id="mydunggul">	<%= (String) session.getAttribute("usergrade") %></span>
-						<%
-							} else {
-						%>
-						문의개수 : <span id="qna"><%=(int)request.getSession().getAttribute("qnacount") %>	</span><br> 
-						승인요청 : <span	id="acceptalert"><%=(int)request.getSession().getAttribute("alarm") %>		
-						 </span>
-						<%
-							}
-						%>
-					</div>
-				</div>
-				<div id="testinfo"
-
-					style="float: left; background-color: lightgrey; width: 80%; margin: 5%; margin-top: 5%;">
-					<a id="gomypage" href="#" >마이페이지</a><a id="logout"
-
-						href="<%=request.getContextPath()%>/logout.me">로그아웃</a>
-
-				</div>
+					</div>	
 			</div>
-
-			<%
-				}
-			%>
+				
+			<div id="mydetailinfo" >
+				<%if(loginUser.getAuthority() != 3) {%>
+					예약건수 : <span id="myreservation"><%=(int) session.getAttribute("reservationcount") %></span> /
+					등급 : <span	id="mydunggul">	<%= (String) session.getAttribute("usergrade") %></span>
+					<%	} else {%>
+					문의개수 : <span id="qna"><%=(int)request.getSession().getAttribute("qnacount") %>	</span> /
+					승인요청 : <span id="acceptalert"><%=(int)request.getSession().getAttribute("alarm") %></span>
+					<%}%>
+			</div>
+				
+				<div class="newmemberdiv">
+					<a id="gomypage" href="#" >마이페이지</a> / <a id="logout"href="<%=request.getContextPath()%>/logout.me">로그아웃</a>
+				</div>
+		
+			<%	}%>
+			<div id="topkeyworddiv" style="float:right">
+    		<span class="searchspan">인기 검색어 : </span>
+    		<% if(search != null){ %>
+				<%for(int i=0; i<search.length; i++){ %>
+					<span class="searchspan"><%= search[i] %></span>
+				<%} %>
+			<%}%>
+    </div>
+	</div>
+	<div id="menubar" align="center" style="width: 1300px; height: 200px;">
+		<div id="maintitle">
+			<br><br><br>
+			<h1>공 방 신 기</h1>
+		</div>
+		<div id="mainlogo">
+			<img src='<%=request.getContextPath()%>/resources/images/logo.jpg'
+				id="logoimg" style="width: 100%; height: 100%;">
 		</div>
 	</div>
+	<script>
+			$(function(){
+				$("#alarmicon").click(function(){
+					if($(this).html()!=0){
+						if($("#alarmtextdiv").css("display")=="block"){
+							$("#alarmtextdiv").css("display","none");
+						}else{
+							$("#alarmtextdiv").css("display","block");
+						}
+					}
+				});
+				$(".searchspan").click(function(){
+					$("#searchinput").val($(this).html());
+				});			
+			});
+	</script>
+
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+			<a class="navbar-brand" href="#" style="margin-left:10px; margin-right:30px;">공방신기</a>
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="margin-left:30px;" >
+				<li class="nav-item"><a class="nav-link"
+					href="<%=request.getContextPath()%>/shopList.sh">공방</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<%=request.getContextPath()%>/views/classcategory/category.jsp">클래스</a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					href="<%=request.getContextPath()%>/views/review/reviewList.jsp">리뷰</a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					href="<%=request.getContextPath()%>/list.qna">고객센터</a></li>
+
+			</ul>
+			<form class="form-inline my-2 my-lg-0" method="post"
+				action="<%=request.getContextPath()%>/search.all" style="float:right; margin-right:0px;">
+				<button class="btn btn-outline-secondary dropdown-toggle"
+					id="searchtype" name="searchtype" type="button"
+					style="width: 80px; margin-right: 5px;">클래스</button>
+				<!-- 안보이는 밸류값  -->
+				<input type="text" style="display: none;" id="searchtypeinput"
+					name="searchtypeinput" value="클래스"> <input
+					class="form-control mr-sm-2" type="text" placeholder="클래스를 검색해주세요."
+					id="searchinput" name="searchinput">
+
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
+
+		</div>
+	</nav>
+
 	<script>
 		$(function(){
 			$("#searchtype").click(function(){
@@ -419,20 +415,9 @@ $(function(){
 		});
 	</script>
 	
-	 <ul class="nav nav-tabs">
-		<li class="nav-item"><a class="nav-link"
-			href="<%=request.getContextPath()%>/shopList.sh">공방</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="<%=request.getContextPath()%>/views/classcategory/category.jsp">클래스</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="<%=request.getContextPath()%>/views/review/reviewList.jsp">리뷰</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="<%=request.getContextPath()%>/list.qna">고객센터</a></li>
-	</ul> 
 	<script>
 		$(function(){
 			$("#newMember").click(function(){
-				//window.open("views/member/JoinMember.jsp", "?", "width=700, height=660");
 				$("#newMemberbtn").click();
 			});
 			$("#logoimg").click(function(){
@@ -448,7 +433,6 @@ $(function(){
 				location.href='<%=request.getContextPath()%>/logout.me';
 			});
 			$("#gomypage").click(function(){
-				
 				<%if (loginUser != null) {%>
 				<%if (loginUser.getAuthority() == 3) {%>
 					location.href='<%=request.getContextPath()%>/Admin.go';
@@ -457,12 +441,8 @@ $(function(){
 				<%} else {%>
 				    location.href="<%= request.getContextPath() %>/showReservation.nomal";
 				<%} %>
-					
-				<%}%>
-				 
-				
-			});
-			
+				<%}%>	
+			});	
 		});
 	</script>
 	<!-- 회원가입 하는 모달 -->
