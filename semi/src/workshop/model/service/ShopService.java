@@ -223,6 +223,14 @@ public class ShopService {
 
 		return result;
 	}
+	// 인덱스 페이지 새로운 공방
+	public ArrayList<Workshop> newWorkShopList() {
+		Connection c = getConnection();
+		ArrayList<Workshop> list = new ShopDao().newWorkShopList(c);
+		
+		close(c);
+		return list;
+	}
 
 	
 

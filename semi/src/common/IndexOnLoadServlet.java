@@ -14,6 +14,9 @@ import search.model.service.SearchService;
 import workclass.model.service.ClassService;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.Workclass;
+import workshop.model.service.ShopService;
+import workshop.model.vo.ShopFile;
+import workshop.model.vo.Workshop;
 
 /**
  * Servlet implementation class IndexOnLoadServlet
@@ -46,7 +49,18 @@ public class IndexOnLoadServlet extends HttpServlet {
 			interest = inter.split(",");
 			
 		}
-
+		
+		// 새로운공방 가져오기
+		ArrayList<Workshop> wslist = new ShopService().newWorkShopList();
+		ArrayList<ShopFile> sflist = new ArrayList<ShopFile>();
+		for(int z = 0; z<wslist.size(); z++) {
+			sflist.add(new ShopService().selectThumbnail(wslist.get(z).getWsNo()));
+		}
+		request.setAttribute("wslist", wslist);
+		request.setAttribute("sflist", sflist);
+		// 끝
+		
+		
 		list = new SearchService().findClass(interest);
 		
 		if(!list.isEmpty()) {
