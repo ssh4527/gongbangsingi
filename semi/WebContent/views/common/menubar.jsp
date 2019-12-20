@@ -233,6 +233,11 @@ body {
 	line-height: 20px;
 	color: white;
 	background-color: rgb(231, 80, 80);
+	font-size:0.9em;
+	line-height:22px; 
+}
+#alarmicon:hover{
+	cursor: pointer;
 }
 </style>
 <script>
@@ -332,18 +337,42 @@ $(function(){
 			<%
 				} else {
 			%>
-			<div id="userdiv">
-				<div id="usericon">
-					<div id="alarmicon">1</div>
+			<div id="userdiv" style="border:1px solid red;">
+				
+				<div id="usericon" >
+				
+					<%	if (loginUser.getAuthority() != 3) {	%>
+					<div id="alarmicon">
+					<%=(int) session.getAttribute("useralarm") %></div>
+					<div id="alarmtextdiv" style="background:white; float:right; width:150%; height:80%; text-align:left; display:none;" >
+						<span style="font-size:12px; ">내문의에 <%=(int) session.getAttribute("useralarm") %>개의
+						<br> 답변이 있습니다.</span>
+					</div>
+					
+					
+					<%	}	%>
 				</div>
+				<script>
+					$(function(){
+						$("#alarmicon").click(function(){
+							if($(this).html()!=0){
+								if($("#alarmtextdiv").css("display")=="block"){
+									$("#alarmtextdiv").css("display","none");
+								}else{
+									$("#alarmtextdiv").css("display","block");
+								}
+							}
+						});
+						
+					});
+				</script>
+				
 				<div
 					style="text-align: center; width: 45%; height: 30%; margin-left: 8%; margin-top: 8%; float: left; background-color: lightgrey;">
 
 					<div>
 						<%=loginUser.getUserName()%>님 <br>
-						<%
-							if (loginUser.getAuthority() != 3) {
-						%>
+						<%	if (loginUser.getAuthority() != 3) {	%>
 						예약건수 : <span id="myreservation"><%=(int) session.getAttribute("reservationcount") %></span><br> 
 						등급 : <span	id="mydunggul">	<%= (String) session.getAttribute("usergrade") %></span>
 						<%
@@ -389,7 +418,8 @@ $(function(){
 			});
 		});
 	</script>
-	<ul class="nav nav-tabs">
+	
+	 <ul class="nav nav-tabs">
 		<li class="nav-item"><a class="nav-link"
 			href="<%=request.getContextPath()%>/shopList.sh">공방</a></li>
 		<li class="nav-item"><a class="nav-link"
@@ -398,7 +428,7 @@ $(function(){
 			href="<%=request.getContextPath()%>/views/review/reviewList.jsp">리뷰</a></li>
 		<li class="nav-item"><a class="nav-link"
 			href="<%=request.getContextPath()%>/list.qna">고객센터</a></li>
-	</ul>
+	</ul> 
 	<script>
 		$(function(){
 			$("#newMember").click(function(){

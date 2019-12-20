@@ -270,4 +270,27 @@ public class QnaDao {
 		return list;
 	}
 
+	public int getReadStatus(Connection c,String getqNo) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String sql = "select * from reply_qna where q_no=? and RQ_CHK='N'";
+		int result = 0;
+		try {
+			ps = c.prepareStatement(sql);
+			ps.setString(1, getqNo);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				result++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {			
+			close(rs);
+			close(ps);
+		}
+		
+		return result;
+	}
+	
 }

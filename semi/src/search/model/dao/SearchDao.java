@@ -18,7 +18,7 @@ public class SearchDao {
 		ResultSet rs = null;
 		ArrayList<Workclass> list = new ArrayList<Workclass>();
 		String q=  "select * from work_class where ws_no in "
-				+ "(select WS_NO from workshop where S_CATEGORY = ?)";
+				+ "(select WS_NO from workshop where S_CATEGORY = ?) and WC_YN='Y'";
 		try {
 			ps= c.prepareStatement(q);
 			ps.setString(1, findtext);
@@ -117,7 +117,7 @@ public class SearchDao {
 		ArrayList<Workclass> list = new ArrayList<Workclass>();
 		ResultSet rs = null;
 		
-		String q=  "select * from work_class where WC_NAME LIKE ('%'||?||'%')"; 
+		String q=  "select * from work_class where WC_NAME LIKE ('%'||?||'%') and WC_YN='Y' "; 
 		
 		try {
 			ps = c.prepareStatement(q);
@@ -160,7 +160,7 @@ public class SearchDao {
 		ResultSet rs = null;
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
 		
-		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY from  (select wc.ws_no,AVG(R_GRADE)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ?";
+		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no and wc_yn='Y' group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ? and ws.ENROLLYN='Y'";
 		try {
 			ps = c.prepareStatement(q);
 			ps.setString(1, keyword);
@@ -186,7 +186,7 @@ public class SearchDao {
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
 		ResultSet rs = null;
 		
-		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY from  (select wc.ws_no,AVG(R_GRADE)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and WS_NAME LIKE ('%'||?||'%')";
+		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no and wc_yn='Y' group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and ws.ENROLLYN='Y' and WS_NAME LIKE ('%'||?||'%')";
 		
 		
 		try {
@@ -273,7 +273,7 @@ public class SearchDao {
 		ArrayList<Workclass> list = new ArrayList<Workclass>();
 		ResultSet rs = null;
 		
-		String q=  "select * from work_class wc, (select AVG(R_GRADE) 평점 ,wc_no from review group by wc_no) r where wc.wc_no = r.wc_no order by 평점 desc"; 
+		String q=  "select * from work_class wc, (select round(AVG(R_GRADE),1) 평점 ,wc_no from review group by wc_no) r where wc.wc_no = r.wc_no and wc_yn='Y' order by 평점 desc"; 
 		
 		try {
 			s= c.createStatement();
@@ -317,9 +317,8 @@ public class SearchDao {
 
 	public ArrayList<Workclass> findClass(Connection c, String interest, ArrayList<Workclass> list) {
 		
-		String q = "select * from work_class wc, (select AVG(R_GRADE) 평점 ,wc_no from review group by wc_no)r, workshop ws where wc.wc_no = r.wc_no and wc.ws_no = ws.ws_no and ws.s_category in (?) order by 평점 desc";
-//		String q= "select * from work_class wc, workshop ws " + 
-//				"where wc.ws_no = ws.ws_no and ws.s_category in (?)";
+		String q = "select * from work_class wc, (select round(AVG(R_GRADE),1) 평점 ,wc_no from review group by wc_no)r, workshop ws where wc.wc_no = r.wc_no and  wc.ws_no = ws.ws_no and wc_yn='Y' and EnRollYN='Y' and ws.s_category in (?) order by  평점 desc";
+
 		PreparedStatement ps = null;
 		ResultSet rs =null;
 		try {

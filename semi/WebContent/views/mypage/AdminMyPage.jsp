@@ -22,8 +22,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-<script src="main.js"></script>
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -46,7 +45,7 @@
 			<% for(int i=0;i<statistics.size();i++){%>
 				
 				 <%if(!statistics.get(i).isEmpty()) {%> 
-					[ 	<%=(i+1)%> , 
+					[ 	'<%=(i+1)%><%=tagname%>' , 
 				<%for(int b=0; b<category.size(); b++){ %>
 					<%if(statistics.get(i).get(category.get(b))!=null ){%>
 						<%=statistics.get(i).get(category.get(b))%>
@@ -302,7 +301,7 @@ aside>button {
 				
 				<button type="submit" >조회</button>
 				</form>
-				계 : <span></span>
+				계 : <span>원</span>
 			</div>
 		</section>
 

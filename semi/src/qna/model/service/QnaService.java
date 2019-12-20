@@ -130,6 +130,19 @@ public class QnaService {
 		return list;
 	}
 
+	public int getReadStatus(ArrayList<Qna> qnalist) {
+		Connection c = getConnection();
+		int result=0;
+		for(int i =0; i<qnalist.size();i++) {
+			System.out.println(qnalist.get(i).getqNo());
+			result +=  new QnaDao().getReadStatus(c,qnalist.get(i).getqNo());
+		}
+		
+		close(c);
+		return result;
+	}
+	
+
 
 
 }

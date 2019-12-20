@@ -50,8 +50,7 @@ public class AdminCheckListServlet extends HttpServlet {
 		ArrayList<Map> statistics= new SearchService().selectMonthStatistics(year,12);
 		ArrayList<String> category = new SearchService().selectCategory();
 		
-		
-		
+	
 		request.setAttribute("year", year);
 		request.setAttribute("month", 12);
 		request.setAttribute("category", category);

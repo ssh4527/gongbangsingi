@@ -514,6 +514,31 @@ public class ShopDao {
 		}
 		return result;
 	}
+	// 인덱스용 새로운 공방
+	public ArrayList<Workshop> newWorkShopList(Connection c) {
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Workshop> list = new ArrayList<Workshop>();
+		int i=0;
+		String sql = "SELECT WS_NO,WS_NAME,WS_ENROLLDATE,WS_Introduce FROM WORKSHOP order by WS_ENROLLDATE desc";
+		try {
+			st = c.createStatement();
+			
+			rs = st.executeQuery(sql);
+			
+			while(rs.next()) {
+				if(i==3) break;
+				list.add(new Workshop(rs.getString(1), rs.getString(2),rs.getDate(3), rs.getString(4)));
+				i++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(st);
+		}
+		return list;
+	}
 
 
 

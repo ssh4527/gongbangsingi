@@ -23,13 +23,13 @@ public class Qna {
 	
 	
 	
-	public Qna(String cName, String qTitle, String qContent, Date qEntdate, String qReplayck) {
+	public Qna(String qNo, String qTitle, String qContent, Date qEntdate, String qReplayck) {
 		super();
 		this.qTitle = qTitle;
 		this.qContent = qContent;
 		this.qEntdate = qEntdate;
 		this.qReplayck = qReplayck;
-		this.cName = cName;
+		this.qNo = qNo;
 	}
 
 

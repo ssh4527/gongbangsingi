@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import search.model.service.SearchService;
 import workclass.model.vo.Workclass;
+import workshop.model.service.ShopService;
+import workshop.model.vo.ShopFile;
 import workshop.model.vo.Workshop;
 
 /**
@@ -70,7 +72,12 @@ public class SearchObjectServlet extends HttpServlet {
 			if(wslist.isEmpty()) {
 				wslist = ss.findWorkshopName(searchinput);
 			}
-			request.setAttribute("wslist", wslist);
+			ArrayList<ShopFile> sflist = new ArrayList<ShopFile>();
+			for(int z = 0; z<wslist.size(); z++) {
+				sflist.add(new ShopService().selectThumbnail(wslist.get(z).getWsNo()));
+			}
+			request.setAttribute("flist", sflist);
+			request.setAttribute("list", wslist);
 			request.setAttribute("keyword", searchinput );
 			request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);
 		}

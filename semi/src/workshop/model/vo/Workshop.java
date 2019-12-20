@@ -45,9 +45,14 @@ public class Workshop {
 		WsName = wsName;
 		Category = category;
 	}
-
-
-
+	// 인덱스 새로운 공방 
+	public Workshop(String wsNo, String wsName, Date wsEnrollDate, String intro) {
+		super();
+		WsNo = wsNo;
+		WsName = wsName;
+		WsEnrollDate = wsEnrollDate;
+		this.intro = intro;
+	}
 
 	public Workshop(String wsNo, String wsName, String category, double grade, String address) {
 		WsNo = wsNo;
