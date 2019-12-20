@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
+import mypage.model.service.MypageService;
+import qna.model.service.QnaService;
+import qna.model.vo.Qna;
 import reservation.model.service.ReservationService;
 
 /**
@@ -49,6 +52,11 @@ public class MemberLoginServlet extends HttpServlet {
 			int qnacount = new MemberService().selectQna();
 			request.getSession().setAttribute("qnacount", qnacount);
 		}else {
+			// 후기 답변 여부 가져오기
+			ArrayList<Qna> qnalist = new MypageService().selectQnaList(m.getUserId());
+			int useralarm = new QnaService().getReadStatus(qnalist);
+			request.getSession().setAttribute("useralarm", useralarm);
+			
 			ArrayList<Integer> rs = new ReservationService().selectUserReservation(m.getUserId());
 			int price = rs.get(0);
 			int reservationcount = rs.get(1);

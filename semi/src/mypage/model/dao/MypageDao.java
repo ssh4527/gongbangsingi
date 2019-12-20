@@ -98,7 +98,7 @@ public class MypageDao {
 			rset = pstmt.executeQuery();
 			System.out.println(sql);
 			while (rset.next()) {
-				qnalist.add(new Qna(rset.getString("Q_TITLE"),rset.getString("Q_CONTENT"),rset.getDate("Q_ENT_DATE"),rset.getString("Q_REPLAY_CK")));
+				qnalist.add(new Qna(rset.getString("q_no"),rset.getString("Q_TITLE"),rset.getString("Q_CONTENT"),rset.getDate("Q_ENT_DATE"),rset.getString("Q_REPLAY_CK")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

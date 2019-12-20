@@ -7,13 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+ 
     <!-- 폰트부분 -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+KR&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/1f49e42371.js"
 	crossorigin="anonymous"></script>
     <!-- 폰트 끝 -->
-    <script src="main.js"></script>
     <style>
     .footerdiv{
         width:30%;

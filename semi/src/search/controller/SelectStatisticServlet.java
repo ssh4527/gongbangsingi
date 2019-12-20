@@ -51,10 +51,14 @@ public class SelectStatisticServlet extends HttpServlet {
 			// 월별 조회
 			statistics= new SearchService().selectMonthStatistics(year,month);
 		}
+		
+		
+		
 		ArrayList<Workshop> wsList = new ShopService().selectNewShopList();
 		ArrayList<Workshop> wsList2 = new ShopService().selectCheckShopList();
 		ArrayList<String[]> wcList = new ClassService().selectCheckClassList();
 		ArrayList<String> category = new SearchService().selectCategory();
+	
 		request.setAttribute("year",year);
 		request.setAttribute("month",month);
 		request.setAttribute("category", category);
