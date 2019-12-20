@@ -39,7 +39,6 @@ public class BusinessMyPageServlet extends HttpServlet {
 		//Workshop w = (Workshop) request.getSession().getAttribute("loginUser");
 		String wsNo = new MypageService().selectWsNo(m.getUserId());
 		
-		System.out.println(wsNo);
 		// 예약 정보 가져오기
 		ArrayList<Reservation> list = new MypageService().selectList(wsNo);
 

@@ -28,6 +28,30 @@ public class BMypageDao {
 			e.printStackTrace();
 		}
 	}
+	
+	public String selectWsNo(String userId, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = "select ws_no from workshop where c_id =?";
+		String wsNo = "";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				wsNo = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return wsNo;
+	}
+	
 
 	// 1. 예약 목록 확인
 	public ArrayList<Reservation> selectList(String wNo,Connection conn) {
@@ -47,12 +71,14 @@ public class BMypageDao {
 				list.add(new Reservation(rset.getString("res_Date"), rset.getString("c_name"), rset.getString("wc_name"), rset.getInt("res_Nop"),
 						 rset.getInt("total_price"), rset.getString("res_state")));
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
 			close(pstmt);
 		}
+		System.out.println(list);
 		return list;
 		
 	}
@@ -150,7 +176,7 @@ public class BMypageDao {
 		return result;
 	}
 
-	public int showMyLevel(String uId, Connection conn) {
+	public int showMyLevel(String wsNo, Connection conn) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -158,7 +184,7 @@ public class BMypageDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, uId);
+			pstmt.setString(1, wsNo);
 			
 			rset = pstmt.executeQuery();
 			while(rset.next()) {

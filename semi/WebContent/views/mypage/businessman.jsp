@@ -2,11 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="java.util.ArrayList, reservation.model.vo.*, member.model.*, review.model.vo.*, qna.model.vo.*, workshop.model.vo.* "%>
-	<%
-    	ArrayList<Reservation> list = (ArrayList<Reservation>)request.getAttribute("list"); 
-    	ArrayList<Review> relist = (ArrayList<Review>)request.getAttribute("reviewlist");
-    	ArrayList<Qna> qnalist = (ArrayList<Qna>)request.getAttribute("qnalist");
-    %>
+<%
+	ArrayList<Reservation> rlist = (ArrayList<Reservation>) request.getAttribute("list");
+	ArrayList<Review> relist = (ArrayList<Review>) request.getAttribute("reviewlist");
+	ArrayList<Qna> qnalist = (ArrayList<Qna>) request.getAttribute("qnalist");
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,15 +33,15 @@ aside {
 	border-right: 1px solid lightgray;
 }
 
-#menu{
+#menu {
 	
 }
+
 #menu>li {
 	list-style: none;
 	margin-top: 30px;
 	margin-botton: 30px;
 }
-
 
 section {
 	margin: 1%;
@@ -85,6 +86,9 @@ section {
 	margin-left: 75px;
 	margin-top: 10px;
 	overflow: hidden;
+	background:
+		url('<%=request.getContextPath()%>/resources/images/city1.PNG')
+		no-repeat;
 }
 
 #profile:hover {
@@ -116,16 +120,13 @@ section {
 	<%@ include file="../common/menubar.jsp"%>
 	<div id="nomalPage-maindiv">
 		<header>
-			<div id="profile">
-				<div id="usericon">
-				</div>
-			</div>
+			<div id="profile"></div>
 			<table id="header-info">
 				<tr>
 					<td width=110px></td>
 				</tr>
-				<tr >
-					<td>포인트</td>
+				<tr>
+					<td></td>
 					<td></td>
 				</tr>
 			</table>
@@ -140,9 +141,12 @@ section {
 				<li class="menuLi" id="Go-MyWorkShop">내 공방 페이지</li>
 			</ul>
 		</aside>
-		
+
 		<script>								
 			$(function(){
+				$("#Go-MyWorkShop").click(function(){
+					location.href="<%=request.getContextPath()%>/store/storeView.jsp";
+				});
 				$("#profile").click(function(){
 					
 				});
@@ -214,12 +218,12 @@ section {
 				});
 			});
 			 function deleteMember(){
-				 if( <%= loginUser.getUserPwd() %> == $("#ckPwd").val() ){
+				 if( <%=loginUser.getUserPwd()%> == $("#ckPwd").val() ){
 						if(window.confirm("정말 탈퇴하시겠습니까?")){
 							window.alert("회원 탈퇴 완료");
-							location.href = "<%= request.getContextPath()%>/deleteMember.nomal";
+							location.href = "<%=request.getContextPath()%>/deleteMember.nomal";
 					}
-				}else{
+				} else {
 					window.alert("비밀번호가 일치하지 않습니다.")
 				}
 			}
@@ -239,34 +243,57 @@ section {
 						</tr>
 					</thead>
 					<tbody>
-						<% if(list.isEmpty()){ %>
+						<%if (rlist.isEmpty()) {%>
 						<tr>
 							<td colspan="6" style="text-align: center">조회된 예약 내역이 없습니다.</td>
 						</tr>
 						<% } else { %>
-						<% for(Reservation r : list) {%>
-						<tr>
-							<td><%=r.getResDate()%></td>
-							<td><%=r.getcName()%></td>
-							<td><%=r.getWcName() %></td>
-							<td><%=r.getResNop() %>명</td>
-							<td><%=r.getTotalPrice()%>원</td>
-							<td><%=r.getResState()%></td>
-						</tr>
-						<% } %>
-						<% } %>
+								<% for (Reservation r : rlist) { %>
+								<tr>
+									<td><%=r.getResDate()%></td>
+									<td><%=r.getcName()%></td>
+									<td><%=r.getWcName()%></td>
+									<td><%=r.getResNop()%>명</td>
+									<td><%=r.getTotalPrice()%>원</td>
+									<td><%=r.getResState()%></td>
+								</tr>
+								<% } %>
+							<% } %>
 					</tbody>
 				</table>
 				<hr>
-				<h4>총 결제 금액 : </h4> <input type="text" disabled="disabled" id="Payment"> <!-- 값 자동으로 넣어야 함 -->
+
+				<div style="float: right;">
+					<h4 style="float: right;">총 결제 금액</h4>
+					<br> <input type="text" disabled="disabled" id="Payment"
+						style="text-align: center;">
+					<%
+						if (!rlist.isEmpty()) {
+					%>
+					<script>
+						$("#Payment").val(
+					<%=request.getAttribute("show")%>
+						)
+					</script>
+					<%
+						} else {
+					%>
+					<script>
+						$("#Payment").val("결제 금액 기록 없음")
+					</script>
+					<%
+						}
+					%>
+				</div>
+				
 			</div>
-			
+
 			<div id="ReviewTable">
 				<h2>공방 후기</h2>
 				<table class="table">
 					<thead>
 						<tr>
-							<th>작성자</th>							
+							<th>작성자</th>
 							<th>클래스 이름</th>
 							<th>제목</th>
 							<th>내용</th>
@@ -275,22 +302,32 @@ section {
 						</tr>
 					</thead>
 					<tbody>
-						<% if(relist.isEmpty()){ %>
+						<%
+							if (relist.isEmpty()) {
+						%>
 						<tr>
-							<td colspan="5" style="text-align: center">조회된 후기가 없습니다.</td>
+							<td colspan="6" style="text-align: center">조회된 후기가 없습니다.</td>
 						</tr>
-						<% } else { %>
-						<% for(Review re : relist) {%>
+						<%
+							} else {
+						%>
+						<%
+							for (Review re : relist) {
+						%>
 						<tr>
 							<td><%=re.getcName()%></td>
-							<td><%=re.getWcName() %></td>
+							<td><%=re.getWcName()%></td>
 							<td><%=re.getRTitle()%></td>
 							<td><%=re.getRContent()%></td>
 							<td><%=re.getREnDate()%></td>
 							<td><%=re.getRGrade()%></td>
 						</tr>
-						<% } %>
-						<% } %>
+						<%
+							}
+						%>
+						<%
+							}
+						%>
 					</tbody>
 				</table>
 			</div>
@@ -307,50 +344,114 @@ section {
 						</tr>
 					</thead>
 					<tbody>
-						<% if(list.isEmpty()){ %>
+						<%
+							if (rlist.isEmpty()) {
+						%>
 						<tr>
-							<td colspan="4" style="text-align: center">조회된 문의 내역이 없습니다.</td>
+							<td colspan="5" style="text-align: center">조회된 문의 내역이 없습니다.</td>
 						</tr>
-						<% } else { %>
-						<% for(Qna q : qnalist) {%>
+						<%
+							} else {
+						%>
+						<%
+							for (Qna q : qnalist) {
+						%>
 						<tr>
 							<td><%=q.getqTitle()%></td>
 							<td><%=q.getqContent()%></td>
 							<td><%=q.getqEntdate()%></td>
-							<% if (q.getqReplayck().contains("Y")){ %>
-								<td>
-									<p style="color:green;">답변 완료</p>
-								</td>
-							<% } else {%>
-								<td>
-									<p style="color:red">답변 없음</p>
-								</td>
-							<% } %>
+							<%
+								if (q.getqReplayck().contains("Y")) {
+							%>
+							<td>
+								<p style="color: green;">답변 완료</p>
+							</td>
+							<%
+								} else {
+							%>
+							<td>
+								<p style="color: red">답변 없음</p>
+							</td>
+							<%
+								}
+							%>
 						</tr>
-						<% } %>
-						<% } %>
+						<%
+							}
+						%>
+						<%
+							}
+						%>
 					</tbody>
 				</table>
 			</div>
 			<div id="changeInfoForm">
 				<h2>회원정보 수정</h2>
 				<hr>
-					<form action="location.href='<%= request.getContextPath()%>/updatePwd.normal'">
+				<form
+					action="location.href='<%=request.getContextPath()%>/updatePwd.normal'">
 					<h4>비밀번호 변경</h4>
-					비밀번호 입력 : <input type="password" id="pwd1">
-					<br>
-					<br> 
-					비밀번호 확인 : <input type="password" id="pwd2">
-					<div ><button id="changePwd" disabled="disabled">변경하기</button></div>
-					</form>
+					<table>
+						<tr>
+							<td>비밀번호 입력 :</td>
+							<td><input type="password" id="pwd1"></td>
+						</tr>
+						<tr>
+							<td>비밀번호 확인 :</td>
+							<td><input type="password" id="pwd2"></td>
+						</tr>
+					</table>
+					 <script>
+					 $(function(){
+						function identiSame(){
+							 if($("#pwd1").val() != $("#pwd2").val()){
+								 window.alert("비밀번호가 일치하지 않습니다.");
+							}else{
+								location.href="<%= request.getContextPath() %>/updatePwd.normal";
+							}
+						};
+					});
+					</script> 
+					<div>
+						<button id="changePwd" type="button" onclick="identiSame()">변경하기</button>
+					</div>
+				</form>
+				<script>
+					
+				</script>
+				<hr>
+				<form>
+					<h4>공방주소 변경</h4>
+					주소 입력 <br> <input type="text" maxlength="40"
+						style="width: 300px; height: 20px;"> <br>
+					<button>주소 변경하기</button>
+				</form>
 			</div>
 			<div id="deleteMember">
 				<h4>회원 탈퇴 신청</h4>
 				<hr>
-					<small style="color:red;">*공방 예약 현황이 없어야 가능합니다*</small>
-					비밀번호 확인 : <input type="password" id="ckPwd"><br>
-				<br>
-				<button type="button" id="deleteMember-btn" onclick="deleteMember()">탈퇴하기</button>
+				<%
+					if (!rlist.isEmpty()) {
+				%>
+				<small style="color: red; display: block;">*공방 예약 현황이 없어야
+					가능합니다*</small><br>
+				<% } %>
+
+				비밀번호 확인 : <input type="password" id="ckPwd"><br> <br>
+				.
+				
+				<%
+					if (rlist.isEmpty()) {
+				%>
+				<button type="button" class="deleteMember-btn"
+					onclick="deleteMember()">탈퇴하기</button>
+				<%
+					} else {
+				%>
+				<button type="button" class="deleteMember-btn" disabled="disabled">탈퇴하기</button>
+				<%
+					}
+				%>
 			</div>
 		</section>
 	</div>

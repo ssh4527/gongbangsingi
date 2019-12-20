@@ -28,13 +28,12 @@ public class Reservation {
 	public Reservation() {}
 
 	
-	public Reservation(String resDate, String cName, String wcName, int resNop, int totalPrice,  String resState /*String classtime,*/) {
+	public Reservation(String resDate, String cName, String wcName, int resNop, int totalPrice,  String resState) {
 		super();
 		this.resState = resState;
 		this.resNop = resNop;
 		this.totalPrice = totalPrice;
 		this.resDate = resDate;
-		//this.classtime = classtime;
 		this.wcName = wcName;
 		this.cName = cName;
 	}

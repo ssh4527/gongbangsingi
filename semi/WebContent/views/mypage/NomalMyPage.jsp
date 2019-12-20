@@ -130,7 +130,7 @@ section {
 				</tr>
 				<tr >
 					<td>포인트</td>
-					<td><%= loginUser.getPoint() %></td>
+					<td><%= loginUser.getPoint()%></td>
 				</tr>
 			</table>
 		</header>
@@ -259,7 +259,28 @@ section {
 					</tbody>
 				</table>
 				<hr>
-				<h4>총 결제 금액 : </h4> <input type="text" disabled="disabled" id="Payment"> <!-- 값 자동으로 넣어야 함 -->
+				<div style="float: right;">
+					<h4 style="float: right;">총 결제 금액</h4>
+					<br> <input type="text" disabled="disabled" id="Payment"
+						style="text-align: center;">
+					<%
+						if (!list.isEmpty()) {
+					%>
+					<script>
+						$("#Payment").val(
+					<%=request.getAttribute("show")%>
+						)
+					</script>
+					<%
+						} else {
+					%>
+					<script>
+						$("#Payment").val("결제 금액 기록 없음")
+					</script>
+					<%
+						}
+					%>
+				</div>
 			</div>
 			
 			<div id="ReviewTable">
