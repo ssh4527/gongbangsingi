@@ -1,5 +1,7 @@
 package workclass.model.vo;
 
+import java.util.Date;
+
 public class Workclass {
 	private String WcNo; // 클래스 번호
 	private String WcName; // 클래스 이름 
@@ -17,12 +19,38 @@ public class Workclass {
 	private String path; // 해당 클래스의 썸네일 사진 링크가져옴 by.h
 	private String rename; // 해당 썸네일의 링크 by.h
 	
+	private Date startdate; // 클래스 시작하는 날짜 20191220 by.h
+	private Date enddate; // 클래스 끝나는날짜
+	
 	
 	public Workclass() {}
 	
 	
-	
-	// 기본생성자 by h
+	// 기본생성자 by h 20191220 by h
+	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
+			String wcWarning, String wcIntroduce, String wsNo, double avgGrade, String path, String rename,
+			Date startdate, Date enddate) {
+		super();
+		WcNo = wcNo;
+		WcName = wcName;
+		WcNOP = wcNOP;
+		WcMaxP = wcMaxP;
+		WcYN = wcYN;
+		WcOpenClose = wcOpenClose;
+		WcHits = wcHits;
+		WcWarning = wcWarning;
+		WcIntroduce = wcIntroduce;
+		WsNo = wsNo;
+		this.avgGrade = avgGrade;
+		this.path = path;
+		this.rename = rename;
+		this.startdate = startdate;
+		this.enddate = enddate;
+	}
+
+
+
+	// 기본생성자 by h 
 	public Workclass(String wcNo, String wcName, int wcNOP, int wcMaxP, boolean wcYN, String wcOpenClose, int wcHits,
 			String wcWarning, String wcIntroduce, String wsNo, double avgGrade, String path, String rename) {
 		super();
@@ -213,12 +241,34 @@ public class Workclass {
 		this.rename = rename;
 	}
 
+	
+	public Date getStartdate() {
+		return startdate;
+	}
+
+
+	public void setStartdate(Date startdate) {
+		this.startdate = startdate;
+	}
+
+
+	public Date getEnddate() {
+		return enddate;
+	}
+
+
+	public void setEnddate(Date enddate) {
+		this.enddate = enddate;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Workclass [WcNo=" + WcNo + ", WcName=" + WcName + ", WcNOP=" + WcNOP + ", WcMaxP=" + WcMaxP + ", WcYN="
 				+ WcYN + ", WcOpenClose=" + WcOpenClose + ", WcHits=" + WcHits + ", WcWarning=" + WcWarning
 				+ ", WcIntroduce=" + WcIntroduce + ", WsNo=" + WsNo + ", avgGrade=" + avgGrade + ", path=" + path
-				+ ", rename=" + rename + "]";
+				+ ", rename=" + rename + ", startdate=" + startdate + ", enddate=" + enddate + "]";
 	}
+
 	
 }

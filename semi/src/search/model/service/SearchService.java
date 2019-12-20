@@ -174,6 +174,23 @@ public class SearchService {
 		return category;
 	}
 
+	// 검색된 클래스들의 시작날짜랑 끝나는 날짜 가져오는 서블릿 by.h 20191220
+	public Workclass selectDate(String wcNo) {
+		Connection conn = getConnection();
+		Workclass wc = new SearchDao().selectDate(wcNo,conn);
+		close(conn);
+		return wc;
+	}
+
+	// 인기순 정렬 by.h
+	public ArrayList<Workclass> searchSortClass(String keyword) {
+		Connection c = getConnection();
+
+		ArrayList<Workclass> list = new SearchDao().searchSortClass(keyword, c);
+		close(c);
+		return list;
+	}
+
 
 	
 }

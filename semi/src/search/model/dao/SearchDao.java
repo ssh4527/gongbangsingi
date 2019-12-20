@@ -480,4 +480,74 @@ public class SearchDao {
 		return category;
 	}
 
+	// 검색된 클래스들의 시작날짜랑 끝나는 날짜 가져오는 서블릿 by.h 20191220
+	public Workclass selectDate(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Workclass wc =  new Workclass();
+		String sql = "select to_date(ct_date) , to_date(ct_enddate) from class_time where wc_No = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				wc.setStartdate(rset.getDate(1));
+				wc.setEnddate(rset.getDate(2));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return wc;
+	}
+
+	public ArrayList<Workclass> searchSortClass(String keyword, Connection c) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Workclass> list = new ArrayList<Workclass>();
+		String q=  "select * from work_class where ws_no in "
+				+ "(select WS_NO from workshop where S_CATEGORY = ?)";
+		try {
+			ps= c.prepareStatement(q);
+			ps.setString(1, keyword);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				boolean accept = false;
+				if(rs.getString("WC_YN")=="Y") {
+					accept=true;
+				}
+				
+				list.add(new Workclass(rs.getString("WC_NO"),
+						rs.getString("WC_NAME"),
+						rs.getInt("WC_NOP"),
+						rs.getInt("WC_MAXP"),
+						accept,
+						rs.getString("WC_DATE"),
+						rs.getInt("WC_HITS"),
+						rs.getString("WC_WARNING"),
+						rs.getString("WC_INTRODUCE"),
+						rs.getString("WS_NO")
+						));
+				
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			
+			close(rs);
+			close(ps);
+		}
+		
+		return list;
+	}
+
 }
