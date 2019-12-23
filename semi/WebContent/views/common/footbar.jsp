@@ -62,7 +62,7 @@
     			<a href="/semi" id="foota">홈</a>&nbsp;
     			<a href="/semi/shopList.sh" id="foota">공방</a>&nbsp;
     			<a href="/semi/views/classcategory/category.jsp" id="foota">클래스</a>&nbsp;
-    			<a href="/semi/views/review/reviewList.jsp" id="foota">리뷰</a>&nbsp;
+    			<a href="/semi/review.search" id="foota">리뷰</a>&nbsp;
     			<a href="/semi/list.qna" id="foota">고객센터</a>
     		</div>
     		<div class="rows_2" style="width:300px; height:80px; float:left;">

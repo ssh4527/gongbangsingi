@@ -22,16 +22,6 @@ public class Review {
 
 
 
-
-
-
-
-
-
-
-
-
-
 	private String wcNo; // 클래스 번호
 	private String cName;
 	private String wcName;
@@ -48,8 +38,19 @@ public class Review {
 		RWriter = rWriter;
 		this.wcName = wcName;
 	}
+	
 
-
+	public Review(String rTitle, Date rEnDate, String rContent, int rCount, int rGrade, String cName,String rWriter, String wcName) {
+		super();
+		RTitle = rTitle;
+		REnDate = rEnDate;
+		RContent = rContent;
+		RCount = rCount;
+		RGrade = rGrade;
+		RWriter = rWriter;
+		this.cName = cName;
+		this.wcName = wcName;
+	}
 
 
 	public Review(String cName, Date rEnDate, int rGrade, String rWriter) {
