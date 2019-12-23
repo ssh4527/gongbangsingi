@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import business_mypage.model.service.BMypageService;
 import member.model.vo.Member;
 import mypage.model.service.MypageService;
 import qna.model.vo.Qna;
 import reservation.model.vo.Reservation;
 import review.model.vo.Review;
-import workshop.model.vo.Workshop;
 
 /**
  * Servlet implementation class BusinessMyPageServlet
@@ -40,14 +40,13 @@ public class BusinessMyPageServlet extends HttpServlet {
 		String wsNo = new MypageService().selectWsNo(m.getUserId());
 		
 		// 예약 정보 가져오기
-		ArrayList<Reservation> list = new MypageService().selectList(wsNo);
+		ArrayList<Reservation> list = new BMypageService().selectList(wsNo);
 
 		// 후기 정보 가져오기
-		ArrayList<Review> reviewlist = new MypageService().selectReviewList(wsNo);
+		ArrayList<Review> reviewlist = new BMypageService().selectReviewList(wsNo);
 		
 		// 문의 내역 가져오기
-		ArrayList<Qna> qnalist = new MypageService().selectQnaList(wsNo);
-		
+		ArrayList<Qna> qnalist = new BMypageService().selectQnaList(wsNo);
 		
 
 		request.setAttribute("list", list);

@@ -49,14 +49,20 @@ public class ShowMyInfomationServlet extends HttpServlet {
 		// 문의 내역 가져오기
 		ArrayList<Qna> qnalist = new MypageService().selectQnaList(m.getUserId());
 		
+		// 예약 금액 가져오기
+		int result = new MypageService().showMyLevel(m.getUserId());
+		
 		// 확인
 		//System.out.println(list);
 		//System.out.println("리뷰 : " + reviewlist);
 		//System.out.println(qnalist);
+		//System.out.println(result);
 
 		request.setAttribute("list", list);
 		request.setAttribute("reviewlist", reviewlist);
 		request.setAttribute("qnalist", qnalist);
+		request.setAttribute("show", result);
+		
 		request.getRequestDispatcher("views/mypage/NomalMyPage.jsp").forward(request, response);
 	}
 

@@ -8,7 +8,7 @@ import static common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import mypage.model.dao.MypageDao;
+import business_mypage.model.dao.BMypageDao;
 import qna.model.vo.Qna;
 import reservation.model.vo.Reservation;
 import review.model.vo.Review;
@@ -18,7 +18,7 @@ public class BMypageService {
 		public ArrayList<Reservation> selectList(String wNo) {
 			Connection conn = getConnection();
 			
-			ArrayList<Reservation> list = new MypageDao().selectList(wNo,conn);
+			ArrayList<Reservation> list = new BMypageDao().selectList(wNo,conn);
 			
 			close(conn);
 			return list;
@@ -28,7 +28,7 @@ public class BMypageService {
 		public ArrayList<Review> selectReviewList(String wNo) {
 			Connection conn = getConnection();
 			
-			ArrayList<Review> relist = new MypageDao().selectReviewList(wNo,conn);
+			ArrayList<Review> relist = new BMypageDao().selectReviewList(wNo,conn);
 			
 			close(conn);
 			return relist;
@@ -37,7 +37,7 @@ public class BMypageService {
 		public ArrayList<Qna> selectQnaList(String wNo) {
 			Connection conn = getConnection();
 			
-			ArrayList<Qna> qlist = new MypageDao().selectQnaList(wNo,conn);
+			ArrayList<Qna> qlist = new BMypageDao().selectQnaList(wNo,conn);
 			
 			close(conn);
 			return qlist;
@@ -46,7 +46,7 @@ public class BMypageService {
 		public int deleteMember(String uId) {
 			Connection conn = getConnection();
 			
-			int result = new MypageDao().deleteMember(uId,conn);
+			int result = new BMypageDao().deleteMember(uId,conn);
 			
 			if(result>0) {
 				commit(conn);
@@ -60,14 +60,14 @@ public class BMypageService {
 		// 공방 번호 가져오기
 		public String selectWsNo(String userId) {
 			Connection conn = getConnection();
-			String wsNo = new MypageDao().selectWsNo(userId,conn);
+			String wsNo = new BMypageDao().selectWsNo(userId,conn);
 			close(conn);
 			return wsNo;
 		}
 		public int showMyLevel(String wsNo) {
 			Connection conn = getConnection();
 			
-			int result = new MypageDao().showMyLevel(wsNo,conn);
+			int result = new BMypageDao().showMyLevel(wsNo,conn);
 			
 			close(conn);
 			return result;
