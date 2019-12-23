@@ -111,17 +111,16 @@ section {
 #N-Reservation {
 	color: green;
 }
-.ChangePwdInMyPage{
-	width: 200px !important;
-	height: 30px !important;
-}
 </style>
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
 	<div id="nomalPage-maindiv">
 		<header>
-			<br>
+			<div id="profile">
+				<div id="usericon">
+				</div>
+			</div>
 			<table id="header-info">
 				<tr>
 					<td width=110px>등급</td>
@@ -262,16 +261,25 @@ section {
 				<hr>
 				<div style="float: right;">
 					<h4 style="float: right;">총 결제 금액</h4>
-					<br> <input type="text" disabled="disabled" id="Payment" style="text-align: center;">
-					<% if (!list.isEmpty()) { %>
+					<br> <input type="text" disabled="disabled" id="Payment"
+						style="text-align: center;">
+					<%
+						if (!list.isEmpty()) {
+					%>
 					<script>
-						$("#Payment").val(<%= request.getAttribute("show")%>)
+						$("#Payment").val(
+					<%=request.getAttribute("show")%>
+						)
 					</script>
-					<% } else { %>
+					<%
+						} else {
+					%>
 					<script>
 						$("#Payment").val("결제 금액 기록 없음")
 					</script>
-					<% } %>
+					<%
+						}
+					%>
 				</div>
 			</div>
 			
@@ -328,7 +336,7 @@ section {
 							<td><%=q.getqTitle()%></td>
 							<td><%=q.getqContent()%></td>
 							<td><%=q.getqEntdate()%></td>
-							<% if (q.getqReplayck().contains("TRUE")){ %>
+							<% if (q.getqReplayck().contains("Y")){ %>
 								<td>
 									<p style="color:green;">답변 완료</p>
 								</td>
@@ -346,46 +354,15 @@ section {
 			<div id="changeInfoForm">
 				<h2>회원정보 수정</h2>
 				<hr>
-					<form id="changePwdForm" method="post" action="<%=request.getContextPath()%>/change.pwd" onsubmit="return checkChangePwd();">
-						<div id="signArea">
-						  <div class="textdivarea">비밀번호</div>
-						    <div class="inputdivarea">
-								<input type="password" id="changePwd" class="ChangePwdInMyPage" width: 200px name="changePwd" required>
-							</div>
-							<input type="text" id="changeId" name="changeId" style="display: none;">
-						  <div class="commentarea"></div>
-						  <div class="textdivarea">비밀번호 확인</div>
-						  <div class="inputdivarea">
-							<input type="password" id="changePwdCk" class="ChangePwdInMyPage" name="changePwdCk" required>
-						  </div>
-							<div class="commentarea"></div>
-							<button type="submit" id="changepwdformbtn">비밀번호 변경</button>
-						</div>
+					<form action="location.href='<%= request.getContextPath()%>/updatePwd.normal'">
+					<h4>비밀번호 변경</h4>
+					비밀번호 입력 : <input type="password" id="pwd1">
+					<br>
+					<br> 
+					비밀번호 확인 : <input type="password" id="pwd2">
+					<div ><button id="changePwd" disabled="disabled">변경하기</button></div>
 					</form>
-					<script>
-						$(function() {
-							$("#changePwdCk").focusin(
-									function() {
-										$(this).focusout(
-											function() {
-												if ($("#changePwd").val() != $(
-														"#changePwdCk").val()) {
-													$("#changePwdCk").parent().next().html(
-															"비밀번호가 일치하지 않습니다.");
-												} else {
-													$("#changePwdCk").parent().next().html("");
-												}
-											});
-										});
-									});
-							function checkChangePwd() {
-								var test = $("#changePwdCk").parent().next().html();
-								if (test.length > 0) {
-									return false;
-								}
-								return true;
-							};
-					</script>
+					
 					<hr>
 					<form action="location.href ='<%= request.getContextPath() %>/updateMember.nomal'">
 					<h4>관심분야</h4>

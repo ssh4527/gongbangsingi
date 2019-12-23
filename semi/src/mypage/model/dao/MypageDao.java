@@ -196,27 +196,4 @@ public class MypageDao {
 		return wsNo;
 	}
 
-	public int UpgradeNtoB(String uId, Connection conn) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		int result = 0;
-		
-		String sql = prop.getProperty("upgradeNtoB");	// sql 작성 ---------------------------------
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, uId);
-			
-			result = pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-			close(rset);
-		}
-		return result;
-	}
-
 }

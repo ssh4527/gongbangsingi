@@ -89,21 +89,6 @@ public class MypageService {
 		close(conn);
 		return wsNo;
 	}
-
-	public int UpgradeNtob(String uId) {
-		Connection conn = getConnection();
-		
-		int result = new MypageDao().UpgradeNtoB(uId,conn);
-		
-		if(result > 0) {
-			commit(conn);
-		}else {
-			rollback(conn);
-		}
-		
-		close(conn);
-		return result;
-	}
 	
 
 }

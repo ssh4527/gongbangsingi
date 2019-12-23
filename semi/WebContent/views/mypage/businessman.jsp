@@ -267,17 +267,23 @@ section {
 					<h4 style="float: right;">총 결제 금액</h4>
 					<br> <input type="text" disabled="disabled" id="Payment"
 						style="text-align: center;">
-					<% if (!rlist.isEmpty()) { %>
+					<%
+						if (!rlist.isEmpty()) {
+					%>
 					<script>
 						$("#Payment").val(
-					<%= request.getAttribute("show")%>
+					<%=request.getAttribute("show")%>
 						)
 					</script>
-					<% } else { %>
+					<%
+						} else {
+					%>
 					<script>
 						$("#Payment").val("결제 금액 기록 없음")
 					</script>
-					<% } %>
+					<%
+						}
+					%>
 				</div>
 				
 			</div>
@@ -296,12 +302,18 @@ section {
 						</tr>
 					</thead>
 					<tbody>
-						<% if (relist.isEmpty()) { %>
+						<%
+							if (relist.isEmpty()) {
+						%>
 						<tr>
 							<td colspan="6" style="text-align: center">조회된 후기가 없습니다.</td>
 						</tr>
-						<% } else { %>
-						<% for (Review re : relist) { %>
+						<%
+							} else {
+						%>
+						<%
+							for (Review re : relist) {
+						%>
 						<tr>
 							<td><%=re.getcName()%></td>
 							<td><%=re.getWcName()%></td>
@@ -310,8 +322,12 @@ section {
 							<td><%=re.getREnDate()%></td>
 							<td><%=re.getRGrade()%></td>
 						</tr>
-						<% } %>
-						<% } %>
+						<%
+							}
+						%>
+						<%
+							}
+						%>
 					</tbody>
 				</table>
 			</div>
@@ -328,76 +344,52 @@ section {
 						</tr>
 					</thead>
 					<tbody>
-						<% if (rlist.isEmpty()) { %>
+						<%
+							if (rlist.isEmpty()) {
+						%>
 						<tr>
 							<td colspan="5" style="text-align: center">조회된 문의 내역이 없습니다.</td>
 						</tr>
-						<% } else { %>
-						<% for (Qna q : qnalist) { %>
+						<%
+							} else {
+						%>
+						<%
+							for (Qna q : qnalist) {
+						%>
 						<tr>
 							<td><%=q.getqTitle()%></td>
 							<td><%=q.getqContent()%></td>
 							<td><%=q.getqEntdate()%></td>
-							<% if (q.getqReplayck().contains("Y")) { %>
+							<%
+								if (q.getqReplayck().contains("Y")) {
+							%>
 							<td>
 								<p style="color: green;">답변 완료</p>
 							</td>
-							<% } else { %>
+							<%
+								} else {
+							%>
 							<td>
 								<p style="color: red">답변 없음</p>
 							</td>
-							<% } %>
+							<%
+								}
+							%>
 						</tr>
-						<% } %>
-						<% } %>
+						<%
+							}
+						%>
+						<%
+							}
+						%>
 					</tbody>
 				</table>
 			</div>
 			<div id="changeInfoForm">
 				<h2>회원정보 수정</h2>
 				<hr>
-				<form id="changePwdForm" method="post" action="<%=request.getContextPath()%>/change.pwd" onsubmit="return checkChangePwd();">
-						<div id="signArea">
-						  <div class="textdivarea">비밀번호</div>
-						    <div class="inputdivarea">
-								<input type="password" id="changePwd" name="changePwd" required>
-							</div>
-							<input type="text" id="changeId" name="changeId" style="display: none;">
-						  <div class="commentarea"></div>
-						  <div class="textdivarea">비밀번호 확인</div>
-						  <div class="inputdivarea">
-							<input type="password" id="changePwdCk" name="changePwdCk" required>
-						  </div>
-							<div class="commentarea"></div>
-							<button type="submit" id="changepwdformbtn">비밀번호 변경</button>
-						</div>
-					</form>
-					<script>
-						$(function() {
-							$("#changePwdCk").focusin(
-									function() {
-										$(this).focusout(
-											function() {
-												if ($("#changePwd").val() != $(
-														"#changePwdCk").val()) {
-													$("#changePwdCk").parent().next().html(
-															"비밀번호가 일치하지 않습니다.");
-												} else {
-													$("#changePwdCk").parent().next().html("");
-												}
-											});
-										});
-									});
-							function checkChangePwd() {
-								var test = $("#changePwdCk").parent().next().html();
-								if (test.length > 0) {
-									return false;
-								}
-								return true;
-							};
-					</script>
-					
-				<%-- <form action="location.href='<%=request.getContextPath()%>/updatePwd.normal'">
+				<form
+					action="location.href='<%=request.getContextPath()%>/updatePwd.normal'">
 					<h4>비밀번호 변경</h4>
 					<table>
 						<tr>
@@ -409,9 +401,6 @@ section {
 							<td><input type="password" id="pwd2"></td>
 						</tr>
 					</table>
-					<div>
-						<button id="changePwd" type="button" onclick="identiSame()">변경하기</button>
-					</div>
 					 <script>
 					 $(function(){
 						function identiSame(){
@@ -423,7 +412,13 @@ section {
 						};
 					});
 					</script> 
-				</form>  --%>
+					<div>
+						<button id="changePwd" type="button" onclick="identiSame()">변경하기</button>
+					</div>
+				</form>
+				<script>
+					
+				</script>
 				<hr>
 				<form>
 					<h4>공방주소 변경</h4>
@@ -435,12 +430,15 @@ section {
 			<div id="deleteMember">
 				<h4>회원 탈퇴 신청</h4>
 				<hr>
-				<% if (!rlist.isEmpty()) { %>
-				<small style="color: red; display: block;">*공방 예약 현황이 없어야 가능합니다*</small><br>
+				<%
+					if (!rlist.isEmpty()) {
+				%>
+				<small style="color: red; display: block;">*공방 예약 현황이 없어야
+					가능합니다*</small><br>
 				<% } %>
 
 				비밀번호 확인 : <input type="password" id="ckPwd"><br> <br>
-				
+				.
 				
 				<%
 					if (rlist.isEmpty()) {

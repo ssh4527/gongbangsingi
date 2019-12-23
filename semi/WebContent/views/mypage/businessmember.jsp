@@ -59,9 +59,6 @@
 			alert("개인정보 약관에 동의하셔야 합니다.");
 		}
 	}
-	if(chk.isture){
-		location.href='<%= request.getContextPath() %>'
-	}
 </script>
 
 <style>
@@ -84,7 +81,7 @@
 </head>
 <body>
 	<%@ include file="/views/common/menubar.jsp"%>
-	<form action= '<%= request.getContextPath() %>/UpgradeN-to-B' name="form" method="post" onsubmit="return chk()"> <!-- regFormImpl2.jsp -->
+	<form action="regFormImpl2.jsp" name="form" method="post"> <!-- regFormImpl2.jsp -->
 		<br>
 		<table width="1400" height="650">
 			<tr>
@@ -213,7 +210,7 @@
 
 			<tr>
 				<td align="center" valign="top">
-				<input type="submit"   class="btn btn-outline-secondary"value="사업자 회원전환 하기" />&nbsp;&nbsp;&nbsp; 
+				<input type="button"   class="btn btn-outline-secondary"value="사업자 회원전환 하기" onclick="chk()" />&nbsp;&nbsp;&nbsp; 
 				<input type="button"  class="btn btn-outline-secondary" value="뒤로가기" onclick="javascript:history.back();" /></td>
 			</tr>
 
