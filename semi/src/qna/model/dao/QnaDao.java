@@ -16,6 +16,7 @@ import java.util.Properties;
 import attachment.Attachment;
 import notice.model.vo.Notice;
 import qna.model.vo.Qna;
+import qna.model.vo.QnaRe;
 
 
 public class QnaDao {
@@ -290,6 +291,30 @@ public class QnaDao {
 			close(ps);
 		}
 		
+		return result;
+	}
+
+	
+
+	public int insertQnaRe(Connection conn, QnaRe q) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = "insert into reply_qna values('REQ' || REQ_SEQ.NEXTVAL,?,SYSDATE,?,?,?,DEFAULT)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q.getRqComment());
+			pstmt.setString(2, q.getSecret());
+			pstmt.setString(3, q.getqNo());
+			pstmt.setString(4, q.getcId());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
 		return result;
 	}
 	

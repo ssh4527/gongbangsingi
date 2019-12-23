@@ -45,7 +45,7 @@ public class ShopDao {
 
 			// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
 			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
+				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5),rset.getDate(6)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,7 +71,7 @@ public class ShopDao {
 				// WS_NO,WS_NAME,WS_ADDR,WS_TEL,
 				// WS_CATEGORY,ROUND(AVG(R_GRADE),1),WS_SNS,C_ID,WS_Introduce
 				shop = new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-						rset.getString(5), rset.getDouble(6), rset.getString(7), rset.getString(8), rset.getString(9));
+						rset.getString(5), rset.getDouble(6), rset.getString(7), rset.getString(8), rset.getString(9),rset.getDate(10));
 
 			}
 		} catch (SQLException e) {
@@ -339,104 +339,7 @@ public class ShopDao {
 		return list;
 	}
 
-	public ArrayList<Workshop> selectSortlist(Connection con, String sortType) {
-		PreparedStatement ppst = null;
-		ResultSet rset = null;
-		String sql = "";
-		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		if (sortType.equals("인기순")) {
-			sql = prop.getProperty("selectSortPoplist");
-		} else {
-			sql = prop.getProperty("selectSortNewlist");
-		}
-		try {
-			ppst = con.prepareStatement(sql);
-			rset = ppst.executeQuery();
-
-			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(ppst);
-		}
-
-		return list;
-	}
 	
-	public ArrayList<Workshop> selectedCategory(Connection con, String[] c) {
-		Statement ppst = null;
-		ResultSet rset = null;
-
-		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		String sql = "SELECT * FROM SHOPLIST WHERE S_CATEGORY IN(";
-		for(int i=0;i<c.length;i++) {
-			if(i==c.length-1) {
-				sql+="'"+c[i]+"') ";
-			}else sql+="'"+c[i]+"' "+",";
-		} 
-		try {
-			ppst = con.createStatement();
-			rset = ppst.executeQuery(sql);
-
-			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(ppst);
-		}
-
-		return list;
-	}
-
-	///////////////////////////////////////////////////////////////////////////
-	public ArrayList<Workshop> selectCSortlist(Connection con, String sortType, String[] c) {
-		PreparedStatement ppst = null;
-		ResultSet rset = null;
-		String sql="SELECT * FROM SHOPLIST ";
-		
-		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		if (sortType.equals("인기순")) {
-			sql += "WHERE S_CATEGORY IN(";
-			for(int i=0;i<c.length;i++) {
-				if(i==c.length-1) {
-					sql+="'"+c[i]+"') "+" ORDER BY(SELECT COUNT(WC_NO) FROM RESERVATION) DESC";
-				}else sql+="'"+c[i]+"' "+",";
-			}
-			System.out.println(sql);
-		} else {
-			sql += "JOIN WORKSHOP s USING(WS_NO) WHERE s.S_CATEGORY IN(";
-			for(int i=0;i<c.length;i++) {
-				if(i==c.length-1) {
-					sql+="'"+c[i]+"')"+" ORDER BY WS_ENROLLDATE DESC";
-				}else sql+="'"+c[i]+"' "+",";
-			}
-			System.out.println(sql);
-		}
-		try {
-				ppst = con.prepareStatement(sql);
-				rset = ppst.executeQuery();
-
-				while (rset.next()) {
-					list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5)));
-				}
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(ppst);
-		}
-
-		return list;
-	}
 
 
 	// made by ssh
@@ -486,24 +389,23 @@ public class ShopDao {
 		return result;
 	}
 
-	public int requestToChangeShop(Connection con, String userName, String shopName, String shopAddr, String sns,
+	public int requestToChangeShop(Connection con, String userId, String shopName, String shopAddr, String sns,
 			String tel, String num, String account, String intro, String category) {
 		
 		PreparedStatement ppst = null;
 		int result = 0;
-		String sql = "insert into workshop values('ws'||WSNO_SEQ.NEXTVAL,?,?,?,default,sysdate,?,(select C_ID from CLIENT where C_NAME= ?),?,?,?)";
+		String sql = "insert into workshop values('ws'||WSNO_SEQ.NEXTVAL,?,?,?,default,sysdate,?,?,?,?,?)";
 		
 		try {
 			ppst = con.prepareStatement(sql);
 			ppst.setString(1, shopName);
 			ppst.setString(2, shopAddr);
 			ppst.setString(3, tel);
-			ppst.setString(4, shopName);
-			ppst.setString(5, account);
-			ppst.setString(6, userName);
-			ppst.setString(7, intro);
-			ppst.setString(8, sns);
-			ppst.setString(9, category);
+			ppst.setString(4, account);
+			ppst.setString(5, userId);
+			ppst.setString(6, intro);
+			ppst.setString(7, sns);
+			ppst.setString(8, category);
 			
 			result = ppst.executeUpdate();
 		} catch (SQLException e) {
@@ -538,6 +440,31 @@ public class ShopDao {
 			close(st);
 		}
 		return list;
+	}
+
+	public Workshop getFilePathReName(Connection con, String wsNo) {
+		PreparedStatement ppst = null;
+		Workshop result =new Workshop();
+		ResultSet rset = null;
+		
+		String sql ="select fs_rename_file, fs_path from file_storage where fs_destination = ?";
+		try {
+			ppst=con.prepareStatement(sql);
+			ppst.setString(1, wsNo);
+			
+			rset=ppst.executeQuery();
+			if(rset.next()) {
+				result.setPath(rset.getString(2));
+				result.setReName(rset.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(ppst);
+		}
+		
+		return result;
 	}
 
 

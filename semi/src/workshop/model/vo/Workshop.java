@@ -22,6 +22,9 @@ public class Workshop {
 	private String sns; //sns계정
 
 	private String AccountNum; // 사업자 등록번호
+	
+	private String path; //썸네일 경로
+	private String reName;//썸네일 변경된 이름.
 	public Workshop() {}
 
 
@@ -54,21 +57,22 @@ public class Workshop {
 		this.intro = intro;
 	}
 
-	public Workshop(String wsNo, String wsName, String category, double grade, String address) {
+	public Workshop(String wsNo, String wsName, String category, double grade, String address, Date WsEnrollDate) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Category = category;
 		Address = address;
+		this.WsEnrollDate=WsEnrollDate;
 		this.grade = grade;
 	}
 
-
-	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade, String sns,String id,String intro) {
+	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade, String sns,String id,String intro, Date wsEnrollDate) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Address = address;
 		WsTel = wsTel;
 		Category = category;
+		WsEnrollDate=wsEnrollDate;
 		this.grade = grade;
 		this.sns=sns;
 		this.id=id;
@@ -197,6 +201,34 @@ public class Workshop {
 
 	public void setAccountNum(String accountNum) {
 		AccountNum = accountNum;
+	}
+
+
+
+
+	public String getPath() {
+		return path;
+	}
+
+
+
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+
+
+
+	public String getReName() {
+		return reName;
+	}
+
+
+
+
+	public void setReName(String reName) {
+		this.reName = reName;
 	}
 
 	

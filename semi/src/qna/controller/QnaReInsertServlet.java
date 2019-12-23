@@ -1,4 +1,4 @@
-package workclass.controller;
+package qna.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,22 +7,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
-import workclass.model.dao.ClassDao;
+import member.model.vo.Member;
+import qna.model.service.QnaService;
+import qna.model.vo.QnaRe;
 import workclass.model.service.ClassService;
 
 /**
- * Servlet implementation class DeleteReviewServlet
+ * Servlet implementation class QnaReInsertServlet
  */
-@WebServlet("/delete.review")
-public class DeleteReviewServlet extends HttpServlet {
+@WebServlet("/insert.qna.re")
+public class QnaReInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteReviewServlet() {
+    public QnaReInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,25 +31,26 @@ public class DeleteReviewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String rNo = request.getParameter("rNo");
-		System.out.println(rNo);
+		request.setCharacterEncoding("utf-8");
+		String qno = request.getParameter("Qno");
+		String text = request.getParameter("text");
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+	
+		QnaRe q = new QnaRe();
+		q.setqNo(qno);
+		q.setRqComment(text);
+		q.setcId(loginUser.getUserId());
+		q.setSecret("secret");
 		
-		int result = new ClassService().deleteReview(rNo);
-		int result1 = 0;
+		int result = new QnaService().insertQnaRe(q);
 		
-		
-		if(result > 0 ) {
-			result1 = new ClassService().deleteReviewFile(rNo);
-			if(result1 > 0) {
-				response.setContentType("application/json; charset=utf-8");
-				new Gson().toJson(result,response.getWriter());
-			}else {
-				response.setContentType("application/json; charset=utf-8");
-				new Gson().toJson(result,response.getWriter());
-			}
+		String page="";
+		if(result > 0) {
+			page = "views/board/boardDetailView.jsp";
 		}else {
-			System.out.println("리뷰 삭제안됨;;");
+			System.out.println("QnaReInsertServlet 오류");
 		}
+		
 		
 	}
 

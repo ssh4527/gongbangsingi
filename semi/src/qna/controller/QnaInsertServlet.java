@@ -39,7 +39,7 @@ public class QnaInsertServlet extends HttpServlet {
 		
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		String writer="";
-		if(loginUser != null) { writer=loginUser.getUserId();}
+		if(loginUser != null) { writer=loginUser.getUserName();}
 		else { writer="비회원";}
 	/*	Member CID = (Member)request.getSession().getAttribute("c");*/
 		

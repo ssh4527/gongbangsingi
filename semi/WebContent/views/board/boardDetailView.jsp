@@ -2,8 +2,17 @@
 	pageEncoding="UTF-8" import="qna.model.vo.*, java.util.*"%>
 <%
 	Qna q = (Qna) request.getAttribute("qna");
-	//ajax 이후
-	//ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
+
+String c1 = "";
+String c2 = "";
+if(q.getqSecret().equals("true")){
+	c1 = "checked";
+}else{
+	c2 = "checked";
+}
+
+// ajax 이후
+ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 %>
 <!DOCTYPE html>
 <html>
@@ -21,7 +30,7 @@
 <style>
 #qna4_wrap {
 	width: 1000px;
-	height: 900px;
+	height: 700px;
 	margin: auto;
 }
 
@@ -97,9 +106,9 @@
 				</tr>
 				<tr>
 					<td>비밀글 설정</td>
-					<td><input type="radio" value="Y" name="secret" id="private"
-						checked> <label for="private"> <img src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; 
-						<input type="radio" value="N" name="secret" id="public"> <label for="public"><img src="../../img/222.jpg" width="30px" heigh="30px"></label></td>
+					<td><input type="radio" value="Y" name="secret" id="private" <%= c1 %>> 
+					<label for="private">비밀글</label> &nbsp; 
+						<input type="radio" value="N" name="secret" id="public" <%= c2 %>> <label for="public">공개글</label></td>
 					<td>비밀번호</td>
 					<td><input type="password" name="password" id="password"
 						value="<%=q.getqPwd()%>" maxlength="4"></td>
@@ -112,38 +121,48 @@
 				</tr>
 			</table>
 		</form>
-		<hr><hr>
+		<hr>
 
-		<!-- ajax를 이용한 댓글 기능 구현 -->
-	<div class="replyArea">
-		<!-- 댓글 작성하는 부분 -->
-		<div class="replyWriterArea">
-			<table align="center">
+
+			<!--  댓글 작성하는 부분 -->
+			<form action="<%=request.getContextPath()%>/insert.qna.re" name="form" method="post">
+				<table align="center">
 				<tr>
-					<td>댓글 작성</td>
-					<td><textarea rows="3" cols="80" id="recontent"></textarea></td>
-					<td><button onclick="<%=request.getContextPath()%>/insert.qna.re">댓글 등록</button></td>
+					<td>댓글 작성 &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;</td> 
+					<td><textarea rows="3" cols="80" id="text"></textarea></td>
+					<td><input type="text" id="Qno" size="6" height="10px" placeholder="작성자"></td>
+				
+					<td><button id="addReply">댓글 등록</button></td>
 				</tr>
 			</table>
-		</div>	</div>
-		<hr>
+			</form>
+			<hr>
+	</div>
+		
 
 		<div id="qna4_wrap2"> 
 		<!--  수정,삭제버튼은 글 작성한 사람한테만 보이도록 작성하기 -->
-			<%
-				if (loginUser == null || loginUser.getUserName() != q.getcId()) {
-			%>
+	
+			<% if(loginUser==null) { %>
+			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
+				onclick="javascript:history.back();">
+			<% } else if(loginUser != null){ %>
+	        <% if(loginUser.getUserName().equals(q.getcId())){ %>
 			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
 				onclick="javascript:history.back();">
 			<button id="updateBtn" class="btn btn-outline-secondary btn-sm"
 				onclick="location.href='<%=request.getContextPath()%>/updateForm.qna?qno=<%=q.getqNo()%>'">수정하기</button>
 			<button id="deleteBtn" class="btn btn-outline-secondary btn-sm"
 				type="button" onclick="deleteQna();">삭제하기</button>
-			<%
-				}
-			%>
+			<% } else{ %>
+			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
+				onclick="javascript:history.back();">
+				<% } }%>
+				<br><br>
 		</div>
 		</div>
+		
+		
 		<%@ include file="/views/common/footbar.jsp"%>
 </body>
 </html>

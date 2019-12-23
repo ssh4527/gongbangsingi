@@ -11,6 +11,8 @@ import static common.JDBCTemplate.*;
 
 import qna.model.dao.QnaDao;
 import qna.model.vo.Qna;
+import qna.model.vo.QnaRe;
+import workclass.model.dao.ClassDao;
 
 
 public class QnaService {
@@ -139,6 +141,20 @@ public class QnaService {
 		}
 		
 		close(c);
+		return result;
+	}
+
+
+	//댓글 작성 
+	public int insertQnaRe(QnaRe q) {
+		Connection conn = getConnection();
+		int result = new QnaDao().insertQnaRe(conn,q);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
 		return result;
 	}
 	

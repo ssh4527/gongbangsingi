@@ -430,25 +430,33 @@ h4 {
 					<div id="introl1_2_1">
 						<p id="addr"><%=shop.getAddress()%></p>
 						<p id="phone"><%=shop.getWsTel()%></p>
-						<p id="sns"><%=shop.getSns()%></p>
+						<p id="sns">
+							<%String[] snslist =shop.getSns().split(",");
+							for(String sns : snslist){%>
+							<a><%=sns%></a><br>
+							<%} %>
+						</p>
 					</div>
 				</section>
 				<%
-					if (!userCheck) {
+					if (!userCheck&&shop.getSns().contains("카카오톡")) {
+						int kakaoNum= shop.getSns().indexOf("카카오톡 :");
 				%>
 				<a href="javascript:void chatChannel()"> <img
 					src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png" />
 				</a>
 				<script type='text/javascript'>
+				
 						//<![CDATA[
 						// 사용할 앱의 JavaScript 키를 설정해 주세요.
 						Kakao.init('37bf650bd71c1e125e49c40d96c383e1');
 						function chatChannel() {
 							Kakao.Channel.chat({
-								channelPublicId : '_xcLqmC' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+								channelPublicId : '<%=shop.getSns().substring(kakaoNum+7,(shop.getSns().substring(kakaoNum).indexOf(",")+kakaoNum))%>' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
 							});
 						}
 						//]]>
+						
 					</script>
 				<%
 					}
@@ -704,7 +712,7 @@ h4 {
 						<div id="score">
 							★<%=shop.getGrade()%>/ 5.0
 						</div>
-						<button id="reviewMore">더보기&lt;&lt;</button>
+						<a href="<%=request.getContextPath()%>/reviewMore.sh?WsNo=<%=shop.getWsNo()%>" id="reviewMore">더보기&gt;&gt;</a>
 						<table class="table table-hover" id="reviewList">
 							<thead>
 								<tr>
@@ -736,6 +744,9 @@ h4 {
 									<td><%=r.getREnDate()%></td>
 								</tr>
 								<%
+									if(idx==4){
+										break;
+									}
 									}
 								%>
 								<%
@@ -752,9 +763,7 @@ h4 {
 							location.href="<%=request.getContextPath()%>/detail.no?nno=" + num;
 						});
 						
-						$("#reviewMore").click(function(){
-							location.href="<%=request.getContextPath()%>/reviewMore.sh?WsNo=<%=shop.getWsNo()%>";
-						})
+						
 						
 					});
 					</script>
@@ -793,9 +802,7 @@ h4 {
 						%>
 						<tr>
 							<input type="hidden" value="<%=c.getWcNo()%>">
-							<td><%=idx%> <%
- 	idx++;
- %></td>
+							<td><%=idx%> <%idx++;%></td>
 							<td><%=c.getWcName()%></td>
 							<td><%=c.getWcNOP()%></td>
 							<td><%=c.getWcOpenClose()%></td>
@@ -845,12 +852,10 @@ h4 {
 			<%
 				if (loginUser != null && loginUser.getUserId().equals(shop.getId())) {
 			%>
-			<input type="button" value="소개글 변경" id="intro3Edit" name="intro3Edit">
+			<input type="button" value="소개글 변경" id="intro3Edit" name="intro3Edit" 
+				data-toggle="modal" data-target=".bd-example-modal-lg">
+				
 			<!-- Modal -->
-			<button type="button" id="intro3Modal" class="btn btn-primary"
-				data-toggle="modal" data-target=".bd-example-modal-lg">Large
-				modal</button>
-
 			<div class="modal fade bd-example-modal-lg" tabindex="-1"
 				role="dialog">
 				<div class="modal-dialog modal-lg" role="document">
@@ -864,7 +869,7 @@ h4 {
 							</button>
 						</div>
 						<div class="modal-body">
-							<textarea cols="100" rows="10" id="modalText"></textarea>
+							<textarea cols="80" rows="10" id="modalText"></textarea>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
@@ -894,12 +899,6 @@ h4 {
 			%>
 		</section>
 		<script>
-			$(function() {
-				$("#intro3Modal").hide();
-				$("#intro3Edit").click(function() {
-					$("#intro3Modal").click();
-				});
-			});
 
 			$(function() {
 				$("#updateIntro3").click(function() {
@@ -907,8 +906,7 @@ h4 {
 					if(input==0){
 						alert("수정을 취소하였습니다.");
 					}else{
-					var WsNo="<%=shop.getWsNo()%>
-			";
+					var WsNo="<%=shop.getWsNo()%>";
 
 						$.ajax({
 							url : "updateIntro.sh",

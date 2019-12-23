@@ -2,6 +2,13 @@
 	pageEncoding="UTF-8" import="qna.model.vo.Qna"%>
 <%
 	Qna q = (Qna) request.getAttribute("qna");
+String c1 = "";
+String c2 = "";
+if(q.getqSecret().equals("true")){
+	c1 = "checked";
+}else{
+	c2 = "checked";
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -89,13 +96,11 @@
 						value="<%=q.getqEntdate()%>" readonly></td>
 				</tr>
 				<tr>
-					<td>비밀글 설정</td>
-					<td><input type="radio" value="Y" name="secret" id="private"
-						checked> <label for="private"> <img
-							src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; <input
-						type="radio" value="N" name="secret" id="public"> <label
-						for="public"><img src="../../img/222.jpg" width="30px"
-							heigh="30px"></label></td>
+					<td>비밀글 설정</td> 
+					<td><input type="radio" value="Y" name="secret" id="private" <%=c1 %>>
+					 <label for="private">비밀글</label> &nbsp; 
+					 <input type="radio" value="N" name="secret" id="public" <%= c2 %>> 
+					 <label for="public">공개글</label></td>
 							
 					<td>비밀번호</td>
 					<td><input type="password" name="password" id="password"
@@ -117,7 +122,6 @@
 					<th>댓글 작성</th>
 					<td><textarea rows="3" cols="80" id="replyContent"></textarea></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td><button id="addReply">댓글 등록</button></td>
 				</tr>
 			</table>
 		</div>

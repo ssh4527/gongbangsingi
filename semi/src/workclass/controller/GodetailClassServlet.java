@@ -71,7 +71,9 @@ public class GodetailClassServlet extends HttpServlet {
 		String wsNo = new ClassService().selectWsNo(wcNo);
 		// 클래스 주인 아이디
 		String ornerid = new ClassService().selectOrnerId(wcNo);
-		
+		// 공방 주속 가져오는 부분
+		String address = new ClassService().selectAddress(wsNo);
+	
 		for(int i = 0 ; i < rList.size(); i++) {
 			ArrayList<ClassFile> rfList2 = new ClassService().selectReviewFile(rList.get(i).getRNo());
 			
@@ -98,6 +100,7 @@ public class GodetailClassServlet extends HttpServlet {
 			request.setAttribute("rfList", rfList);
 			request.setAttribute("qList", qList);
 			request.setAttribute("ornerid", ornerid);
+			request.setAttribute("address", address);
 			request.getRequestDispatcher("/views/classdetail/preview2.jsp").forward(request, response);
 		}else {
 			System.out.println("에렄");

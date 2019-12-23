@@ -38,7 +38,7 @@ public class ShowMyLevelServlet extends HttpServlet {
 		int result = new MypageService().showMyLevel(wsNo);
 		
 		request.setAttribute("show", result);
-		request.getRequestDispatcher("views/mypage/businessman.jsp").forward(request, response);
+		request.getRequestDispatcher("views/mypage/NomalMyPage.jsp").forward(request, response);
 		
 	}
 

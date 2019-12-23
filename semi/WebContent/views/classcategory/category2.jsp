@@ -175,156 +175,12 @@ to {
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
-	<!-- 정렬창 보이는 곳 -->
-<!-- 	<div class='bigWrapper'>
-		<div class="showWrapper">
-			정렬 1
-			<div class="sort1 sort">
-				<h2>카테고리</h2>
-				<br> <br>
-				<div class="custom-control custom-checkbox">
-					<table>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="도자기" id="jar"> <label
-								class="custom-control-label" for="jar">도자기</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="액세서리" id="accessory"> <label
-								class="custom-control-label" for="accessory">액세서리</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="가구" id="furniture"> <label
-								class="custom-control-label" for="furniture">가구</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="향수" id="perfume"> <label
-								class="custom-control-label" for="perfume">향수</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="제과" id="cook"> <label
-								class="custom-control-label" for="cook">제과</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="원예" id="flower"> <label
-								class="custom-control-label" for="flower">원예</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="가죽" id="leather"> <label
-								class="custom-control-label" for="leather">가죽</label></td>
-							<td><input type="checkbox" class="custom-control-input"
-								value="기타" id="etc"> <label class="custom-control-label"
-								for="etc">기타</label></td>
-						</tr>
-					</table>
-					<br> <br> <br> <br> <br> <br>
-					<button type="button" class="btn btn-warning" id="btnsort1">적용하기</button>
-				</div>
-			</div>
-
-			정렬 2
-			<div class="sort2 sort">
-				<h2>카테고리</h2>
-				<br> <br>
-				<div class="custom-control custom-checkbox">
-					<table>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="바로 수강 가능한 클래스" id="sort2_check1"> <label
-								class="custom-control-label" for="sort2_check1">바로 수강
-									가능한 클래스</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="custom-control-input"
-								value="현재 오픈중이지 않은 클래스" id="sort2_check2"> <label
-								class="custom-control-label" for="sort2_check2">현재 오픈중이지
-									않은 클래스</label></td>
-						</tr>
-					</table>
-					<br> <br> <br> <br> <br> <br>
-					<button type="button" class="btn btn-warning" id="btnsort2">적용하기</button>
-				</div>
-			</div>
-
-			정렬 3
-			<div class="sort3 sort">
-				<h2>카테고리</h2>
-				<br> <br>
-				<div class="custom-control custom-checkbox">
-					<table>
-						<tr>
-							<td><input type="checkbox"
-								class="custom-control-input sort3" value="인기순" id="sort3_check1">
-								<label class="custom-control-label" for="sort3_check1">인기순</label></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"
-								class="custom-control-input sort3" value="최신순" id="sort3_check2">
-								<label class="custom-control-label" for="sort3_check2">최신순</label></td>
-						</tr>
-					</table>
-					<br> <br> <br> <br> <br> <br>
-					<button type="button" class="btn btn-warning" id="btnsort3">적용하기</button>
-				</div>
-			</div>
-
-
-		</div>
-	</div>
-	정렬 리스트 script
-	<script>
-		$(function() {
-			// 1번 버튼 누르면...
-			$("#sortlist1").click(function() { 
-				$(".bigWrapper").css("display", "flex").show();
-				$(".sort1").css("display","inline_block").show();
-				$(".sort2").css("display","none");
-				$(".sort3").css("display","none");
-			});
-			
-			// 2번 버튼 누르면...
-			$("#sortlist2").click(function() {
-				$(".bigWrapper").css("display", "flex").show();
-				$(".sort1").css("display","none");
-				$(".sort2").css("display","inline_block").show();
-				$(".sort3").css("display","none");
-			});
-			
-			// 3번 버튼 누르면...
-			$("#sortlist3").click(function() {
-				$(".bigWrapper").css("display", "flex").show();
-				$(".sort1").css("display","none");
-				$(".sort2").css("display","none");
-				$(".sort3").css("display","inline_block").show();
-			});
-			
-			$("#sort3_check1").click(function(){
-				$("#sort3_check2").prop('checked', false);
-			});
-			
-			$("#sort3_check2").click(function(){
-				$("#sort3_check1").prop('checked', false);
-			});
-			
-			// 적용하기버튼 누르면...
-			$("#btnsort1").click(function(){
-				$(".bigWrapper").css("display","none");
-			});
-			$("#btnsort2").click(function(){
-				$(".bigWrapper").css("display","none");
-			});
-			$("#btnsort3").click(function(){
-				$(".bigWrapper").css("display","none");
-				$("#sortlist3").html($(".sort3:checked").val() + " ∨");
-			});
-		});
-	</script> -->
 
 
 
 
 
-<div style="height:20px; margin-top:3;">
+<div style="height:20px; margin-top:3;" class="cate-menu">
 	<ul class="ull" style="list-style:none; font-family:'맑은 고딕'; font-size:12px; font-family:'Arial';">
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=도자기" class="menualink">도자기</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=액세서리" class="menualink">액세서리</a></li>
@@ -336,10 +192,34 @@ to {
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=비누" class="menualink">비누</a></li>
 	</ul>
 </div>
+<script>
+$(function(){
+	var menubar_offset = $('.cate-menu').offset();
+	
+		 $(window).scroll(function() {
+
+		if ($(document).scrollTop() >= 164) {
+
+  			$('.cate-menu').css("position","fixed");
+  			$('.cate-menu').css("width","1300px");
+  			$('.cate-menu').css("top","110px");
+  			$('.cate-menu').css("z-index","100");
+
+		}else {
+			$('.cate-menu').css("position","static");
+  			$('.cate-menu').css("width","1300px");
+  			$('.cate-menu').css("top","auto");
+  			$('.cate-menu').css("z-index","1");
+
+		}
+
+	}); 
+});
+
+
+</script>
 	<hr>
 	<span style="font-family: Arial;"><small>Total</small> <span style="Nanum Gothic;"><%= wList.size() %></span> <small>items</small></span>
-	<input type="text" value="<%= cate %>">
-	<input type="text" value="<%= keyword %>">
 	<span style="float:right; font-family:'Arial';">
 	<%
 		String kk = "";
