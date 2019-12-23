@@ -445,7 +445,7 @@ $(function(){
 					href="<%=request.getContextPath()%>/views/classcategory/category.jsp">클래스</a>
 				</li>
 				<li class="nav-item"><a class="nav-link"
-					href="<%=request.getContextPath()%>/views/review/reviewList.jsp">리뷰</a>
+					href="<%=request.getContextPath()%>/review.search">리뷰</a>
 				</li>
 				<li class="nav-item"><a class="nav-link"
 					href="<%=request.getContextPath()%>/list.qna">고객센터</a></li>

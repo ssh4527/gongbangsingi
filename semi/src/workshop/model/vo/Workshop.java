@@ -81,6 +81,14 @@ public class Workshop {
 		Category = category;
 		this.grade = grade;
 	}
+	public Workshop(String wsNo, String wsName, String category, double grade,String addr,Date enDate) {
+		WsNo = wsNo;
+		WsName = wsName;
+		Category = category;
+		this.grade = grade;
+		this.Address= addr;
+		this.WsEnrollDate=enDate;
+	}
 
 	public String getWsNo() {
 		return WsNo;

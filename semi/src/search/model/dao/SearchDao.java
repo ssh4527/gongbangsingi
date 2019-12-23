@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import review.model.vo.Review;
 import workclass.model.vo.Workclass;
 import workshop.model.vo.Workshop;
 
@@ -160,14 +161,14 @@ public class SearchDao {
 		ResultSet rs = null;
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
 		
-		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no and wc_yn='Y' group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ? and ws.ENROLLYN='Y'";
+		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY,ws_addr,ws_enrollDate from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no and wc_yn='Y' group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ? and ws.ENROLLYN='Y'";
 		try {
 			ps = c.prepareStatement(q);
 			ps.setString(1, keyword);
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				list.add(new Workshop(rs.getString(1),rs.getString(3),rs.getString(4),rs.getDouble(2)));
+				list.add(new Workshop(rs.getString(1),rs.getString(3),rs.getString(4),rs.getDouble(2),rs.getString(5),rs.getDate(6)));
 				
 			}
 		} catch (SQLException e) {
@@ -186,7 +187,7 @@ public class SearchDao {
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
 		ResultSet rs = null;
 		
-		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no and wc_yn='Y' group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and ws.ENROLLYN='Y' and WS_NAME LIKE ('%'||?||'%')";
+		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY,ws_addr,ws_enrollDate from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no and wc_yn='Y' group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and ws.ENROLLYN='Y' and WS_NAME LIKE ('%'||?||'%')";
 		
 		
 		try {
@@ -196,7 +197,7 @@ public class SearchDao {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				list.add(new Workshop(rs.getString(1),rs.getString(3),rs.getString(4),rs.getDouble(2)));
+				list.add(new Workshop(rs.getString(1),rs.getString(3),rs.getString(4),rs.getDouble(2),rs.getString(5),rs.getDate(6)));
 				
 			}
 		} catch (SQLException e) {
@@ -547,6 +548,28 @@ public class SearchDao {
 			close(ps);
 		}
 		
+		return list;
+	}
+
+	public ArrayList<Review> searchAllReview(Connection c) {
+		Statement s = null;
+		ResultSet rs = null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		String q= "select c.c_id,c_name,r_title,r_ent_date,r_content,r_view_cnt,r_grade,wc_name from review r, work_class wc, client c  where r.wc_no = wc.wc_no and c.c_id = r.c_id";
+		
+		
+		try {
+			s = c.createStatement();
+			rs = s.executeQuery(q);
+			while(rs.next()) {
+				list.add(new Review(rs.getString("r_title"),rs.getDate("r_ent_date"),rs.getString("r_content"),rs.getInt("r_view_cnt"),rs.getInt("r_grade"),rs.getString("c_name"),rs.getString("c_id"),rs.getString("wc_name")));
+				
+				
+			}
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
 		return list;
 	}
 

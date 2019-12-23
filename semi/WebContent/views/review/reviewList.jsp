@@ -1,14 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@page import="java.util.ArrayList"%>
+	<%@page import="review.model.vo.*"%>
+	<%
+		ArrayList<Review> rlist = (ArrayList<Review>)request.getAttribute("rlist");
+	
+	%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>리뷰게시판</title>
 <style>
+
 	#reviewTable{
-		width:70%;
+		width:90%;
 		margin:auto;
+	}
+	.reviewcontent{
+		display:none;
+	}
+	td{
+		text-align:center;
+	}
+	th{
+		text-align:center;
 	}
 
 </style>
@@ -17,53 +33,57 @@
 <body>
 	<%@ include file="../common/menubar.jsp"%>
 	<br><br>
+	<h2 style="text-align:center">솔직한 리뷰 게시판</h2>
+	<br>
 	<table class="table table-hover" id="reviewTable">
 		<thead>
 			<tr>
-				<th scope="col">#</th>
-				<th scope="col">클래스</th>
-				<th scope="col">제목</th>
-				<th scope="col">작성자</th>
-				<th scope="col">작성일</th>
+				<th scope="col" style="text-align:center;">#</th>
+				<th scope="col" style="text-align:center;">클래스</th>
+				<th scope="col" style="text-align:center;">제목</th>
+				<th scope="col" style="text-align:center;">평점</th>
+				<th scope="col" style="text-align:center;" >작성자</th>
+				<th scope="col" style="text-align:center;">조회수</th>
+				<th scope="col" style="text-align:center;">작성일</th>
+				
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<th scope="row">1</th>
-				<td>반지만들기</td>
-				<td>너무 좋아요</td>
-				<td>신승환</td>
-				<td>12/06</td>
+		<% for(int i =0; i<rlist.size(); i++){ %>
+			<tr class="viewtitle">
+				<th scope="row" style="text-align:center;"><%=i+1 %></th>
+				<td><%= rlist.get(i).getWcName() %></td>
+				<td><%= rlist.get(i).getRTitle() %></td>
+				<td>
+					<%for(int s=0; s<5; s++ ){%>
+						<% if(s<=rlist.get(i).getRGrade()){ %>
+						★
+						<%}else{ %>
+						☆
+						<%} %>
+					<%} %>
+				</td>
+				<td><%= rlist.get(i).getcName() %></td>
+				<td><%= rlist.get(i).getRCount() %></td>
+				<td><%= rlist.get(i).getREnDate() %></td>
 			</tr>
-			<tr>
-				<th scope="row">2</th>
-				<td>반지만들기</td>
-				<td>너무 좋아요</td>
-				<td>신승환</td>
-				<td>12/06</td>
+			<tr class="reviewcontent">
+				<td colspan="2">내용</td>
+				<td colspan="5"><%=rlist.get(i).getRContent() %></td>
 			</tr>
-			<tr>
-				<th scope="row">3</th>
-				<td>반지만들기</td>
-				<td>너무 좋아요</td>
-				<td>신승환</td>
-				<td>12/06</td>
-			</tr>
+			<%} %>
+			
 		</tbody>
 	</table>
 	<br>
 	<script>
 		$(function(){
-			$("tbody tr td").click(function(){
-				var $nexttr = $("<tr>");
-				var $contenttd = $("<td>").text("내용");
-				var $texttd = $("<td cols='4'>").text("테스트 내용");
-				$nexttr.append($contenttd);
-				$nexttr.append($texttd);
-				console.log($(this).parent().html());
-				$(this).parent().add($nexttr);
-				
-				
+			$(".viewtitle").click(function(){
+				if($(this).next().css("display") == "none" ){
+					$(this).next().css("display","table-row");
+				}else{
+					$(this).next().css("display","none");
+				}
 				
 			});
 		});

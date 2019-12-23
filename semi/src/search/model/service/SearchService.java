@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+import review.model.vo.Review;
 import search.model.dao.SearchDao;
 import workclass.model.vo.Workclass;
 import workshop.model.vo.Workshop;
@@ -187,6 +188,15 @@ public class SearchService {
 		Connection c = getConnection();
 
 		ArrayList<Workclass> list = new SearchDao().searchSortClass(keyword, c);
+		close(c);
+		return list;
+	}
+
+	public ArrayList<Review> searchAllReview() {
+		Connection c = getConnection();
+		
+		ArrayList<Review> list = new SearchDao().searchAllReview(c);
+		
 		close(c);
 		return list;
 	}
