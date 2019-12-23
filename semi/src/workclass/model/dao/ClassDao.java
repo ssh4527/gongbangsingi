@@ -980,5 +980,24 @@ public class ClassDao {
 		return result;
 	}
 
+	// 리뷰 조회수 증가
+	public int upCountReview(Connection conn, String rNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "update review set R_VIEW_CNT = R_VIEW_CNT + 1 where R_NO = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 
 }

@@ -81,7 +81,11 @@ public class MemberLoginServlet extends HttpServlet {
 			if(returnpath.equals("views/classdetail/preview2.jsp")) {
 				returnpath = "godetail.class?wcNo="+wcNo;
 				request.getRequestDispatcher(returnpath).forward(request, response);
-			}else {
+			}else if(returnpath.equals("views/review/reviewList.jsp")) {
+				
+				response.sendRedirect("review.search");
+			}
+			else {
 				response.sendRedirect(returnPath);
 			}
 			

@@ -423,6 +423,19 @@ public class ClassService {
 		return result;
 	}
 
+	public void upCountReview(String rNo) {
+		Connection conn = getConnection();
+		int result = new ClassDao().upCountReview(conn,rNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		
+	}
+
 	
 	
 }
