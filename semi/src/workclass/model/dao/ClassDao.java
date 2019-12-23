@@ -981,4 +981,64 @@ public class ClassDao {
 	}
 
 
+	public ArrayList<Workclass> allSearchClass(Connection conn) {
+		Statement stmt = null;
+		ArrayList<Workclass> wList = new ArrayList<>();
+		String sql = "select * from work_class where wc_yn = 'Y'";
+		ResultSet rset = null;
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(sql);
+			
+			while(rset.next()) {
+				Workclass wc = new Workclass();
+				wc.setWcNo(rset.getString(1));
+				wc.setWcName(rset.getString(2));
+				wc.setWcNOP(rset.getInt(3));
+				wc.setWcMaxP(rset.getInt(4));
+				wc.setWsNo(rset.getString(5));
+				wc.setWcHits(rset.getInt(8));
+				wc.setWcWarning(rset.getString(9));
+				wc.setWcIntroduce(rset.getString(10));
+				wList.add(wc);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return wList;
+	}
+
+
+	public String selectAddress(Connection conn, String wsNo) {
+		PreparedStatement pstmt = null;
+		String sql = "select ws_addr from workshop where ws_no = ?";
+		ResultSet rset = null;
+		String address = "";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wsNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				address = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return address;
+	}
+
+
 }

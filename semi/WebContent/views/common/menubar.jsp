@@ -442,7 +442,7 @@ $(function(){
 				<li class="nav-item"><a class="nav-link"
 					href="<%=request.getContextPath()%>/shopList.sh">공방</a></li>
 				<li class="nav-item"><a class="nav-link"
-					href="<%=request.getContextPath()%>/views/classcategory/category.jsp">클래스</a>
+					href="all.class">클래스</a>
 				</li>
 				<li class="nav-item"><a class="nav-link"
 					href="<%=request.getContextPath()%>/review.search">리뷰</a>

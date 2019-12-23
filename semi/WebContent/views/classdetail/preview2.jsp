@@ -10,6 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<!--  검색후 해당 클래스 디테일 창 -->
+	<!-- 여기가 진짜 -->
 <%
 	ArrayList<ClassFile> fileList = (ArrayList<ClassFile>)request.getAttribute("cfList");
 	Workclass wc = (Workclass)request.getAttribute("wc");
@@ -17,9 +18,11 @@
 	ArrayList<Review> rList = (ArrayList<Review>)request.getAttribute("rList");
 	ArrayList<ClassFile> rfList = (ArrayList<ClassFile>)request.getAttribute("rfList");
 	String wsNo = (String)request.getAttribute("wsNo");
+	
 	ArrayList<Qna> qList = (ArrayList<Qna>)request.getAttribute("qList");
 	String ornerid = (String)request.getAttribute("ornerid");
 	ArrayList<QnaRe> qrList = (ArrayList<QnaRe>)request.getAttribute("qrList");
+	String address= (String)request.getAttribute("address");
 	
 	String[] time = ct.getCtTime().split(",");
 	
@@ -35,7 +38,8 @@
 		}
 	}
 	
-	
+	double xx = 0;
+	double yy  = 0;
 	//String[] time = {"dd","ss"};
 %>
 <!DOCTYPE html>
@@ -46,7 +50,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<title>클래스 미리 보기</title>
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=084aef6edeabd03774904f82e893097b&libraries=services,clusterer,drawing"></script>
+
+<title>클래스</title>
 <style>
 section, div, header {
 	box-sizing: border-box;
@@ -557,20 +565,66 @@ ul {
 		<!-- 모달 끝 -->
 
 
+<!--  맵 -->
+<div id="map" style="width:1100px;height:400px;">
+	<script>
+	$(function(){
+		  // 주소-좌표 변환 객체를 생성합니다
+		  var geocoder = new kakao.maps.services.Geocoder();
+		  // 주소로 좌표를 검색합니다
+		  geocoder.addressSearch('<%= address %>', function(result, status) {
+		    // 정상적으로 검색이 완료됐으면
+		    if (status === kakao.maps.services.Status.OK) {
+		      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		      console.log(result[0].y);
+		      console.log(result[0].x);
+		      drawMap(result[0].y, result[0].x);
+		      //markerMap(result[0].y, result[0].x);
+		    }
+		  });
+	});
+		 
+		function drawMap(y, x) {
+		    
+			var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+			var options = { //지도를 생성할 때 필요한 기본 옵션
+				center: new kakao.maps.LatLng(y, x), //지도의 중심좌표. 		위도,경도
+				level: 1 //지도의 레벨(확대, 축소 정도) 
+			};
 
-<!--  Map 부분 !!! -->
-		<div id="detail_come" style="text-align: center;">
-			<img src="<%=request.getContextPath()%>/resources/images/map1.PNG"
-				id="detail_comeimg">
+			var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+			var geocoder = new kakao.maps.services.Geocoder();
+			
+			var markerPosition  = new kakao.maps.LatLng(y, x); 
+
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+			    position: markerPosition
+			});
+
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+			
+		  };
+		  
+		  /* function markerMap(y,x){
+			  
+		  } */
+	</script>
+	
+</div>
+
+
+
+	<div id="detail_warning" style="margin-top:20px;">
+			<p id="detail_warning_p">&lt; 유의사항 &gt;</p>
+			<div id="detail_warning_text">
+				<p>
+					<%= wc.getWcWarning().replace("\r\n", "<br>") %>
+				</p>
+			</div>
 		</div>
 
-
-		<div id="detail_detail_content" style="line-height: 2em;">
-			<pre style="text-align: center">
-도자기만들기 도자기의 숲을 방문해 주셔서 감사합니다.
-저희 도자기의 숲은 고객이 직접 체험하는 도자기공방으로 당일 만들어서 바로 가져가실 수 있는 공방입니다.
-			</pre>
-		</div>
 
 
 
@@ -679,22 +733,7 @@ ul {
 
 					<!-- 리뷰 페이징 -->
 				
-				<nav aria-label="Page navigation example">
-						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#detail_review"
-								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#detail_review"
-								id="pa-link">1</a></li>
-							<li class="page-item"><a class="page-link" href="#detail_review"
-								id="pa-link">2</a></li>
-							<li class="page-item"><a class="page-link" href="#detail_review"
-								id="pa-link">3</a></li>
-							<li class="page-item"><a class="page-link" href="#detail_review"
-								aria-label="Next" id="pa-link"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
+
 
 			</div>
 
@@ -917,52 +956,12 @@ ul {
 					</script>
 				</div>
 				<!-- 리뷰 페이징 -->
-					<nav aria-label="Page navigation example" style="text-align: center;">
-						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#detail_qna"
-								aria-label="Previous" id="pa-link"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#detail_qna"
-								id="pa-link">1</a></li>
-							<li class="page-item"><a class="page-link" href="#detail_qna"
-								id="pa-link">2</a></li>
-							<li class="page-item"><a class="page-link" href="#detail_qna"
-								id="pa-link">3</a></li>
-							<li class="page-item"><a class="page-link" href="#detail_qna"
-								aria-label="Next" id="pa-link"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
+					
 			</div>
 			<button type="button" class="btn btn-outline-secondary" id="goQna"
 					style="float: right">QnA Write</button>
 		</div>
 		
-		<!-- qna 스크립트 -->
-		<!-- <script>
-			$(function(){
-				$("#tbody>tr").click(function(){
-					var trNum = $(this).closest('tr').prevAll().length;
-				
-					if(trNum == 0){
-						$(this).eq(-1).after("<tr><td colspan='2'>ㅎㅇ</td><td>Manager</td><td>2019-10-17</td></tr>");
-						console.log(trNum);
-					}
-					
-					if(trNum == 1){
-						$(this).eq(-1).after("<tr><td colspan='4'>작성한 회원만 볼 수 있습니다.</td></tr>");
-						console.log(trNum);
-					}
-					
-					if(trNum == 2){
-						$(this).eq(-1).after("<tr><td colspan='4'>작성한 회원만 볼 수 있습니다.</td></tr>");
-						console.log(trNum);
-					}
-				
-				
-				});
-			});
-		</script> -->
 		<!--  QnA작성으로 이동! -->
 		<script>
 			$(function(){
@@ -974,21 +973,12 @@ ul {
 						location.href="<%= request.getContextPath()%>/views/classdetail/insertQna.jsp?wsNo=<%=wsNo%>&wcNo=<%=wc.getWcNo()%>";
 					}
 				});
-			});
+			
 		</script>
 		
 		<br> <br> <br>
 
-		<div id="detail_warning">
-			<p id="detail_warning_p">&lt; 유의사항 &gt;</p>
-			<div id="detail_warning_text">
-				<p>
-					도자기를 만드시는 시간이 약 1시간 30분이 소요되기 때문에 마지막 오후 8시 20분 이전까지는 꼭 방문하여 주시길
-					부탁드립니다.<br> 아래 일정선택을 통하여 예약 가능하며 기타 자세한 내용은 010-8904-0156으로 연락
-					주시면 감사하겠습니다.
-				</p>
-			</div>
-		</div>
+		
 
 
 	</div>
