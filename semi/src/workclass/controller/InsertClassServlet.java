@@ -1,6 +1,7 @@
 package workclass.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -19,6 +20,7 @@ import common.MyFileRenamePolicy;
 import workclass.model.service.ClassService;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
+import workclass.model.vo.RealClassTime;
 import workclass.model.vo.Workclass;
 
 /**
@@ -80,9 +82,19 @@ public class InsertClassServlet extends HttpServlet {
 			String WsNo = multipartRequest.getParameter("공방번호");
 			String intro =  multipartRequest.getParameter("intro");
 			Workclass wc = new Workclass(WcName, WcNOP, WcMaxP,time, warning, intro,WsNo);
+		
 
 			ArrayList<ClassFile> fileList = new ArrayList<>();
 
+			/*// realclasstime
+			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+			String[] RealTime = time.split(", ");
+			ArrayList<RealClassTime> rctList = new ArrayList<>();*/
+			
+			
+			
+			
+			
 			for (int i = 0; i < originFiles.size() ; i++) {
 				ClassFile at = new ClassFile();
 				at.setFilePath(savePath);

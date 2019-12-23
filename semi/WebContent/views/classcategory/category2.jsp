@@ -180,7 +180,7 @@ to {
 
 
 
-<div style="height:20px; margin-top:3;">
+<div style="height:20px; margin-top:3;" class="cate-menu">
 	<ul class="ull" style="list-style:none; font-family:'맑은 고딕'; font-size:12px; font-family:'Arial';">
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=도자기" class="menualink">도자기</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=액세서리" class="menualink">액세서리</a></li>
@@ -192,6 +192,32 @@ to {
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=비누" class="menualink">비누</a></li>
 	</ul>
 </div>
+<script>
+$(function(){
+	var menubar_offset = $('.cate-menu').offset();
+	
+		 $(window).scroll(function() {
+
+		if ($(document).scrollTop() >= 164) {
+
+  			$('.cate-menu').css("position","fixed");
+  			$('.cate-menu').css("width","1300px");
+  			$('.cate-menu').css("top","110px");
+  			$('.cate-menu').css("z-index","100");
+
+		}else {
+			$('.cate-menu').css("position","static");
+  			$('.cate-menu').css("width","1300px");
+  			$('.cate-menu').css("top","auto");
+  			$('.cate-menu').css("z-index","1");
+
+		}
+
+	}); 
+});
+
+
+</script>
 	<hr>
 	<span style="font-family: Arial;"><small>Total</small> <span style="Nanum Gothic;"><%= wList.size() %></span> <small>items</small></span>
 	<span style="float:right; font-family:'Arial';">

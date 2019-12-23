@@ -42,9 +42,10 @@ public class DeleteReviewServlet extends HttpServlet {
 			result1 = new ClassService().deleteReviewFile(rNo);
 			if(result1 > 0) {
 				response.setContentType("application/json; charset=utf-8");
-				new Gson().toJson(result1,response.getWriter());
+				new Gson().toJson(result,response.getWriter());
 			}else {
-				System.out.println("리뷰파일 삭제안됨;;");
+				response.setContentType("application/json; charset=utf-8");
+				new Gson().toJson(result,response.getWriter());
 			}
 		}else {
 			System.out.println("리뷰 삭제안됨;;");

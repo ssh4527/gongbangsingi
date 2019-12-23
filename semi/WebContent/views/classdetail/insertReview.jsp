@@ -44,10 +44,6 @@
 			<br>
 			<table class="table table-hover">
 				<tr>
-					<th>문의</th>
-					<th colspan="5">클래스 문의 &lt; 운영 관련 문의는 고객센터 페이지를 이용해주세요 &gt;</th>
-				</tr>
-				<tr>
 					<th>제목</th>
 					<td colspan="5"><textarea name="title" cols="60" rows="1"
 							style="resize: none" placeholder="제목을 입력해주세요"></textarea></td>

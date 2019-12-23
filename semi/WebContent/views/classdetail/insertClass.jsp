@@ -163,6 +163,8 @@ ul {
 	<script>
         	$(function(){
         		$("#pre").click(function(){
+        			var sdate = $("#startDate").val();
+        			var edate = $("#closeDate").val();
         			location="<%=request.getContextPath()%>";
         		});
         	});
