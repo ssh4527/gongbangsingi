@@ -78,7 +78,7 @@ body {
 
 #loginbtn {
 	width:90%;
-	height:80%;
+	height:70%;
 	margin-left:5%;
 	margin-right:5%;
 	margin-top:3.5%;
@@ -117,6 +117,7 @@ body {
 	width: 100%;
 	margin: auto;
 	height: 40px;
+	border:0px;
 }
 
 .commentarea {
@@ -130,20 +131,41 @@ body {
 .inputdivarea>input {
 	width: 100%;
 	height: 100%;
+
+	border-bottom-left-radius:4px;
+border-bottom-right-radius:4px;
+border-bottom-style:solid;
+border-bottom-width:1px;
+border-image-outset:0px;
+border-image-repeat:stretch;
+border-image-slice:100%;
+border-image-source:none;
+border-image-width:1;
+border-left-color:rgb(206, 212, 218);
+border-left-style:solid;
+border-left-width:1px;
+border-right-color:rgb(206, 212, 218);
+border-right-style:solid;
+border-right-width:1px;
+border-top-color:rgb(206, 212, 218);
+border-top-left-radius:4px;
+border-top-right-radius:4px;
+border-top-style:solid;
+border-top-width:1px;
 }
 
 #myInterest {
 	background: white;
 	width: 100%;
 	margin: auto;
-	border: 1px solid grey;
+	
 }
 
 #joinMemberbtn {
 	width: 100%;
 	height: 40px;
-	background: darkgray;
-	border: 3px double gray;
+	background: #e3f2fd;
+	border: 1px double gray;
 	text-align: center;
 	border-radius: 5px;
 	margin-top: 15px;
@@ -159,26 +181,13 @@ body {
 
 .idpwdinput {
 	width:90%;
-	height:90%;
+	height:95%;
 	margin-left:5%;
 	margin-right:5%;
 	margin-top:5%;
 	
 } 
 
-#alarmicon {
-	text-align: center;
-	float: right;
-	width: 30%;
-	height: 30%;
-	border-radius: 100%;
-	border: 1px solid black;
-	line-height: 20px;
-	color: white;
-	background-color: rgb(231, 80, 80);
-	font-size:0.9em;
-	line-height:22px; 
-}
 #alarmicon:hover{
 	cursor: pointer;
 }
@@ -242,6 +251,50 @@ cursor: pointer;
 .nav-item{
 	margin-right:20px;
 }
+#alarmtextdiv{
+	background:lightyellow;
+	border:0.5px solid lightgrey;
+	float:right;
+	width:150%;
+	height:50px;
+	text-align:center;
+	display:none;"
+}
+#changepwdformbtn{
+	width: 100%;
+	height: 40px;
+	background: #e3f2fd;
+	border: 1px double gray;
+	text-align: center;
+	border-radius: 5px;
+	margin-top: 15px;
+}
+#findmyidformbtn{
+width: 100%;
+	height: 40px;
+	background: #e3f2fd;
+	border: 1px double gray;
+	text-align: center;
+	border-radius: 5px;
+	margin-top: 15px;
+}
+#findmypwdformbtn{
+width: 100%;
+	height: 40px;
+	background: #e3f2fd;
+	border: 1px double gray;
+	text-align: center;
+	border-radius: 5px;
+	margin-top: 15px;
+}
+.menu-fixed {
+
+	position: fixed;
+	width:1300px;
+	top: 0px;
+	z-index:100;
+	}
+
 </style>
 <script>
 var loginmsg = "<%=loginmsg%>";
@@ -261,7 +314,7 @@ $(function(){
 </head>
 <body>
 
-	<div style="width:100%; height:40px; background: lightgrey;">
+	<div class="main-menu" style="width:1300px; height:40px; background-color: #e3f2fd;">
 	
 	<%	if (loginUser == null) { %>
 			<form id="loginform" action="<%=request.getContextPath()%>/login.me"method="post">
@@ -304,9 +357,9 @@ $(function(){
 						<%	if (loginUser.getAuthority() != 3) {	%>
 						<span id="alarmicon" class="badge badge-light"><%=(int) session.getAttribute("useralarm") %></span>
 					
-					<div id="alarmtextdiv" style="background:white; float:right; width:150%; height:80%; text-align:left; display:none;" >
+					<div id="alarmtextdiv">
 						<span style="font-size:12px; ">내문의에 <%=(int) session.getAttribute("useralarm") %>개의
-						<br> 답변이 있습니다.</span>		
+						 답변이 있습니다.</span>		
 					</div>
 					<%	}	%>
 					</div>	
@@ -336,7 +389,7 @@ $(function(){
 			<%}%>
     </div>
 	</div>
-	<div id="menubar" align="center" style="width: 1300px; height: 200px;">
+	<div align="center" style="width: 1300px; height: 200px;">
 		<div id="maintitle">
 			<br><br><br>
 			<h1>공 방 신 기</h1>
@@ -348,6 +401,24 @@ $(function(){
 	</div>
 	<script>
 			$(function(){
+
+			   		var menu_offset = $('.main-menu').offset();
+
+			   		$(window).scroll(function() {
+						console.log($(document).scrollTop());
+			     		if ($(document).scrollTop() > menu_offset.top) {
+
+			       			$('.main-menu').addClass('menu-fixed');
+
+			     		}else {
+			       			$('.main-menu').removeClass('menu-fixed');
+
+			     		}
+
+			   		});
+
+			 	
+				
 				$("#alarmicon").click(function(){
 					if($(this).html()!=0){
 						if($("#alarmtextdiv").css("display")=="block"){
@@ -363,7 +434,7 @@ $(function(){
 			});
 	</script>
 
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+	<nav id="menubar" class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
 
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 			<a class="navbar-brand" href="#" style="margin-left:10px; margin-right:30px;">공방신기</a>
@@ -384,7 +455,7 @@ $(function(){
 				action="<%=request.getContextPath()%>/search.all" style="float:right; margin-right:0px;">
 				<button class="btn btn-outline-secondary dropdown-toggle"
 					id="searchtype" name="searchtype" type="button"
-					style="width: 80px; margin-right: 5px;">클래스</button>
+					style="width: 80px; margin-right: 8px;">클래스</button>
 				<!-- 안보이는 밸류값  -->
 				<input type="text" style="display: none;" id="searchtypeinput"
 					name="searchtypeinput" value="클래스"> <input
@@ -399,6 +470,28 @@ $(function(){
 
 	<script>
 		$(function(){
+			var menubar_offset = $('#menubar').offset();
+			
+	   		 $(window).scroll(function() {
+
+	     		if ($(document).scrollTop() >= 164) {
+
+	       			$('#menubar').css("position","fixed");
+	       			$('#menubar').css("width","1300px");
+	       			$('#menubar').css("top","40px");
+	       			$('#menubar').css("z-index","100");
+
+	     		}else {
+	     			$('#menubar').css("position","static");
+	       			$('#menubar').css("width","1300px");
+	       			$('#menubar').css("top","auto");
+	       			$('#menubar').css("z-index","1");
+
+	     		}
+
+	   		}); 
+
+			
 			$("#searchtype").click(function(){
 				var text = $(this).html();
 				if(text=="클래스"){
@@ -451,9 +544,9 @@ $(function(){
 		aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="width: 100%; background: beige;">
+				<div class="modal-header" style="width: 100%; background: #e3f2fd;">
 					<h5 class="modal-title" id="staticBackdropLabel"
-						style="margin-left: 45%;">회원가입</h5>
+						style="margin-left: 42%;">회원가입</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -632,7 +725,7 @@ $(function(){
 		aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="width: 100%; background: beige;">
+				<div class="modal-header" style="width: 100%; background: #e3f2fd;">
 					<h5 class="modal-title" id="staticBackdropLabel"
 						style="margin-left: 45%;">ID찾기</h5>
 					<button type="button" class="close" data-dismiss="modal"
@@ -669,9 +762,9 @@ $(function(){
 		aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="width: 100%; background: beige;">
+				<div class="modal-header" style="width: 100%; background: #e3f2fd;">
 					<h5 class="modal-title" id="staticBackdropLabel"
-						style="margin-left: 42%;">비밀번호찾기</h5>
+						style="margin-left: 38%;">비밀번호찾기</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close" id="closefindpwdbtn">
 						<span aria-hidden="true">&times;</span>
@@ -746,9 +839,9 @@ $(function(){
 		aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header" style="width: 100%; background: beige;">
+				<div class="modal-header" style="width: 100%; background: #e3f2fd;">
 					<h5 class="modal-title" id="staticBackdropLabel"
-						style="margin-left: 40%;">비밀번호 변경</h5>
+						style="margin-left: 38%;">비밀번호 변경</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
