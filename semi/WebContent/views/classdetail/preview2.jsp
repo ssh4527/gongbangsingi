@@ -280,11 +280,11 @@ ul {
 				<div id="detail4">
 					<table>
 						<tr>
-							<td> > 날짜 </td>
+							<td><small style="color:gray;"> > 날짜</small></td>
 							<td><%= ct.getCtDate() %> - <%= ct.getCtEndDate() %> </td> 
 						</tr>
 						<tr>
-							<td width=150px;><small style="color: gray"> > 시간
+							<td width=100px;><small style="color: gray"> > 시간
 							</small></td>
 							<td>
 							<select name="time" id="time" style="font-size: 15px">
@@ -297,10 +297,13 @@ ul {
 							</select>
 							</td>
 						</tr>
+						</table>
+						<table>
 						<tr>
-							<td><small style="color: gray"> > 인원수 </small></td>
-							<td><input type="number" width="10px" min="0" max=<%= wc.getWcMaxP() %>
+							<td width=100px;><small style="color: gray"> > 인원수 </small></td>
+							<td width=100px;><input type="number" width="10px" min="0" max=<%= wc.getWcMaxP() %>
 								id="count"></td>
+							<td><small style="color:gray;">남은 수강자리 : <%= wc.getWcMaxP() %></small></td>
 						</tr>
 						<tr>
 							<td rowspan="2" style="text-align: right;"></td>
@@ -355,6 +358,7 @@ ul {
 			</div>
 		</div>
 		<hr>
+
 		
 		
 		<script>
@@ -388,25 +392,17 @@ ul {
 </div>
 
 <!--  ??-->
-<script>
-	$(function(){
-		$("#reservationBtn").click(function(){
-			if(<%= log.equals("asd") %>){
-				
-				alert("로그인 후 이용가능합니다.");
-			}else{
-				$("#precount2").val($("#count").val());
-			}
-		});
-	});
 
-</script>
 
 <!-- 예약하기 모달 -->
 <form action="<%=request.getContextPath()%>/cash1.go" method="post" onsubmit="return ckform()">
 	<script>
 		function ckform(){
-			console.log($("#outnumber").val());
+			
+			if(<%= log.equals("asd")%>){
+				alert("로그인 후에 이용하실수 있습니다.")
+				return false;
+			}
 			if($("#outtime").val() == 100){
 				alert("시간대를 입력해주세요!");
 				return false;
@@ -444,7 +440,7 @@ ul {
 						<tr>
 							<td><small style="color: gray">보유 포인트</small></td>
 							<% if(log.equals("asd")) { %>
-								<td> 로그인 후 포인트 확인이 가능합니다.</td>
+								<td><small>0</small></td>
 							<% }  else { %>
 								 <td><small><%= loginUser.getPoint() %></small></td>
 							<% } %>
@@ -469,14 +465,6 @@ ul {
       							Date startdate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
       							Date enddate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
       						%>
-      						<script>
-      							$(function(){
-      								$("#ckdate").change(function(){
-      									
-      								
-      								});
-      							});
-      						</script>
       					</tr>
 						<tr>
 							<td width=150px;><small style="color: gray"> > 시간
@@ -566,7 +554,7 @@ ul {
 
 
 <!--  맵 -->
-<div id="map" style="width:1100px;height:400px;">
+<div id="map" style="width:1100px;height:400px; margin-top:50px;">
 	<script>
 	$(function(){
 		  // 주소-좌표 변환 객체를 생성합니다
@@ -576,8 +564,7 @@ ul {
 		    // 정상적으로 검색이 완료됐으면
 		    if (status === kakao.maps.services.Status.OK) {
 		      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-		      console.log(result[0].y);
-		      console.log(result[0].x);
+		      
 		      drawMap(result[0].y, result[0].x);
 		      //markerMap(result[0].y, result[0].x);
 		    }
@@ -624,7 +611,6 @@ ul {
 				</p>
 			</div>
 		</div>
-
 
 
 
@@ -684,8 +670,7 @@ ul {
 				<script>
 					function deletereview(review){
 						if(window.confirm('게시글을 정말 삭제하시겠습니까?')){
-							console.log("ㅇㅇ");
-							console.log($("#ul"+review));
+							
 							
 							$.ajax({ // 아작시작
 	      						url : "delete.review",
@@ -729,7 +714,7 @@ ul {
 					}
 					
 				</script>
-				
+			
 
 					<!-- 리뷰 페이징 -->
 				
@@ -868,7 +853,7 @@ ul {
 					<script>
 						$(function(){
 							$("tr").click(function(){
-								console.log($(this).next().next().next().next().children().eq(3).html());
+								/* <!-- console.log($(this).next().next().next().next().children().eq(3).html()); */
 								if($(this).children().last().html()=="N" && "<%= log %>"=="<%=ornerid%>" &&!($(this).next().next().next().next().children().eq(3).html() == 'OK')){ 
 									// 공개글이면서 클래스주인이면 답글작성가능
 									if($(this).next().css("display")=='none'){
@@ -954,6 +939,7 @@ ul {
 							}
 						}
 					</script>
+					
 				</div>
 				<!-- 리뷰 페이징 -->
 					
@@ -961,8 +947,12 @@ ul {
 			<button type="button" class="btn btn-outline-secondary" id="goQna"
 					style="float: right">QnA Write</button>
 		</div>
+		<script>
+			$(function(){
+				
+			});
+		</script>
 		
-		<!--  QnA작성으로 이동! -->
 		<script>
 			$(function(){
 				$("#goQna").click(function(){
@@ -972,16 +962,19 @@ ul {
 						location.href="<%= request.getContextPath()%>/views/classdetail/insertReview.jsp?wcNo=<%= wc.getWcNo() %>";
 						location.href="<%= request.getContextPath()%>/views/classdetail/insertQna.jsp?wsNo=<%=wsNo%>&wcNo=<%=wc.getWcNo()%>";
 					}
-				});
-			
+			});
+		});
 		</script>
+		
+
+		<!--  QnA작성으로 이동! -->
+		
+
 		
 		<br> <br> <br>
 
 		
 
-
-	</div>
 	<%@ include file="../common/footbar.jsp"%>
 
 

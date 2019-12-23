@@ -405,7 +405,7 @@ $(function(){
 			   		var menu_offset = $('.main-menu').offset();
 
 			   		$(window).scroll(function() {
-						console.log($(document).scrollTop());
+						
 			     		if ($(document).scrollTop() > menu_offset.top) {
 
 			       			$('.main-menu').addClass('menu-fixed');
