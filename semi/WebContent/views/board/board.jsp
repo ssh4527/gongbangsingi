@@ -3,7 +3,8 @@
 <%  ArrayList<Qna> list = (ArrayList<Qna>)request.getAttribute("list");
 	String searchCondition2 = (String)request.getAttribute("searchCondition2");
 	String search2 = (String)request.getAttribute("search2");
-	
+
+	Member loginUser2 = (Member)request.getSession().getAttribute("loginUser");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	
 	int listCount = pi.getListCount();
@@ -110,8 +111,8 @@
 						 		<td ><%= q.getqNo() %></td> <!--  번호 -->
 						 		<td><% if(q.getcId().equals("비회원")) {%> 비회원
 						 			<%} else {%>   회원 <%} %> </td><!-- 회원/비회원 구분 -->
-						 		<td ><% if(q.getqSecret().equals("true")){%><!-- <img src="../../img/111.jpg" width="30px" height="30px"> -->비밀글<% }
-						 			else if(q.getqSecret().equals("false")){%><!-- <img  id="imgid" src="../../img/222.jpg" width="30px" height="30px"> -->공개글<% } %>
+						 		<td ><% if(q.getqSecret().equals("true")){%>비밀글<% }
+						 			else if(q.getqSecret().equals("false")){%>공개글<% } %>
 						 		</td><!--  비밀글 여부 -->
 						 		<td ><%= q.getqTitle() %></td> <!--  제목 -->
 						 		<td ><%= q.getcId() %></td> <!--  작성자 이름 -->
@@ -171,12 +172,14 @@
 			
 		</div>
                  <hr>
-                 
-       
-			<% if(searchCondition2 != null && search2 != null) { %>
-				<p align="center"><%= searchCondition2 %> : <%= search2 %>의 검색결과</p>
-			<% } %>
+            
 		<br> <br>
+		
+		<% if(loginUser2 == null){ %>
+		<input type="hidden" value="비회원" id="uname">
+		<% } else{ %>
+			<input type="hidden" value="<%= loginUser2.getUserName()%>" id="uname">
+			<% } %>
 	
                 <script>
         		function checkSearchCondition() {
@@ -189,8 +192,20 @@
                 $(function(){
     				$("#Qlist td").click(function(){
     						var num=$(this).parent().children().eq(0).text();
-    					location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
+    						var secret=$(this).parent().children().eq(2).text().trim();
+    						var name=$(this).parent().children().eq(4).text().trim();
+    						var uname=$("#uname").val();
+    						if(secret=="공개글"){
+    							location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
+    						}else if(secret="비밀글" && uname==name  ){
+    							location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
+    						}else if(secret="비밀글" && uname=="관리자"){
+    							location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
+    						}else{
+    							alert('비밀글입니다!');
+    						}
     					});
+                	
     			});
                 </script>
                     </div>

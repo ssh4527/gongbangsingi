@@ -11,6 +11,7 @@ import static common.JDBCTemplate.*;
 
 import qna.model.dao.QnaDao;
 import qna.model.vo.Qna;
+import qna.model.vo.QnaRe;
 
 
 public class QnaService {
@@ -140,6 +141,27 @@ public class QnaService {
 		
 		close(c);
 		return result;
+	}
+
+	public ArrayList<QnaRe> insertReply(QnaRe r) {
+		Connection conn = getConnection();
+		
+		QnaDao qDao=new QnaDao();
+		
+		int result = qDao.insertReply(conn, r);
+		
+		ArrayList<QnaRe> rlist = null;
+		
+		if(result > 0) {
+			commit(conn);
+			rlist = qDao.selectReplyList(conn, r.getqNo());
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return rlist;
 	}
 	
 

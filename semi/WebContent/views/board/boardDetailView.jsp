@@ -2,8 +2,17 @@
 	pageEncoding="UTF-8" import="qna.model.vo.*, java.util.*"%>
 <%
 	Qna q = (Qna) request.getAttribute("qna");
-	//ajax 이후
-	//ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
+
+String c1 = "";
+String c2 = "";
+if(q.getqSecret().equals("true")){
+	c1 = "checked";
+}else{
+	c2 = "checked";
+}
+
+// ajax 이후
+ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 %>
 <!DOCTYPE html>
 <html>
@@ -97,9 +106,9 @@
 				</tr>
 				<tr>
 					<td>비밀글 설정</td>
-					<td><input type="radio" value="Y" name="secret" id="private"
-						checked> <label for="private"> <img src="../../img/111.jpg" width="30px" heigh="30px"></label> &nbsp; 
-						<input type="radio" value="N" name="secret" id="public"> <label for="public"><img src="../../img/222.jpg" width="30px" heigh="30px"></label></td>
+					<td><input type="radio" value="Y" name="secret" id="private" <%= c1 %>> 
+					<label for="private">비밀글</label> &nbsp; 
+						<input type="radio" value="N" name="secret" id="public" <%= c2 %>> <label for="public">공개글</label></td>
 					<td>비밀번호</td>
 					<td><input type="password" name="password" id="password"
 						value="<%=q.getqPwd()%>" maxlength="4"></td>
@@ -112,38 +121,106 @@
 				</tr>
 			</table>
 		</form>
-		<hr><hr>
-
-		<!-- ajax를 이용한 댓글 기능 구현 -->
+		<hr>
+		
+			<!-- ajax를 이용한 댓글 기능 구현 -->
 	<div class="replyArea">
 		<!-- 댓글 작성하는 부분 -->
 		<div class="replyWriterArea">
 			<table align="center">
 				<tr>
 					<td>댓글 작성</td>
-					<td><textarea rows="3" cols="80" id="recontent"></textarea></td>
-					<td><button onclick="<%=request.getContextPath()%>/insert.qna.re">댓글 등록</button></td>
+					<td><textarea rows="3" cols="80" id="replyContent"></textarea></td>
+					<td><button id="addReply">댓글 등록</button></td>
 				</tr>
 			</table>
-		</div>	</div>
+		</div>
+		
+		<!-- 불러온 댓글 리스트 보여주는 부분 -->
+		<%-- <div id="replySelectArea">
+			<table id="replySelectTable" border="1" align="center">
+			<% if(rlist != null){ %>
+				<% for(QnaRe r : rlist) { %>
+					<tr>
+						<td width="100px"><%= r.getcId() %></td>
+						<td width="400px"><%= r.getRqComment() %></td>
+						<td width="200px"><%= r.getRqEntDate() %></td>
+					</tr>
+				<% } %>
+			<% } %>
+			</table>
+		</div> --%>
+	</div>
 		<hr>
 
 		<div id="qna4_wrap2"> 
 		<!--  수정,삭제버튼은 글 작성한 사람한테만 보이도록 작성하기 -->
-			<%
-				if (loginUser == null || loginUser.getUserName() != q.getcId()) {
-			%>
+	
+			<% if(loginUser==null) { %>
+			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
+				onclick="javascript:history.back();">
+			<% } else if(loginUser != null){ %>
+	        <% if(loginUser.getUserName().equals(q.getcId())){ %>
 			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
 				onclick="javascript:history.back();">
 			<button id="updateBtn" class="btn btn-outline-secondary btn-sm"
 				onclick="location.href='<%=request.getContextPath()%>/updateForm.qna?qno=<%=q.getqNo()%>'">수정하기</button>
 			<button id="deleteBtn" class="btn btn-outline-secondary btn-sm"
 				type="button" onclick="deleteQna();">삭제하기</button>
-			<%
+			<% } else{ %>
+			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
+				onclick="javascript:history.back();">
+				<% } }%>
+		</div>
+		</div>
+		
+		<%-- <script>
+		// addReply 버튼 클릭 시 댓글 달기 기능을 실행했을 때 비동기적으로
+		// 새로 갱신 된 댓글 리스트를 테이블에 적용 시키는 ajax
+		$("#addReply").click(function(){
+			var writer = <%= loginUser.getUserId() %>;
+			var qno = <%= q.getqNo() %>;
+			var content = $("#replyContent").val();
+			
+			$.ajax({
+				url : "insertReply.qna",
+				type : "post",
+				dataType : "json",
+				data : {writer:writer,
+						content:content,
+						qno:qno},
+				success: function(data){
+					console.log(data);
+					
+					$replyTable = $("#replySelectTable");
+					$replyTable.html(""); // 기존 댓글 테이블 정보 초기화
+					
+					// 새로 받아온 갱신 된 댓글 리스트 들을 for문을 통해
+					// 다시 table에 추가
+					for(var key in data){ // 배열이므로 key 값은 인덱스
+						
+						var $tr = $("<tr>");
+						var $writerTd = $("<td>").text(data[key].userName).css("width", "100px");
+						var $contentTd = $("<td>").text(data[key].rContent).css("width", "400px");
+						var $dateTd = $("<td>").text(data[key].createDate).css("width", "200px");
+						
+						$tr.append($writerTd);
+						$tr.append($contentTd);
+						$tr.append($dateTd);
+						
+						$replyTable.append($tr);
+						
+					}
+					// 댓글 작성 부분 리셋
+					$("#replyContent").val("");
+					
+				},
+				error : function(){
+					console.log('ajax 통신 실패');
 				}
-			%>
-		</div>
-		</div>
+			});
+		});
+		</script> --%>
 		<%@ include file="/views/common/footbar.jsp"%>
 </body>
 </html>

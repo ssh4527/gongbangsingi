@@ -56,7 +56,7 @@
 			if (re.test(e.value)) {
 				document.form.submit();
 				// 관리자에게 알람 !!
-				
+				alert('글이 작성되었습니다!');
 				return true;
 			} else {
 				alert(msg);
