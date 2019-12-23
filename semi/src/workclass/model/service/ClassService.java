@@ -423,6 +423,21 @@ public class ClassService {
 		return result;
 	}
 
+	public ArrayList<Workclass> allSearchClass() {
+		Connection conn = getConnection();
+		ArrayList<Workclass> wList = new ClassDao().allSearchClass(conn);
+		close(conn);
+		return wList;
+	}
+
+	// 공방 주소가져옴
+	public String selectAddress(String wsNo) {
+		Connection conn = getConnection();
+		String address = new ClassDao().selectAddress(conn,wsNo);
+		close(conn);
+		return address;
+	}
+
 	
 	
 }
