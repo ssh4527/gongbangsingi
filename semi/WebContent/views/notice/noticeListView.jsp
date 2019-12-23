@@ -19,9 +19,12 @@
 <head>
 <!--  ★공지사항 페이지_write버튼은 관리자한테만 보임!★ -->
 <meta charset="UTF-8">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  
 <title>Insert title here</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  
+  <!--   <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <style>
     #notice1_wrap{
         width: 1000px;
@@ -45,12 +48,13 @@
   		align:center;
   	}
   	.font { 
-	font-size: 30px;
+	font-size: 20px;
 	color:black;
 	margin-left:40%;
+	
 	 }
 	.font_underline { 
-	color: #fbd6db;
+	color: lightgray;
 	}
     </style>
 </head>
@@ -60,19 +64,22 @@
     <div id="notice1_wrap">
         <br>
        <font class="font_underline">
-	<u><p class="font">공지사항<br></p></u>
+	<u><p class="font">NOTICE<br></p></u>
 </font>
         <br>
-     <!-- <table class="table table-dark table-striped"> -->
-            <table class="table table-hover" id="Nlist">
-                    <tr>
-                        <th>NO</th>
-                        <tH>SUBJECT</th>
-                        <th>WRITER</th>
-                        <th>VIEWS</th>
-                        <th>DATE</th>
-                    </tr>
-                    
+        
+        <table class="table table-hover" id="Nlist">
+  <thead>
+    <tr>
+      <th scope="col">NO</th>
+      <th scope="col">SUBJECT</th>
+      <th scope="col">WRITER</th>
+      <th scope="col">VIEWS</th>
+      <th scope="col">DATE</th>
+    </tr>
+  </thead>
+  <tbody>
+      
               	   <% if(list.isEmpty()){ %>
 					 	<tr>
 					 		<td>공지사항 없음!</td>
@@ -88,10 +95,30 @@
 						 	</tr>
 						 <% } %>
 					 <% } %>
-					
-                </table>
+	
+  </tbody>
+</table>
                 <hr>
-                <!-- 페이징바 -->
+                
+                	<div>
+		<form action="<%=request.getContextPath()%>/search.no" method="get" onsubmit="return checkSearchCondition();">
+			<select  id="searchCondition" name="searchCondition" style="width:80px;height:30px;">
+				<option value="---">---</option>
+				<option value="title">제목</option>
+				<option value="content" >내용</option>
+				</select>
+				<input type="search" id=search3" placeholder="내용을 입력해주세요" name="search3">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">SEARCH</button>
+                
+                	<!--  관리자만 WRITE 할 수 있음 -->
+                	<% if(loginUser != null && loginUser.getUserId().equals("admin")) {%>
+                <button  type="button" class="btn btn-outline-secondary btn-sm" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeInsertForm.jsp'">WRITE</button>
+                <% } %>
+		</form>
+		</div>
+		<br><br><br>
+		
+                 <!-- 페이징바 -->
 		<div class="pagingArea" align="center">
 			<!-- 맨 처음으로 (<<) -->
 			<button onclick="location.href='<%= request.getContextPath() %>/list.no?currentPage=1'"> &lt;&lt; </button>
@@ -124,33 +151,6 @@
 			
 		</div>
 
-		<div align="center">
-		<form action="<%=request.getContextPath()%>/search.no" method="get" onsubmit="return checkSearchCondition();">
-			<select  id="searchCondition" name="searchCondition">
-				<option value="---">---</option>
-				<option value="title">제목</option>
-				<option value="content" >내용</option>
-				</select>
-				<input type="search" id=search3" placeholder="내용을 입력해주세요" name="search3">
-                <button type="submit" class="btn btn-outline-secondary">SEARCH</button>
-                
-                	<!--  관리자만 WRITE 할 수 있음 -->
-                	<% if(loginUser != null && loginUser.getUserId().equals("admin")) {%>
-                <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/views/notice/noticeInsertForm.jsp'">WRITE</button>
-                <% } %>
-		</form>
-		<script>
-			function checkSearchCondition() {
-				if ($("#searchCondition option:selected").val() == '---') {
-					alert('제목인지 내용인지 선택해주세요^^');
-					return false;
-				}
-				return true;
-			}
-		</script>
-		
-	
-		</div>
 				<% if(searchCondition != null && search3 != null) { %>
 				<p align="center"><%= searchCondition %> : <%= search3 %>의 검색결과</p>
 			<% } %>
@@ -163,10 +163,22 @@
 				location.href="<%= request.getContextPath() %>/detail.no?nno="+num;
 			});
 		});
+		function checkSearchCondition() {
+			if ($("#searchCondition option:selected").val() == '---') {
+				alert('제목인지 내용인지 선택해주세요^^');
+				return false;
+			}
+			return true;
+		}
+	      $("#na").click(function(){ 
+	    	  toggleClass(".active-color");
+
+	        }); 
 		
 		</script>
+		
 	</div>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 
 <%@ include file="/views/common/footbar.jsp" %>
 </body>

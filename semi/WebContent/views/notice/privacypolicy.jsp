@@ -18,12 +18,12 @@
 		color:red;
 	}
 	.font { 
-	font-size: 30px;
+	font-size: 20px;
 	color:black;
 	margin-left:40%;
 	 }
 	.font_underline { 
-	color: #fbd6db;
+	color: lightgray;
 	}
 	#pri{
 		width:1000px;

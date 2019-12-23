@@ -8,19 +8,20 @@
 
 <style>
 	#membergrade_thead{
-		color:white;
-		background:#fbd6db;
+		color:black;
+		background:lightgray;
 	}
 	.font { 
-	font-size: 30px;
+	font-size: 20px;
 	color:black;
 	margin-left:40%;
 	 }
 	.font_underline { 
-	color: #fbd6db;
+	color: lightgray;
 	}
 	#membergrade{
 		width:1000px;
+		height:700px;
 	}
 </style>
 </head>

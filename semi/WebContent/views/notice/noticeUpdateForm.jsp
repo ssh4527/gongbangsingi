@@ -5,7 +5,6 @@
 %>
 <!DOCTYPE html>
 <html>
-
 <head>
 <!--  ★공지사항 상세보기★ -->
 <meta charset="UTF-8">
@@ -15,7 +14,7 @@
     <style>
     #qna6_wrap{
         width: 1000px;
-        height: 900px;
+        height: 650px;
         margin:auto;
     }
     
@@ -23,12 +22,12 @@
     	text-align:center;
     }
     .font { 
-	font-size: 30px;
+	font-size: 20px;
 	color:black;
 	margin-left:40%;
 	 }
 	.font_underline { 
-	color: #fbd6db;
+	color: lightgray;
 	}
     </style>
 </head>
@@ -38,7 +37,7 @@
     <div id="qna6_wrap">
     <br>
      <font class="font_underline">
-	<u><p class="font">공지사항 수정하기<br></p></u>
+	<u><p class="font">NOTICE REVISE <br></p></u>
 </font>
   
     <br>
@@ -49,7 +48,7 @@
                    
                     <tr>
                     	<th>제목</th>
-                    	<td colspan="3"><input type="text" size="50" name="title" value="<%= n.getnTitle() %>"></td>
+                    	<td colspan="3"><input type="text" name="title" value="<%= n.getnTitle() %>"></td>
                     </tr>
                     	<tr>
 							<th>작성자</th>
@@ -61,19 +60,18 @@
 						</tr>
                     <tr>
                     	<th>내용</th>
-                    	<td colspan="4"><textarea name="content" cols="115" rows="10"><%= n.getnContent() %></textarea></td>
+                    	<td colspan="3" rowspan="5"><textarea name="content" cols="80" rows="8"><%= n.getnContent() %></textarea></td>
                     </tr>
-                   
                 </table>
               
-                <hr>
+                <hr><hr>
          <div id="qna6_wrap2">
-	     <button type="button" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/list.no'">목록으로~</button>
-         <button type="submit" class="btn btn-outline-secondary">수정완료</button>
-         <button type="button" onclick="javascript:history.back();" class="btn btn-outline-secondary">취소(뒤로가기)</button>
-		
-        
-         </div>  </form>
+	     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="location.href='<%= request.getContextPath() %>/list.no'">목록으로</button>
+         <button type="submit" class="btn btn-outline-secondary btn-sm">수정완료</button>
+         <button type="button" onclick="javascript:history.back();" class="btn btn-outline-secondary btn-sm">취소(뒤로가기)</button>
+         </div>
+         </form>
+          
          </div>
        
          <%@ include file="/views/common/footbar.jsp" %>
