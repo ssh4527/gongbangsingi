@@ -179,45 +179,13 @@ public class ShopService {
 		return result;
 	}
 
-	//정렬 (최신순, 인기순)
-	public ArrayList<Workshop> selectSortlist(String sortType) {
-		Connection con = getConnection();
-
-		ArrayList<Workshop> list = new ShopDao().selectSortlist(con,sortType);
-		
-		close(con);
-
-		return list;
-	}
 
 
-	//카테고리별
-	public ArrayList<Workshop> selectedCategory(String[] c) {
-		Connection con = getConnection();
-
-		ArrayList<Workshop> list = new ShopDao().selectedCategory(con, c);
-
-		close(con);
-
-		return list;
-	}
-
-	//카테고리 && 정렬
-	public ArrayList<Workshop> selectCSortlist(String sortType, String[] c) {
-		Connection con = getConnection();
-
-		ArrayList<Workshop> list = new ShopDao().selectCSortlist(con, sortType,c);
-
-		close(con);
-
-		return list;
-	}
-
-	public int requestToChangeShop(String userName, String shopName, String shopAddr, String sns, String tel,
+	public int requestToChangeShop(String userId, String shopName, String shopAddr, String sns, String tel,
 			String num, String account, String intro, String category) {
 		Connection con = getConnection();
 
-		int result = new ShopDao().requestToChangeShop(con,userName,shopName,shopAddr,sns,tel,num,account,intro,category);
+		int result = new ShopDao().requestToChangeShop(con,userId,shopName,shopAddr,sns,tel,num,account,intro,category);
 
 		close(con);
 
@@ -230,6 +198,13 @@ public class ShopService {
 		
 		close(c);
 		return list;
+	}
+
+	public Workshop getFilePathReName(String wsNo) {
+		Connection con = getConnection();
+		Workshop result = new ShopDao().getFilePathReName(con,wsNo);
+		close(con);
+		return result;
 	}
 
 	

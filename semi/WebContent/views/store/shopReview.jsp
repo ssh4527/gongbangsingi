@@ -42,14 +42,14 @@ text-align:center;
 				</thead>
 				<tbody>
 					<%
-									if (rlist.isEmpty()) {
-								%>
+						if (rlist.isEmpty()) {
+					%>
 					<tr>
 						<td colspan="5">조회된 리스트가 없습니다.</td>
 					</tr>
 					<%
-									} else { int idx=1; for (Review r : rlist) { 
-								%>
+						} else { int idx=1; for (Review r : rlist) { 
+					%>
 					<tr>
 						<input type="hidden" value="<%=r.getRNo()%>">
 						<td><%=idx++%></td>
@@ -59,11 +59,11 @@ text-align:center;
 						<td><%=r.getREnDate()%></td>
 					</tr>
 					<%
-									}
-								%>
+						}
+					%>
 					<%
-									}
-								%>
+						}
+					%>
 				</tbody>
 			</table>
 		</div>
