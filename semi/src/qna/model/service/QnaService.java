@@ -12,6 +12,7 @@ import static common.JDBCTemplate.*;
 import qna.model.dao.QnaDao;
 import qna.model.vo.Qna;
 import qna.model.vo.QnaRe;
+import workclass.model.dao.ClassDao;
 
 
 public class QnaService {
@@ -143,25 +144,18 @@ public class QnaService {
 		return result;
 	}
 
-	public ArrayList<QnaRe> insertReply(QnaRe r) {
+
+	//댓글 작성 
+	public int insertQnaRe(QnaRe q) {
 		Connection conn = getConnection();
-		
-		QnaDao qDao=new QnaDao();
-		
-		int result = qDao.insertReply(conn, r);
-		
-		ArrayList<QnaRe> rlist = null;
-		
+		int result = new QnaDao().insertQnaRe(conn,q);
 		if(result > 0) {
 			commit(conn);
-			rlist = qDao.selectReplyList(conn, r.getqNo());
 		}else {
 			rollback(conn);
 		}
-		
 		close(conn);
-		
-		return rlist;
+		return result;
 	}
 	
 

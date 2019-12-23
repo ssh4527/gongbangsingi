@@ -131,11 +131,12 @@
 				<option value="content" >내용</option>
 				<option value="mem">회원/비회원</option>
 				</select>
-				<input type="search" id=search2" placeholder="내용을 입력해주세요" name="search2">
+				<input type="search" id="search2" placeholder="내용을 입력해주세요" name="search2">
                 <button type="submit" class="btn btn-outline-secondary btn-sm">SEARCH</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm" onclick="location.href='<%= request.getContextPath() %>/views/board/bInsertForm.jsp'">WRITE</button>
+				<button type="button" class="btn btn-outline-secondary btn-sm"  onclick="location.href='<%= request.getContextPath() %>/views/board/bInsertForm.jsp'" >WRITE</button>
 				
 		</form>
+		
 		</div>
 		<br><br><br>
 		

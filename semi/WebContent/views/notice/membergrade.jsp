@@ -9,7 +9,8 @@
 <style>
 	#membergrade_thead{
 		color:black;
-		background:lightgray;
+		background:lightblue;
+		opacity:58%;
 	}
 	.font { 
 	font-size: 20px;
@@ -20,7 +21,7 @@
 	color: lightgray;
 	}
 	#membergrade{
-		width:1000px;
+		width:800px;
 		height:700px;
 	}
 </style>
@@ -39,49 +40,32 @@
     <tr>
       <th scope="col">등급</th>
       <th scope="col">결제 금액</th>
-      <th scope="col">혜택</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th scope="row"><br>VVIP<br></th>
-      <td><br>~~~원 이상<br></td>
-      <td> - 혜택 1<br>
-           - 혜택 2<br>
-           - 혜택 3<br>
-      </td>
+      <th scope="row"><br>다이아<br></th>
+      <td><br>1000000원 이상<br></td>
     </tr>
     <tr>
-      <th scope="row"><br>VIP<br></th>
-      <td><br>~~~원 이상<br></td>
-      <td> - 혜택 1<br>
-           - 혜택 2<br>
-           - 혜택 3<br>
-      </td>
+      <th scope="row"><br>플래티넘<br></th>
+      <td><br>700000원 이상<br></td>
+      
     </tr>
   <tr>
-      <th scope="row"><br>GOLD<br></th>
-      <td><br>~~~원 이상<br></td>
-      <td> - 혜택 1<br>
-           - 혜택 2<br>
-           - 혜택 3<br>
-      </td>
+      <th scope="row"><br>골드<br></th>
+      <td><br>400000원 이상<br></td>
+      
     </tr>
      <tr>
-      <th scope="row"><br>SILVER<br></th>
-      <td><br>~~~원 이상<br></td>
-      <td> - 혜택 1<br>
-           - 혜택 2<br>
-           - 혜택 3<br>
-      </td>
+      <th scope="row"><br>실버<br></th>
+      <td><br>100000원 이상<br></td>
+ 
     </tr>
      <tr>
-      <th scope="row"><br>BRONZE<br></th>
-      <td><br>~~~원 이상<br></td>
-      <td> - 혜택 1<br>
-           - 혜택 2<br>
-           - 혜택 3<br>
-      </td>
+      <th scope="row"><br>브론즈<br></th>
+      <td><br>0원 이상<br></td>
+ 
     </tr>
   </tbody>
 </table>
