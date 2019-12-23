@@ -6,7 +6,6 @@
 	String today = sdf.format(date);
 %>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +17,7 @@
     <style>
     #qna6_wrap{
         width: 1000px;
-        height: 900px;
+        height: 650px;
         margin:auto;
     }
     
@@ -26,51 +25,49 @@
     	text-align:center;
     }
     .font { 
-	font-size: 30px;
+	font-size: 20px;
 	color:black;
 	margin-left:40%;
 	 }
 	.font_underline { 
-	color: #fbd6db;
+	color: lightgray;
 	}
     </style>
 </head>
-<body>
 <body>
 <%@ include file="/views/common/menubar.jsp" %>  
     <div id="qna6_wrap">
     <br>
    <font class="font_underline">
-	<u><p class="font">공지사항 작성하기<br></p></u>
+	<u><p class="font">NOTICE WRITE<br></p></u>
 </font>
     <br>
     	<form action="<%= request.getContextPath() %>/insert.no" method="post">
-            <table class="table table-hover">
-                    <tr>
-                    	<th>제목</th>
-                    	<td colspan="3"><textarea name="title" cols="60" rows="1" style="resize:none" placeholder="제목을 입력해주세요"></textarea></td>
-                    </tr>
-                    	<tr>
-							<th>작성자</th>
-							<td>
-								<input type="text" value="관리자" name="writer" readonly>
-							</td>
-							<th>작성일</th>
-							<td><input type="text" name="date" value="<%= today %>"></td>
-						</tr>
-                    <tr>
-                    	<th>내용</th>
-                    	<td colspan="4"><textarea name="content" cols="115" rows="10" placeholder="내용을 입력해주세요"></textarea></td>
-                    </tr>
-                   
+                <table class="table table-hover">
+                <tr>
+                <td>제목</td>
+                <td colspan="3"><input type="text" name="title" placeholder="제목을 입력해주세요"></td>
+                </tr>
+                <tr>
+                <td>작성자</td>
+                <td><input type="text" name="writer" value="관리자" readonly></td>
+                <td>작성일</td>
+                <td><input type="text" name="date" value="<%= today %>" readonly></td>
+                </tr>
+                <tr>
+                <td>내용</td>
+                <td colspan="3" rowspan="5"><textarea name="content" cols="80" rows="8" placeholder="내용을 입력해주세요"></textarea></td>
+                </tr>
                 </table>
-               
-                <hr>
+                 <hr><hr>
          <div id="qna6_wrap2">
+       
          <button type="submit" class="btn btn-outline-secondary">WRITE</button>
          <button type="button" class="btn btn-outline-secondary" onclick="javascript:history.back();">CANCEL</button>
-          </form>
-         </div>
+           </div>
+           </form>
+        </div>
+         
          <%@ include file="/views/common/footbar.jsp" %>
 </body>
 </html>

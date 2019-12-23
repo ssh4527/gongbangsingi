@@ -20,12 +20,12 @@
 		color:red;
 	}
 	.font { 
-	font-size: 30px;
+	font-size: 20px;
 	color:black;
 	margin-left:40%;
 	 }
 	.font_underline { 
-	color: #fbd6db;
+	color: lightgray;
 	}
 	
 </style>
@@ -34,7 +34,7 @@
 <%@ include file="/views/common/menubar.jsp" %>
 <br>
 <font class="font_underline">
-	<u><p class="font">위치기반 서비스 이용약관 변경 공지<br></p></u>
+	<u><p class="font">SERVICE_LOCATION<br></p></u>
 </font>
 
 <br>

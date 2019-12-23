@@ -15,7 +15,7 @@
     <style>
     #qna6_wrap{
         width: 1000px;
-        height: 900px;
+        height: 650px;
         margin:auto;
     }
     
@@ -23,12 +23,12 @@
     	text-align:center;
     }
     	.font { 
-	font-size: 30px;
+	font-size: 20px;
 	color:black;
 	margin-left:40%;
 	 }
 	.font_underline { 
-	color: #fbd6db;
+	color: lightgray;
 	}
     </style>
 </head>
@@ -38,14 +38,14 @@
     <div id="qna6_wrap">
     <br>
    <font class="font_underline">
-	<u><p class="font">공지사항 상세보기<br></p></u>
+	<u><p class="font">NOTICE DETAIL<br></p></u>
 </font>
     <br>
-    	<form action="<%= request.getContextPath() %>/insert.no" method="post">
+    	
             <table class="table table-hover">
                     <tr>
                     	<th>제목</th>
-                    	<td colspan="3"><input type="text" size="50" name="title" value="<%= n.getnTitle() %>" readonly></td>
+                    	<td colspan="3"><input type="text" name="title" value="<%= n.getnTitle() %>" readonly></td>
                     </tr>
                     	<tr>
 							<th>작성자</th>
@@ -57,21 +57,21 @@
 						</tr>
                     <tr>
                     	<th>내용</th>
-                    	<td colspan="4"><textarea name="content" cols="115" rows="10" readonly><%= n.getnContent() %></textarea></td>
+                    	<td colspan="3" rowspan="5"><textarea name="content" cols="80" rows="8" readonly><%= n.getnContent() %></textarea></td>
                     </tr>
                 </table>
-             </form>
-             
+                
+                <hr><hr>
          <div id="qna6_wrap2">
-         <button class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/list.no'">목록으로~</button>
+         <button class="btn btn-outline-secondary btn-sm" onclick="location.href='<%= request.getContextPath() %>/list.no'">목록으로~</button>
           
          <!--  관리자인 경우 수정, 삭제 가능 -->
          <% if(loginUser != null && loginUser.getUserId().equals("admin")) {%>
-         <button id="updateBtn" class="btn btn-outline-secondary" onclick="location.href='<%= request.getContextPath() %>/updateForm.no?nno=<%= n.getnNo() %>'">수정하기</button>
-		<button id="deleteBtn"  class="btn btn-outline-secondary" type="button" onclick="deleteNotice();">삭제하기</button>
+         <button id="updateBtn" class="btn btn-outline-secondary btn-sm" onclick="location.href='<%= request.getContextPath() %>/updateForm.no?nno=<%= n.getnNo() %>'">수정하기</button>
+		<button id="deleteBtn"  class="btn btn-outline-secondary btn-sm" type="button" onclick="deleteNotice();">삭제하기</button>
         <% } %>
-         </div>
-         </div>
+         </div>  </div>
+        
          <script>
          function deleteNotice(){
  			if(confirm("해당 글을 삭제하시겠습니까?")){
@@ -79,5 +79,6 @@
  			}}
          </script>
          <%@ include file="/views/common/footbar.jsp" %>
+        
 </body>
 </html>
