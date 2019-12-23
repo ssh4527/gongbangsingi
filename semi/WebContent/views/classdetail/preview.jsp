@@ -230,7 +230,7 @@ ul {
 					<hr>
 				</div>
 				<div id="detail3" style="height: 120px;">
-					<small style="color: gray;"><%= wc.getWcWarning() %></small>
+					<small style="color: gray;"><%= wc.getWcIntroduce().replace("\r\n", "<br>") %></small>
 				</div>
 				<hr>
 				<div id="detail4">
@@ -333,11 +333,21 @@ ul {
 		<% int count = fileList.size() - 5; %>
 		<% for(int i = count; i >= 0 ; i--) { %>
 		
-		<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= fileList.get(i).getChangeName() %>" width=800px height=500px>
+		<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= fileList.get(i).getChangeName() %>">
 						
 		<% } %>
 </div>
 
+<br> <br> <br>
+
+		<div id="detail_warning">
+			<p id="detail_warning_p">&lt; 유의사항 &gt;</p>
+			<div id="detail_warning_text">
+				<p>
+					<%= wc.getWcWarning().replace("\r\n", "<br>") %>
+				</p>
+			</div>
+		</div>
 
 	</div>
 	<%@ include file="../common/footbar.jsp"%>

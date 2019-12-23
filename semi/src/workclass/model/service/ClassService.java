@@ -410,6 +410,19 @@ public class ClassService {
 		return result;
 	}
 
+	// 조회수증가
+	public int CountUp(String wcNo) {
+		Connection conn = getConnection();
+		int result = new ClassDao().Countup(conn,wcNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
 	
 	
 }

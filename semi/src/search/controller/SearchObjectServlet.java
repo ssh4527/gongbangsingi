@@ -38,7 +38,8 @@ public class SearchObjectServlet extends HttpServlet {
 		String searchtype = request.getParameter("searchtypeinput");
 		SearchService ss =new SearchService();
 		String searchinput = request.getParameter("searchinput");
-		
+		System.out.println(searchtype);
+		System.out.println(searchinput);
 		ArrayList<Workclass> wclist = null;
 		ArrayList<Workshop> wslist =null;
 		String keyword =ss.findKeyword(searchinput);

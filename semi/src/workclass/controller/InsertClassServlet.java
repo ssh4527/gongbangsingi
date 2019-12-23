@@ -78,8 +78,8 @@ public class InsertClassServlet extends HttpServlet {
 			String startdate = multipartRequest.getParameter("startDate"); // -> 2019.02.23
 			String closedate = multipartRequest.getParameter("closeDate"); // -> 2019.02.23
 			String WsNo = multipartRequest.getParameter("공방번호");
-
-			Workclass wc = new Workclass(WcName, WcNOP, WcMaxP,time, warning, WsNo);
+			String intro =  multipartRequest.getParameter("intro");
+			Workclass wc = new Workclass(WcName, WcNOP, WcMaxP,time, warning, intro,WsNo);
 
 			ArrayList<ClassFile> fileList = new ArrayList<>();
 
@@ -98,6 +98,8 @@ public class InsertClassServlet extends HttpServlet {
 				fileList.add(at);
 			}
 			
+			System.out.println("warning : " + warning);
+			System.out.println("intro : " + intro);
 			int result = new ClassService().insertWorkClass(wc);
 			
 			if(result > 0) {
@@ -109,12 +111,14 @@ public class InsertClassServlet extends HttpServlet {
 						for(int i = 0; i < fileList.size(); i++) {
 							fileList.get(i).setDestination(wcNo);
 						}
+						System.out.println(fileList);
 						int result3 = new ClassService().insertFile(fileList);
 						if(result3 > 0 ) {
 							request.setAttribute("workclass", wc);
 							request.setAttribute("classtime", ct);
 							request.setAttribute("fileList", fileList);
 							System.out.println("flieList : " + fileList);
+							System.out.println("ㅇㅇ?");
 							request.getRequestDispatcher("/views/classdetail/preview.jsp").forward(request, response);
 						}else {
 							System.out.println("file List 안들어갔는대?");
