@@ -423,6 +423,17 @@ public class ClassService {
 		return result;
 	}
 
+
+	public void upCountReview(String rNo) {
+		Connection conn = getConnection();
+		int result = new ClassDao().upCountReview(conn,rNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+
 	public ArrayList<Workclass> allSearchClass() {
 		Connection conn = getConnection();
 		ArrayList<Workclass> wList = new ClassDao().allSearchClass(conn);
@@ -436,6 +447,7 @@ public class ClassService {
 		String address = new ClassDao().selectAddress(conn,wsNo);
 		close(conn);
 		return address;
+
 	}
 
 	

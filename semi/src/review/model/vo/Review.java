@@ -9,25 +9,13 @@ public class Review {
 	private String RContent; // 내용
 	private int RCount; // 조회수
 	private int RGrade; // 평점
-	private String RWriter; //작성자
-	public String getWcName() {
-		return wcName;
-	}
-
-
-	public void setWcName(String wcName) {
-		this.wcName = wcName;
-	}
-
-
-
-
+	private String RWriter; //작성자 아이디
 	private String wcNo; // 클래스 번호
-	private String cName;
-	private String wcName;
+	private String cName; // 작성자 이름
+	private String wcName; // 클래스 이름
 	
 	public Review() {}
-
+	
 	
 	public Review(String rWriter, String wcName,String rTitle,  String rContent, Date rEnDate, int rGrade ) {
 		super();
@@ -40,8 +28,9 @@ public class Review {
 	}
 	
 
-	public Review(String rTitle, Date rEnDate, String rContent, int rCount, int rGrade, String cName,String rWriter, String wcName) {
+	public Review(String rNo,String rTitle, Date rEnDate, String rContent, int rCount, int rGrade, String cName,String rWriter, String wcName, String wcNo) {
 		super();
+		RNo = rNo; 
 		RTitle = rTitle;
 		REnDate = rEnDate;
 		RContent = rContent;
@@ -50,6 +39,7 @@ public class Review {
 		RWriter = rWriter;
 		this.cName = cName;
 		this.wcName = wcName;
+		this.wcNo= wcNo;
 	}
 
 
@@ -153,18 +143,6 @@ public class Review {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 	public String getcName() {
 		return cName;
 	}
@@ -180,48 +158,25 @@ public class Review {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 	public void setWcNo(String wcNo) {
 		this.wcNo = wcNo;
 	}
 
+	public String getWcName() {
+		return wcName;
+	}
 
 
-
-
-
-
-
-
-
-
-
-
-
+	public void setWcName(String wcName) {
+		this.wcName = wcName;
+	}
+	
 	@Override
 	public String toString() {
 		return "Review [RNo=" + RNo + ", RTitle=" + RTitle + ", REnDate=" + REnDate + ", RContent=" + RContent
 				+ ", RCount=" + RCount + ", RGrade=" + RGrade + ", RWriter=" + RWriter + ", wcNo=" + wcNo + "]";
 	}
 
-
-
-
-
-
-
-	
 	
 	
 }

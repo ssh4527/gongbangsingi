@@ -205,7 +205,7 @@ cursor: pointer;
 }
 #maintitle{
 	float:left;
-	margin-left:240px;
+	margin-left:90px;
 	width:50%;
 	height:100%;
 	text-align:center;
@@ -390,9 +390,9 @@ $(function(){
     </div>
 	</div>
 	<div align="center" style="width: 1300px; height: 200px;">
-		<div id="maintitle">
+		<div id="maintitle" >
 			<br><br><br>
-			<h1>공 방 신 기</h1>
+			<h1 style="text-align:right;">공 방 신 기</h1>
 		</div>
 		<div id="mainlogo">
 			<img src='<%=request.getContextPath()%>/resources/images/logo.jpg'

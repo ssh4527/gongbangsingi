@@ -555,14 +555,23 @@ public class SearchDao {
 		Statement s = null;
 		ResultSet rs = null;
 		ArrayList<Review> list = new ArrayList<Review>();
-		String q= "select c.c_id,c_name,r_title,r_ent_date,r_content,r_view_cnt,r_grade,wc_name from review r, work_class wc, client c  where r.wc_no = wc.wc_no and c.c_id = r.c_id";
+		String q= "select r.wc_no,r_no,c.c_id,c_name,r_title,r_ent_date,r_content,r_view_cnt,r_grade,wc_name from review r, work_class wc, client c  where r.wc_no = wc.wc_no and c.c_id = r.c_id";
 		
 		
 		try {
 			s = c.createStatement();
 			rs = s.executeQuery(q);
 			while(rs.next()) {
-				list.add(new Review(rs.getString("r_title"),rs.getDate("r_ent_date"),rs.getString("r_content"),rs.getInt("r_view_cnt"),rs.getInt("r_grade"),rs.getString("c_name"),rs.getString("c_id"),rs.getString("wc_name")));
+				list.add(new Review(rs.getString("r_no"),
+						rs.getString("r_title"),
+						rs.getDate("r_ent_date"),
+						rs.getString("r_content"),
+						rs.getInt("r_view_cnt"),
+						rs.getInt("r_grade"),
+						rs.getString("c_name"),
+						rs.getString("c_id"),
+						rs.getString("wc_name"),
+						rs.getString("wc_no")));
 				
 				
 			}
