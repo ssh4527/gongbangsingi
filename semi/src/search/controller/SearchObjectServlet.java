@@ -70,7 +70,7 @@ public class SearchObjectServlet extends HttpServlet {
 			request.setAttribute("wclist", wclist);
 			request.getRequestDispatcher("views/classcategory/category2.jsp").forward(request, response);
 		}else {
-		
+		 
 			wslist = ss.searchWorkshop(keyword); // 카테고리로 검색
 			
 			if(wslist.isEmpty()) {
