@@ -339,16 +339,18 @@ to {
 	<hr>
 	<span style="font-family: Arial;"><small>Total</small> <span style="Nanum Gothic;"><%= wList.size() %></span> <small>items</small></span>
 	<input type="text" value="<%= cate %>">
+	<input type="text" value="<%= keyword %>">
 	<span style="float:right; font-family:'Arial';">
 	<%
-		String kk = "kk";
-		if(keyword !=null){
-			kk ="kkkk";
-			
+		String kk = "";
+		if(keyword != null){ 
+			kk ="empty";
+		}else{
+			kk = "full";
 		}
 	%>
-		<a href="sort.class?keyword=<%= kk %>&cate=<%= cate %>" class="sortalink">인기순</a> | 
-		<a href="#" class="sortalink">최신순</a>
+		<a href="sort.class?keyword=<%= keyword %>&cate=<%= cate %>&kk=<%= kk %>" class="sortalink">인기순</a> | 
+		<a href="sort.choi.class?keyword=<%= keyword %>&cate=<%= cate %>&kk=<%= kk %>" class="sortalink">최신순</a>
 	</span>
 	<hr>
 

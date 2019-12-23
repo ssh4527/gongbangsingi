@@ -58,8 +58,13 @@ public class GodetailClassServlet extends HttpServlet {
 			}
 		}
 		
-		
-		
+		// 클래스 조회수 증가
+		int result123 = new ClassService().CountUp(wcNo);
+		if(result123 > 0) {
+			System.out.println("증가");
+		}else {
+			System.out.println("ss");
+		}
 		
 		
 		// 해당 클래스 공방 번호 가져오는부분
@@ -79,7 +84,7 @@ public class GodetailClassServlet extends HttpServlet {
 		
 		
 		
-		System.out.println(rfList);
+		
 		//ArrayList<ClassFile> rfList = new ClassService().selectReviewFile(wcNo);
 
 		

@@ -15,16 +15,16 @@ import search.model.service.SearchService;
 import workclass.model.vo.Workclass;
 
 /**
- * Servlet implementation class SortClassIngiServlet
+ * Servlet implementation class SortClassChoiServlet
  */
-@WebServlet("/sort.class")
-public class SortClassIngiServlet extends HttpServlet {
+@WebServlet("/sort.choi.class")
+public class SortClassChoiServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SortClassIngiServlet() {
+    public SortClassChoiServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,7 +42,7 @@ public class SortClassIngiServlet extends HttpServlet {
 		
 		ArrayList<Workclass> wclist = null;
 		
-		System.out.println("인기순 정렬");
+		System.out.println("최신순 정렬");
 		System.out.println("keywordd = " + keywordd);
 		System.out.println("cate = " + cate);
 		System.out.println("kk = " + kk);
@@ -74,15 +74,6 @@ public class SortClassIngiServlet extends HttpServlet {
 				wclist.get(i).setEnddate(timewc.getEnddate());
 			}
 			
-			// 평점순 정렬 
-			Collections.sort(wclist,new Comparator<Workclass>() {
-				@Override
-				public int compare(Workclass wc1, Workclass wc2) {
-					
-					//return wc1.getAvgGrade().compareTo(wc2.getAvgGrade());
-					return Double.compare(wc2.getAvgGrade(), wc1.getAvgGrade());
-				}
-			});
 			
 			request.setAttribute("keyword", keyword );
 			request.setAttribute("wclist", wclist);
@@ -106,15 +97,7 @@ public class SortClassIngiServlet extends HttpServlet {
 				wclist.get(i).setEnddate(timewc.getEnddate());
 			}
 			
-			// 평점순 정렬 
-						Collections.sort(wclist,new Comparator<Workclass>() {
-							@Override
-							public int compare(Workclass wc1, Workclass wc2) {
-								
-								//return wc1.getAvgGrade().compareTo(wc2.getAvgGrade());
-								return Double.compare(wc2.getAvgGrade(), wc1.getAvgGrade());
-							}
-						});
+		
 						
 			
 			request.setAttribute("wclist", wclist);
@@ -122,7 +105,6 @@ public class SortClassIngiServlet extends HttpServlet {
 			request.getRequestDispatcher("views/classcategory/category2.jsp").forward(request, response);
 		}
 		
-
 	}
 
 	/**

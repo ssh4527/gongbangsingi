@@ -56,6 +56,7 @@ public class ClassDao {
 			pstmt.setInt(3, wc.getWcMaxP());
 			pstmt.setString(4, wc.getWcOpenClose());
 			pstmt.setString(5, wc.getWcWarning());
+			pstmt.setString(6, wc.getWcIntroduce());
 			
 			result = pstmt.executeUpdate();
 			
@@ -136,6 +137,7 @@ public class ClassDao {
 		
 			try {
 				for(int i = 0; i < fileList.size(); i++) {
+					System.out.println(sql);
 					pstmt = conn.prepareStatement(sql);
 					ClassFile cf = fileList.get(i);
 					pstmt.setString(1, cf.getOriginName());
@@ -955,6 +957,26 @@ public class ClassDao {
 		} finally {
 			close(pstmt);
 		}
+		return result;
+	}
+
+
+	// 조회수증가
+	public int Countup(Connection conn, String wcNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "update work_class set wc_hits = wc_hits + 1 where wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
 		return result;
 	}
 

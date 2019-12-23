@@ -173,8 +173,6 @@ ul {
 		<div id="top_div">
 			<div id="detail_img_div" style="padding: 10px;">
 				<img style="border:1px solid black; height:500px; width:490px;  cursor:pointer;" id="titleImg0">
-				<!--  <img src="<%=request.getContextPath()%>/resources/images/jar1.jpg"
-					id="detail_img">  -->
 				<div style="padding: 10px; margin: 10px; margin-left: 10px; cursor: pointer;">
 					<img style="width:100px; height:100px; border:1px solid black; display:inline-block;" id="titleImg1">
 					<img style="width:100px; height:100px; border:1px solid black; display:inline-block;" id="titleImg2">
@@ -297,7 +295,7 @@ ul {
 				<hr>
 				<div id="detail1">
 					<!-- 클래스 이름 -->
-					<input type="text" name="className" placeholder="클래스의 이름을 입력해주세요!" style="width:300px;">
+					<input type="text" name="className" placeholder="클래스의 이름을 입력해주세요!d" style="width:300px; required">
 					<input type="text" name="outtime" id="outtime" style="display:none">
 				</div>
 				<hr>
@@ -312,8 +310,8 @@ ul {
 					<hr>
 				</div>
 				<div id="detail3" style="height: 120px;">
-					<textarea rows="4" cols="50" name="warning">
-유의사항을 입력해주세요!
+					<textarea rows="4" cols="50" name="intro" style="resize: none;">
+클래스 리스트에 보일 소개를 써주세요 (30자 이내)
 					</textarea>
 				</div>
 				<hr>
@@ -335,32 +333,30 @@ ul {
 									input.val('');
 									input.focus();
 									
-									
 									str += inputtime +",";
 									$("#outtime").val(str);
 								}
 							});
-							
-							
-							
-							
 						});
 					</script>
 					<table>
 						<!-- 날짜넣는부분 -->
 						<tr>
-							<td>오픈 날짜. 종료 날짜</td>
+							<td><small>> 시작 날짜 </small></td>
 							<td><input type="date" name="startDate"></td>
+						</tr>
+						<tr>
+							<td><small>> 종료 날짜</small></td>
 							<td><input type="date" name="closeDate"></td>
 						</tr>
 						<tr>
-							<td>시간대를 입력해주세요</td>
+							<td><small>> 시간대</small></td>
 							<td><input type="text" placeholder="ex)12:00 - 14:00" name="inputtime" id="inputtime"></td>
 							<td><button type="button" class="btn btn-outline-secondary"
 						style="float: right" id="inputoption">시간 넣기</button></td>
 						</tr>
 						<tr>
-							<td width=150px;><small style="color: gray"> > 날짜/시간
+							<td width=150px;><small> > 날짜/시간
 							</small></td>
 							<td><select name="time" id="time" style="font-size: 15px">
 									<option value="">-[필수] 시간대를 입력해주세요 -</option>
@@ -369,7 +365,7 @@ ul {
 						style="float: right" id="deleteoption">시간 삭제</button></td>
 						</tr>
 						<tr>
-							<td><small style="color: gray"> > 최대인원수 </small></td>
+							<td><small> > 최대인원수 </small></td>
 							<td><input type="number" width="10px" min="0" max="100" name="count"
 								id="count"></td>
 						</tr>
@@ -378,6 +374,11 @@ ul {
 						</tr>
 					</table>
 					<hr>
+					<div>
+						<textarea rows="4" cols="50" rows="intro" style="resize: none;" name="warning">
+유의사항을 적어주세요
+						</textarea>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -394,7 +395,7 @@ ul {
 		var preText = 0;
 		$(function(){
 			$("#insertImg").click(function(){
-				$("#insertdiv").append("<img name='titleImg" + preImg + "' id='titleImg" +  preImg + "' style='width:1000px; height:500px; border:1px solid black; display:inline_block; margin-top:30px; cursor:pointer;'>");
+				$("#insertdiv").append("<img name='titleImg" + preImg + "' id='titleImg" +  preImg + "' style='display:inline_block; margin-top:30px; cursor:pointer;'><br>");
 				$("#insertdiv").append("<input type='file' id='thumbnailImg" + preImg + "' name='thumbnailImg" + preImg + "' onchange='loadImg(this,"+(preImg++)+")'>");
 				
 			});
