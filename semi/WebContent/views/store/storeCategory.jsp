@@ -3,13 +3,15 @@
 <%
 	ArrayList<Workshop> list = (ArrayList<Workshop>) request.getAttribute("list");
 	ArrayList<ShopFile> flist = (ArrayList<ShopFile>) request.getAttribute("flist");
+	String keyword=(String)request.getAttribute("keyword");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>카테고리</title>
-
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -125,15 +127,194 @@ to {
 .gradeDis {
 	float: left;
 }
+
+#menu {
+    width:960px;
+    height:40px;
+}
+
+ul.navi {
+    /* 왼쪽 정렬 될 수 있게*/
+    float:left;
+    width:960px;
+    /* 기본적으로 적용되는 margin, padding 제거 */
+    margin:0;
+    padding:0;
+    /* 불렛 없애기 */
+    list-style:none;
+    background:#39f;
+
+    /* 좌우 상단 둥글게 */
+    border-top-right-radius:10px;
+    border-top-left-radius:10px;
+}
+
+/* 메인 메뉴 inline 속성으로 */
+ul.navi li {
+    display:inline;
+}
+
+ul.navi li a {
+    /* 모든 a 태그 왼쪽 정렬 */
+    float:left;
+    font:bold 14px 굴림;
+    line-height: 40px;
+    color:#fff;
+    /* 기존의 a 태그의 밑줄 없애기 */
+    text-decoration:none;
+    text-shadow:1px 1px 1px #880000;
+    margin:0;
+    padding: 0 30px;
+    /* 위 오른쪽 아래 왼쪽 */
+}
+
+ul.navi li:hover>a {
+    background:#36F;
+
+    /* 메인 메뉴 마우스 오버 시 상단 둥글게 */
+    border-top-right-radius:10px;
+    border-top-left-radius:10px;
+}
+
+/* ul의 후손 ul은 보여지지 않게 하기 */
+ul.navi ul {
+    display:none;
+}
+
+/* 내부 ul 자리 잡기 */
+ul.navi li:hover>ul {
+    position:absolute;
+    display:block;
+    width:920px;
+    height:45px;
+    margin:40px 0 0 0;
+    background: #33F;
+
+    /* 좌우 하단 둥글게 */
+    border-bottom-right-radius:10px;
+    border-bottom-left-radius:10px;
+}
+
+/* 내부 ul의 a 태그 정렬 */
+ul.navi li:hover>ul li a {
+    padding: 0 30px 0 0;
+    background:#33F;
+}
+
+/* 하위 a 태그에 마우스 오버 시 글자 색 변경 */
+ul.navi li:hover>ul li a:hover{
+    color:#120000;
+    text-decoration:none;
+    text-shadow:none;
+}
 </style>
 
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
+	<%if(list!=null){ %>
 	<!-- 정렬창 보이는 곳 -->
+	<%-- <div id="menu">
+        <ul class="navi">
+            <li><a href="#">지역별</a>
+            	<ul> <%
+            	ArrayList<String> addr= new ArrayList<>();
+            
+				for (Workshop shop : list) {
+					String c=shop.getCategory();
+					boolean check=true;
+					for(int i=0;i<addr.size();i++){
+						if(addr.get(i)==c){
+							check=false;
+						}
+					}
+					if(check){
+						addr.add(shop.getAddress());
+					}
+				}
+				for(int i=0;i<addr.size();i++){
+				
+			%>
+                	<li><a href="category(<%=addr.get(i)%>);"><%=addr.get(i)%></a></li>
+          
+                <%} %>
+                </ul></ul>
+            
+            <li><a href="#">카테고리</a>
+            <ul>
+            <%
+            	ArrayList<String> arr= new ArrayList<>();
+            
+				for (Workshop shop : list) {
+					String c=shop.getCategory();
+					boolean check=true;
+					for(int i=0;i<arr.size();i++){
+						if(arr.get(i)==c){
+							check=false;
+						}
+					}
+					if(check){
+						arr.add(shop.getCategory());
+					}
+				}
+				for(int i=0;i<arr.size();i++){
+				
+			%>
+                	<li><a href="category(<%=arr.get(i)%>);"><%=arr.get(i)%></a></li>
+          
+                <%} %>
+                </ul>
+            </li>
+            <li><a href="#">게시판</a>
+                <ul>
+                    <li><a href="#">인기순</a></li>
+                    <li><a href="#">최신순</a></li>
+                </ul>
+            </li>
+        </ul>
+	</div> --%>
+	
 	<div class='bigWrapper'>
 		<div class="showWrapper">
-			<!-- 정렬 1 -->
+		<!-- 지역별 -->
+			<div class="sort3 sort">
+				<h2>지역별</h2>
+				<br> <br>
+				<div class="custom-control custom-checkbox">
+					<form method="post" id="location">
+						<table>
+							<%
+								ArrayList<String> addr= new ArrayList<>();
+								HashSet<String> addrh= new HashSet<String>();
+								int idx = 1;
+								for (Workshop shop : list) {
+									addrh.add(shop.getAddress().substring(0,2));
+								}
+								addr=new ArrayList<>(addrh);
+								for(int i=0;i<addr.size();i++){
+								
+							%>
+							<tr>
+								<td><input type="checkbox" class="custom-control-input"
+									value="<%=addr.get(i)%>" id="<%=idx%>l" name="location"
+									checked> <label class="custom-control-label"
+									for="<%=idx%>l"><%=addr.get(i)%></label></td>
+							</tr>
+							<%
+								idx++;
+								}
+							%>
+
+						</table>
+						<br> <br> <br> <br> <br> <br>
+
+						<button type="button" class="btn btn-warning" id="btnsort3">적용하기</button>
+					</form>
+
+				</div>
+			</div>
+			
+			<!-- 카테고리 -->
 			<div class="sort1 sort">
 				<h2>카테고리</h2>
 				<br> <br>
@@ -141,17 +322,24 @@ to {
 					<form method="post" id="category">
 						<table>
 							<%
-								int idx = 1;
+								int cidx = 1;
+								ArrayList<String> arr= new ArrayList<>();
+								HashSet<String> arrh= new HashSet<String>();
+								
 								for (Workshop shop : list) {
+									arrh.add(shop.getCategory());
+								}
+								arr=new ArrayList<>(arrh);
+								for(int i=0;i<arr.size();i++){
 							%>
 							<tr>
 								<td><input type="checkbox" class="custom-control-input"
-									value="<%=shop.getCategory()%>" id="<%=idx%>" name="category"
+									value="<%=arr.get(i)%>" id="<%=cidx%>c" name="category"
 									checked> <label class="custom-control-label"
-									for="<%=idx%>"><%=shop.getCategory()%></label></td>
+									for="<%=cidx%>c"><%=arr.get(i)%></label></td>
 							</tr>
 							<%
-								idx++;
+								cidx++;
 								}
 							%>
 
@@ -198,12 +386,11 @@ to {
 	<script>
 		$(function() {
 			// 카테고리 버튼 누르면
-
 			$("#sortlist1").click(function() { 
 				$(".bigWrapper").css("display", "flex").show();
 				$(".sort1").css("display","inline_block").show();
 				$(".sort2").css("display","none");
-				$(".distance").css("display","none");
+				$(".sort3").css("display","none");
 			});
 			
 			// 정렬기준 버튼 누르면
@@ -212,13 +399,17 @@ to {
 
 				$(".sort2").css("display","inline_block").show();
 				$(".sort1").css("display","none");
-				$(".distance").css("display","none");
+				$(".sort3").css("display","none");
 			});
 			
 			// 거리순 버튼 누르면
-			$("#distance").click(function() {
-				distancePopup();
-				console.log("dd");
+			$("#locationSort").click(function() {
+				//distancePopup();
+				$(".bigWrapper").css("display", "flex").show();
+
+				$(".sort2").css("display","none");
+				$(".sort1").css("display","none");
+				$(".sort3").css("display","inline_block").show();
 			});
 			
 			
@@ -244,8 +435,14 @@ to {
 					$("#sortlist2").css("color","red");
 					sortFunc();
 				}
-				
 			});
+			
+			$("#btnsort3").click(function(){
+				$(".bigWrapper").css("display","none");
+				$("#locationSort").css("color","red");
+				sortFunc();
+			});
+			
 			
 			function distancePopup() {
 		        new daum.Postcode({
@@ -268,6 +465,13 @@ to {
 		        }).open();
 		    }
 			
+			$(document).on('click', '.shop', function(){
+				console.log("g");
+					var WsNo = $(this).children().eq(0).val();
+					location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+ WsNo;
+			});
+			
+			//정렬
 			function sortFunc() {
 				var s = "null";
 				$("input[name='sort']:checked").each(function(i) {
@@ -279,50 +483,54 @@ to {
 					category.push($(this).val());
 				});
 				var c = category.join(",");
+				
+				var location = [];
+				$("input[name='location']:checked").each(function(i) {
+					/* category.push("'"+$(this).val()+"'"); */
+					location.push($(this).val());
+				});
+				var loc = location.join(",");
+				
+				var key=<%=keyword%>;
 				console.log(c);
 				console.log(s);
+				console.log(loc);
+				console.log(key);
 				$.ajax({
 				url : "sort.sh",
 				type : "post",
 				data : {
 					sort : s,
-					category : c
+					category : c,
+					location : loc,
+					keyword : key 
 				},
 				success : function(slist) {
 					$("#glist").html("");
 
 					$.each(slist,function(index, value) {
-							console.log("hh");
-
 							var $div1 = $('<div class="col-md-4">');
 							var $div2 = $('<div class="card mb-4 shadow-sm shop">');
-							var $input1 = $(
-									'<input type="hidden">')
-									.val(value.WsNo);
+							var $input1 = $('<input type="hidden">').val(value.WsNo);
 							console.log(value.WsNo);
 							var $thumbnailDiv = $("<div id='thumbnail'>");
-
-							var $thumbnail = $("<img class='gal'>")/* .attr("src","request.getContextPath()/resources/thumbnail_uploadFiles/value.ReName").css({"width":"100%","height":"100%"}) */;
-
+							
+							if(value.reName)
+								var $thumbnail = $("<img class='gal'>").attr("src",'<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/'+value.reName).css({"width":"100%","height":"100%"});
+							else
+								var $thumbnail = $("<img class='gal'>").css({"width":"100%","height":"100%"});
+								
+							console.log(value.reName);
 							var $cardBody = $("<div class='card-body'>");
-							var $category = $(
-									"<small class='text-muted'>")
-									.text(
-											value.Category);
-							var $name = $(
-									"<p class='card-text'>")
-									.text(value.WsName);
-							var $grade = $("<b>").text(
-									"★" + value.grade);
-							var $wel = $(
-									"<small class='text-muted'>")
-									.text("구경하세요");
+							var $category = $("<small class='text-muted'>").text(value.Category);
+							var $name = $("<p class='card-text'>").text(value.WsName);
+							var $grade = $("<b>").text("★" + value.grade);
+							var $wel = $("<small class='text-muted'>").text("구경하세요");
 
 							$div1.append($div2);
 							$div2.append($input1);
 							$div2.append($thumbnailDiv);
-							$thumbnailDiv
-									.append($thumbnail);
+							$thumbnailDiv.append($thumbnail);
 							$div2.append($cardBody);
 							$cardBody.append($category);
 							$cardBody.append($name);
@@ -339,9 +547,10 @@ to {
 			});
 
 			}
-		});
+		
+	
+	});
 	</script>
-
 	<!-- 공방 위치 지도 API -->
 	<section id="mapArea">
 		<div class="map_wrap">
@@ -351,8 +560,8 @@ to {
 
 	<div id="sortlist">
 		<br>
-		<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp; <a id="sortlist2">정렬기준
-			∨</a>&nbsp;&nbsp;&nbsp; <a id="distance">거리순 ∨</a>
+		<a id="locationSort">지역별 ∨</a>&nbsp;&nbsp;&nbsp;<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp;
+		 <a id="sortlist2">정렬기준 ∨</a>
 	</div>
 	<hr>
 
@@ -362,8 +571,8 @@ to {
 				// 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 				var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}), 
 				    contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다 
-				    markers = [], // 마커를 담을 배열입니다
-				    currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+				    markers = []; // 마커를 담을 배열입니다
+				   
 				    
 					var container = document.getElementById('map');
 					var options = {
@@ -406,173 +615,13 @@ to {
 									});
 					<%}%>
 					
-					// 지도에 idle 이벤트를 등록합니다
-					kakao.maps.event.addListener(map, 'idle', searchPlaces);
-
-					// 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다 
-					contentNode.className = 'placeinfo_wrap';
-
-					// 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
-					// 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다 
-					addEventHandle(contentNode, 'mousedown', kakao.maps.event.preventMap);
-					addEventHandle(contentNode, 'touchstart', kakao.maps.event.preventMap);
-
-					// 커스텀 오버레이 컨텐츠를 설정합니다
-					placeOverlay.setContent(contentNode);  
-
-					// 각 카테고리에 클릭 이벤트를 등록합니다
-					addCategoryClickEvent();
-
-					// 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
-					function addEventHandle(target, type, callback) {
-					    if (target.addEventListener) {
-					        target.addEventListener(type, callback);
-					    } else {
-					        target.attachEvent('on' + type, callback);
-					    }
-					}
-
-					// 카테고리 검색을 요청하는 함수입니다
-					function searchPlaces() {
-					    if (!currCategory) {
-					        return;
-					    }
-					    
-					    // 커스텀 오버레이를 숨깁니다 
-					    placeOverlay.setMap(null);
-
-					    // 지도에 표시되고 있는 마커를 제거합니다
-					    removeMarker();
-					    
-					    ps.categorySearch(currCategory, placesSearchCB, {useMapBounds:true}); 
-					}
-
-					// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-					function placesSearchCB(data, status, pagination) {
-					    if (status === kakao.maps.services.Status.OK) {
-
-					        // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
-					        displayPlaces(data);
-					    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-					        // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
-
-					    } else if (status === kakao.maps.services.Status.ERROR) {
-					        // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
-					        
-					    }
-					}
-
-					// 지도에 마커를 표출하는 함수입니다
-					function displayPlaces(places) {
-
-					    // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
-					    // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
-					    var order = document.getElementById(currCategory).getAttribute('data-order');
-
-					    for ( var i=0; i<places.length; i++ ) {
-
-					            // 마커를 생성하고 지도에 표시합니다
-					            var marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
-
-					            // 마커와 검색결과 항목을 클릭 했을 때
-					            // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-					            (function(marker, place) {
-					                kakao.maps.event.addListener(marker, 'click', function() {
-					                    displayPlaceInfo(place);
-					                });
-					            })(marker, places[i]);
-					    }
-					}
-
-					// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-					function addMarker(position, order) {
-					    var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-					        imageSize = new kakao.maps.Size(27, 28),  // 마커 이미지의 크기
-					        imgOptions =  {
-					            spriteSize : new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-					            spriteOrigin : new kakao.maps.Point(46, (order*36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-					            offset: new kakao.maps.Point(11, 28) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-					        },
-					        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-					            marker = new kakao.maps.Marker({
-					            position: position, // 마커의 위치
-					            image: markerImage 
-					        });
-
-					    marker.setMap(map); // 지도 위에 마커를 표출합니다
-					    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-
-					    return marker;
-					}
-
-					
-
-					// 각 카테고리에 클릭 이벤트를 등록합니다
-					function addCategoryClickEvent() {
-					    var category = document.getElementById('category'),
-					        children = category.children;
-
-					    for (var i=0; i<children.length; i++) {
-					        children[i].onclick = onClickCategory;
-					    }
-					}
-
-					// 카테고리를 클릭했을 때 호출되는 함수입니다
-					function onClickCategory() {
-					    var id = this.id,
-					        className = this.className;
-
-					    placeOverlay.setMap(null);
-
-					    if (className === 'on') {
-					        currCategory = '';
-					        changeCategoryClass();
-					        removeMarker();
-					    } else {
-					        currCategory = id;
-					        changeCategoryClass(this);
-					        searchPlaces();
-					    }
-					}
-
-					// 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
-					function changeCategoryClass(el) {
-					    var category = document.getElementById('category'),
-					        children = category.children,
-					        i;
-
-					    for ( i=0; i<children.length; i++ ) {
-					        children[i].className = '';
-					    }
-
-					    if (el) {
-					        el.className = 'on';
-					    } 
-					} 
 					
 				</script>
 
 	<!-- 앨범 부분...  -->
-
 	<div class="album py-5 bg-light" id="whole">
 		<div class="container">
 			<div class="row" id="glist">
-				<%-- <div class="col-md-4">
-					<div class="card mb-4 shadow-sm">
-						<div id="thumbnail">
-							<img
-								src="<%=request.getContextPath()%>/resources/images/jar1.jpg"
-								width="100%" height="100%" class="gal">
-						</div>
-						<div class="card-body">
-							<small class="text-muted">Dish Factory</small>
-							<p class="card-text" align="left">반지나라</p>
-							<div class="d-flex justify-content-between align-items-center">
-								<small class="text-muted">★4.2</small> <small class="text-muted">구경하세요</small>
-							</div>
-						</div>
-					</div>
-				</div> --%>
 
 				<%
 					ArrayList<Workshop> viewList = null;
@@ -595,8 +644,7 @@ to {
 								src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=sf.getReName()%>"
 								width="100%" height="100%" class="gal">
 							<%
-								}
-										if (check) {
+								}if (check) {
 							%>
 							<img width="100%" height="100%" class="gal">
 							<%
@@ -625,20 +673,16 @@ to {
 		</div>
 	</div>
 
-	<script>
-	$(".shop").click(function(){
-		var WsNo = $(this).children().eq(0).val();
-		
-		location.href="<%=request.getContextPath()%>/detail.sh?WsNo="+ WsNo;
-	});
-	</script>
-	<%@ include file="../common/footbar.jsp"%>
+	<%}else{ %>
+	<div style="text-align:center; height:700px"><br><h4> 현재 등록된 공방이 없습니다.</h4></div>
+	<%} %>
+<%@ include file="../common/footbar.jsp"%>
 
 
 
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
 </html>
