@@ -434,6 +434,7 @@ public class ClassService {
 		}
 		close(conn);
 	}
+
 	public ArrayList<Workclass> allSearchClass() {
 		Connection conn = getConnection();
 		ArrayList<Workclass> wList = new ClassDao().allSearchClass(conn);

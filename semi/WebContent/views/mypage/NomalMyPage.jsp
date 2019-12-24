@@ -1,12 +1,12 @@
 <%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.util.ArrayList, reservation.model.vo.*, member.model.*, review.model.vo.*, qna.model.vo.*"%>
+	import="java.util.ArrayList, reservation.model.vo.*, member.model.*, review.model.vo.*, qna.model.vo.*, jjim.model.vo.* "%>
 	<%
     	ArrayList<Reservation> list = (ArrayList<Reservation>)request.getAttribute("list"); 
     	ArrayList<Review> relist = (ArrayList<Review>)request.getAttribute("reviewlist");
     	ArrayList<Qna> qnalist = (ArrayList<Qna>)request.getAttribute("qnalist");
-    	
+    	ArrayList<Jjim> jlist = (ArrayList<Jjim>)request.getAttribute("jlist");
     %>
 <!DOCTYPE html>
 <html>
@@ -36,6 +36,7 @@ aside {
 #menu{
 	
 }
+
 #menu>li {
 	list-style: none;
 	margin-top: 30px;
@@ -305,6 +306,9 @@ section {
 						<% } %>
 					</tbody>
 				</table>
+				<hr>
+				<button type="button" onclick="location.href='<%= request.getContextPath()%>/review.search';">후기 더 보기</button>
+				
 			</div>
 			<div id="QnaTable">
 				<h2>문의 내역</h2>
@@ -401,7 +405,7 @@ section {
 					<hr>
 					<h3>공방 사업자 신청하기</h3>
 					<button type="button"
-						onclick="location.href ='<%= request.getContextPath() %>/views/mypage/businessmember.jsp'">신청하기</button>
+						onclick="location.href ='<%= request.getContextPath() %>/views/notice/businessmember.jsp'">신청하기</button>
 					<hr>
 					<button type="submit">변경 완료</button>
 				</form>
@@ -416,8 +420,28 @@ section {
 		</section>
 	</div>
 	
-	<div id="jjim list" >
+	<style>
+		#jjim-list{
+			border : 1px solid red;
+		}
+	</style>
+	
+	<div id="jjim-list" >
 		<h4>찜 목록</h4><hr>
+			<table>
+				<% if(jlist.isEmpty()){ %>
+						<tr>
+							<td colspan="5" style="text-align: center">찜 목록이 비어있습니다.</td>
+						</tr>
+						<% } else { %>
+						<% for(Jjim j : jlist) {%>
+						<tr>
+							<td><%=j.getWc_name()%></td>
+						</tr>
+						<% } %>
+						<% } %>
+			</table>
+		
 	</div>
 	
 	<%@ include file="../common/footbar.jsp"%>

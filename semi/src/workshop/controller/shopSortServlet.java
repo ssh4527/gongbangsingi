@@ -57,17 +57,17 @@ public class shopSortServlet extends HttpServlet {
 		ArrayList<Workshop> slist = new ArrayList<>();
 		ArrayList<Workshop> slist2 = null;
 		
-		if (!keyword.isEmpty()) {
+		if (!keyword.equals("null")) {
 			SearchService ss = new SearchService();
 			wslist = ss.searchWorkshop(keyword); // 카테고리로 검색
 
 			if (wslist.isEmpty()) {
 				wslist = ss.findWorkshopName(keyword);
 			}
-			System.out.println(wslist);
 		} else {
 			ShopService shs = new ShopService();
 			wslist = shs.selectShopList();
+			System.out.println("ws"+wslist);
 		}
 
 		for (Workshop shop : wslist) {
@@ -84,7 +84,7 @@ public class shopSortServlet extends HttpServlet {
 			}
 		}
 	
-			System.out.println(slist2);
+			System.out.println("slist2"+slist2);
 			System.out.println(slist);
 			// 인기순
 			if (sortType.equals("인기순")) {
@@ -95,7 +95,7 @@ public class shopSortServlet extends HttpServlet {
 					}
 				});
 			} else if (sortType.equals("최신순")) {
-				Collections.sort(slist,new Comparator<Workshop>() {
+				Collections.sort(slist2,new Comparator<Workshop>() {
 					@Override
 					public int compare(Workshop ws1, Workshop ws2) {
 						return ws2.getWsEnrollDate().compareTo(ws1.getWsEnrollDate());
@@ -103,32 +103,15 @@ public class shopSortServlet extends HttpServlet {
 				});
 			}
 			
-			for(int i=0;i<slist.size();i++) {
-				Workshop file=new ShopService().getFilePathReName(slist.get(i).getWsNo());
-				slist.get(i).setPath(file.getPath());
-				slist.get(i).setReName(file.getReName());
+			for(int i=0;i<slist2.size();i++) {
+				Workshop file=new ShopService().getFilePathReName(slist2.get(i).getWsNo());
+				slist2.get(i).setPath(file.getPath());
+				slist2.get(i).setReName(file.getReName());
 			}
-			
-			 /* ShopService shs = new ShopService(); 
-		 
-		  if(location!=null&&category!=null) {
-		  if (!keyword.equals("null") && !sortType.equals("null")) { 
-			  slist =shs.selectCSortlist(sortType, c, keyword, l); 
-			  } else if(!keyword.equals("null") && sortType.equals("null")) { 
-				  slist = shs.selectSortlist(c, keyword, l); 
-				  } else if (keyword.equals("null") &&!sortType.equals("null")) { 
-					  slist = shs.selectSortlist(sortType, c, l); }
-				  else if (keyword.equals("null") && sortType.equals("null")) {
-					  slist = shs.selectedCategory(c, l); } 
-		  }else {
-
-	
-
-		  }*/
 		 
 		
 		response.setContentType("application/json; charset=utf-8");
-		// 첫번쨰 요소 - 응답할 객체, 두번째 = 응답할 스트림
+		// 첫번째 요소 - 응답할 객체, 두번째 = 응답할 스트림
 		new Gson().toJson(slist2, response.getWriter());
 		
 	}

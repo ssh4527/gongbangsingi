@@ -3,6 +3,7 @@
 <%
 	ArrayList<Workshop> list = (ArrayList<Workshop>) request.getAttribute("list");
 	ArrayList<ShopFile> flist = (ArrayList<ShopFile>) request.getAttribute("flist");
+	System.out.println(flist);
 	String keyword=(String)request.getAttribute("keyword");
 %>
 <!DOCTYPE html>
@@ -70,7 +71,7 @@ a {
 	padding: 30px;
 }
 
-.btn {
+.sortbtn {
 	color: white;
 	width: 400px;
 }
@@ -308,7 +309,7 @@ ul.navi li:hover>ul li a:hover{
 						</table>
 						<br> <br> <br> <br> <br> <br>
 
-						<button type="button" class="btn btn-warning" id="btnsort3">적용하기</button>
+						<button type="button" class="btn btn-warning sortbtn" id="btnsort3">적용하기</button>
 					</form>
 
 				</div>
@@ -346,7 +347,7 @@ ul.navi li:hover>ul li a:hover{
 						</table>
 						<br> <br> <br> <br> <br> <br>
 
-						<button type="button" class="btn btn-warning" id="btnsort1">적용하기</button>
+						<button type="button" class="btn btn-warning sortbtn" id="btnsort1">적용하기</button>
 					</form>
 
 				</div>
@@ -373,7 +374,7 @@ ul.navi li:hover>ul li a:hover{
 							</tr>
 						</table>
 						<br> <br> <br> <br> <br> <br>
-						<button type="button" class="btn btn-warning" id="btnsort2">적용하기</button>
+						<button type="button" class="btn btn-warning sortbtn" id="btnsort2">적용하기</button>
 					</form>
 				</div>
 			</div>
@@ -491,7 +492,7 @@ ul.navi li:hover>ul li a:hover{
 				});
 				var loc = location.join(",");
 				
-				var key=<%=keyword%>;
+				var key='<%=keyword%>';
 				console.log(c);
 				console.log(s);
 				console.log(loc);
@@ -503,11 +504,15 @@ ul.navi li:hover>ul li a:hover{
 					sort : s,
 					category : c,
 					location : loc,
-					keyword : key 
+					keyword : key,
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8"
 				},
 				success : function(slist) {
 					$("#glist").html("");
-
+					if(slist.isEmpty()){
+						var $div1 = $('<div class="col-md-4">');
+						var $div2 = $('<div class="card mb-4 shadow-sm shop">');
+					}
 					$.each(slist,function(index, value) {
 							var $div1 = $('<div class="col-md-4">');
 							var $div2 = $('<div class="card mb-4 shadow-sm shop">');
@@ -516,16 +521,16 @@ ul.navi li:hover>ul li a:hover{
 							var $thumbnailDiv = $("<div id='thumbnail'>");
 							
 							if(value.reName)
-								var $thumbnail = $("<img class='gal'>").attr("src",'<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/'+value.reName).css({"width":"100%","height":"100%"});
+								var $thumbnail = $("<img class='gal' width='100%' height='100%'>").attr("src",'<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/'+value.reName);
 							else
-								var $thumbnail = $("<img class='gal'>").css({"width":"100%","height":"100%"});
+								var $thumbnail = $("<img class='gal' width='100%' height='100%'>");
 								
 							console.log(value.reName);
-							var $cardBody = $("<div class='card-body'>");
+							var $cardBody = $("<div class='card-body' style='width:100%;'>");
 							var $category = $("<small class='text-muted'>").text(value.Category);
 							var $name = $("<p class='card-text'>").text(value.WsName);
 							var $grade = $("<b>").text("★" + value.grade);
-							var $wel = $("<small class='text-muted'>").text("구경하세요");
+							var $wel = $("<small class='text-muted' style='float:right'>").text("구경하세요");
 
 							$div1.append($div2);
 							$div2.append($input1);
@@ -563,6 +568,14 @@ ul.navi li:hover>ul li a:hover{
 		<a id="locationSort">지역별 ∨</a>&nbsp;&nbsp;&nbsp;<a id="sortlist1">카테고리 ∨</a>&nbsp;&nbsp;&nbsp;
 		 <a id="sortlist2">정렬기준 ∨</a>
 	</div>
+	
+	<!-- 검색 하였을 때 -->
+	<%if(keyword!=null){ %>
+	<div>
+		<a style="float:right;">'<%=keyword %>'로 검색한 결과</a>
+	</div>
+	<%} %>
+	
 	<hr>
 
 	<script type="text/javascript"
@@ -637,6 +650,8 @@ ul.navi li:hover>ul li a:hover{
 							<%
 								boolean check = true;
 									for (ShopFile sf : flist) {
+										
+									System.out.println(shop.getWsNo()+" , "+sf.getFs_destination());
 										if (shop.getWsNo().equals(sf.getFs_destination())) {
 											check = false;
 							%>
@@ -644,23 +659,22 @@ ul.navi li:hover>ul li a:hover{
 								src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=sf.getReName()%>"
 								width="100%" height="100%" class="gal">
 							<%
-								}if (check) {
-							%>
-							<img width="100%" height="100%" class="gal">
-							<%
 								}
-									}
+									}if (check) {
+										%>
+										<img width="100%" height="100%" class="gal">
+										<%
+											}
 							%>
 
 						</div>
-						<div class="card-body">
+						<div class="card-body" style="width:100%; ">
 							<small class="text-muted"><%=shop.getCategory()%></small>
-							<p class="card-text">
-								공방명 :
+							<p class='card-text'>
 								<%=shop.getWsName()%></p>
 							<div class="">
-								★<%=shop.getGrade()%>
-								<small class="text-muted">구경하세요</small>
+								<b>★<%=shop.getGrade()%></b>
+								<small class="text-muted" style="float:right">구경하세요</small>
 							</div>
 						</div>
 					</div>

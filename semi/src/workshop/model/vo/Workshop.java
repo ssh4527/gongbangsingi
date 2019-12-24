@@ -17,6 +17,7 @@ public class Workshop {
 	private String PayAccount; // 공방계좌번호
 
 	private String id; //사업자아이디
+	private String memberName; //사업자 이름
 	private String intro; //소개글
 	private double grade; //평점
 	private String sns; //sns계정
@@ -66,7 +67,7 @@ public class Workshop {
 		this.grade = grade;
 	}
 
-	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade, String sns,String id,String intro, Date wsEnrollDate) {
+	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade, String sns,String id,String intro, Date wsEnrollDate,String memberName,String bNum) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Address = address;
@@ -77,6 +78,8 @@ public class Workshop {
 		this.sns=sns;
 		this.id=id;
 		this.intro=intro;
+		this.AccountNum=bNum;
+		this.memberName=memberName;
 	}
 	
 	public Workshop(String wsNo, String wsName, String category, double grade) {
@@ -84,14 +87,6 @@ public class Workshop {
 		WsName = wsName;
 		Category = category;
 		this.grade = grade;
-	}
-	public Workshop(String wsNo, String wsName, String category, double grade,String addr,Date enDate) {
-		WsNo = wsNo;
-		WsName = wsName;
-		Category = category;
-		this.grade = grade;
-		this.Address= addr;
-		this.WsEnrollDate=enDate;
 	}
 
 	public String getWsNo() {
@@ -229,6 +224,31 @@ public class Workshop {
 
 	public void setReName(String reName) {
 		this.reName = reName;
+	}
+
+
+
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+
+
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "Workshop [WsNo=" + WsNo + ", WsName=" + WsName + ", Address=" + Address + ", WsTel=" + WsTel + ", WsYN="
+				+ WsYN + ", WsEnrollDate=" + WsEnrollDate + ", Category=" + Category + ", PayAccount=" + PayAccount
+				+ ", id=" + id + ", intro=" + intro + ", grade=" + grade + ", sns=" + sns + ", AccountNum=" + AccountNum
+				+ ", path=" + path + ", reName=" + reName + "]";
 	}
 
 	

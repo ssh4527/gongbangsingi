@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*"%>
+<%
+	ArrayList<String> categoryList=(ArrayList<String>)request.getAttribute("categoryList");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01
  Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -126,11 +129,9 @@
 					<select class="btn btn-info dropdown-toggle" name="categoryCh"
 						id="categoryCh" >
 							<option class="dropdown-item">선택해주세요</option>
-							<option class="dropdown-item" value="도자기">도자기</option>
-							<option class="dropdown-item" value="액세서리">액세서리</option>
-							<option class="dropdown-item" value="향수">향수</option>
-							<option class="dropdown-item" value="원예">원예</option>
-							<option class="dropdown-item" value="비누">비누</option>
+							<%for(String cg: categoryList){ %>
+								<option class="dropdown-item" value="<%=cg%>"><%=cg%></option>
+							<%} %>
 							<option class="dropdown-item" value="기타">기타</option>
 					</select> 
 					<script>
@@ -363,6 +364,7 @@
 		}
 
 		if (req == true) {
+			prompt("입력하신 정보가 확실합니까?")
 			return true;
 		}else{
 			alert("개인정보 약관에 동의하셔야 합니다.");
