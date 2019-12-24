@@ -433,6 +433,7 @@ public class ClassService {
 			rollback(conn);
 		}
 		close(conn);
+	}
 
 	public ArrayList<Workclass> allSearchClass() {
 		Connection conn = getConnection();
