@@ -1,6 +1,8 @@
 package qna.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,23 +34,35 @@ public class QnaReInsertServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String qno = request.getParameter("Qno");
-		String text = request.getParameter("text");
-		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
-	
-		QnaRe q = new QnaRe();
-		q.setqNo(qno);
-		q.setRqComment(text);
-		q.setcId(loginUser.getUserId());
-		q.setSecret("secret");
 		
+		String writer = request.getParameter("writer");
+		String content = request.getParameter("content");
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+
+		String qno = request.getParameter("qno");
+		String rqno = request.getParameter("rqno");
+		
+		QnaRe q = new QnaRe();
+		q.setcId(writer);
+		q.setRqComment(content);
+		q.setRqNo(rqno);
+		q.setSecret("N");
+		q.setqNo(qno);
+		
+		if(loginUser != null) {
+			q.setcId(loginUser.getUserName());
+		} else {
+			q.setcId("비회원");
+		}
 		int result = new QnaService().insertQnaRe(q);
 		
+		PrintWriter out=response.getWriter();
 		String page="";
 		if(result > 0) {
 			page = "views/board/boardDetailView.jsp";
+			out.print(content);
 		}else {
-			System.out.println("QnaReInsertServlet 오류");
+			out.print("실패");
 		}
 		
 		

@@ -122,6 +122,7 @@ public class QnaService {
 		return listCount;
 	}
 
+	// 페이징처리
 	public ArrayList<Qna> selectList(int currentPage, int boardLimit) {
 		Connection conn = getConnection();
 
@@ -156,6 +157,17 @@ public class QnaService {
 		}
 		close(conn);
 		return result;
+	}
+
+	// 검색하면서 페이징처리
+	public ArrayList<Qna> selectList(int currentPage, int boardLimit, String search2, String searchCondition2) {
+		Connection conn = getConnection();
+
+		ArrayList<Qna> list = new QnaDao().selectList(conn, currentPage, boardLimit, search2, searchCondition2);
+
+		close(conn);
+
+		return list;
 	}
 	
 

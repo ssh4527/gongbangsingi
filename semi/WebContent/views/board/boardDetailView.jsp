@@ -30,7 +30,7 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 <style>
 #qna4_wrap {
 	width: 1000px;
-	height: 700px;
+	height: 1000px;
 	margin: auto;
 }
 
@@ -124,28 +124,116 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 		<hr>
 
 
-			<!--  댓글 작성하는 부분 -->
+		<%-- 	<!--  댓글 작성하는 부분 -->
 			<form action="<%=request.getContextPath()%>/insert.qna.re" name="form" method="post">
 				<table align="center">
 				<tr>
 					<td>댓글 작성 &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;</td> 
 					<td><textarea rows="3" cols="80" id="text"></textarea></td>
-					<td><input type="text" id="Qno" size="6" height="10px" placeholder="작성자"></td>
-				
+					<% if(loginUser != null){%>
+					<td><input type="text" id="writer" size="6" height="10px" value="<%= loginUser.getUserId()%>" readonly></td>
+					<% } else { %>
+					<td><input type="text" id="writer" size="6" height="10px" value="비회원" readonly></td>
+					<% } %>
 					<td><button id="addReply">댓글 등록</button></td>
 				</tr>
 			</table>
 			</form>
-			<hr>
+			<hr> --%>
+			
+				<!-- ajax를 이용한 댓글 기능 구현 -->
+	<div class="replyArea">
+		<!-- 댓글 작성하는 부분 -->
+		<div class="replyWriterArea">
+			<table align="center">
+				<tr>
+					<td>댓글 작성</td>
+					<td><textarea rows="3" cols="80" id="replyContent"></textarea></td>
+					<td><button id="addReply">댓글 등록</button></td>
+				</tr>
+			</table>
+		</div>
+		<!-- 불러온 댓글 리스트 보여주는 부분 -->
+		<div id="replySelectArea">
+			<table id="replySelectTable" border="1" align="center">
+			<% if(rlist != null){ %>
+				<% for(QnaRe r : rlist) { %>
+					<tr>
+						<td width="100px"><%= r.getcId() %></td>
+						<td width="400px"><%= r.getRqComment() %></td>
+						<td width="200px"><%= r.getRqEntDate() %></td>
+					</tr>
+				<% } %>
+			<% } %>
+			</table>
+		</div>
+
 	</div>
+	
+	<script>
+	// addReply 버튼 클릭 시 댓글 달기 기능을 실행했을 때 비동기적으로
+	// 새로 갱신 된 댓글 리스트를 테이블에 적용 시키는 ajax
+
+	$("#addReply").click(function(){
+		var writer = '<%= loginUser.getUserId() %>';
+		var content = $("#replyContent").val();
+		var qno='<%= q.getqNo()%>';
+		var rqno="1";
 		
+		
+		$.ajax({
+			url : "insert.qna.re",
+			type : "post",
+		
+			data : {writer:writer,
+					content:content,
+					qno:qno,
+					rqno:rqno
+					},
+			success: function(data){
+				console.log('success');
+				
+				$replyTable = $("#replySelectTable");
+				$replyTable.html(""); // 기존 댓글 테이블 정보 초기화
+				
+				// 새로 받아온 갱신 된 댓글 리스트 들을 for문을 통해
+				// 다시 table에 추가
+			
+					<%Date d = new Date(); %>
+					var $tr = $("<tr>");
+					var $writerTd = $("<td>").text('<%= loginUser.getUserName() %>').css("width", "100px");
+					var $contentTd = $("<td>").text(data).css("width", "400px");
+					var $dateTd = $("<td>").text('<%=  d.getDate() %>').css("width", "200px");
+					
+					$tr.append($writerTd);
+					$tr.append($contentTd);
+					$tr.append($dateTd);
+					
+					$replyTable.append($tr);
+			
+				// 댓글 작성 부분 리셋
+				$("#replyContent").val("");
+				
+				
+			},
+			error : function(){
+				console.log('ajax 통신 실패');
+			}
+		});
+	});
+	
+	</script>
 
 		<div id="qna4_wrap2"> 
 		<!--  수정,삭제버튼은 글 작성한 사람한테만 보이도록 작성하기 -->
 	
-			<% if(loginUser==null) { %>
+			<% if(loginUser==null && q.getqSecret().equals("true")) { %>
 			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
 				onclick="javascript:history.back();">
+				<button id="updateBtn" class="btn btn-outline-secondary btn-sm"
+				onclick="location.href='<%=request.getContextPath()%>/updateForm.qna?qno=<%=q.getqNo()%>'">수정하기</button>
+				<button id="deleteBtn" class="btn btn-outline-secondary btn-sm"
+				type="button" onclick="deleteQna();">삭제하기</button>
 			<% } else if(loginUser != null){ %>
 	        <% if(loginUser.getUserName().equals(q.getcId())){ %>
 			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
@@ -157,7 +245,10 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 			<% } else{ %>
 			<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
 				onclick="javascript:history.back();">
-				<% } }%>
+				<% } }else{%>
+				<input type="button" class="btn btn-outline-secondary btn-sm" value="목록으로"
+				onclick="javascript:history.back();">
+				<% } %>
 				<br><br>
 		</div>
 		</div>
