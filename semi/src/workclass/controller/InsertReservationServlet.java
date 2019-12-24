@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import payment.model.vo.Payment;
 import reservation.model.service.ReservationService;
 import reservation.model.vo.Reservation;
+import workclass.model.service.ClassService;
 
 /**
  * Servlet implementation class InsertReservationServlet
@@ -37,6 +38,10 @@ public class InsertReservationServlet extends HttpServlet {
 		String wcNo = request.getParameter("wcNo");
 		String resdate = request.getParameter("resdate");
 		
+		int point = Integer.parseInt(request.getParameter("point"));
+		int result8 = new ClassService().usePoint(point,cId);
+		int price = Integer.parseInt(request.getParameter("price"));
+		
 		Reservation res = new Reservation();
 		res.setResNop(resNop);
 		res.setTotalPrice(totalprice);
@@ -44,11 +49,11 @@ public class InsertReservationServlet extends HttpServlet {
 		res.setClasstime(time);
 		res.setWcNo(wcNo);
 		res.setResDate(resdate);
-		
+		System.out.println("insertReservation totalprice : " + totalprice);
 		
 		int result = new ReservationService().insertReservation(res);
 		if(result > 0 ) {
-			int result2 = new ReservationService().updatepoint(cId,totalprice);
+			int result2 = new ReservationService().updatepoint(cId,price*resNop);
 			if(result2 > 0) {
 				// 예약번호 가져오는부분
 				Reservation preres = new ReservationService().selectRno(wcNo,cId);

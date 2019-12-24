@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import search.model.service.SearchService;
 import workclass.model.service.ClassService;
+import workclass.model.vo.JJim;
 import workclass.model.vo.Workclass;
 
 /**
@@ -37,6 +38,9 @@ public class AllViewClassServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		SearchService ss = new SearchService();
 		ArrayList<Workclass> wclist = new ClassService().allSearchClass();
+		ArrayList<JJim> jList = null;
+		jList = new ClassService().SelectJJim();
+		
 
 		// 검색이 완료됬다면 가져온 해당클래스들의 각각의 평균 평점 가져오는 부분
 		for (int i = 0; i < wclist.size(); i++) {
@@ -55,6 +59,7 @@ public class AllViewClassServlet extends HttpServlet {
 		}
 		request.setAttribute("wclist", wclist);
 		request.setAttribute("all", "all");
+		request.setAttribute("jList",jList);
 		request.getRequestDispatcher("views/classcategory/category.jsp").forward(request, response);
 
 	}

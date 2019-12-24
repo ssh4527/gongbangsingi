@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import search.model.service.SearchService;
+import workclass.model.service.ClassService;
+import workclass.model.vo.JJim;
 import workclass.model.vo.Workclass;
 
 /**
@@ -33,6 +35,9 @@ public class SortClassCategoryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SearchService ss =new SearchService();
 		String cate = request.getParameter("cate");
+		ArrayList<JJim> jList = null;
+		jList = new ClassService().SelectJJim();
+		
 		ArrayList<Workclass> wclist = new SearchService().searchClass(cate); 
 		for(int i = 0 ; i < wclist.size(); i++) {
 			double avgGrade = ss.avgGrade(wclist.get(i).getWcNo());
@@ -52,6 +57,7 @@ public class SortClassCategoryServlet extends HttpServlet {
 		
 		request.setAttribute("wclist", wclist);
 		request.setAttribute("cate", cate);
+		request.setAttribute("jList",jList);
 		request.getRequestDispatcher("views/classcategory/category2.jsp").forward(request, response);
 		
 	}

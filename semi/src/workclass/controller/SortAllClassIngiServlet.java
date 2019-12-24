@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import search.model.service.SearchService;
 import workclass.model.service.ClassService;
+import workclass.model.vo.JJim;
 import workclass.model.vo.Workclass;
 
 /**
@@ -39,6 +40,8 @@ public class SortAllClassIngiServlet extends HttpServlet {
 		
 		
 		ArrayList<Workclass> wclist = null;
+		ArrayList<JJim> jList = null;
+		jList = new ClassService().SelectJJim();
 		
 			wclist = new ClassService().allSearchClass();
 			System.out.println(wclist);
@@ -56,6 +59,8 @@ public class SortAllClassIngiServlet extends HttpServlet {
 				Workclass timewc = ss.selectDate(wclist.get(i).getWcNo());
 				wclist.get(i).setStartdate(timewc.getStartdate());
 				wclist.get(i).setEnddate(timewc.getEnddate());
+				
+				
 			}
 			
 			// 평점순 정렬 
@@ -70,6 +75,7 @@ public class SortAllClassIngiServlet extends HttpServlet {
 			
 			
 			request.setAttribute("wclist", wclist);
+			request.setAttribute("jList",jList);
 			request.getRequestDispatcher("views/classcategory/category.jsp").forward(request, response);
 	}
 

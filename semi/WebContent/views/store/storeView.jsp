@@ -766,6 +766,7 @@ h4 {
 				<table class="table table-hover" id="classList" class="tableScroll">
 					<thead>
 						<tr>
+							<th style="display:none;"></th>
 							<th>No.</th>
 							<th>클래스명</th>
 							<th>가격</th>
@@ -778,7 +779,9 @@ h4 {
 							if (clist.isEmpty()) {
 						%>
 						<tr>
-							<td colspan="4">존재하는 클래스가  없습니다.</td>
+
+							<td colspan="5">존재하는 공지사항이 없습니다.</td>
+
 						</tr>
 						<%
 							} else {
@@ -787,11 +790,11 @@ h4 {
 								for (Workclass c : clist) {
 						%>
 						<tr>
-							<input type="hidden" value="<%=c.getWcNo()%>">
+							<td style="display:none;"><%=c.getWcNo()%></td>
 							<td><%=idx%> <%idx++;%></td>
 							<td><%=c.getWcName()%></td>
 							<td><%=c.getWcNOP()%></td>
-							<td><%=c.getWcOpenClose()%></td>
+							<td><%=c.getStartdate()%> - <%= c.getEnddate() %></td>
 						</tr>
 						<%
 							}
@@ -807,7 +810,7 @@ h4 {
 			%>
 			<div class="classbtn">
 				<button id="class_openclass" class="btn btn-outline-secondary"
-					onclick="location.href='<%=request.getContextPath()%>/views/classdetail/insertClass.jsp'">클래스
+					onclick="location.href='<%=request.getContextPath()%>/views/classdetail/insertClass.jsp?wsNo=<%= shop.getWsNo() %>'">클래스
 					열기</button>
 				&nbsp;
 				<%if(isclass){ %>
@@ -858,11 +861,14 @@ h4 {
 			}
 		%>
 		<script>
-				$(function(){
-					$("#classList td").click(function(){
-						var num = $(this).parent().children().eq(0).val();
-						console.log(num);
-						location.href="<%=request.getContextPath()%>/detail.wc?WcNo=" + num;
+					$(function(){
+						$("#classList tr").click(function(){
+							var num = $(this).children().eq(0).html();
+							console.log(num);
+							location.href="<%=request.getContextPath()%>/godetail.class?wcNo=" + num;
+						});
+						
+
 					});
 					
 				});

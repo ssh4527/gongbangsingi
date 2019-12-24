@@ -32,7 +32,8 @@ public class JjimCheckServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String wcNo = request.getParameter("wcNo");
 		String cId = request.getParameter("id");
-		
+		System.out.println("wcNo = " + wcNo);
+		System.out.println("cId = " + cId);
 		int result = new ClassService().JJimCheck(wcNo,cId);
 		
 		int result1 = 3;

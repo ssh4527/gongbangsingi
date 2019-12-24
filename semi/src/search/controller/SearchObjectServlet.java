@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import member.model.vo.Member;
 import search.model.service.SearchService;
+import workclass.model.service.ClassService;
+import workclass.model.vo.JJim;
 import workclass.model.vo.Workclass;
 import workshop.model.service.ShopService;
 import workshop.model.vo.ShopFile;
@@ -42,6 +45,8 @@ public class SearchObjectServlet extends HttpServlet {
 		
 		ArrayList<Workclass> wclist = null;
 		ArrayList<Workshop> wslist =null;
+		ArrayList<JJim> jList = null;
+		
 		String keyword =ss.findKeyword(searchinput);
 		if(searchtype.equals("클래스")) {
 			
@@ -62,8 +67,13 @@ public class SearchObjectServlet extends HttpServlet {
 				Workclass timewc = ss.selectDate(wclist.get(i).getWcNo());
 				wclist.get(i).setStartdate(timewc.getStartdate());
 				wclist.get(i).setEnddate(timewc.getEnddate());
+				
+				// 찜 목록
+				jList = new ClassService().SelectJJim();
 			}
 			
+			System.out.println(jList);
+			request.setAttribute("jList",jList);
 			request.setAttribute("keyword", searchinput );
 			request.setAttribute("wclist", wclist);
 			request.getRequestDispatcher("views/classcategory/category2.jsp").forward(request, response);

@@ -3,6 +3,7 @@ package workclass.model.service;
 import workclass.model.dao.ClassDao;
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
+import workclass.model.vo.JJim;
 import workclass.model.vo.Workclass;
 
 import static common.JDBCTemplate.*;
@@ -449,6 +450,45 @@ public class ClassService {
 		close(conn);
 		return address;
 
+	}
+
+	public int deleteClass(String wcNo) {
+		Connection conn = getConnection();
+		int result = 0;
+		result = new ClassDao().deleteClassAllClassTime(wcNo,conn);
+		result = new ClassDao().deleteClassAllQna(wcNo,conn);
+		result = new ClassDao().deleteClassAllReview(wcNo,conn);
+		result = new ClassDao().deleteClassAllFile(wcNo,conn);
+		result = new ClassDao().deleteClassJJin(wcNo,conn);
+		result = new ClassDao().deleteClassReservation(wcNo,conn);
+		result = new ClassDao().deleteClass(wcNo,conn);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	public ArrayList<JJim> SelectJJim() {
+		Connection conn = getConnection();
+		ArrayList<JJim> jList = new ClassDao().selectJJim(conn);
+		close(conn);
+		return jList;
+	}
+
+	public int usePoint(int point,String cId) {
+		Connection conn = getConnection();
+		int result = new ClassDao().usePoint(point,cId,conn);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
 	}
 
 	

@@ -79,7 +79,7 @@ public class InsertClassServlet extends HttpServlet {
 			String time = multipartRequest.getParameter("outtime"); // -> 12:00 - 14:00, 15:00 - 17:00
 			String startdate = multipartRequest.getParameter("startDate"); // -> 2019.02.23
 			String closedate = multipartRequest.getParameter("closeDate"); // -> 2019.02.23
-			String WsNo = multipartRequest.getParameter("공방번호");
+			String WsNo = multipartRequest.getParameter("wsNo");
 			String intro =  multipartRequest.getParameter("intro");
 			Workclass wc = new Workclass(WcName, WcNOP, WcMaxP,time, warning, intro,WsNo);
 		

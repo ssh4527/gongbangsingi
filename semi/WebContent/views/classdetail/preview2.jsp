@@ -261,7 +261,7 @@ ul {
 						<tr>
 							<td><small style="color: gray">보유 포인트</small></td>
 							<% if(log.equals("asd")) { %>
-								<td> 로그인 후 포인트 확인이 가능합니다.</td>
+								<td> <small>로그인 후 포인트 확인이 가능합니다.</small></td>
 							<% }  else { %>
 								 <td><small><%= loginUser.getPoint() %></small></td>
 							<% } %>
@@ -440,9 +440,9 @@ ul {
 						<tr>
 							<td><small style="color: gray">보유 포인트</small></td>
 							<% if(log.equals("asd")) { %>
-								<td><small>0</small></td>
+								<td><small>0p</small></td>
 							<% }  else { %>
-								 <td><small><%= loginUser.getPoint() %></small></td>
+								 <td><small><%= loginUser.getPoint() %>p</small></td>
 							<% } %>
 						</tr>
 						<tr>
@@ -478,13 +478,40 @@ ul {
 								<% } %>
 							</select></td>
 						</tr>
+						<% if(!log.equals("asd")) { %>
+						<tr>
+							<td><small style="color: gray;"> > 포인트 사용</small></td>
+							<td><input type="number" name="usepoint" id="usepoint" max=<%= loginUser.getPoint() %> step='500' value=0></td>
+						</tr>
+						<% } %>
 						<tr>
 							<td><small style="color: gray"> > 인원수 </small></td>
 							<td><input type="number" width="10px" min="0" max=<%= wc.getWcMaxP() %>
 								id="precount2" name="precount2" value="0"></td>
-						<tr>
-							<td rowspan="2" style="text-align: right;"></td>
 						</tr>
+						<script>
+							$(function(){
+								$("#usepoint").change(function(){
+									var point = $("#usepoint").val();
+							
+										if(point > <%= userPoint %>){
+											alert('보유 포인트보다 더 많이 사용하실수 없습니다.');
+											$("#usepoint").val('0');
+											$("#usepoint").focus();
+										}else{
+											var usepoint = $("#usepoint").val();
+			      							
+			      							
+			      							var count = $("#precount2").val();
+			      							$("#jpoint").text(<%= ((int)Math.floor(wc.getWcNOP() * 0.05)) %> * count + "p");
+											$("#pretotal").text("TOTAL : " + ((count * <%= wc.getWcNOP() %>)-usepoint) + " 원");
+											$("#pretotal").css("fontSize","14px");
+											
+										}
+									
+								});
+							});
+						</script>
 					</table>
 					<hr>
       				</div>
@@ -507,11 +534,12 @@ ul {
       							$("#outnumber").val($("#precount2").val());
       							
       							
+      							var usepoint = $("#usepoint").val();
       							
       							
       							var count = $("#precount2").val();
       							$("#jpoint").text(<%= ((int)Math.floor(wc.getWcNOP() * 0.05)) %> * count + "p");
-								$("#pretotal").text("TOTAL : " + count * <%= wc.getWcNOP() %> + " 원");
+								$("#pretotal").text("TOTAL : " + ((count * <%= wc.getWcNOP() %>)-usepoint) + " 원");
 								$("#pretotal").css("fontSize","14px");
 								
       						});

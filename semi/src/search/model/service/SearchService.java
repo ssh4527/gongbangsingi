@@ -47,7 +47,7 @@ public class SearchService {
 		Connection c = getConnection();
 		SearchDao sd = new SearchDao();
 		ArrayList<Workclass> list = sd.findClassName(c, searchinput);
-		
+
 		if(!list.isEmpty()) {
 			int result = sd.insertKeyword(c, searchinput);
 			if(result > 0) {

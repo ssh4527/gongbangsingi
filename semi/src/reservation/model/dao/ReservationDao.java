@@ -41,9 +41,10 @@ public class ReservationDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String sql = "update client set c_point = ? where c_id = ?";
+		String sql = "update client set c_point = c_point + ? where c_id = ?";
 		
 		try {
+			System.out.println("updatepoint  totalprice :" + totalprice);
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setDouble(1,totalprice*0.05);
 			pstmt.setString(2, cId);

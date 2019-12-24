@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import workclass.model.service.ClassService;
+
 /**
  * Servlet implementation class goCash
  */
@@ -36,8 +38,12 @@ public class goCash extends HttpServlet {
 		String resdate = request.getParameter("ckdate");
 		String title = request.getParameter("outname");
 		String username = request.getParameter("outusername");
+		int point = Integer.parseInt(request.getParameter("usepoint"));
 		
-		int totalprice = price * resNop;
+		int totalprice = (price * resNop)-point;
+		
+		
+		System.out.println("goCash totalprice : " + totalprice);
 		
 		request.setAttribute("resNop", resNop); 
 		request.setAttribute("totalprice", totalprice);
@@ -47,6 +53,8 @@ public class goCash extends HttpServlet {
 		request.setAttribute("resdate", resdate);
 		request.setAttribute("title", title);
 		request.setAttribute("username", username);
+		request.setAttribute("point", point);
+		request.setAttribute("price", price);
 		request.getRequestDispatcher("views/cash/cash.jsp").forward(request, response);
 		
 		

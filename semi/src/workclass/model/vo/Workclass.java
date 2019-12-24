@@ -61,6 +61,17 @@ public class Workclass {
 		WcIntroduce = wcIntroduce;
 		WsNo = wsNo;
 	}
+	
+	
+
+
+	public Workclass(String wcNo, String wcName, int wcNOP, String wcOpenClose) {
+		super();
+		WcNo = wcNo;
+		WcName = wcName;
+		WcNOP = wcNOP;
+		WcOpenClose = wcOpenClose;
+	}
 
 
 	// 기본생성자 by h 

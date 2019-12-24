@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	String wsNo = request.getParameter("wsNo");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -171,6 +175,7 @@ ul {
         </script>
 
 		<form action="<%= request.getContextPath() %>/insert.class" method="post" enctype="multipart/form-data">
+		<input type="text" value="<%= wsNo %>" style="display:none;" name="wsNo">
 	<div id="outer">
 		<div id="top_div">
 			<div id="detail_img_div" style="padding: 10px;">
