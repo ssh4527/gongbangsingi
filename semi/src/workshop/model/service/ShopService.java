@@ -207,6 +207,13 @@ public class ShopService {
 		return result;
 	}
 
+	public ArrayList<String> getCategory() {
+		Connection con = getConnection();
+		ArrayList<String> categoryList = new ShopDao().getCategory(con);
+		close(con);
+		return categoryList;
+	}
+
 	
 
 }
