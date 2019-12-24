@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import notice.model.vo.Notice;
+
 import static common.JDBCTemplate.*;
 
 
@@ -246,7 +247,46 @@ public class NoticeDao {
 		return list;
 	}
 
+	public ArrayList<Notice> selectList(Connection conn, int currentPage, int boardLimit, String search3,
+			String searchCondition) {
+		ArrayList<Notice> list = new ArrayList<>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql="";
+		
+		if(searchCondition.equals("title")) {
+			sql=prop.getProperty("searchTitleList");
+		}else {
+			sql=prop.getProperty("searchContentList");
+		}
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int startRow = (currentPage - 1) * boardLimit + 1;
+			int endRow = startRow + boardLimit - 1;
+
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			pstmt.setString(3,search3);
+
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				list.add(new Notice(rs.getString("n_no"), rs.getString("n_title"), rs.getString("n_content"),
+						 rs.getInt("n_count"), rs.getDate("n_date")));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
 	
+		
+	}
 
-
-}

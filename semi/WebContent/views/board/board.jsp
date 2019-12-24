@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
+    #ptd{
+    opacity:0;}
     #notice2_wrap3{
         width: 1300px;
         height: 900px;
@@ -80,7 +82,7 @@
   	<li class="list-group-item"><a href='<%= request.getContextPath() %>/views/notice/membergrade.jsp' id="board_a">회원등급</a></li>
   	<li class="list-group-item"><a href='<%= request.getContextPath() %>/views/notice/locationbased.jsp'id="board_a">위치기반 서비스</a></li>
   	<li class="list-group-item"><a href='<%= request.getContextPath() %>/views/notice/privacypolicy.jsp' id="board_a">개인정보처리방침</a></li>
-  	<li class="list-group-item"><a href='<%= request.getContextPath() %>/views/notice/businessmember.jsp' id="board_a">사업자로 회원전환하기</a>
+  	<li class="list-group-item"><a href='<%= request.getContextPath() %>/getCategory.sh' id="board_a">사업자로 회원전환하기</a>
 	</ul>
 </div>
                 
@@ -100,6 +102,7 @@
                         <th>WRITER</th>
                         <th>VIEWS</th>
                         <th>DATE</th>
+                        <th></th>
                     </tr>
                      <% if(list.isEmpty()){ %>
 					 	<tr>
@@ -118,6 +121,7 @@
 						 		<td ><%= q.getcId() %></td> <!--  작성자 이름 -->
 						 		<td ><%= q.getqCount() %></td> <!--  조회수 -->
 						 		<td ><%= q.getqEntdate() %></td> <!--  날짜 -->
+						 		<td id="ptd"><%= q.getqPwd() %></td> <!-- 비밀번호 -->
 						 	</tr>
 						 <% } %>
 					 <% } %>
@@ -128,8 +132,7 @@
 			<select  id="searchCondition2" name="searchCondition2" style="width:80px;height:30px;">
 				<option value="---">---</option>
 				<option value="title">제목</option>
-				<option value="content" >내용</option>
-				<option value="mem">회원/비회원</option>
+				<option value="writer">작성자 이름</option>
 				</select>
 				<input type="search" id="search2" placeholder="내용을 입력해주세요" name="search2">
                 <button type="submit" class="btn btn-outline-secondary btn-sm">SEARCH</button>
@@ -183,6 +186,7 @@
 			<% } %>
 	
                 <script>
+                
         		function checkSearchCondition() {
     				if ($("#searchCondition2 option:selected").val() == '---') {
     					alert('옵션을 선택해주세요^^');
@@ -190,19 +194,30 @@
     				}
     				return true;
     			}
+        		
                 $(function(){
     				$("#Qlist td").click(function(){
     						var num=$(this).parent().children().eq(0).text();
     						var secret=$(this).parent().children().eq(2).text().trim();
     						var name=$(this).parent().children().eq(4).text().trim();
     						var uname=$("#uname").val();
+    						var pass=$(this).parent().children().eq(7).text().trim();
+    					
     						if(secret=="공개글"){
     							location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
-    						}else if(secret="비밀글" && uname==name  ){
+    						} else if(secret="비밀글" && uname!="비회원" && uname==name  ){
     							location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
-    						}else if(secret="비밀글" && uname=="관리자"){
+    						} else if(secret="비밀글" && uname=="관리자"){
     							location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
-    						}else{
+    						} else if(secret="비밀글" && uname=="비회원" && uname==name){
+    							var pwd=prompt("비밀번호를 입력하세요! (숫자 4자리)");
+    							if(pwd == pass){
+    								location.href="<%= request.getContextPath() %>/detail.qna?qno="+num;
+    							}else{
+    								alert('비밀번호 오류입니다!');
+    							}
+    						}
+    						else {
     							alert('비밀글입니다!');
     						}
     					});

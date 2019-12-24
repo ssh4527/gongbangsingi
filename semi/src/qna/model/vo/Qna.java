@@ -159,6 +159,22 @@ public class Qna {
 		this.qSecret = qSecret;
 		this.qCount = qCount;
 	}
+	
+	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, String qSecret, int qCount, String qPwd) {
+		super();
+		this.qNo = qNo;
+		this.cId = cId;
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qEntdate = qEntdate;
+		this.qSecret = qSecret;
+		this.qCount = qCount;
+		this.qPwd=qPwd;
+	}
+
+
+
+
 
 	@Override
 	public String toString() {
