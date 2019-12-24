@@ -317,16 +317,6 @@ section,div {
 	border-top: 1px solid black;
 }
 
-#thumbnailEdit {
-	float: right;
-	background-color: pink;
-	border-radius: 30%;
-}
-
-#intro3Edit {
-	background-color: pink;
-	border-radius: 30%;
-}
 
 h4 {
 	display: inline;
@@ -377,8 +367,8 @@ h4 {
 								userCheck = true;
 						%>
 						<input type="file" id="fileButton" name="file"
-							onchange="preview(this,1)"> <input type="button"
-							value="<%=fileBtnN%>" id="thumbnailEdit">
+							onchange="preview(this,1)"> <input type="button" class="btn btn-success"
+							value="<%=fileBtnN%>" id="thumbnailEdit" style="float:right">
 
 						<%
 							}
@@ -782,16 +772,18 @@ h4 {
 							<th>기간</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="classlistBody">
 						<%
+							boolean isclass=false;
 							if (clist.isEmpty()) {
 						%>
 						<tr>
-							<td colspan="4">존재하는 공지사항이 없습니다.</td>
+							<td colspan="4">존재하는 클래스가  없습니다.</td>
 						</tr>
 						<%
 							} else {
 								int idx = 1;
+								isclass=true;
 								for (Workclass c : clist) {
 						%>
 						<tr>
@@ -818,23 +810,62 @@ h4 {
 					onclick="location.href='<%=request.getContextPath()%>/views/classdetail/insertClass.jsp'">클래스
 					열기</button>
 				&nbsp;
+				<%if(isclass){ %>
 				<button id="class_updateclass" class="btn btn-outline-secondary">수정하기</button>
 				&nbsp;
-				<button id="class_deleteclass" class="btn btn-outline-secondary">삭제하기</button>
+				<button id="class_deleteclass" class="btn btn-outline-secondary" data-toggle="modal" data-target=".classDelmodal">삭제하기</button>
+				<%} %>
 			</div>
 		</section>
+		<!-- 삭제하기 Modal -->
+			<div class="modal fade classDelmodal" tabindex="-1"
+				role="dialog">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTitle">삭제하고자 하는 클래스를 선택해주세요</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+						<table>
+							<% int idx = 1;
+								for (Workclass c : clist) {
+							%>
+							<tr>
+								<td><input type="checkbox" class="custom-control-input"
+									value="<%=c.getWcNo()%>" id="<%=idx%>d" name="deleteCName"> 
+									<label class="custom-control-label" for="<%=idx%>d"><%=c.getWcName()%>(<%=c.getWcOpenClose() %>)</label> &nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<%
+								idx++;
+								}
+							%>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="button" id="deleteCheckClassBtn" data-dismiss="modal"
+								class="btn btn-primary">체크한 클래스 삭제하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		<%
 			}
 		%>
 		<script>
-					$(function(){
-						$("#classList td").click(function(){
-							var num = $(this).parent().children().eq(0).val();
-							console.log(num);
-							location.href="<%=request.getContextPath()%>/detail.wc?WcNo=" + num;
-						});
-						
+				$(function(){
+					$("#classList td").click(function(){
+						var num = $(this).parent().children().eq(0).val();
+						console.log(num);
+						location.href="<%=request.getContextPath()%>/detail.wc?WcNo=" + num;
 					});
+					
+				});
 		</script>
 
 		<br> <br>
@@ -846,7 +877,7 @@ h4 {
 			<%
 				if (loginUser != null && loginUser.getUserId().equals(shop.getId())) {
 			%>
-			<input type="button" value="소개글 변경" id="intro3Edit" name="intro3Edit" 
+			<input type="button" value="소개글 변경" id="intro3Edit"  class="btn btn-success" name="intro3Edit" 
 				data-toggle="modal" data-target=".bd-example-modal-lg">
 				
 			<!-- Modal -->
@@ -863,7 +894,7 @@ h4 {
 							</button>
 						</div>
 						<div class="modal-body">
-							<textarea cols="80" rows="10" id="modalText"></textarea>
+							<textarea cols="80" rows="10" id="modalText" style="resize:none;"></textarea>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
@@ -895,6 +926,37 @@ h4 {
 		<script>
 
 			$(function() {
+				
+				$("#deleteCheckClassBtn").click(function() {
+					var checkC = "";
+					$("input[name='deleteCName']:checked").each(function(i) {
+						checkC += $(this).val()+",";
+					});
+					if(checkC==""){
+						alert("삭제를 취소하였습니다.");
+					}else{
+					var WsNo="<%=shop.getWsNo()%>";
+
+						$.ajax({
+							url : "updateIntro.sh",
+							data : {
+								input : checkC,
+								WsNo : WsNo
+							},
+							
+							type : "post",
+							success : function(result) {
+								$("#classlistBody").html("");
+
+								console.log(checkC);
+							},
+							error : function(e) {
+								alert();
+							}
+						});
+					}
+				});
+				
 				$("#updateIntro3").click(function() {
 					var input = $("#modalText").val();
 					if(input==0){

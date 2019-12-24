@@ -509,7 +509,10 @@ ul.navi li:hover>ul li a:hover{
 				},
 				success : function(slist) {
 					$("#glist").html("");
-
+					if(slist.isEmpty()){
+						var $div1 = $('<div class="col-md-4">');
+						var $div2 = $('<div class="card mb-4 shadow-sm shop">');
+					}
 					$.each(slist,function(index, value) {
 							var $div1 = $('<div class="col-md-4">');
 							var $div2 = $('<div class="card mb-4 shadow-sm shop">');
