@@ -58,7 +58,15 @@ public class SelectStatisticServlet extends HttpServlet {
 		ArrayList<Workshop> wsList2 = new ShopService().selectCheckShopList();
 		ArrayList<String[]> wcList = new ClassService().selectCheckClassList();
 		ArrayList<String> category = new SearchService().selectCategory();
-	
+		int sum = 0 ;
+		for(int i=0; i<statistics.size(); i++) {
+			for(int z=0; z<category.size(); z++) {
+				if(statistics.get(i).get(category.get(z)) != null) {
+					sum += Integer.parseInt((String) statistics.get(i).get(category.get(z)));
+				}
+			}
+		}
+		request.setAttribute("sum", sum);
 		request.setAttribute("year",year);
 		request.setAttribute("month",month);
 		request.setAttribute("category", category);

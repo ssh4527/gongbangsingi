@@ -73,15 +73,15 @@ body {
 	text-align: center;
 	width: 100%;
 	height: 100%;
-	
+	font-size:1.3em;
 }
 
 #loginbtn {
 	width:90%;
-	height:70%;
+	height:30px;
 	margin-left:5%;
 	margin-right:5%;
-	margin-top:3.5%;
+	margin-top:5px;
 	font-size:0.8em;
 } 
 
@@ -179,15 +179,22 @@ border-top-width:1px;
 }
 
 
-.idpwdinput {
+#idinput {
 	width:90%;
-	height:95%;
+	height:30px;
 	margin-left:5%;
 	margin-right:5%;
-	margin-top:5%;
+	margin-top:5px;
 	
 } 
-
+#pwdinput {
+	width:90%;
+	height:30px;
+	margin-left:5%;
+	margin-right:5%;
+	margin-top:5px;
+	
+} 
 #alarmicon:hover{
 	cursor: pointer;
 }
@@ -321,10 +328,10 @@ $(function(){
 
 				<div id="idpwddiv">
 					<div class="idpwdinputdiv" >
-					<input type="text" name="idinput" id="idinput" class="idpwdinput"placeholder="아이디">
+					<input type="text" name="idinput" id="idinput"  class="form-control" placeholder="아이디">
 					</div>
 					<div class="idpwdinputdiv" >
-					<input type="password" name="pwdinput" id="pwdinput"class="idpwdinput" placeholder="패스워드">
+					<input type="password" name="pwdinput" id="pwdinput"class="form-control" placeholder="패스워드">
 					</div>
 				</div>
 				
@@ -358,8 +365,10 @@ $(function(){
 						<span id="alarmicon" class="badge badge-light"><%=(int) session.getAttribute("useralarm") %></span>
 					
 					<div id="alarmtextdiv">
-						<span style="font-size:12px; ">내문의에 <%=(int) session.getAttribute("useralarm") %>개의
-						 답변이 있습니다.</span>		
+						<%if ( session.getAttribute("useralarm") != null){ %>
+						<span style="font-size:12px; ">내문의에 
+						<%=(int) session.getAttribute("useralarm") %>개의 답변이 있습니다.</span>		
+						 <%} %>
 					</div>
 					<%	}	%>
 					</div>	
@@ -395,8 +404,7 @@ $(function(){
 			<h1 style="text-align:right;">공 방 신 기</h1>
 		</div>
 		<div id="mainlogo">
-			<img src='<%=request.getContextPath()%>/resources/images/logo.jpg'
-				id="logoimg" style="width: 100%; height: 100%;">
+			
 		</div>
 	</div>
 	<script>
@@ -437,7 +445,8 @@ $(function(){
 	<nav id="menubar" class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
 
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-			<a class="navbar-brand" href="#" style="margin-left:10px; margin-right:30px;">공방신기</a>
+			<a class="navbar-brand" href="#" style="margin-left:10px; margin-right:30px; padding:0px;">
+			<img src='<%=request.getContextPath()%>/resources/images/logo.jpg'	id="logoimg" style="width: 50px; height: 50px;"></a>
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="margin-left:30px;" >
 				<li class="nav-item"><a class="nav-link"
 					href="<%=request.getContextPath()%>/shopList.sh">공방</a></li>
@@ -692,6 +701,7 @@ $(function(){
 			$(this).parent().next().html("");
 		}
 	});
+	
 	function insertcheck(){
 		var count=0;
 		var check = $("#insertMemberForm .commentarea");
