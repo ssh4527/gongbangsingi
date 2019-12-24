@@ -358,8 +358,10 @@ $(function(){
 						<span id="alarmicon" class="badge badge-light"><%=(int) session.getAttribute("useralarm") %></span>
 					
 					<div id="alarmtextdiv">
-						<span style="font-size:12px; ">내문의에 <%=(int) session.getAttribute("useralarm") %>개의
-						 답변이 있습니다.</span>		
+						<%if ( session.getAttribute("useralarm") != null){ %>
+						<span style="font-size:12px; ">내문의에 
+						<%=(int) session.getAttribute("useralarm") %>개의 답변이 있습니다.</span>		
+						 <%} %>
 					</div>
 					<%	}	%>
 					</div>	
