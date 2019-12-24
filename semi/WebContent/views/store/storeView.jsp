@@ -202,7 +202,7 @@
 	margin-top: 0;
 }
 
-section, div, header {
+section,div {
 	box-sizing: border-box;
 	display: block;
 }
@@ -240,7 +240,6 @@ section, div, header {
 }
 
 #first_intro1 {
-	text-align: center;
 	width: 40%;
 	float: left;
 	height: 100%;
@@ -258,19 +257,23 @@ section, div, header {
 #introl1_1 {
 	float: left;
 	width: 100%;
-	height: 80%;
+	height: 60%;
 	padding: 10px;
 }
 
 #introl1_2 {
 	float: left;
 	width: 100%;
-	height: 20%;
+	height: 30%;
 	padding: 10px;
 }
 
+#kakao{
+	text-align: center;
+}
 #introl1_2_1 {
 	border: 1px solid black;
+	padding-left: 5%;
 }
 
 #mapArea {
@@ -381,7 +384,8 @@ h4 {
 							}
 						%>
 					</form>
-					<p id="storeName"><%=shop.getWsName()%></p>
+					<br>
+					<p id="storeName" style="text-align: center;"><b><%=shop.getWsName()%></b></p>
 
 					<script>
 					$(function() {
@@ -422,26 +426,28 @@ h4 {
 					}
 				</script>
 				</section>
-				<br> <br> <br> <br> <br> <br>
+				<br> <br> <br> 
 
 
-				<!-- 주소,전화번호,sns계정 정보  -->
+				<!-- 주소,전화번호,sns계정 등 공방 정보  -->
 				<section id="introl1_2">
 					<div id="introl1_2_1">
-						<p id="addr"><%=shop.getAddress()%></p>
-						<p id="phone"><%=shop.getWsTel()%></p>
+						<p id="addr">주소: <%=shop.getAddress()%></p>
+						<p id="phone">연락처☎: <%=shop.getWsTel()%></p>
 						<p id="sns">
 							<%String[] snslist =shop.getSns().split(",");
 							for(String sns : snslist){%>
 							<a><%=sns%></a><br>
 							<%} %>
 						</p>
+						<p>사업자 번호: <%=shop.getAccountNum() %></p>
 					</div>
 				</section>
 				<%
 					if (!userCheck&&shop.getSns().contains("카카오톡")) {
 						int kakaoNum= shop.getSns().indexOf("카카오톡 :");
 				%>
+				<div id="kakao">
 				<a href="javascript:void chatChannel()"> <img
 					src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png" />
 				</a>
@@ -458,6 +464,7 @@ h4 {
 						//]]>
 						
 					</script>
+					</div>
 				<%
 					}
 				%>
@@ -712,7 +719,7 @@ h4 {
 						<div id="score">
 							★<%=shop.getGrade()%>/ 5.0
 						</div>
-						<a href="<%=request.getContextPath()%>/reviewMore.sh?WsNo=<%=shop.getWsNo()%>" id="reviewMore">더보기&gt;&gt;</a>
+						<a href="<%=request.getContextPath()%>/review.search?searchReviewInput=<%=shop.getWsNo()%>&searchReviewCondition='공방'" id="reviewMore">더보기&gt;&gt;</a>
 						<table class="table table-hover" id="reviewList">
 							<thead>
 								<tr>
@@ -755,19 +762,6 @@ h4 {
 							</tbody>
 						</table>
 					</div>
-					<script>
-					$(function(){
-						$("#reviewList td").click(function(){
-							var num = $(this).parent().children().eq(0).val();
-							console.log(num);
-							location.href="<%=request.getContextPath()%>/detail.no?nno=" + num;
-						});
-						
-						
-						
-					});
-					</script>
-
 				</section>
 			</section>
 

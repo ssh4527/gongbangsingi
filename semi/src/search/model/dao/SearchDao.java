@@ -161,7 +161,7 @@ public class SearchDao {
 		ResultSet rs = null;
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
 		
-		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY,ws_addr,ws_enrollDate from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no and wc_yn='Y' group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ? and ws.ENROLLYN='Y'";
+		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY,ws_addr,ws_enrollDate from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ? and ws.ENROLLYN='Y'";
 		try {
 			ps = c.prepareStatement(q);
 			ps.setString(1, keyword);
