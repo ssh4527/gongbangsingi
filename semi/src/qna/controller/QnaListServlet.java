@@ -99,8 +99,7 @@ public class QnaListServlet extends HttpServlet {
 				PageInfo pi = new PageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, boardLimit);
 				
 				ArrayList<Qna> list = qService.selectList(currentPage, boardLimit);
-				
-				System.out.println("list : " + list);
+			
 				RequestDispatcher view = request.getRequestDispatcher("views/board/board.jsp");
 				request.setAttribute("list", list);
 				request.setAttribute("pi", pi);

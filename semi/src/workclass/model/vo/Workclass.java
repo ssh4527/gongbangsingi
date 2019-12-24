@@ -94,11 +94,12 @@ public class Workclass {
 	}
 
 
-	public Workclass(String wcName, int wcNOP, String wcOpenClose) {
+	public Workclass(String wcName, int wcNOP, String wcOpenClose, String wcNo) {
 		super();
 		WcName = wcName;
 		WcNOP = wcNOP;
 		WcOpenClose = wcOpenClose;
+		WcNo = wcNo;
 	}
 
 

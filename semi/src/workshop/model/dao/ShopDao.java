@@ -68,10 +68,10 @@ public class ShopDao {
 			ppst.setString(1, wsNo);
 			rset = ppst.executeQuery();
 			if (rset.next()) {
-				// WS_NO,WS_NAME,WS_ADDR,WS_TEL,
-				// WS_CATEGORY,ROUND(AVG(R_GRADE),1),WS_SNS,C_ID,WS_Introduce
-				shop = new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-						rset.getString(5), rset.getDouble(6), rset.getString(7), rset.getString(8), rset.getString(9),rset.getDate(10));
+				//s.WS_NO,s.WS_NAME,s.WS_ADDR,WS_TEL,s.S_CATEGORY,sg,WS_SNS, C_ID,s.WS_Introduce,s.WS_ENROLLDATE
+				shop = new Workshop(rset.getString("WS_NO"), rset.getString("WS_NAME"), rset.getString("WS_ADDR"), rset.getString("WS_TEL"),
+						rset.getString("S_CATEGORY"), rset.getDouble("sg"), rset.getString("WS_SNS"), rset.getString("C_ID"), rset.getString("WS_Introduce"),rset.getDate("WS_ENROLLDATE")
+						,rset.getString("C_NAME"),rset.getString("WS_ACCNUM"));
 
 			}
 		} catch (SQLException e) {
@@ -105,8 +105,7 @@ public class ShopDao {
 				at.setFs_no(rset.getString("FS_NO"));
 				at.setOriginName(rset.getString("fs_original_file"));
 				at.setReName(rset.getString("fs_rename_file"));
-				// at.setFs_destination(fs_destination);
-
+				at.setFs_destination(rset.getString("fs_destination"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -233,8 +232,10 @@ public class ShopDao {
 			list = new ArrayList<Workclass>();
 			while (rset.next()) {
 				// String wcName, int wcNOP, String wcOpenClose
+
 				Workclass c = new Workclass(rset.getString("wc_no"),rset.getString("WC_NAME"), rset.getInt("WC_NOP"),
 						rset.getString("WC_DATE"));
+
 				list.add(c);
 			}
 		} catch (SQLException e) {
@@ -248,6 +249,7 @@ public class ShopDao {
 
 	}
 
+	//해당 공방의 클래스 사진들
 	public ArrayList<ClassFile> selectClassPictures(Connection con, String wsNo) {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
@@ -282,6 +284,7 @@ public class ShopDao {
 		return list;
 	}
 
+	//공방 썸네일들
 	public ArrayList<ShopFile> selectShopListPic(Connection con) {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
@@ -389,12 +392,13 @@ public class ShopDao {
 		return result;
 	}
 
+	//사업자로 전환신청
 	public int requestToChangeShop(Connection con, String userId, String shopName, String shopAddr, String sns,
 			String tel, String num, String account, String intro, String category) {
 		
 		PreparedStatement ppst = null;
 		int result = 0;
-		String sql = "insert into workshop values('ws'||WSNO_SEQ.NEXTVAL,?,?,?,default,sysdate,?,?,?,?,?)";
+		String sql = "insert into workshop values('ws'||WSNO_SEQ.NEXTVAL,?,?,?,default,sysdate,?,?,?,?,?,?)";
 		
 		try {
 			ppst = con.prepareStatement(sql);
@@ -406,6 +410,7 @@ public class ShopDao {
 			ppst.setString(6, intro);
 			ppst.setString(7, sns);
 			ppst.setString(8, category);
+			ppst.setString(9, num);
 			
 			result = ppst.executeUpdate();
 		} catch (SQLException e) {
@@ -416,6 +421,7 @@ public class ShopDao {
 		}
 		return result;
 	}
+	
 	// 인덱스용 새로운 공방
 	public ArrayList<Workshop> newWorkShopList(Connection c) {
 		Statement st = null;
@@ -465,6 +471,29 @@ public class ShopDao {
 		}
 		
 		return result;
+	}
+
+	public ArrayList<String> getCategory(Connection con) {
+		Statement st = null;
+		ArrayList<String> categoryList =new ArrayList<String>();
+		ResultSet rset = null;
+		
+		String sql ="select S_CATEGORY FROM WORKSHOP GROUP BY S_CATEGORY ";
+		try {
+			st=con.createStatement();
+			rset=st.executeQuery(sql);
+			
+			if(rset.next()) {
+				categoryList.add(rset.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(st);
+		}
+		
+		return categoryList;
 	}
 
 

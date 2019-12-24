@@ -47,6 +47,7 @@ public class SearchService {
 		Connection c = getConnection();
 		SearchDao sd = new SearchDao();
 		ArrayList<Workclass> list = sd.findClassName(c, searchinput);
+
 		if(!list.isEmpty()) {
 			int result = sd.insertKeyword(c, searchinput);
 			if(result > 0) {
@@ -192,13 +193,41 @@ public class SearchService {
 		return list;
 	}
 
-	public ArrayList<Review> searchAllReview() {
+	public ArrayList<Review> searchAllReview(int currentPage, int boardLimit) {
 		Connection c = getConnection();
 		
-		ArrayList<Review> list = new SearchDao().searchAllReview(c);
+		ArrayList<Review> list = new SearchDao().searchAllReview(c,currentPage,boardLimit);
 		
 		close(c);
 		return list;
+	}
+
+	public ArrayList<Review> searchReview(String src, String sri, int cp, int bl) {
+		Connection c = getConnection();
+		
+		ArrayList<Review> list = new SearchDao().searchReview(c,src,sri,cp,bl);
+		
+		close(c);
+		return list;
+		
+	}
+
+	public int getReviewCount() {
+		Connection c = getConnection();
+		
+		int result = new SearchDao().getReviewCount(c);
+		
+		close(c);
+		return result;
+	}
+
+	public int getReviewCount(String sRC, String sRI) {
+		Connection c = getConnection();
+		
+		int result = new SearchDao().getReviewCount(c,sRC,sRI);
+		
+		close(c);
+		return result;
 	}
 
 

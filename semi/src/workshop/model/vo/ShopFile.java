@@ -57,6 +57,12 @@ public class ShopFile {
 		this.reName = reName;
 	}
 
+	@Override
+	public String toString() {
+		return "ShopFile [fs_no=" + fs_no + ", fs_destination=" + fs_destination + ", originName=" + originName
+				+ ", reName=" + reName + ", filePath=" + filePath + "]";
+	}
+
 	
 	
 }

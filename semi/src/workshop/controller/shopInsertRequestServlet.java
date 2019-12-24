@@ -30,6 +30,7 @@ public class shopInsertRequestServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		String userId=request.getParameter("c_id");
 		String shopName = request.getParameter("businessmember_name");
 		String shopAddr = request.getParameter("business_address")+" ";

@@ -49,9 +49,8 @@ public class QnaDao {
 						rs.getString("q_content"), rs.getDate("q_ent_date"), rs.getString("q_secret"),
 						/* rs.getBoolean("q_replay_ck"), */
 						/* rs.getString("wc_no"), */
-						rs.getInt("q_count")/*
-											 * , rs.getString("q_pwd")
-											 */));
+						rs.getInt("q_count"), rs.getString("q_pwd")
+											 ));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -257,10 +256,15 @@ public class QnaDao {
 			rset = pstmt.executeQuery();
 			
 			while (rset.next()) {
-				list.add(new Qna(rset.getString(2), rset.getString(3), rset.getString(4), rset.getString(5),
+				/*list.add(new Qna(rset.getString(2), rset.getString(3), rset.getString(4), rset.getString(5),
 						rset.getDate(6),
 						rset.getString(7), 
-						rset.getInt(10)));
+						rset.getInt(10)));*/
+				
+				list.add(new Qna(rset.getString("q_no"), rset.getString("c_id"), rset.getString("q_title"),
+						rset.getString("q_content"), rset.getDate("q_ent_date"), rset.getString("q_secret"),
+						rset.getString("q_replay_ck"), rset.getString("wc_no"), rset.getInt("q_count"),
+						rset.getString("q_pwd")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -316,6 +320,49 @@ public class QnaDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	// 검색하면서 페이징처리하기
+	public ArrayList<Qna> selectList(Connection conn, int currentPage, int boardLimit, String search2,
+			String searchCondition2) {
+		ArrayList<Qna> list = new ArrayList<>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql="";
+		
+		if(searchCondition2.equals("title")) {
+			sql=prop.getProperty("searchTitleList");
+		}else if(searchCondition2.equals("writer")) {
+			sql=prop.getProperty("searchWriterList");
+		}
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int startRow = (currentPage - 1) * boardLimit + 1;
+			int endRow = startRow + boardLimit - 1;
+
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			pstmt.setString(3,search2);
+
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				list.add(new Qna(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getDate(6),
+						rs.getString(7), 
+						rs.getInt(10)));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
 	}
 	
 }

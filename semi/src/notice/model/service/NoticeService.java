@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import notice.model.dao.NoticeDao;
 import notice.model.vo.Notice;
-import qna.model.vo.Qna;
 
 
 public class NoticeService {
@@ -124,6 +123,16 @@ public class NoticeService {
 		Connection conn = getConnection();
 
 		ArrayList<Notice> list = new NoticeDao().selectList3(conn, ncurrentPage, nLimit);
+
+		close(conn);
+
+		return list;
+	}
+
+	public ArrayList<Notice> selectList(int currentPage, int boardLimit, String search3, String searchCondition) {
+		Connection conn = getConnection();
+
+		ArrayList<Notice> list = new NoticeDao().selectList(conn, currentPage, boardLimit, search3, searchCondition);
 
 		close(conn);
 

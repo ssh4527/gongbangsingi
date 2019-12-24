@@ -128,6 +128,26 @@ aside>button {
 	width:90%;
 	height:400px;
 }
+.acceptclick{
+	background:lightgrey;
+}
+#yearselect{
+	width:120px;
+	float:center;
+	margin:auto;
+}
+#monthselect{
+	width:120px;
+	float:center;
+	margin:auto;
+}
+#datadiv{
+	width:340px;
+	height:50px;
+}
+#selectstatus{
+	width:100%;
+}
 </style>
 </head>
 <body>
@@ -138,7 +158,7 @@ aside>button {
 				<li><a href="#" id="accept1">사업회원가입승인</a></li>
 				<li><a href="#" id="accept2">공방상세정보승인</a></li>
 				<li><a href="#" id="accept3">클래스승인</a></li>
-				<li><a href="#" id="accept4">수입통계</a></li>
+				<li class="acceptclick"><a href="#" id="accept4">수입통계</a></li>
 			</ul>
 			
 
@@ -149,6 +169,8 @@ aside>button {
 				
 	
 				$("#accept1").click(function() {
+					$("#menu").children().removeClass("acceptclick");
+					$(this).parent().addClass("acceptclick");
 					$("#accepttable1").css("display", "table");
 					$("#accepttable2").css("display","none");
 					$("#accepttable3").css("display","none");
@@ -157,6 +179,8 @@ aside>button {
 				});
 				
 				$("#accept2").click(function() {
+					$("#menu").children().removeClass("acceptclick");
+					$(this).parent().addClass("acceptclick");
 					$("#accepttable2").css("display", "table");
 					$("#accepttable1").css("display","none");
 					$("#accepttable3").css("display","none");
@@ -165,6 +189,8 @@ aside>button {
 				});
 				
 				$("#accept3").click(function() {
+					$("#menu").children().removeClass("acceptclick");
+					$(this).parent().addClass("acceptclick");
 					$("#accepttable3").css("display", "table");
 					$("#accepttable2").css("display","none");
 					$("#accepttable1").css("display","none");
@@ -173,6 +199,8 @@ aside>button {
 				});
 				
 				$("#accept4").click(function(){
+					$("#menu").children().removeClass("acceptclick");
+					$(this).parent().addClass("acceptclick");
 					$("#accepttable3").css("display", "none");
 					$("#accepttable2").css("display","none");
 					$("#accepttable1").css("display","none");
@@ -277,13 +305,13 @@ aside>button {
 				<input name="selectstatus" type="radio" id="monthradio"> 월별 
 				
 				<br>
-				<form id="datadiv" method="get" action="<%=request.getContextPath()%>/statistic.admin">
-				<select name="yearselect"id="yearselect">
+				<form id="datadiv" method="get" action="<%=request.getContextPath()%>/statistic.admin" >
+				<select name="yearselect" class="custom-select my-1 mr-sm-2" id="yearselect">
 					<option selected value="2019">2019년</option>
 					<option value="2020">2020년</option>
 					<option value="2021">2021년</option>
 				</select>
-				<select name="monthselect"id="monthselect"  style="display:none;">
+				<select name="monthselect" class="custom-select my-1 mr-sm-2" id="monthselect"  style="display:none;">
 					<option selected value="0">----</option>
 					<option value="1">1월</option>
 					<option value="2">2월</option>
@@ -299,16 +327,18 @@ aside>button {
 					<option value="12">12월</option>
 				</select>
 				
-				<button type="submit" >조회</button>
+				<button type="submit" class="btn btn-info" style="float:center; margin:4px;" >조회</button>
 				</form>
-				계 : <span>원</span>
+				
+				계 : <span><%= request.getAttribute("sum") %>원</span> <br>
+				순익 : <span><%=((int)request.getAttribute("sum"))/100*5 %>원</span>
 			</div>
 		</section>
 
 	</div>
 	<script>
 		$(function(){
-				
+			
 			$("#monthradio").click(function(){
 				$("#monthselect").css("display","inline-block");
 			});

@@ -161,7 +161,7 @@ public class SearchDao {
 		ResultSet rs = null;
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
 		
-		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY,ws_addr,ws_enrollDate from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no and wc_yn='Y' group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ? and ws.ENROLLYN='Y'";
+		String q = "select ws.ws_no,te.총합,ws_name,S_CATEGORY,ws_addr,ws_enrollDate from  (select wc.ws_no,round(AVG(R_GRADE),1)as 총합 from REVIEW r,work_class wc where r.wc_no = wc.wc_no group by wc.ws_no) te,workshop ws where ws.ws_no = te.ws_no and S_CATEGORY = ? and ws.ENROLLYN='Y'";
 		try {
 			ps = c.prepareStatement(q);
 			ps.setString(1, keyword);
@@ -329,7 +329,7 @@ public class SearchDao {
 			int count = 0;
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				if(count >3) {break;}
+				if(count >=3) {break;}
 				
 				boolean accept = false;
 				if(rs.getString("WC_YN")=="Y") {
@@ -551,16 +551,21 @@ public class SearchDao {
 		return list;
 	}
 
-	public ArrayList<Review> searchAllReview(Connection c) {
-		Statement s = null;
+	public ArrayList<Review> searchAllReview(Connection c, int currentPage, int boardLimit) {
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Review> list = new ArrayList<Review>();
-		String q= "select r.wc_no,r_no,c.c_id,c_name,r_title,r_ent_date,r_content,r_view_cnt,r_grade,wc_name from review r, work_class wc, client c  where r.wc_no = wc.wc_no and c.c_id = r.c_id";
+		String q= "select * from(select rownum rnum,r.wc_no,r_no,c.c_id,c_name,r_title,r_ent_date,r_content,r_view_cnt,r_grade,wc_name from review r, work_class wc, client c where r.wc_no = wc.wc_no and c.c_id = r.c_id) where rnum between ? and ?";
 		
 		
 		try {
-			s = c.createStatement();
-			rs = s.executeQuery(q);
+			ps = c.prepareStatement(q);
+			int startRow = (currentPage - 1) * boardLimit + 1;
+			int endRow = startRow + boardLimit - 1;
+
+			ps.setInt(1, startRow);
+			ps.setInt(2, endRow);
+			rs = ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Review(rs.getString("r_no"),
 						rs.getString("r_title"),
@@ -578,8 +583,124 @@ public class SearchDao {
 		} catch (SQLException e) {
 		
 			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(ps);
 		}
 		return list;
+	}
+
+	public ArrayList<Review> searchReview(Connection c, String src, String sri, int cp, int bl) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		String q= "select * from(select rownum rnum,r.wc_no,r_no,c.c_id,c_name,r_title,r_ent_date,r_content,r_view_cnt,r_grade,wc_name from review r, work_class wc, client c where r.wc_no = wc.wc_no and c.c_id = r.c_id";
+		
+		String sql = "";
+		if(src.equals("writer")) {
+			sql = " and c_name like ('%'||?||'%')";
+		}else if (src.equals("title")) {
+			sql = " and r_title like ('%'||?||'%')";
+		}else if (src.equals("classname")){
+			sql = " and wc_name like ('%'||?||'%')";
+		}else {
+			sql = " and wc.ws_no = ?";
+		}
+		q += sql + ") where rnum between ? and ?";
+		
+		try {
+			ps = c.prepareStatement(q);
+			int startRow = (cp - 1) * bl + 1;
+			int endRow = startRow + bl - 1;
+
+			ps.setInt(2, startRow);
+			ps.setInt(3, endRow);
+			ps.setString(1, sri);
+			rs =  ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getString("r_no"),
+						rs.getString("r_title"),
+						rs.getDate("r_ent_date"),
+						rs.getString("r_content"),
+						rs.getInt("r_view_cnt"),
+						rs.getInt("r_grade"),
+						rs.getString("c_name"),
+						rs.getString("c_id"),
+						rs.getString("wc_name"),
+						rs.getString("wc_no")));
+				
+				
+			}
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(ps);
+		}
+		return list;
+	}
+
+	public int getReviewCount(Connection c) {
+		int listCount = 0;
+
+		Statement stmt = null;
+		ResultSet rset = null;
+
+		String sql = "SELECT COUNT(*) FROM review";
+
+		try {
+			stmt = c.createStatement();
+			rset = stmt.executeQuery(sql);
+
+			if (rset.next()) {
+				listCount = rset.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		return listCount;
+	}
+
+	public int getReviewCount(Connection c, String sRC, String sRI) {
+		int listCount = 0;
+
+		PreparedStatement ps = null;
+		ResultSet rset = null;
+
+		String q = "SELECT COUNT(*)  from review r, work_class wc, client c  where r.wc_no = wc.wc_no and c.c_id = r.c_id ";
+		String sql = "";
+		if(sRC.equals("writer")) {
+			sql = " and c_name like ('%'||?||'%')";
+		}else if (sRC.equals("title")) {
+			sql = " and r_title like ('%'||?||'%')";
+		}else if (sRC.equals("classname")){
+			sql = " and wc_name like ('%'||?||'%')";
+		}else {
+			sql = " and wc.ws_no = ?";
+		}
+		q += sql;
+		
+		try {
+			ps = c.prepareStatement(q);
+			ps.setString(1, sRI);
+			rset = ps.executeQuery();
+
+			if (rset.next()) {
+				listCount = rset.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(ps);
+		}
+		return listCount;
 	}
 
 }

@@ -202,7 +202,7 @@
 	margin-top: 0;
 }
 
-section, div, header {
+section,div {
 	box-sizing: border-box;
 	display: block;
 }
@@ -240,7 +240,6 @@ section, div, header {
 }
 
 #first_intro1 {
-	text-align: center;
 	width: 40%;
 	float: left;
 	height: 100%;
@@ -258,19 +257,23 @@ section, div, header {
 #introl1_1 {
 	float: left;
 	width: 100%;
-	height: 80%;
+	height: 60%;
 	padding: 10px;
 }
 
 #introl1_2 {
 	float: left;
 	width: 100%;
-	height: 20%;
+	height: 30%;
 	padding: 10px;
 }
 
+#kakao{
+	text-align: center;
+}
 #introl1_2_1 {
 	border: 1px solid black;
+	padding-left: 5%;
 }
 
 #mapArea {
@@ -314,16 +317,6 @@ section, div, header {
 	border-top: 1px solid black;
 }
 
-#thumbnailEdit {
-	float: right;
-	background-color: pink;
-	border-radius: 30%;
-}
-
-#intro3Edit {
-	background-color: pink;
-	border-radius: 30%;
-}
 
 h4 {
 	display: inline;
@@ -374,14 +367,15 @@ h4 {
 								userCheck = true;
 						%>
 						<input type="file" id="fileButton" name="file"
-							onchange="preview(this,1)"> <input type="button"
-							value="<%=fileBtnN%>" id="thumbnailEdit">
+							onchange="preview(this,1)"> <input type="button" class="btn btn-success"
+							value="<%=fileBtnN%>" id="thumbnailEdit" style="float:right">
 
 						<%
 							}
 						%>
 					</form>
-					<p id="storeName"><%=shop.getWsName()%></p>
+					<br>
+					<p id="storeName" style="text-align: center;"><b><%=shop.getWsName()%></b></p>
 
 					<script>
 					$(function() {
@@ -422,26 +416,28 @@ h4 {
 					}
 				</script>
 				</section>
-				<br> <br> <br> <br> <br> <br>
+				<br> <br> <br> 
 
 
-				<!-- 주소,전화번호,sns계정 정보  -->
+				<!-- 주소,전화번호,sns계정 등 공방 정보  -->
 				<section id="introl1_2">
 					<div id="introl1_2_1">
-						<p id="addr"><%=shop.getAddress()%></p>
-						<p id="phone"><%=shop.getWsTel()%></p>
+						<p id="addr">주소: <%=shop.getAddress()%></p>
+						<p id="phone">연락처☎: <%=shop.getWsTel()%></p>
 						<p id="sns">
 							<%String[] snslist =shop.getSns().split(",");
 							for(String sns : snslist){%>
 							<a><%=sns%></a><br>
 							<%} %>
 						</p>
+						<p>사업자 번호: <%=shop.getAccountNum() %></p>
 					</div>
 				</section>
 				<%
 					if (!userCheck&&shop.getSns().contains("카카오톡")) {
 						int kakaoNum= shop.getSns().indexOf("카카오톡 :");
 				%>
+				<div id="kakao">
 				<a href="javascript:void chatChannel()"> <img
 					src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png" />
 				</a>
@@ -458,6 +454,7 @@ h4 {
 						//]]>
 						
 					</script>
+					</div>
 				<%
 					}
 				%>
@@ -712,7 +709,7 @@ h4 {
 						<div id="score">
 							★<%=shop.getGrade()%>/ 5.0
 						</div>
-						<a href="<%=request.getContextPath()%>/reviewMore.sh?WsNo=<%=shop.getWsNo()%>" id="reviewMore">더보기&gt;&gt;</a>
+						<a href="<%=request.getContextPath()%>/review.search?searchReviewInput=<%=shop.getWsNo()%>&searchReviewCondition='공방'" id="reviewMore">더보기&gt;&gt;</a>
 						<table class="table table-hover" id="reviewList">
 							<thead>
 								<tr>
@@ -755,19 +752,6 @@ h4 {
 							</tbody>
 						</table>
 					</div>
-					<script>
-					$(function(){
-						$("#reviewList td").click(function(){
-							var num = $(this).parent().children().eq(0).val();
-							console.log(num);
-							location.href="<%=request.getContextPath()%>/detail.no?nno=" + num;
-						});
-						
-						
-						
-					});
-					</script>
-
 				</section>
 			</section>
 
@@ -789,16 +773,20 @@ h4 {
 							<th>기간</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="classlistBody">
 						<%
+							boolean isclass=false;
 							if (clist.isEmpty()) {
 						%>
 						<tr>
+
 							<td colspan="5">존재하는 공지사항이 없습니다.</td>
+
 						</tr>
 						<%
 							} else {
 								int idx = 1;
+								isclass=true;
 								for (Workclass c : clist) {
 						%>
 						<tr>
@@ -825,11 +813,50 @@ h4 {
 					onclick="location.href='<%=request.getContextPath()%>/views/classdetail/insertClass.jsp?wsNo=<%= shop.getWsNo() %>'">클래스
 					열기</button>
 				&nbsp;
+				<%if(isclass){ %>
 				<button id="class_updateclass" class="btn btn-outline-secondary">수정하기</button>
 				&nbsp;
-				<button id="class_deleteclass" class="btn btn-outline-secondary">삭제하기</button>
+				<button id="class_deleteclass" class="btn btn-outline-secondary" data-toggle="modal" data-target=".classDelmodal">삭제하기</button>
+				<%} %>
 			</div>
 		</section>
+		<!-- 삭제하기 Modal -->
+			<div class="modal fade classDelmodal" tabindex="-1"
+				role="dialog">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTitle">삭제하고자 하는 클래스를 선택해주세요</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+						<table>
+							<% int idx = 1;
+								for (Workclass c : clist) {
+							%>
+							<tr>
+								<td><input type="checkbox" class="custom-control-input"
+									value="<%=c.getWcNo()%>" id="<%=idx%>d" name="deleteCName"> 
+									<label class="custom-control-label" for="<%=idx%>d"><%=c.getWcName()%>(<%=c.getWcOpenClose() %>)</label> &nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<%
+								idx++;
+								}
+							%>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="button" id="deleteCheckClassBtn" data-dismiss="modal"
+								class="btn btn-primary">체크한 클래스 삭제하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		<%
 			}
 		%>
@@ -841,7 +868,10 @@ h4 {
 							location.href="<%=request.getContextPath()%>/godetail.class?wcNo=" + num;
 						});
 						
+
 					});
+					
+				});
 		</script>
 
 		<br> <br>
@@ -853,7 +883,7 @@ h4 {
 			<%
 				if (loginUser != null && loginUser.getUserId().equals(shop.getId())) {
 			%>
-			<input type="button" value="소개글 변경" id="intro3Edit" name="intro3Edit" 
+			<input type="button" value="소개글 변경" id="intro3Edit"  class="btn btn-success" name="intro3Edit" 
 				data-toggle="modal" data-target=".bd-example-modal-lg">
 				
 			<!-- Modal -->
@@ -870,7 +900,7 @@ h4 {
 							</button>
 						</div>
 						<div class="modal-body">
-							<textarea cols="80" rows="10" id="modalText"></textarea>
+							<textarea cols="80" rows="10" id="modalText" style="resize:none;"></textarea>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
@@ -902,6 +932,37 @@ h4 {
 		<script>
 
 			$(function() {
+				
+				$("#deleteCheckClassBtn").click(function() {
+					var checkC = "";
+					$("input[name='deleteCName']:checked").each(function(i) {
+						checkC += $(this).val()+",";
+					});
+					if(checkC==""){
+						alert("삭제를 취소하였습니다.");
+					}else{
+					var WsNo="<%=shop.getWsNo()%>";
+
+						$.ajax({
+							url : "updateIntro.sh",
+							data : {
+								input : checkC,
+								WsNo : WsNo
+							},
+							
+							type : "post",
+							success : function(result) {
+								$("#classlistBody").html("");
+
+								console.log(checkC);
+							},
+							error : function(e) {
+								alert();
+							}
+						});
+					}
+				});
+				
 				$("#updateIntro3").click(function() {
 					var input = $("#modalText").val();
 					if(input==0){

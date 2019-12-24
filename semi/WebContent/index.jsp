@@ -105,7 +105,7 @@ h2 {
 	%>
 	
 	<div id="maindiv1" class="album py-5 bg-light" >
-		<h2>평점 BEST 3 클래스</h2>
+		<h2 style="margin-bottom: 15px;">평점 BEST 3 클래스</h2>
 		<!-- 1등 -->
 		<%if(mainClassList != null){ %>
 				
