@@ -6,7 +6,7 @@
 	ArrayList<Reservation> rlist = (ArrayList<Reservation>) request.getAttribute("list");
 	ArrayList<Review> relist = (ArrayList<Review>) request.getAttribute("reviewlist");
 	ArrayList<Qna> qnalist = (ArrayList<Qna>) request.getAttribute("qnalist");
-	
+	String WsNo = (String)request.getAttribute("wsNo");
 %>
 <!DOCTYPE html>
 <html>
@@ -145,7 +145,7 @@ section {
 		<script>								
 			$(function(){
 				$("#Go-MyWorkShop").click(function(){
-					location.href="<%=request.getContextPath()%>/store/storeView.jsp";
+					location.href="<%=request.getContextPath()%>/detail.sh?WsNo=<%= WsNo %>";	<%-- 공방 페이지 이동 detail.sh?WsNo= --%>
 				});
 				$("#profile").click(function(){
 					
@@ -228,10 +228,17 @@ section {
 				}
 			}
 		</script>
+		<style>
+			scroll-tb{border-collapse:collapse;}
+			.scroll-tb thead{float:left; width:100%;}
+			.scroll-tb tbody{overflow-x:hidden; float:left; width:100%; height:370px}
+			.scroll-tb tbody tr{display:table; width:100%;}
+			.scroll-tb td{width:100px}
+		</style>
 		<section>
 			<div id="ReserTable">
 				<h2>예약 현황</h2>
-				<table class="table">
+				<table class="table scroll-tb">
 					<thead>
 						<tr>
 							<th>예약 일자</th>
@@ -242,6 +249,7 @@ section {
 							<th>결제상태</th>
 						</tr>
 					</thead>
+					
 					<tbody>
 						<%if (rlist.isEmpty()) {%>
 						<tr>
@@ -360,13 +368,13 @@ section {
 						<div id="signArea">
 						  <div class="textdivarea">비밀번호</div>
 						    <div class="inputdivarea">
-								<input type="password" id="changePwd" name="changePwd" required>
+								<input type="password" id="changePwd" name="changePwd" required style="width:200 !important ;">
 							</div>
 							<input type="text" id="changeId" name="changeId" style="display: none;">
 						  <div class="commentarea"></div>
 						  <div class="textdivarea">비밀번호 확인</div>
 						  <div class="inputdivarea">
-							<input type="password" id="changePwdCk" name="changePwdCk" required>
+							<input type="password" id="changePwdCk" name="changePwdCk" required style="width:200 !important ;">
 						  </div>
 							<div class="commentarea"></div>
 							<button type="submit" id="changepwdformbtn">비밀번호 변경</button>
@@ -436,7 +444,7 @@ section {
 				<h4>회원 탈퇴 신청</h4>
 				<hr>
 				<% if (!rlist.isEmpty()) { %>
-				<small style="color: red; display: block;">*공방 예약 현황이 없어야 가능합니다*</small><br>
+				<small style="color: red; display: block;">*공방 예약 현황이 없어야 가능합니다*</small><br>	
 				<% } %>
 
 				비밀번호 확인 : <input type="password" id="ckPwd"><br> <br>

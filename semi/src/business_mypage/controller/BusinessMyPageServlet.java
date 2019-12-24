@@ -48,7 +48,8 @@ public class BusinessMyPageServlet extends HttpServlet {
 		// 문의 내역 가져오기
 		ArrayList<Qna> qnalist = new BMypageService().selectQnaList(wsNo);
 		
-
+		
+		request.setAttribute("wsNo", wsNo);
 		request.setAttribute("list", list);
 		request.setAttribute("reviewlist", reviewlist);
 		request.setAttribute("qnalist", qnalist);
