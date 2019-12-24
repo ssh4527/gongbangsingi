@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jjim.model.vo.Jjim;
 import member.model.vo.Member;
 import mypage.model.service.MypageService;
 import qna.model.vo.Qna;
@@ -52,6 +53,9 @@ public class ShowMyInfomationServlet extends HttpServlet {
 		// 예약 금액 가져오기
 		int result = new MypageService().showMyLevel(m.getUserId());
 		
+		// 찜 목록 공방 번호 가져오기
+		ArrayList<Jjim> jjimlist = new MypageService().selectJjim(m.getUserId());
+		
 		// 확인
 		//System.out.println(list);
 		//System.out.println("리뷰 : " + reviewlist);
@@ -62,6 +66,7 @@ public class ShowMyInfomationServlet extends HttpServlet {
 		request.setAttribute("reviewlist", reviewlist);
 		request.setAttribute("qnalist", qnalist);
 		request.setAttribute("show", result);
+		request.setAttribute("jlist", jjimlist);
 		
 		request.getRequestDispatcher("views/mypage/NomalMyPage.jsp").forward(request, response);
 	}

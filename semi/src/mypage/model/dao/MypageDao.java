@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import jjim.model.vo.Jjim;
 import qna.model.vo.Qna;
 import reservation.model.vo.Reservation;
 import review.model.vo.Review;
@@ -96,7 +97,7 @@ public class MypageDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, uId);
 			rset = pstmt.executeQuery();
-			System.out.println(sql);
+	
 			while (rset.next()) {
 				qnalist.add(new Qna(rset.getString("q_no"),rset.getString("Q_TITLE"),rset.getString("Q_CONTENT"),rset.getDate("Q_ENT_DATE"),rset.getString("Q_REPLAY_CK")));
 			}
@@ -218,5 +219,56 @@ public class MypageDao {
 		}
 		return result;
 	}
+
+	public ArrayList<Jjim> selectJjim(String uId, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Jjim> jlist = new ArrayList<>();
+		
+		String sql = prop.getProperty("SelectJjim");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, uId);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				jlist.add(new Jjim(rset.getString("wc_no"),rset.getString("wc_name")));
+			}		
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(jlist);
+		return jlist;
+	}
+
+	/*public int UpgradeNtoB(String uId, String name, String shopName, String addrShop, String snsId, String shopPNo, String shopMNo,
+			Connection conn) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("InsertUpNtoB");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, shopName);
+			pstmt.setString(3, addrShop);
+			pstmt.setString(4, uId);
+			pstmt.setString(5, snsId);
+			pstmt.setString(6, shopPNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}*/
 
 }
