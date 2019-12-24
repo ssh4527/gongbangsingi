@@ -52,7 +52,7 @@
 <body >
 	<%@ include file="../common/menubar.jsp"%>
 	<br><br>
-	<h2 style="text-align:center">솔직한 리뷰 게시판</h2>
+	<h2 style="text-align:center">R E V I E W</h2>
 	<br>
 	<div style="min-height:600px;">
 	<table class="table table-hover" id="reviewTable">
@@ -72,10 +72,10 @@
 		<% for(int i =0; i<rlist.size(); i++){ %>
 			<tr class="viewtitle" id="ul<%= rlist.get(i).getRNo() %>" style="height:55px;">
 				<td style="display:none"><%= rlist.get(i).getRNo() %></td>
-				<th scope="row" style="text-align:center;"><%= (rlist.get(i).getRNo()).substring(3) %></th>
-				<td><%= rlist.get(i).getWcName() %></td>
-				<td><%= rlist.get(i).getRTitle() %></td>
-				<td>
+				<th scope="row" style="text-align:center; width:100px;"><%= (rlist.get(i).getRNo()).substring(3) %></th>
+				<td style="width:200px;"><%= rlist.get(i).getWcName() %></td>
+				<td style="width:400px;"><%= rlist.get(i).getRTitle() %></td>
+				<td style="width:120px;">
 					<%for(int s=0; s<5; s++ ){%>
 						<% if(s<=rlist.get(i).getRGrade()){ %>
 						★
@@ -84,18 +84,18 @@
 						<%} %>
 					<%} %>
 				</td>
-				<td><%= rlist.get(i).getcName() %></td>
-				<td><%= rlist.get(i).getRCount() %></td>
+				<td style="width:100px;"><%= rlist.get(i).getcName() %></td>
+				<td style="width:80px;"><%= rlist.get(i).getRCount() %></td>
 				<td><%= rlist.get(i).getREnDate() %></td>
 			</tr>
 			<tr class="reviewcontent" style="height:55px;">
-				<td colspan="2" style="text-align:center; line-height:40px;">내용</td>
+				<td colspan="2" style="text-align:center; line-height:40px;"><i class="fas fa-reply fa-rotate-180" aria-hidden="true"></i>내용</td>
 				<td colspan="4" style="text-align:left; line-height:40px;"><%=rlist.get(i).getRContent() %></td>
 				<td colspan="1">
 				<%if(loginUser != null){ %>
 				<input style="display:none;" id="no'<%=rlist.get(i).getRNo()%>'" value="<%=rlist.get(i).getWcNo()%>">
 				<%if(loginUser.getUserId().equals( rlist.get(i).getRWriter())) {%>
-				<button class="btn btn-outline-secondary" onclick="updatereview('<%= rlist.get(i).getRNo() %>')" id="reviewchangebtn" style="margin-left:18%;width:60px; float:left;">수정</button>
+				<button class="btn btn-outline-secondary" onclick="updatereview('<%= rlist.get(i).getRNo() %>')" id="reviewchangebtn" style="margin-left:10%;width:60px; float:left;">수정</button>
 				<button class="btn btn-outline-secondary" onclick="deletereview('<%=rlist.get(i).getRNo() %>')" id="reviewdeletebtn" style="width:60px; float:left;">삭제</button>
 				<%} } %>
 				</td>
@@ -185,8 +185,7 @@
 					}
 
 				});
-				var countnum = (Number)($(this).children().eq(6).html());
-				$(this).children().eq(6).html(countnum+1);
+				
 				}else{
 					$(this).next().next().css("display","none");
 					
@@ -195,6 +194,8 @@
 				
 				if($(this).next().css("display") == "none" ){
 					$(this).next().css("display","table-row");
+					var countnum = (Number)($(this).children().eq(6).html());
+					$(this).children().eq(6).html(countnum+1);
 				}else{
 					$(this).next().css("display","none");
 				}
@@ -254,12 +255,8 @@
 		</div>
 		<script>
 			$(function(){
-				
-					console.log($(".pagingArea").children("button"));
-					$(".pagingArea").children("button").addClass("btn btn-light");
-					$(".pagingArea").children("button").css("align","center");
-				
-				
+				$(".pagingArea").children("button").addClass("btn btn-light");
+				$(".pagingArea").children("button").css("align","center");
 			});
 		 function checksearch(){
 			 console.log(<%=searchReviewCondition%>);

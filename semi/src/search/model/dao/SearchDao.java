@@ -329,7 +329,7 @@ public class SearchDao {
 			int count = 0;
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				if(count >3) {break;}
+				if(count >=3) {break;}
 				
 				boolean accept = false;
 				if(rs.getString("WC_YN")=="Y") {
