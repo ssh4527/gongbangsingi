@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import search.model.service.SearchService;
+import workclass.model.service.ClassService;
+import workclass.model.vo.JJim;
 import workclass.model.vo.Workclass;
 
 /**
@@ -41,6 +43,8 @@ public class SortClassChoiServlet extends HttpServlet {
 		String kk = request.getParameter("kk");
 		
 		ArrayList<Workclass> wclist = null;
+		ArrayList<JJim> jList = null;
+		jList = new ClassService().SelectJJim();
 		
 		System.out.println("최신순 정렬");
 		System.out.println("keywordd = " + keywordd);
@@ -77,6 +81,7 @@ public class SortClassChoiServlet extends HttpServlet {
 			
 			request.setAttribute("keyword", keyword );
 			request.setAttribute("wclist", wclist);
+			request.setAttribute("jList",jList);
 			request.getRequestDispatcher("views/classcategory/category2.jsp").forward(request, response);
 		}else{
 			System.out.println("아래꺼");
@@ -102,6 +107,7 @@ public class SortClassChoiServlet extends HttpServlet {
 			
 			request.setAttribute("wclist", wclist);
 			request.setAttribute("cate", cate);
+			request.setAttribute("jList",jList);
 			request.getRequestDispatcher("views/classcategory/category2.jsp").forward(request, response);
 		}
 		

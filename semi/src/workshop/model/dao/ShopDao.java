@@ -233,7 +233,7 @@ public class ShopDao {
 			list = new ArrayList<Workclass>();
 			while (rset.next()) {
 				// String wcName, int wcNOP, String wcOpenClose
-				Workclass c = new Workclass(rset.getString("WC_NAME"), rset.getInt("WC_NOP"),
+				Workclass c = new Workclass(rset.getString("wc_no"),rset.getString("WC_NAME"), rset.getInt("WC_NOP"),
 						rset.getString("WC_DATE"));
 				list.add(c);
 			}

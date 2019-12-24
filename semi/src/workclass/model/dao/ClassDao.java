@@ -19,6 +19,7 @@ import static common.JDBCTemplate.*;
 
 import workclass.model.vo.ClassFile;
 import workclass.model.vo.ClassTime;
+import workclass.model.vo.JJim;
 import workclass.model.vo.Workclass;
 
 public class ClassDao {
@@ -1059,5 +1060,175 @@ public class ClassDao {
 		return address;
 	}
 
+
+	public int deleteClassAllQna(String wcNo,Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from qna where wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	public int deleteClassAllReview(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from review where wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	public int deleteClassAllClassTime(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from class_time where wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	public int deleteClassAllFile(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from file_storage where fs_destination = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	public int deleteClassJJin(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from jjim where wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	public int deleteClassReservation(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from reservation where wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	public int deleteClass(String wcNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "delete from work_class where wc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	public ArrayList<JJim> selectJJim(Connection conn) {
+		Statement stmt = null;
+		ArrayList<JJim> jList = new ArrayList<>();
+		ResultSet rset = null;
+		String sql = "select * from jjim";
+		try {
+			stmt = conn.createStatement();
+
+			rset = stmt.executeQuery(sql);
+			while(rset.next()) {
+				JJim j = new JJim();
+				j.setC_id(rset.getString(1));
+				j.setWc_no(rset.getString(2));
+				jList.add(j);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		return jList;
+	}
+
+
+	public int usePoint(int point,String cId, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = "update client set c_point = c_point - ? where c_id = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, point);
+			pstmt.setString(2, cId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
 
 }

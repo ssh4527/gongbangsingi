@@ -11,8 +11,10 @@
 	// 2019 12 15 Hy 찜용
 		String userId = "";	
 		String log = "";
+		int userPoint = 0;
 		if(loginUser != null){
 			log =  loginUser.getUserId();	
+			userPoint = loginUser.getPoint();
 		}else{
 			log = "asd";	
 		}

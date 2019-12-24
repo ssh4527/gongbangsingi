@@ -1,3 +1,4 @@
+<%@page import="workclass.model.vo.JJim"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="workclass.model.vo.Workclass"%>
@@ -6,7 +7,8 @@
 	pageEncoding="UTF-8"%>
 <% 
 	ArrayList<Workclass> wList = (ArrayList<Workclass>)request.getAttribute("wclist");
-	
+	ArrayList<JJim> jList = (ArrayList<JJim>)request.getAttribute("jList");	
+
 	Date date = new Date();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 	String tooday = sdf.format(date);
@@ -27,6 +29,7 @@
 	String cate =(String)request.getAttribute("cate");
 	
 	String all = (String)request.getAttribute("all");
+	int counts = 1;
 	
 
 %>
@@ -108,10 +111,7 @@
 	padding: 30px;
 }
 
-.btn {
-	color: white;
-	width: 400px;
-}
+
 
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -184,7 +184,7 @@ to {
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=도자기" class="menualink">도자기</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=액세서리" class="menualink">액세서리</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=가구" class="menualink">가구</a></li>
-		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=팔찌" class="menualink">팔찌</a></li>
+		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=향수" class="menualink">향수</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=제과" class="menualink">제과</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=원예" class="menualink">원예</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=가죽" class="menualink">가죽</a></li>
@@ -243,6 +243,8 @@ $(function(){
 			<div class="row">
 				<% if(!wList.isEmpty()) { %>
 				<% for(int i = 0;i < wList.size() ; i++ ) {%>
+					<% if(today > endday[i]){ %>
+					<% }else{ %>
 				<div class="col-md-4">
 					<div class="card mb-4 shadow-sm">
 						<div id="heartover">
@@ -252,8 +254,26 @@ $(function(){
 							</a>
 							<!-- 찜 버튼 -->
 							<div id="heartdiv" class="div<%= wList.get(i).getWcNo() %>">
+								<% if(!jList.isEmpty()) { %>
+							 	<% counts = 1; %>
+								<% for(int j = 0; j < jList.size(); j++){ %>
+									<% if(jList.get(j).getC_id().equals(log) && jList.get(j).getWc_no().equals(wList.get(i).getWcNo())) { %>
+										<% counts++; %>
+									<% } %>
+								<% } %>
+								
+								<% if(counts == 1){ %>
+									<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+											id="icon<%= wList.get(i).getWcNo() %>"></i>
+								<% }else{ %>
+									<i class="fas fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+											id="icon<%= wList.get(i).getWcNo() %>"></i>	
+								<% } %>
+							<% }else { %>
+								<!--  빈하트 -->
 								<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
 									id="icon<%= wList.get(i).getWcNo() %>"></i>
+							<% } %> 
 							</div>
 						</div>
 						
@@ -286,6 +306,7 @@ $(function(){
 					</div>
 				</div>
 				<% } %>
+				<% } %>
 			<% }else{ %>
 				<p style="text-align: center;">검색결과 없음</p>
 			<% } %>
@@ -304,7 +325,7 @@ $(function(){
       					if(<%= log.equals("asd") %>){
       						alert("로그인 후에 찜할수 있습니다.");	
       					
-      					}else if(!id == "menubar"){
+      					}else{
       					
       						
        					$.ajax({ // 아작시작

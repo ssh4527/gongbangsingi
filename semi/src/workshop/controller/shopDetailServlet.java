@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import review.model.vo.Review;
+import search.model.service.SearchService;
+import workclass.model.service.ClassService;
 import workclass.model.vo.ClassFile;
+import workclass.model.vo.ClassTime;
 import workclass.model.vo.Workclass;
 import workshop.model.service.ShopService;
 import workshop.model.vo.ShopFile;
@@ -53,7 +56,13 @@ public class shopDetailServlet extends HttpServlet {
 		//공방의 클래스 사진들
 		ArrayList<ClassFile> cPictures= service.selectClassPictures(WsNo);
 		
-		
+		//클래스별 시작날 종료날 가져옴
+		SearchService ss =new SearchService();
+		for(int i = 0 ; i < clist.size(); i++) {
+			Workclass timewc = ss.selectDate(clist.get(i).getWcNo());
+			clist.get(i).setStartdate(timewc.getStartdate());
+			clist.get(i).setEnddate(timewc.getEnddate());
+		}
 		//////////////////////////////////
 		
 		if(shop != null ) {
@@ -62,6 +71,7 @@ public class shopDetailServlet extends HttpServlet {
 			request.setAttribute("rlist", rlist);
 			request.setAttribute("clist", clist);
 			request.setAttribute("cPictures", cPictures);
+			
 
 			request.getRequestDispatcher("views/store/storeView.jsp").forward(request, response);
 			
