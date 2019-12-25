@@ -55,9 +55,10 @@ public class ClassDao {
 			pstmt.setString(1, wc.getWcName());
 			pstmt.setInt(2, wc.getWcNOP());
 			pstmt.setInt(3, wc.getWcMaxP());
-			pstmt.setString(4, wc.getWcOpenClose());
-			pstmt.setString(5, wc.getWcWarning());
-			pstmt.setString(6, wc.getWcIntroduce());
+			pstmt.setString(4, wc.getWsNo());
+			pstmt.setString(5, wc.getWcOpenClose());
+			pstmt.setString(6, wc.getWcWarning());
+			pstmt.setString(7, wc.getWcIntroduce());
 			
 			result = pstmt.executeUpdate();
 			

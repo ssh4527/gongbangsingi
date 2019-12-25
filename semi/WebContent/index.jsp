@@ -133,7 +133,8 @@ h2 {
 							<p class="card-text" align="left"><%= mainClassList.get(i).getWcIntroduce() %></p>
 							<div class="d-flex justify-content-between align-items-center">
 								<small class="text-muted">♥<%= mainClassList.get(i).getAvgGrade() %></small>
-								<small class="text-muted"><%= mainClassList.get(i).getWcOpenClose() %></small>
+								<small class="text-muted"><%= mainClassList.get(i).getStartdate() %></small>
+								<small class="text-muted"><%= mainClassList.get(i).getEnddate() %></small>
 							</div>
 						</div>
 					</div>
