@@ -39,6 +39,7 @@ public class IndexOnLoadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String[] search = new SearchService().topKeyword();
+		SearchService ss =new SearchService();
 		request.getSession().setAttribute("search", search);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		String inter ="";
@@ -69,6 +70,12 @@ public class IndexOnLoadServlet extends HttpServlet {
 				Workclass prewc = new SearchService().selectPathRename(list.get(i).getWcNo());
 				list.get(i).setPath(prewc.getPath());
 				list.get(i).setRename(prewc.getRename());
+				
+				// 클래스 시간대
+				Workclass timewc = ss.selectDate(list.get(i).getWcNo());
+				list.get(i).setStartdate(timewc.getStartdate());
+				list.get(i).setEnddate(timewc.getEnddate());
+				
 			}
 			request.setAttribute("mainList", list);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -80,6 +87,12 @@ public class IndexOnLoadServlet extends HttpServlet {
 				Workclass prewc = new SearchService().selectPathRename(list.get(i).getWcNo());
 				list.get(i).setPath(prewc.getPath());
 				list.get(i).setRename(prewc.getRename());
+				
+				// 클래스 시간대
+				Workclass timewc = ss.selectDate(list.get(i).getWcNo());
+				list.get(i).setStartdate(timewc.getStartdate());
+				list.get(i).setEnddate(timewc.getEnddate());
+				
 			}
 			request.setAttribute("mainList", list);
 			request.getRequestDispatcher("index.jsp").forward(request, response);

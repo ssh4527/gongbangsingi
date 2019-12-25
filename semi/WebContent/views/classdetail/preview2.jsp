@@ -40,6 +40,10 @@
 	
 	double xx = 0;
 	double yy  = 0;
+	
+	Date date = new Date();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	String today = sdf.format(date);
 	//String[] time = {"dd","ss"};
 %>
 <!DOCTYPE html>
@@ -458,7 +462,7 @@ ul {
       					<table>
       					<tr>
       						<td width=150px;><small style="color: gray"> > 날짜 선택</small></td>
-      						<td><input id="ckdate" name="ckdate" type="date" max="<%= ct.getCtEndDate() %>" min="<%= ct.getCtDate() %>"></td>
+      						<td><input id="ckdate" name="ckdate" type="date" max="<%= ct.getCtEndDate() %>" min="<%= today %>"></td>
       						<%
       							String start = ct.getCtDate();
       							String end = ct.getCtEndDate();
