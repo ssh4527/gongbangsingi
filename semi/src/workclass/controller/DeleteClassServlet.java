@@ -28,13 +28,25 @@ public class DeleteClassServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String wcNo = request.getParameter("wcNo");
-		int result = new ClassService().deleteClass(wcNo);
-		if(result > 0) {
-			response.sendRedirect(request.getContextPath());
-		}else {
-			System.out.println("클래스 삭제안됨");
+		String wsNo = request.getParameter("wsNo");
+		String[] wcNolist = wcNo.split(",");
+		int result = 0;
+		
+		for(String d:wcNolist) {
+			result += new ClassService().deleteClass(d);
 		}
+		
+		if(result > 0) {
+			request.setAttribute("WsNo", wsNo);
+			System.out.println("삭제 후 : " + wsNo);
+			//response.sendRedirect("detail.sh?WsNo" + wsNo);
+			request.getRequestDispatcher("detail.sh").forward(request, response);
+		}else {
+			System.out.println("클래스 삭제 안됨");
+		}
+		
 	}
 
 	/**
