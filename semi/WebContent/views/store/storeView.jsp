@@ -840,7 +840,7 @@ h4 {
 							<tr>
 								<td><input type="checkbox" class="custom-control-input"
 									value="<%=c.getWcNo()%>" id="<%=idx%>d" name="deleteCName"> 
-									<label class="custom-control-label" for="<%=idx%>d"><%=c.getWcName()%>(<%=c.getWcOpenClose() %>)</label> &nbsp;&nbsp;&nbsp;</td>
+									<label class="custom-control-label" for="<%=idx%>d"><%=c.getWcName()%>(<%=c.getStartdate() %> - <%= c.getEnddate() %>)</label> &nbsp;&nbsp;&nbsp;</td>
 							</tr>
 							<%
 								idx++;
@@ -941,9 +941,9 @@ h4 {
 						alert("삭제를 취소하였습니다.");
 					}else{
 					var WsNo="<%=shop.getWsNo()%>";
-
-						$.ajax({
-							url : "updateIntro.sh",
+						location.href="delete.class?wsNo="+WsNo+"&wcNo="+checkC;
+						/* $.ajax({
+							url : "delete.class",
 							data : {
 								input : checkC,
 								WsNo : WsNo
@@ -958,7 +958,7 @@ h4 {
 							error : function(e) {
 								alert();
 							}
-						});
+						}); */
 					}
 				});
 				
