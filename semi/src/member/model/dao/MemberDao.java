@@ -205,10 +205,7 @@ public class MemberDao {
 		int result = 0;
 		Statement st = null;
 		ResultSet rs =null;
-		String q = "select aa.a+bb.b+cc.c as 알람 from (" + 
-				"select count(*) a from client c, workshop ws where c.c_id = ws.c_id and c.authority = 1) aa,(" + 
-				"select count(enrollyn) b from workshop where enrollyn='N') bb,(" + 
-				"select count(wc_yn) c from work_class where wc_yn='N') cc";
+		String q = "select aa.a+bb.b+cc.c as 알람 from (select count(*) a from client c, workshop ws where c.c_id = ws.c_id and c.authority = 1) aa,(select count(enrollyn) b from workshop where enrollyn='N') bb,(select count(wc_yn) c from work_class where wc_yn='N') cc";
 		try {
 			st = c.createStatement();
 			rs = st.executeQuery(q);

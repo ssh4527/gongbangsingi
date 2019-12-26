@@ -67,7 +67,7 @@
     		</div>
     		<div class="rows_2" style="width:300px; height:80px; float:left;">
     		   	<p id="footp">사업자</p>
-    			<a href="/semi/views/notice/businessmember.jsp" id="foota">사업자 지원하기</a>
+    			<a href="/semi/getCategory.sh" id="foota">사업자 지원하기</a>
     		</div>
     		<div class="rows_3" style="width:300px; height:80px;float:left;">
     			<p id="footp">고객센터</p>
