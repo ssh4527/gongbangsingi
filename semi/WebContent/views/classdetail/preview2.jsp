@@ -277,8 +277,8 @@ ul {
 					</table>
 					<hr>
 				</div>
-				<div id="detail3" style="height: 120px;">
-					<small style="color: gray;"><%= wc.getWcWarning() %></small>
+				<div id="detail3">
+					<small style="color: gray;"><%= wc.getWcIntroduce().replace("\r\n", "<br>") %></small>
 				</div>
 				<hr>
 				<div id="detail4">

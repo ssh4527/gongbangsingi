@@ -241,6 +241,24 @@ ul {
 					$("#titleImg10").click(function(){
 						$("#thumbnailImg10").click();
 					});
+					$("#titleImg11").click(function(){
+						$("#thumbnailImg11").click();
+					});
+					$("#titleImg12").click(function(){
+						$("#thumbnailImg12").click();
+					});
+					$("#titleImg13").click(function(){
+						$("#thumbnailImg13").click();
+					});
+					$("#titleImg14").click(function(){
+						$("#thumbnailImg14").click();
+					});
+					$("#titleImg15").click(function(){
+						$("#thumbnailImg15").click();
+					});
+					$("#titleImg16").click(function(){
+						$("#thumbnailImg16").click();
+					});
 				});
 				
 				

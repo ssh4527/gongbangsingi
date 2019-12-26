@@ -229,7 +229,7 @@ ul {
 					</table>
 					<hr>
 				</div>
-				<div id="detail3" style="height: 120px;">
+				<div id="detail3">
 					<small style="color: gray;"><%= wc.getWcIntroduce().replace("\r\n", "<br>") %></small>
 				</div>
 				<hr>
