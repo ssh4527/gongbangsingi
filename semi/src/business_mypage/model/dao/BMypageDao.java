@@ -97,7 +97,7 @@ public class BMypageDao {
 			pstmt.setString(1, wNo);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
-				relist.add(new Review(rset.getString(9),rset.getString("r_title"),rset.getString("r_content"),rset.getDate("r_ent_date"),rset.getInt("r_grade")));
+				relist.add(new Review(rset.getString("c_name"),rset.getString("wc_name"),rset.getString("r_title"),rset.getString("r_content"),rset.getDate("r_ent_date"),rset.getInt("r_grade")));
 			}
 			
 		} catch (SQLException e) {
@@ -123,7 +123,14 @@ public class BMypageDao {
 			rset = pstmt.executeQuery();
 			System.out.println(sql);
 			while (rset.next()) {
-				qnalist.add(new Qna(rset.getString("C_NAME"),rset.getString("Q_TITLE"),rset.getString("Q_CONTENT"),rset.getDate("Q_ENT_DATE"),rset.getString("Q_REPLAY_CK")));
+				Qna q = new Qna();
+				q.setcName(rset.getString("c_name"));
+				q.setqTitle(rset.getString("q_title"));
+				q.setqContent(rset.getString("q_content"));
+				q.setqEntdate(rset.getDate("q_ent_date"));
+				q.setqReplayck(rset.getString("q_replay_ck"));
+				qnalist.add(q);
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -191,6 +198,54 @@ public class BMypageDao {
 				result = rset.getInt(1);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		return result;
+	}
+
+	public int selectProgress(String wsNo, Connection conn) {
+		int prog = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectProgress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wsNo);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				prog = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return prog;
+	}
+	
+	public int updateAddress(String wsNo,String naddr, Connection conn) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, naddr);
+			pstmt.setString(2, wsNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(pstmt);

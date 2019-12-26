@@ -99,7 +99,13 @@ public class MypageDao {
 			rset = pstmt.executeQuery();
 	
 			while (rset.next()) {
-				qnalist.add(new Qna(rset.getString("q_no"),rset.getString("Q_TITLE"),rset.getString("Q_CONTENT"),rset.getDate("Q_ENT_DATE"),rset.getString("Q_REPLAY_CK")));
+				Qna q = new Qna();
+				q.setcName(rset.getString("c_name"));
+				q.setqTitle(rset.getString("q_title"));
+				q.setqContent(rset.getString("q_content"));
+				q.setqEntdate(rset.getDate("q_ent_date"));
+				q.setqReplayck(rset.getString("q_replay_ck"));
+				qnalist.add(q);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -130,7 +136,7 @@ public class MypageDao {
 		return result;
 	}
 
-	public int updatePwd(Connection conn, String userId, String userPwd, String newPwd) {
+	public int updatePwd(Connection conn, String userId, String newPwd) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 
@@ -140,8 +146,7 @@ public class MypageDao {
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, newPwd);
-			pstmt.setString(2, userPwd);
-			pstmt.setString(3, userId);
+			pstmt.setString(2, userId);
 
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -183,6 +188,7 @@ public class MypageDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			rset = pstmt.executeQuery();
+			
 			while(rset.next()) {
 				wsNo = rset.getString(1);
 			}
@@ -240,10 +246,13 @@ public class MypageDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
 		}
-		System.out.println(jlist);
 		return jlist;
 	}
+
 
 	/*public int UpgradeNtoB(String uId, String name, String shopName, String addrShop, String snsId, String shopPNo, String shopMNo,
 			Connection conn) {

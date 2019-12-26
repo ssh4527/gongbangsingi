@@ -249,8 +249,8 @@ section {
 						<% } else { %>
 						<% for(Reservation r : list) {%>
 						<tr>
-							<td><%=r.getResDate()%></td>
-							<td><%=r.getWsName()%></td>
+							<td><%=r.getResDate() %></td>
+							<td><%=r.getWsName() %></td>
 							<td><%=r.getWcName() %></td>
 							<td><%=r.getResNop() %>명</td>
 							<td><%=r.getTotalPrice()%>원</td>
@@ -288,7 +288,7 @@ section {
 							<th>별점</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody style="max-height: 600px; overflow: hidden;">
 						<% if(relist.isEmpty()){ %>
 						<tr>
 							<td colspan="5" style="text-align: center">조회된 후기가 없습니다.</td>
@@ -307,7 +307,7 @@ section {
 					</tbody>
 				</table>
 				<hr>
-				<button type="button" onclick="location.href='<%= request.getContextPath()%>/review.search';">후기 더 보기</button>
+				<button type="button" onclick="location.href='<%= request.getContextPath()%>/review.search';" style="float: right;">후기 더 보기</button>
 				
 			</div>
 			<div id="QnaTable">
@@ -322,7 +322,7 @@ section {
 						</tr>
 					</thead>
 					<tbody>
-						<% if(list.isEmpty()){ %>
+						<% if(qnalist.isEmpty()){ %>
 						<tr>
 							<td colspan="4" style="text-align: center">조회된 문의 내역이 없습니다.</td>
 						</tr>
@@ -350,49 +350,34 @@ section {
 			<div id="changeInfoForm">
 				<h2>회원정보 수정</h2>
 				<hr>
-					<form id="changePwdForm" method="post" action="<%=request.getContextPath()%>/change.pwd" onsubmit="return checkChangePwd();">
-						<div id="signArea">
-						  <div class="textdivarea">비밀번호</div>
-						    <div class="inputdivarea">
-								<input type="password" id="changePwd" class="ChangePwdInMyPage" width: 200px name="changePwd" required>
-							</div>
-							<input type="text" id="changeId" name="changeId" style="display: none;">
-						  <div class="commentarea"></div>
-						  <div class="textdivarea">비밀번호 확인</div>
-						  <div class="inputdivarea">
-							<input type="password" id="changePwdCk" class="ChangePwdInMyPage" name="changePwdCk" required>
-						  </div>
-							<div class="commentarea"></div>
-							<button type="submit" id="changepwdformbtn">비밀번호 변경</button>
-						</div>
-					</form>
-					<script>
-						$(function() {
-							$("#changePwdCk").focusin(
-									function() {
-										$(this).focusout(
-											function() {
-												if ($("#changePwd").val() != $(
-														"#changePwdCk").val()) {
-													$("#changePwdCk").parent().next().html(
-															"비밀번호가 일치하지 않습니다.");
-												} else {
-													$("#changePwdCk").parent().next().html("");
-												}
-											});
-										});
-									});
-							function checkChangePwd() {
-								var test = $("#changePwdCk").parent().next().html();
-								if (test.length > 0) {
-									return false;
-								}
-								return true;
-							};
-					</script>
+					<form action='<%=request.getContextPath()%>/updatePwd.normal' onsubmit="return identiSame()">
+					<h4>비밀번호 변경</h4>
+					<table>
+						<tr>
+							<td>새 비밀번호 입력 :</td>
+							<td><input type="password" id="pwd1" name = "newPwd"></td>
+						</tr>
+						<tr>
+							<td>비밀번호 확인 :</td>
+							<td><input type="password" id="pwd2"></td>
+						</tr>
+					</table>
+					<div>
+						<button id="changePwd">변경하기</button>
+					</div>
+					 <script>
+						function identiSame(){
+							 if($("#pwd1").val() == $("#pwd2").val()){
+								window.alret("비밀번호가 변경되었습니다.");
+							 }else{
+								 return false;
+							 }
+						};
+					</script> 
+				</form>
 					<hr>
-					<form action="location.href ='<%= request.getContextPath() %>/updateMember.nomal'">
-					<h4>관심분야</h4>
+					<form action='<%= request.getContextPath() %>/updateHobby'>
+					<h4>관심분야 변경하기</h4>
 					<input class="ckhobby" type="checkbox" name="hobby" value="도자기">도자기
 					<input class="ckhobby" type="checkbox" name="hobby" value="액세서리">액세서리
 					<input class="ckhobby" type="checkbox" name="hobby" value="가구">가구
@@ -403,12 +388,13 @@ section {
 						type="checkbox" name="hobby" value="가죽">가죽 <input
 						class="ckhobby" type="checkbox" name="hobby" value="기타">기타
 					<hr>
-					<h3>공방 사업자 신청하기</h3>
-					<button type="button"
-						onclick="location.href ='<%= request.getContextPath() %>/views/notice/businessmember.jsp'">신청하기</button>
-					<hr>
 					<button type="submit">변경 완료</button>
 				</form>
+					<hr><hr>
+					<h3>공방 사업자 신청하기</h3>
+					<button type="button"
+						onclick="location.href ='<%= request.getContextPath() %>/views/notice/businessmember.jsp'">신청하기</button>	
+					<hr>
 			</div>
 			<div id="deleteMember">
 				<h4>회원 탈퇴</h4>
@@ -422,7 +408,9 @@ section {
 	
 	<style>
 		#jjim-list{
-			border : 1px solid red;
+			min-height: 200px;
+			text-align: center;
+			font-weight: bold;
 		}
 	</style>
 	
@@ -430,9 +418,7 @@ section {
 		<h4>찜 목록</h4><hr>
 			<table>
 				<% if(jlist.isEmpty()){ %>
-						<tr>
-							<td colspan="5" style="text-align: center">찜 목록이 비어있습니다.</td>
-						</tr>
+						<h5 style="text-align: center">찜 목록이 비어있습니다.</h5>
 						<% } else { %>
 						<% for(Jjim j : jlist) {%>
 						<tr>
