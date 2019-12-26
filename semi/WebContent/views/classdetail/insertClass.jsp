@@ -439,7 +439,7 @@ ul {
 		$(function(){
 			$("#insertImg").click(function(){
 				$("#insertdiv").append("<img name='titleImg" + preImg + "' id='titleImg" +  preImg + "' style='display:inline_block; margin-top:30px; cursor:pointer;'><br>");
-				$("#insertdiv").append("<input type='file' id='thumbnailImg" + preImg + "' name='thumbnailImg" + preImg + "' onchange='loadImg(this,"+(preImg++)+")'>");
+				$("#insertdiv").append("<input type='file' id='thumbnailImg" + preImg + "' name='thumbnailImg" + preImg + "' onchange='loadImg(this,"+(preImg++)+")'><br>");
 				
 			});
 			$("#insertText").click(function(){
