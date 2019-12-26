@@ -364,5 +364,38 @@ public class QnaDao {
 		}
 		return list;
 	}
+
+	public ArrayList<QnaRe> selectReplyList(Connection conn, String qno) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<QnaRe> rlist = null;
+		
+		String sql = prop.getProperty("selectReplyList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, qno);
+			
+			rs = pstmt.executeQuery();
+			
+			rlist = new ArrayList<QnaRe>();
+			
+			while(rs.next()) {
+				rlist.add(new QnaRe(rs.getString("rq_No"),
+									rs.getString("rq_Comment"),
+									rs.getDate("rq_Ent_Date"),
+									rs.getString("rq_Secret"),
+									rs.getString("q_No"),
+									rs.getString("c_Id"),
+									rs.getString("rq_Chk")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return rlist;
+	}
 	
 }

@@ -1,6 +1,8 @@
 package qna.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +13,7 @@ import notice.model.service.NoticeService;
 import notice.model.vo.Notice;
 import qna.model.service.QnaService;
 import qna.model.vo.Qna;
+import qna.model.vo.QnaRe;
 
 
 
@@ -38,8 +41,12 @@ public class QnaDetailServlet extends HttpServlet {
 		Qna qna=new QnaService().selectQna(qno);
 		
 		String page="";
+		
+		// ajax를 이용한 댓글 기능 구현
+		ArrayList<QnaRe> rlist = new QnaService().selectReplyList(qno);
 		if(qna != null) {
 			request.setAttribute("qna", qna);
+			request.setAttribute("rlist", rlist);
 			page = "views/board/boardDetailView.jsp";
 		}else {
 			request.setAttribute("msg","공지사항 조회 실패!");

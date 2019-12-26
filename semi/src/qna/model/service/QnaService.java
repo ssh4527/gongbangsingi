@@ -169,6 +169,17 @@ public class QnaService {
 
 		return list;
 	}
+
+	//선택한 게시글의 댓글 리스트 조회하기
+	public ArrayList<QnaRe> selectReplyList(String qno) {
+		Connection conn = getConnection();
+		
+		ArrayList<QnaRe> rlist = new QnaDao().selectReplyList(conn, qno);
+		
+		close(conn);
+		
+		return rlist;
+	}
 	
 
 

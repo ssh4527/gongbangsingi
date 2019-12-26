@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="qna.model.vo.*, java.util.*"%>
+	pageEncoding="UTF-8" import="qna.model.vo.*, java.util.*, java.text.SimpleDateFormat"%>
 <%
 	Qna q = (Qna) request.getAttribute("qna");
 
@@ -10,6 +10,10 @@ if(q.getqSecret().equals("true")){
 }else{
 	c2 = "checked";
 }
+
+Date d = new Date();
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+String today = sdf.format(d);
 
 // ajax 이후
 ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
@@ -30,7 +34,7 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 <style>
 #qna4_wrap {
 	width: 1000px;
-	height: 1000px;
+	height: 900px;
 	margin: auto;
 }
 
@@ -123,44 +127,34 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 		</form>
 		<hr>
 
-
-		<%-- 	<!--  댓글 작성하는 부분 -->
-			<form action="<%=request.getContextPath()%>/insert.qna.re" name="form" method="post">
-				<table align="center">
-				<tr>
-					<td>댓글 작성 &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;</td> 
-					<td><textarea rows="3" cols="80" id="text"></textarea></td>
-					<% if(loginUser != null){%>
-					<td><input type="text" id="writer" size="6" height="10px" value="<%= loginUser.getUserId()%>" readonly></td>
-					<% } else { %>
-					<td><input type="text" id="writer" size="6" height="10px" value="비회원" readonly></td>
-					<% } %>
-					<td><button id="addReply">댓글 등록</button></td>
-				</tr>
-			</table>
-			</form>
-			<hr> --%>
 			
-				<!-- ajax를 이용한 댓글 기능 구현 -->
+			
+	<!-- ajax를 이용한 댓글 기능 구현 -->
+	<% if(loginUser==null){ %>
+	<hr>
+	<% } else if(loginUser.getUserId().equals("admin")){ %>
 	<div class="replyArea">
 		<!-- 댓글 작성하는 부분 -->
 		<div class="replyWriterArea">
 			<table align="center">
 				<tr>
-					<td>댓글 작성</td>
-					<td><textarea rows="3" cols="80" id="replyContent"></textarea></td>
-					<td><button id="addReply">댓글 등록</button></td>
+					<td>댓글 작성 &nbsp; &nbsp; &nbsp; &nbsp;</td>
+					<td  colspan="3"><textarea rows="3" cols="80" id="replyContent"></textarea>  &nbsp;</td>
+					<td><button id="addReply" class="btn btn-outline-secondary btn-sm">댓글 등록</button></td>
 				</tr>
 			</table>
+			<hr>
 		</div>
+		<% } %>
+		
 		<!-- 불러온 댓글 리스트 보여주는 부분 -->
 		<div id="replySelectArea">
 			<table id="replySelectTable" border="1" align="center">
 			<% if(rlist != null){ %>
 				<% for(QnaRe r : rlist) { %>
 					<tr>
-						<td width="100px"><%= r.getcId() %></td>
-						<td width="400px"><%= r.getRqComment() %></td>
+						<td width="200px"><%= r.getcId() %></td>
+						<td width="600px"><%= r.getRqComment() %></td>
 						<td width="200px"><%= r.getRqEntDate() %></td>
 					</tr>
 				<% } %>
@@ -171,11 +165,8 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 	</div>
 	
 	<script>
-	// addReply 버튼 클릭 시 댓글 달기 기능을 실행했을 때 비동기적으로
-	// 새로 갱신 된 댓글 리스트를 테이블에 적용 시키는 ajax
-
 	$("#addReply").click(function(){
-		var writer = '<%= loginUser.getUserId() %>';
+		var writer = '관리자';
 		var content = $("#replyContent").val();
 		var qno='<%= q.getqNo()%>';
 		var rqno="1";
@@ -191,7 +182,6 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 					rqno:rqno
 					},
 			success: function(data){
-				console.log('success');
 				
 				$replyTable = $("#replySelectTable");
 				$replyTable.html(""); // 기존 댓글 테이블 정보 초기화
@@ -199,21 +189,20 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 				// 새로 받아온 갱신 된 댓글 리스트 들을 for문을 통해
 				// 다시 table에 추가
 			
-					<%Date d = new Date(); %>
 					var $tr = $("<tr>");
-					var $writerTd = $("<td>").text('<%= loginUser.getUserName() %>').css("width", "100px");
-					var $contentTd = $("<td>").text(data).css("width", "400px");
-					var $dateTd = $("<td>").text('<%=  d.getDate() %>').css("width", "200px");
+					var $writerTd = $("<td>").text('공방신기').css("width", "200px");
+					var $contentTd = $("<td>").text(data).css("width", "600px");
+					var $dateTd = $("<td>").text('<%=  today %>').css("width", "200px");
+					
 					
 					$tr.append($writerTd);
 					$tr.append($contentTd);
 					$tr.append($dateTd);
 					
 					$replyTable.append($tr);
-			
+					
 				// 댓글 작성 부분 리셋
 				$("#replyContent").val("");
-				
 				
 			},
 			error : function(){

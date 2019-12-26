@@ -13,6 +13,7 @@ public class QnaRe {
 	
 	public QnaRe() {}
 	
+	
 	public QnaRe(String rqNo, String rqComment, Date rqEntDate, String secret, String qNo, String cId, String rqChk) {
 		super();
 		this.rqNo = rqNo;

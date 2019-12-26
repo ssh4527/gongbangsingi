@@ -55,7 +55,7 @@ public class QnaReInsertServlet extends HttpServlet {
 			q.setcId("비회원");
 		}
 		int result = new QnaService().insertQnaRe(q);
-		
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out=response.getWriter();
 		String page="";
 		if(result > 0) {
@@ -64,7 +64,6 @@ public class QnaReInsertServlet extends HttpServlet {
 		}else {
 			out.print("실패");
 		}
-		
 		
 	}
 
