@@ -293,8 +293,9 @@ ul {
 							<td>
 							<select name="time" id="time" style="font-size: 15px">
 								<option value="">-[필수] 시간대를 선택해주세요 -</option>
+								<% int obidobi = 0; %>
 								<% for(int i = 0; i < time.length; i++) { %>								
-									<option value="">
+									<option value="<%= obidobi++ %>">
 										<%= time[i] %>
 									</option>
 								<% } %>
@@ -351,16 +352,48 @@ ul {
 					</div>
 					<div id="detail7">
 						<!-- <button type="button" class="btn btn-outline-secondary"
-							id="reservationBtn" style="width: 100px">예약 하기</button> -->
+							id="reservationBtn" style="$: 100px">예약 하기</button> -->
 						<button type="button" class="btn btn-outline-secondary"  id="reservationBtn"  style="width: 100px" data-toggle="modal" data-target=".bd-example-modal-lg">예약하기</button>
 						<button type="button" class="btn btn-outline-secondary"
 							id="gongbangBtn">공방 구경</button>
 						<button type="button" class="btn btn-outline-secondary"
-							id="heartBtn">찜 하기</button>
+							id="heartBtn<%= wc.getWcNo()%>">찜 하기</button>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+			<!-- 예악하기 버튼 클릭시 모달에도 적용 -->
+		<script>
+			$(function(){
+				$("#reservationBtn").click(function(){
+					var a = $("#count").val();
+					var b = $("select[name=time] option:selected").val();
+					//$("#pretime1")
+					$("#precount2").val(a);
+					//console.log(b);
+					
+					$("#pretime1").val(b).attr("selected","selected");
+					
+					var usepoint = $("#usepoint").val();
+							
+							
+					var count = $("#precount2").val();
+					$("#jpoint").text(<%= ((int)Math.floor(wc.getWcNOP() * 0.05)) %> * count + "p");
+					$("#pretotal").text("TOTAL : " + ((count * <%= wc.getWcNOP() %>)-usepoint) + " 원");
+					$("#pretotal").css("fontSize","14px");
+						
+					
+					
+				});
+				
+				
+				$("#gongbangBtn").click(function(){
+					location.href="detail.sh?WsNo=<%= wsNo %>";
+				});
+				
+			});
+		</script>
 		<hr>
 
 		
@@ -475,8 +508,9 @@ ul {
 							</small></td>
 							<td><select name="pretime1" id="pretime1" style="font-size: 15px">
 									<option value="">-[필수] 시간대를 선택해주세요 -</option>
+									<% int qwe = 0; %>
 								<% for(int i = 0; i < time.length; i++) { %>								
-									<option value="">
+									<option value="<%= qwe++ %>">
 										<%= time[i] %>
 									</option>
 								<% } %>
@@ -661,6 +695,7 @@ ul {
 				<span>리뷰가 존재하지 않습니다.</span>
 			</div>
 		<% } else { %>
+		<% int idx = 0; %>
 		<% for(int i = 0; i < rList.size(); i++) {%>
 			<!-- 리뷰2 -->
 			
@@ -696,6 +731,13 @@ ul {
 					</li>
 					<hr>
 				</ul>
+					<% idx++; %>
+					
+					<% if(idx == 5)  {%>
+						<a href="review.search?searchReviewCondition=classname&searchReviewInput=<%=wc.getWcName() %>" style="text-align:right; color:gray;">더보기..</a>
+						
+					<% break;} %>
+					
 				<% } %>
 			<% } %>
 				<!-- 리뷰 삭제, 수정 -->
@@ -997,6 +1039,56 @@ ul {
 			});
 		});
 		</script>
+		<script>
+
+      			$(function(){
+      				$("#heartBtn<%= wc.getWcNo()%>").click(function(){
+      					var icon = $(this); // 아이콘
+      					var id = $(this).attr('id'); // 아이콘 아이디값
+      					var input = $(this).attr('id').replace("heartBtn",""); // 클래스 번호 
+      					var div = $(".divnbn"+input); // 아이콘이있는 div
+      					console.log(icon);
+      					if(<%= log.equals("asd") %>){
+      						alert("로그인 후에 찜할수 있습니다.");	
+      					
+      					}else{
+      					
+      						
+       					$.ajax({ // 아작시작
+      						url : "jjim.wc",
+      						data : { wcNo: input, id:"<%= log %>"},
+      						type : "get",
+      						success : function(num){ // 석세스 시작
+      						
+      							if(num > 0){
+      								
+      								alert("찜 성공!!");
+      								
+      							// 찜목록에 없어서 찜 등록 그리고 꽉찬하트로 벽녕
+      							}else if(num == 0){
+      								
+      								alert("찜 해제!!");
+      								
+      								// 찜목록에 있어서 찜 해제 그리고 빈하트로 변경
+      							}else{
+      							alert("dd");	
+      							
+      							}
+      						}, // 석세스끝
+      						
+      						error : function(){
+      							console.log('ajax 통신 실패!');
+      						}
+      					}); // 아작끝 
+      					
+      					}
+       					
+       					
+      				});
+      			
+      			});
+      			
+    			</script>
 		
 
 		<!--  QnA작성으로 이동! -->
