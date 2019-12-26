@@ -76,14 +76,13 @@ public class Workshop {
 	}
 	
 	
-	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade, String sns,String id,String intro, Date wsEnrollDate,String memberName,String bNum) {
+	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, String sns,String id,String intro, Date wsEnrollDate,String memberName,String bNum) {
 		WsNo = wsNo;
 		WsName = wsName;
 		Address = address;
 		WsTel = wsTel;
 		Category = category;
 		WsEnrollDate=wsEnrollDate;
-		this.grade = grade;
 		this.sns=sns;
 		this.id=id;
 		this.intro=intro;

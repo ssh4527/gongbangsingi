@@ -2,6 +2,7 @@ package workshop.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,16 +40,13 @@ public class shopDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String WsNo = request.getParameter("WsNo");
 		
-		/*// 클래스 삭제후 --> 
-		if(WsNo == null) {
-			WsNo = (String) request.getAttribute("WsNo");
-		}
-		*/
+		
 		ShopService service= new ShopService();
 		System.out.println("받은 WsNo : " + WsNo);
+		
 		//공방 정보
 		Workshop shop = service.selectShop(WsNo);
-		
+		System.out.println(shop.getAccountNum());
 		//타이블 사진 
 		ShopFile titlePic = service.selectThumbnail(WsNo);
 		
@@ -60,6 +58,12 @@ public class shopDetailServlet extends HttpServlet {
 		
 		//공방의 클래스 사진들
 		ArrayList<ClassFile> cPictures= service.selectClassPictures(WsNo);
+		
+		Double grade = service.getGrade(WsNo);
+		shop.setGrade(grade);
+			
+		
+		
 		
 		//클래스별 시작날 종료날 가져옴
 		SearchService ss =new SearchService();

@@ -511,7 +511,7 @@ ul.navi li:hover>ul li a:hover{
 					$("#glist").html("");
 						var $div1 = $('<div class="col-md-4">');
 						var $div2 = $('<div class="card mb-4 shadow-sm shop">');
-					
+					if(slist){
 					$.each(slist,function(index, value) {
 							var $div1 = $('<div class="col-md-4">');
 							var $div2 = $('<div class="card mb-4 shadow-sm shop">');
@@ -528,21 +528,30 @@ ul.navi li:hover>ul li a:hover{
 							var $cardBody = $("<div class='card-body' style='width:100%;'>");
 							var $category = $("<small class='text-muted'>").text(value.Category);
 							var $name = $("<p class='card-text'>").text(value.WsName);
-							var $grade = $("<b>").text("★" + value.grade);
+							var $grade = $("<b id='grade'>").text(value.grade);
+							var $gradestar =$("<b>").text("★");
 							var $wel = $("<small class='text-muted' style='float:right'>").text("구경하세요");
 
 							$div1.append($div2);
 							$div2.append($input1);
+							$div2.append($input2);
 							$div2.append($thumbnailDiv);
 							$thumbnailDiv.append($thumbnail);
 							$div2.append($cardBody);
 							$cardBody.append($category);
 							$cardBody.append($name);
+							$cardBody.append($gradestar);
 							$cardBody.append($grade);
 							$cardBody.append($wel);
 							$("#glist").append($div1);
-
-						});
+					});}else{
+						var $p1 = $('<p>').text("현재 등록된 공방이 없습니다.");
+						
+						$div1.append($div2);
+						$div2.append($p1);
+						
+						$("#glist").append($div1);
+					}
 				},
 
 				error : function(e) {
@@ -672,7 +681,7 @@ ul.navi li:hover>ul li a:hover{
 							<p class='card-text'>
 								<%=shop.getWsName()%></p>
 							<div class="">
-								<b>★<%=shop.getGrade()%></b>
+								<b>★</b><b id="grade"><%=shop.getGrade()%></b>
 								<small class="text-muted" style="float:right">구경하세요</small>
 							</div>
 						</div>
