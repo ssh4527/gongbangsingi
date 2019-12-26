@@ -703,4 +703,27 @@ public class SearchDao {
 		return listCount;
 	}
 
+	public String selectWsName(String wcNo,Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "select ws_name from workshop s,work_class w where s.ws_no = w.ws_no and wc_no= ?";
+		String wsName = "";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wcNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				wsName = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return wsName;
+	}
+
 }

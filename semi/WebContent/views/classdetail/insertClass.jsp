@@ -306,6 +306,24 @@ ul {
 								case 10:
 									$("#titleImg10").attr("src", e.target.result);
 									break;
+								case 11:
+									$("#titleImg11").attr("src", e.target.result);
+									break;
+								case 12:
+									$("#titleImg12").attr("src", e.target.result);
+									break;
+								case 13:
+									$("#titleImg13").attr("src", e.target.result);
+									break;
+								case 14:
+									$("#titleImg14").attr("src", e.target.result);
+									break;
+								case 15:
+									$("#titleImg15").attr("src", e.target.result);
+									break;
+								case 16:
+									$("#titleImg16").attr("src", e.target.result);
+									break;
 								}
 							
 							}

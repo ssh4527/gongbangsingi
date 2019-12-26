@@ -52,6 +52,10 @@ public class SortClassCategoryServlet extends HttpServlet {
 			Workclass timewc = ss.selectDate(wclist.get(i).getWcNo());
 			wclist.get(i).setStartdate(timewc.getStartdate());
 			wclist.get(i).setEnddate(timewc.getEnddate());
+			
+			String wsName = ss.selectWsName(wclist.get(i).getWcNo());
+			wclist.get(i).setWsName(wsName);
+			System.out.println(wsName);
 		}
 		
 		

@@ -70,6 +70,10 @@ public class SearchObjectServlet extends HttpServlet {
 				
 				// 찜 목록
 				jList = new ClassService().SelectJJim();
+				
+				String wsName = ss.selectWsName(wclist.get(i).getWcNo());
+				wclist.get(i).setWsName(wsName);
+				System.out.println(wsName);
 			}
 			
 			System.out.println(jList);

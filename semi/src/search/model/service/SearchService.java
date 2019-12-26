@@ -230,6 +230,14 @@ public class SearchService {
 		return result;
 	}
 
+	public String selectWsName(String wcNo) {
+		Connection conn = getConnection();
+		
+		String wsName = new SearchDao().selectWsName(wcNo,conn);
+		close(conn);
+		return wsName;
+	}
+
 
 	
 }

@@ -278,13 +278,13 @@ $(function(){
 						</div>
 						
 						<div class="card-body">
-							<!-- 클래스이름 -->
+							<!-- 공방 이름 -->
 							<div style="height:20px; width:250px;">
-								<small class="text-muted"  style="font-family: Arial;"><%= wList.get(i).getWcName() %></small>
+								<small class="text-muted"  style="font-family: Arial;"><%= wList.get(i).getWsName() %></small>
 							</div>
-							<!-- 클래스 소개 -->
+							<!-- 클래스 이름 -->
 							<div style="height:50px; width:250px; overflow:hidden; text-overflow: ellipsis; font-family: Arial;">
-							<%= wList.get(i).getWcIntroduce() %>
+							<%= wList.get(i).getWcName() %>
 							</div>
 							<!-- 평점 -->
 							<div style="width:250px; height:20px;"><p style="font-family: Arial;"><small>

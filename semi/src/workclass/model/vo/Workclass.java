@@ -21,6 +21,7 @@ public class Workclass {
 	
 	private Date startdate; // 클래스 시작하는 날짜 20191220 by.h
 	private Date enddate; // 클래스 끝나는날짜
+	private String wsName; // 공방이름
 	
 	
 	public Workclass() {}
@@ -284,6 +285,16 @@ public class Workclass {
 
 	public void setEnddate(Date enddate) {
 		this.enddate = enddate;
+	}
+
+
+	public String getWsName() {
+		return wsName;
+	}
+
+
+	public void setWsName(String wsName) {
+		this.wsName = wsName;
 	}
 
 
