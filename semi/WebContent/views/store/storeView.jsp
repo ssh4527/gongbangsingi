@@ -821,6 +821,7 @@ h4 {
 			</div>
 		</section>
 		<!-- 삭제하기 Modal -->
+		<form action="<%=request.getContextPath()%>/delete.class" method="post">
 			<div class="modal fade classDelmodal" tabindex="-1"
 				role="dialog">
 				<div class="modal-dialog modal-lg" role="document">
@@ -832,6 +833,7 @@ h4 {
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
+						<input type="hidden" name="wsNo" value="<%=shop.getWsNo()%>">
 						<div class="modal-body">
 						<table>
 							<% int idx = 1;
@@ -851,12 +853,13 @@ h4 {
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">Close</button>
-							<button type="button" id="deleteCheckClassBtn" data-dismiss="modal"
-								class="btn btn-primary">체크한 클래스 삭제하기</button>
+							<input type="submit" id="deleteCheckClassBtn" value="체크한 클래스 삭제하기"
+								class="btn btn-primary"></button>
 						</div>
 					</div>
 				</div>
 			</div>
+			</form>
 		<%
 			}
 		%>
@@ -932,7 +935,7 @@ h4 {
 
 			$(function() {
 				
-				$("#deleteCheckClassBtn").click(function() {
+				<%-- $("#deleteCheckClassBtn").click(function() {
 					var checkC = "";
 					$("input[name='deleteCName']:checked").each(function(i) {
 						checkC += $(this).val()+",";
@@ -960,7 +963,7 @@ h4 {
 							}
 						}); */
 					}
-				});
+				}); --%>
 				
 				$("#updateIntro3").click(function() {
 					var input = $("#modalText").val();

@@ -6,11 +6,13 @@ import static common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 import review.model.vo.Review;
@@ -38,14 +40,17 @@ public class ShopDao {
 		ResultSet rset = null;
 
 		ArrayList<Workshop> list = new ArrayList<Workshop>();
-		String sql = prop.getProperty("selectShopList");
+		String sql = "select WS_NO,WS_NAME, S_CATEGORY, WS_ADDR,WS_ENROLLDATE from WORKSHOP";
+		/*String sql = prop.getProperty("selectShopList");*/
 		try {
 			ppst = con.prepareStatement(sql);
 			rset = ppst.executeQuery();
 
-			// WS_NO,WS_NAME,WS_ADDR,WS_TEL, WS_CATEGORY,ROUND(AVG(R_GRADE),1)
+			
+			// String wsNo, String wsName, String category, double grade, String address, Date WsEnrollDate
 			while (rset.next()) {
-				list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5),rset.getDate(6)));
+				/*list.add(new Workshop(rset.getString(1), rset.getString(2), rset.getString(3), rset.getDouble(4),rset.getString(5),rset.getDate(6)));*/
+				list.add(new Workshop(rset.getString(1),rset.getString(2),rset.getString(3),rset.getString(4),rset.getDate(5)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,6 +61,32 @@ public class ShopDao {
 
 		return list;
 	}
+	
+	public HashMap<String, Double> selectGradeList(Connection con) {
+		PreparedStatement ppst = null;
+		ResultSet rset = null;
+
+		HashMap<String,Double> glist = new HashMap<String,Double>();
+		String sql = "select WS_NO, sg from shoplist";
+		/*String sql = prop.getProperty("selectShopList");*/
+		try {
+			ppst = con.prepareStatement(sql);
+			rset = ppst.executeQuery();
+			
+			while (rset.next()) {
+				glist.put(rset.getString(1),rset.getDouble(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(ppst);
+		}
+
+		return glist;
+	}
+	
+	
 
 	// 해당하는 공방 불러오기
 	public Workshop selectShop(Connection con, String wsNo) {
@@ -483,7 +514,7 @@ public class ShopDao {
 			st=con.createStatement();
 			rset=st.executeQuery(sql);
 			
-			if(rset.next()) {
+			while(rset.next()) {
 				categoryList.add(rset.getString(1));
 			}
 		} catch (SQLException e) {
@@ -495,6 +526,8 @@ public class ShopDao {
 		
 		return categoryList;
 	}
+
+	
 
 
 

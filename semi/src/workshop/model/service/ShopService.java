@@ -7,6 +7,7 @@ import static common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import review.model.vo.Review;
 import workclass.model.vo.ClassFile;
@@ -212,6 +213,13 @@ public class ShopService {
 		ArrayList<String> categoryList = new ShopDao().getCategory(con);
 		close(con);
 		return categoryList;
+	}
+
+	public HashMap<String, Double> selectGradeList() {
+		Connection con = getConnection();
+		HashMap<String,Double> GradeList = new ShopDao().selectGradeList(con);
+		close(con);
+		return GradeList;
 	}
 
 	

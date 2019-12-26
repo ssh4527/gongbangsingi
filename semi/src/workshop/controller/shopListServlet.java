@@ -2,6 +2,8 @@ package workshop.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,18 +36,23 @@ public class shopListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Workshop> clist=(ArrayList<Workshop>) request.getAttribute("clist");
 		ShopService ss = new ShopService();
 		ArrayList<Workshop> list = ss.selectShopList();
+		HashMap<String,Double> glist = ss.selectGradeList();
+		for(Workshop s:list) {
+			
+			if(glist.get(s.getWsNo()) != null) {
+				s.setGrade(glist.get(s.getWsNo()));
+			}
+		}
 		ArrayList<ShopFile> flist= ss.selectShopListPic();
 		for(Workshop s: list) {
-			System.out.println(s.getWsNo());
+			System.out.println("d"+s.getWsNo());
 		}
 	
 		
 		request.setAttribute("list", list);
 		request.setAttribute("flist", flist);
-		request.setAttribute("clist",clist);
 		request.getRequestDispatcher("views/store/storeCategory.jsp").forward(request, response);
 		
 	}

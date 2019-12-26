@@ -39,7 +39,7 @@ public class shopInsertRequestServlet extends HttpServlet {
 		String Sns="";
 		for(int i=1;i<snsNum+1;i++) {
 			Sns+=request.getParameter("sns"+i)+" : ";
-			Sns+=request.getParameter("business_sns")+",";
+			Sns+=request.getParameter("business_sns"+i)+",";
 		}
 		String tel1=request.getParameter("tel1");
 		String tel2=request.getParameter("tel2");

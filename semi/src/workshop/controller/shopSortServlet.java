@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.servlet.ServletException;
@@ -56,6 +57,7 @@ public class shopSortServlet extends HttpServlet {
 		ArrayList<Workshop> wslist = new ArrayList<>();
 		ArrayList<Workshop> slist = new ArrayList<>();
 		ArrayList<Workshop> slist2 = null;
+		ShopService shs = new ShopService();
 		
 		if (!keyword.equals("null")) {
 			SearchService ss = new SearchService();
@@ -65,7 +67,6 @@ public class shopSortServlet extends HttpServlet {
 				wslist = ss.findWorkshopName(keyword);
 			}
 		} else {
-			ShopService shs = new ShopService();
 			wslist = shs.selectShopList();
 			System.out.println("ws"+wslist);
 		}
@@ -83,7 +84,14 @@ public class shopSortServlet extends HttpServlet {
 				slist2=new ArrayList<Workshop>(hlist);
 			}
 		}
-	
+		
+		HashMap<String,Double> glist = shs.selectGradeList();
+		for(Workshop s:slist2) {
+			
+			if(glist.get(s.getWsNo()) != null) {
+				s.setGrade(glist.get(s.getWsNo()));
+			}
+		}
 			System.out.println("slist2"+slist2);
 			System.out.println(slist);
 			// 인기순

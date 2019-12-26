@@ -31,7 +31,8 @@ public class shopGetCategoryServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<String> categoryList = new ShopService().getCategory();
-		
+		for( String category: categoryList)
+		System.out.println(category);
 		request.setAttribute("categoryList", categoryList);
 		request.getRequestDispatcher("views/notice/businessmember.jsp").forward(request, response);
 	}
