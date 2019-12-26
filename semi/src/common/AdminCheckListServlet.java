@@ -47,7 +47,7 @@ public class AdminCheckListServlet extends HttpServlet {
 		int year = da.getYear()+1900;
 		int month = da.getMonth()+1;
 		
-		ArrayList<Map> statistics= new SearchService().selectMonthStatistics(year,12);
+		ArrayList<Map> statistics= new SearchService().selectMonthStatistics(year,month);
 		ArrayList<String> category = new SearchService().selectCategory();
 		
 		int sum = 0 ;
@@ -58,6 +58,7 @@ public class AdminCheckListServlet extends HttpServlet {
 				}
 			}
 		}
+		request.setAttribute("sum",sum);
 		request.setAttribute("year", year);
 		request.setAttribute("month", 12);
 		request.setAttribute("category", category);
