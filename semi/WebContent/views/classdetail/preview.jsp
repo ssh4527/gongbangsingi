@@ -32,7 +32,7 @@ section, div, header {
 }
 
 #outer {
-	width: 1400px;
+	width: 1300px;
 	/* div를 화면 가운데로 오게 하기 */
 	height: 100%;
 	margin: auto;
