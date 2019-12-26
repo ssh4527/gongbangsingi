@@ -99,7 +99,7 @@ body {
 	margin-top: 0px;
 }
 
-#logoimg:hover {
+.logoimg:hover {
 	cursor: pointer;
 }
 
@@ -214,7 +214,7 @@ cursor: pointer;
 }
 #maintitle{
 	float:left;
-	margin-left:90px;
+	margin-left:25%;
 	width:50%;
 	height:100%;
 	text-align:center;
@@ -402,12 +402,10 @@ $(function(){
 	</div>
 	<div align="center" style="width: 1300px; height: 200px;">
 		<div id="maintitle" >
-			<br><br><br>
-			<h1 style="text-align:right;">공 방 신 기</h1>
-		</div>
-		<div id="mainlogo">
+			<img src="resources/images/logogul.png" class="logoimg" style="width:100%;height:100%;">
 			
 		</div>
+		
 	</div>
 	<script>
 			$(function(){
@@ -448,7 +446,7 @@ $(function(){
 
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 			<a class="navbar-brand" href="#" style="margin-left:10px; margin-right:30px; padding:0px;">
-			<img src='<%=request.getContextPath()%>/resources/images/logo.jpg'	id="logoimg" style="width: 50px; height: 50px;"></a>
+			<img src='<%=request.getContextPath()%>/resources/images/logo.jpg'	class="logoimg" style="width: 50px; height: 50px;"></a>
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="margin-left:30px;" >
 				<li class="nav-item"><a class="nav-link"
 					href="<%=request.getContextPath()%>/shopList.sh">공방</a></li>
@@ -524,7 +522,7 @@ $(function(){
 			$("#newMember").click(function(){
 				$("#newMemberbtn").click();
 			});
-			$("#logoimg").click(function(){
+			$(".logoimg").click(function(){
 				location.href='<%=request.getContextPath()%>';
 			});
 			$("#findmyid").click(function(){
