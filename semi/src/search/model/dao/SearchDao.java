@@ -245,7 +245,7 @@ public class SearchDao {
 		ResultSet rset = null;
 		
 		Workclass prewc = new Workclass();
-		String sql = "select fs_rename_file, fs_path from (select fs_rename_file, fs_path, rownum as rnum from file_storage where fs_destination = ? order by fs_no desc) where rnum = 1";
+		String sql = "select fs_rename_file, fs_path from (select fs_rename_file, fs_path, rownum as rnum from file_storage where fs_destination = ? and fs_level=0 order by fs_no desc) where rnum = 1";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
