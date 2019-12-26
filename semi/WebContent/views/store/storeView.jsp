@@ -500,7 +500,7 @@ h4 {
 					
 					// 주소-좌표 변환 객체를 생성합니다
 					var geocoder = new kakao.maps.services.Geocoder();
-					
+					console.log("<%=shop.getAddress()%>");
 					// 주소로 좌표를 검색합니다 
 					geocoder.addressSearch('<%=shop.getAddress()%>',function(result, status) {
 										// 정상적으로 검색이 완료됐으면 
@@ -780,7 +780,7 @@ h4 {
 						%>
 						<tr>
 
-							<td colspan="5">존재하는 공지사항이 없습니다.</td>
+							<td colspan="5">존재하는 클래스가 없습니다.</td>
 
 						</tr>
 						<%
@@ -1020,15 +1020,16 @@ h4 {
 				<div class="carousel-inner">
 					<div class="carousel-item active">
 						<img id="detailImg" class="d-block w-100" height="300px" alt="..."
-							src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=cPictures.get(1).getChangeName()%>">
+							src="<%=request.getContextPath()%>/resources/class_uploadFiles/<%=cPictures.get(1).getChangeName()%>">
 					</div>
 
 					<%
 						for (int i = 2; i < cPictures.size(); i++) {
+							System.out.println(cPictures.get(i).getChangeName());
 					%>
 					<div class="carousel-item">
 						<img id="detailImg" class="d-block w-100" height="300px" alt="..."
-							src="<%=request.getContextPath()%>/resources/thumbnail_uploadFiles/<%=cPictures.get(i).getChangeName()%>">
+							src="<%=request.getContextPath()%>/resources/class_uploadFiles/<%=cPictures.get(i).getChangeName()%>">
 					</div>
 
 					<%

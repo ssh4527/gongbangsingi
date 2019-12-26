@@ -681,7 +681,7 @@ ul.navi li:hover>ul li a:hover{
 							<p class='card-text'>
 								<%=shop.getWsName()%></p>
 							<div class="">
-								<b>★</b><b id="grade"><%=shop.getGrade()%></b>
+								<b>★<%=shop.getGrade()%></b>
 								<small class="text-muted" style="float:right">구경하세요</small>
 							</div>
 						</div>
