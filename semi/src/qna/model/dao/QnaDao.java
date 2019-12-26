@@ -252,6 +252,7 @@ public class QnaDao {
 
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, endRow);
+			pstmt.setString(3,"admin");
 
 			rset = pstmt.executeQuery();
 			
