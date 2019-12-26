@@ -72,7 +72,6 @@ public class SearchObjectServlet extends HttpServlet {
 				jList = new ClassService().SelectJJim();
 			}
 			
-			System.out.println(jList);
 			request.setAttribute("jList",jList);
 			request.setAttribute("keyword", searchinput );
 			request.setAttribute("wclist", wclist);
