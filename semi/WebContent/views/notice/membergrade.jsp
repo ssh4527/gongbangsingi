@@ -40,31 +40,37 @@
     <tr>
       <th scope="col">등급</th>
       <th scope="col">결제 금액</th>
+      <th scope="col">혜택</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th scope="row"><br>다이아<br></th>
       <td><br>1000000원 이상<br></td>
+      <td><br>등급업하면 포인트~<br></td>
     </tr>
     <tr>
       <th scope="row"><br>플래티넘<br></th>
       <td><br>700000원 이상<br></td>
+      <td><br>등급업하면 포인트~<br></td>
       
     </tr>
   <tr>
       <th scope="row"><br>골드<br></th>
       <td><br>400000원 이상<br></td>
+      <td><br>등급업하면 포인트~<br></td>
       
     </tr>
      <tr>
       <th scope="row"><br>실버<br></th>
       <td><br>100000원 이상<br></td>
+      <td><br>등급업하면 포인트~<br></td>
  
     </tr>
      <tr>
       <th scope="row"><br>브론즈<br></th>
       <td><br>0원 이상<br></td>
+      <td><br>기본 포인트 <br></td>
  
     </tr>
   </tbody>
