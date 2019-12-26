@@ -122,10 +122,11 @@
 					</td>
 				</tr>
 				<tr>
+				
 					<td><br></td>
 				</tr>
 				<tr>
-					<td>※ 카테고리 &nbsp; <input type="text" name="category" id="category" maxlength="3" readonly>
+					<td>※ 카테고리 &nbsp; <input type="text" name="category" id="category"  readonly>
 					<select class="btn btn-info dropdown-toggle" name="categoryCh"
 						id="categoryCh" >
 							<option class="dropdown-item">선택해주세요</option>

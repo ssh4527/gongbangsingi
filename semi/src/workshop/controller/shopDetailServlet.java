@@ -39,11 +39,11 @@ public class shopDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String WsNo = request.getParameter("WsNo");
 		
-		// 클래스 삭제후 --> 
+		/*// 클래스 삭제후 --> 
 		if(WsNo == null) {
 			WsNo = (String) request.getAttribute("WsNo");
 		}
-		
+		*/
 		ShopService service= new ShopService();
 		System.out.println("받은 WsNo : " + WsNo);
 		//공방 정보

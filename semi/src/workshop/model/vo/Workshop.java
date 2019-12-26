@@ -67,6 +67,15 @@ public class Workshop {
 		this.grade = grade;
 	}
 
+	public Workshop(String wsNo, String wsName, String category, String address, Date WsEnrollDate) {
+		WsNo = wsNo;
+		WsName = wsName;
+		Category = category;
+		Address = address;
+		this.WsEnrollDate=WsEnrollDate;
+	}
+	
+	
 	public Workshop(String wsNo, String wsName, String address, String wsTel, String category, double grade, String sns,String id,String intro, Date wsEnrollDate,String memberName,String bNum) {
 		WsNo = wsNo;
 		WsName = wsName;
@@ -81,6 +90,7 @@ public class Workshop {
 		this.AccountNum=bNum;
 		this.memberName=memberName;
 	}
+	
 	
 	public Workshop(String wsNo, String wsName, String category, double grade) {
 		WsNo = wsNo;
