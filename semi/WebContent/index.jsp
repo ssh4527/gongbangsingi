@@ -168,7 +168,9 @@ h2 {
 			<div class="carousel-inner" style="width:100%; height:100%;">
 
 				<%for(int s = 0; s < wslist.size(); s++){ %>
-				<div class="carousel-item active"  >
+				<%if(s==0) {%><div class="carousel-item active"  > <%}else{ %>
+				  <div class="carousel-item">
+				<%} %>
 					<img src="resources/thumbnail_uploadFiles/<%=sflist.get(s).getReName() %>" class="d-block w-100" alt="..." >
 					<div class="carousel-caption d-none d-md-block">
 						<h5><%=wslist.get(s).getWsName() %></h5>
