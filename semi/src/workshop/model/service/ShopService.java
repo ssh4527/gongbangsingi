@@ -181,7 +181,7 @@ public class ShopService {
 	}
 
 
-
+	//전환 신청하여 insert하기
 	public int requestToChangeShop(String userId, String shopName, String shopAddr, String sns, String tel,
 			String num, String account, String intro, String category) {
 		Connection con = getConnection();
@@ -207,7 +207,7 @@ public class ShopService {
 		close(con);
 		return result;
 	}
-
+	//현재 있는 카테고리 가져오기
 	public ArrayList<String> getCategory() {
 		Connection con = getConnection();
 		ArrayList<String> categoryList = new ShopDao().getCategory(con);
@@ -215,12 +215,22 @@ public class ShopService {
 		return categoryList;
 	}
 
+	//공방 평점들 가져오기
 	public HashMap<String, Double> selectGradeList() {
 		Connection con = getConnection();
 		HashMap<String,Double> GradeList = new ShopDao().selectGradeList(con);
 		close(con);
 		return GradeList;
 	}
+	
+	//해당 공방 평점 가져오기
+	public Double getGrade(String wsNo) {
+		Connection con = getConnection();
+		Double Grade = new ShopDao().getGrade(con,wsNo);
+		close(con);
+		return Grade;
+	}
+
 
 	
 

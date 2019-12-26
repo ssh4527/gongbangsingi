@@ -93,15 +93,14 @@ public class ShopDao {
 		PreparedStatement ppst = null;
 		ResultSet rset = null;
 		Workshop shop = null;
-		String sql = prop.getProperty("selectShop");
+		String sql = "select WS_NO,WS_NAME,WS_ADDR,WS_TEL,S_CATEGORY,WS_SNS,C_ID,WS_Introduce,WS_ENROLLDATE,C_NAME,WS_ACCNUM from workshop join client using(C_ID) where WS_NO=?";
 		try {
 			ppst = con.prepareStatement(sql);
 			ppst.setString(1, wsNo);
 			rset = ppst.executeQuery();
 			if (rset.next()) {
-				//s.WS_NO,s.WS_NAME,s.WS_ADDR,WS_TEL,s.S_CATEGORY,sg,WS_SNS, C_ID,s.WS_Introduce,s.WS_ENROLLDATE
 				shop = new Workshop(rset.getString("WS_NO"), rset.getString("WS_NAME"), rset.getString("WS_ADDR"), rset.getString("WS_TEL"),
-						rset.getString("S_CATEGORY"), rset.getDouble("sg"), rset.getString("WS_SNS"), rset.getString("C_ID"), rset.getString("WS_Introduce"),rset.getDate("WS_ENROLLDATE")
+						rset.getString("S_CATEGORY"), rset.getString("WS_SNS"), rset.getString("C_ID"), rset.getString("WS_Introduce"),rset.getDate("WS_ENROLLDATE")
 						,rset.getString("C_NAME"),rset.getString("WS_ACCNUM"));
 
 			}
@@ -115,7 +114,30 @@ public class ShopDao {
 		return shop;
 
 	}
+	
+	public Double getGrade(Connection con, String wsNo) {
+		PreparedStatement ppst = null;
+		ResultSet rset = null;
 
+		Double g = 0.0;
+		String sql = "select sg from shoplist where WS_NO=?";
+		try {
+			ppst = con.prepareStatement(sql);
+			rset = ppst.executeQuery();
+			
+			if (rset.next()) {
+				g=rset.getDouble(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(ppst);
+		}
+
+		return g;
+	}
+	
 	// 공방 타이틀 사진 불러오기
 	public ShopFile selectThumbnail(Connection con, String wsNo) {
 		PreparedStatement ppst = null;
@@ -301,7 +323,7 @@ public class ShopDao {
 				at.setFsNo(rset.getString("FS_NO"));
 				at.setOriginName(rset.getString("fs_original_file"));
 				at.setChangeName(rset.getString("fs_rename_file"));
-				// at.setFs_destination(fs_destination);
+				at.setDestination(rset.getString("fs_destination"));
 
 				list.add(at);
 			}
@@ -526,6 +548,10 @@ public class ShopDao {
 		
 		return categoryList;
 	}
+
+
+
+	
 
 	
 
