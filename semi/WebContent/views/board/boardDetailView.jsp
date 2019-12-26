@@ -34,7 +34,7 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 <style>
 #qna4_wrap {
 	width: 1000px;
-	height: 900px;
+	height: 1000px;
 	margin: auto;
 }
 
@@ -184,7 +184,7 @@ ArrayList<QnaRe> rlist = (ArrayList<QnaRe>)request.getAttribute("rlist");
 			success: function(data){
 				
 				$replyTable = $("#replySelectTable");
-				$replyTable.html(""); // 기존 댓글 테이블 정보 초기화
+				//$replyTable.html(""); // 기존 댓글 테이블 정보 초기화
 				
 				// 새로 받아온 갱신 된 댓글 리스트 들을 for문을 통해
 				// 다시 table에 추가
