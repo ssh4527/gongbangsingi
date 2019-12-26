@@ -48,11 +48,15 @@ public class BusinessMyPageServlet extends HttpServlet {
 		// 문의 내역 가져오기
 		ArrayList<Qna> qnalist = new BMypageService().selectQnaList(wsNo);
 		
+		// 진행 안된 예약 내역 확인
+		int num = new BMypageService().selectProgress(wsNo);
 		
 		request.setAttribute("wsNo", wsNo);
 		request.setAttribute("list", list);
 		request.setAttribute("reviewlist", reviewlist);
 		request.setAttribute("qnalist", qnalist);
+		request.setAttribute("canI", num);
+		
 		request.getRequestDispatcher("views/mypage/businessman.jsp").forward(request, response);
 		
 		

@@ -59,7 +59,7 @@ public class ShowMyInfomationServlet extends HttpServlet {
 		// 확인
 		//System.out.println(list);
 		//System.out.println("리뷰 : " + reviewlist);
-		//System.out.println(qnalist);
+		System.out.println(qnalist);
 		//System.out.println(result);
 
 		request.setAttribute("list", list);

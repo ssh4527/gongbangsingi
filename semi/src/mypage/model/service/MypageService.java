@@ -37,6 +37,7 @@ public class MypageService {
 		return relist;
 	}
 
+	// 문의 내역 가져오기
 	public ArrayList<Qna> selectQnaList(String uId) {
 		Connection conn = getConnection();
 		
@@ -61,11 +62,11 @@ public class MypageService {
 		return result;
 	}
 
-	public Member updatePwd(String userId, String userPwd, String newPwd) {
+	public Member updatePwd(String uId, String newPwd) {
 		Connection conn = getConnection();
 		Member updateMember = null;
 		// 1. 비밀번호 변경
-		int result = new MypageDao().updatePwd(conn, userId, userPwd, newPwd);
+		int result = new MypageDao().updatePwd(conn, uId, newPwd);
 		// 2. updateMember select 해오기
 		if(result > 0) {
 			commit(conn);
@@ -86,14 +87,16 @@ public class MypageService {
 	
 	
 	// 공방 번호 가져오기
-	public String selectWsNo(String userId) {
+	public String selectWsNo(String uId) {
 		Connection conn = getConnection();
-		String wsNo = new MypageDao().selectWsNo(userId,conn);
+		String wsNo = new MypageDao().selectWsNo(uId,conn);
+		
 		close(conn);
+		
 		return wsNo;
 	}
 
-	public int UpgradeNtob(String uId) {
+	/*public int UpgradeNtob(String uId) {
 		Connection conn = getConnection();
 		
 		int result = new MypageDao().UpgradeNtoB(uId,conn);
@@ -106,16 +109,18 @@ public class MypageService {
 		
 		close(conn);
 		return result;
-	}
+	}*/
 
 	public ArrayList<Jjim> selectJjim(String uId) {
 		Connection conn = getConnection();
 		
-		ArrayList<Jjim> list = new MypageDao().selectJjim(uId,conn);
+		ArrayList<Jjim> jlist = new MypageDao().selectJjim(uId,conn);
 		
 		close(conn);
-		return list;
+		return jlist;
 	}
+
+	
 
 
 	/*public int UpgradeNtoB(String uId,String name, String shopName, String addrShop, String snsId, String shopPNo,

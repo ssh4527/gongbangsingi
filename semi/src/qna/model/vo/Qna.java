@@ -19,10 +19,24 @@ public class Qna {
 	private String cName;
 	
 	public Qna() {}
+	
 
-	
-	
-	
+	public Qna(String qNo, String cId, String qTitle, String qContent, Date qEntdate, String qSecret, String qReplayck,
+			String wcNo, int qCount, String qPwd, String cName) {
+		super();
+		this.qNo = qNo;
+		this.cId = cId;
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qEntdate = qEntdate;
+		this.qSecret = qSecret;
+		this.qReplayck = qReplayck;
+		this.wcNo = wcNo;
+		this.qCount = qCount;
+		this.qPwd = qPwd;
+		this.cName = cName;
+	}
+
 	public Qna(String qNo, String qTitle, String qContent, Date qEntdate, String qReplayck) {
 		super();
 		this.qTitle = qTitle;
@@ -33,10 +47,8 @@ public class Qna {
 	}
 
 
-
-
-	public Qna(String qTitle, String qContent, Date qEntdate, String qReplayck) {
-		super();
+	public Qna(Date qEntdate, String cName,String qTitle, String qContent,  String qReplayck) {
+		this.cName = cName;
 		this.qTitle = qTitle;
 		this.qContent = qContent;
 		this.qEntdate = qEntdate;
@@ -45,6 +57,14 @@ public class Qna {
 
 
 
+
+	public String getcName() {
+		return cName;
+	}
+
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
 
 	public String getqNo() {
 		return qNo;
@@ -182,6 +202,7 @@ public class Qna {
 				+ qEntdate + ", qSecret=" + qSecret + ", qReplayck=" + qReplayck + ", wcNo=" + wcNo + ", qCount="
 				+ qCount + ", qPwd=" + qPwd + "]";
 	}
+
 	
 	
 	

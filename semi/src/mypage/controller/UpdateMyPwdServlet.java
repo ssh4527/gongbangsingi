@@ -34,21 +34,13 @@ public class UpdateMyPwdServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
 		
-		// 현재 비밀번호
-		String userPwd = request.getParameter("userPwd");
 		// 새로운 비밀번호
 		String newPwd = request.getParameter("newPwd");
 		
-		Member updateMember = new MypageService().updatePwd(userId, userPwd, newPwd);
+		Member updateMember = new MypageService().updatePwd(userId, newPwd);
 		
-		if(updateMember != null) {
-			request.setAttribute("msg", "성공적으로 비밀번호를 변경하였습니다.");
-			request.getSession().setAttribute("loginUser", updateMember);
-		}else {
-			request.setAttribute("msg", "비밀번호 변경에 실패했습니다.");
-		}
+		response.sendRedirect("showReservation.nomal");
 		
-		request.getRequestDispatcher("views/member/pwdUpdateForm.jsp").forward(request, response);
 		
 	}
 

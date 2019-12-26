@@ -3,10 +3,12 @@
 	pageEncoding="UTF-8"
 	import="java.util.ArrayList, reservation.model.vo.*, member.model.*, review.model.vo.*, qna.model.vo.*, workshop.model.vo.* "%>
 <%
-	ArrayList<Reservation> rlist = (ArrayList<Reservation>) request.getAttribute("list");
+	ArrayList<Reservation> list = (ArrayList<Reservation>) request.getAttribute("list");
 	ArrayList<Review> relist = (ArrayList<Review>) request.getAttribute("reviewlist");
 	ArrayList<Qna> qnalist = (ArrayList<Qna>) request.getAttribute("qnalist");
 	String WsNo = (String)request.getAttribute("wsNo");
+	int num = (int)request.getAttribute("canI");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -251,12 +253,12 @@ section {
 					</thead>
 					
 					<tbody>
-						<%if (rlist.isEmpty()) {%>
+						<%if (list.isEmpty()) {%>
 						<tr>
 							<td colspan="6" style="text-align: center">조회된 예약 내역이 없습니다.</td>
 						</tr>
 						<% } else { %>
-								<% for (Reservation r : rlist) { %>
+								<% for (Reservation r : list) { %>
 								<tr>
 									<td><%=r.getResDate()%></td>
 									<td><%=r.getcName()%></td>
@@ -273,13 +275,10 @@ section {
 
 				<div style="float: right;">
 					<h4 style="float: right;">총 결제 금액</h4>
-					<br> <input type="text" disabled="disabled" id="Payment"
-						style="text-align: center;">
-					<% if (!rlist.isEmpty()) { %>
+					<br> <input type="text" disabled="disabled" id="Payment" style="text-align: center;">
+					<% if (!list.isEmpty()) { %>
 					<script>
-						$("#Payment").val(
-					<%= request.getAttribute("show")%>
-						)
+						$("#Payment").val(<%= request.getAttribute("show")%>)
 					</script>
 					<% } else { %>
 					<script>
@@ -336,7 +335,7 @@ section {
 						</tr>
 					</thead>
 					<tbody>
-						<% if (rlist.isEmpty()) { %>
+						<% if (qnalist.isEmpty()) { %>
 						<tr>
 							<td colspan="5" style="text-align: center">조회된 문의 내역이 없습니다.</td>
 						</tr>
@@ -364,32 +363,44 @@ section {
 			<div id="changeInfoForm">
 				<h2>회원정보 수정</h2>
 				<hr>
-				<form id="changePwdForm" method="post" action="<%=request.getContextPath()%>/change.pwd" onsubmit="return checkChangePwd();">
-						<div id="signArea">
-						  <div class="textdivarea">비밀번호</div>
-						    <div class="inputdivarea">
-								<input type="password" id="changePwd" name="changePwd" required style="width:200 !important ;">
-							</div>
-							<input type="text" id="changeId" name="changeId" style="display: none;">
-						  <div class="commentarea"></div>
-						  <div class="textdivarea">비밀번호 확인</div>
-						  <div class="inputdivarea">
-							<input type="password" id="changePwdCk" name="changePwdCk" required style="width:200 !important ;">
-						  </div>
-							<div class="commentarea"></div>
-							<button type="submit" id="changepwdformbtn">비밀번호 변경</button>
-						</div>
-					</form>
+				
+				
+				<form action="location.href='<%=request.getContextPath()%>/updatePwd.normal'" onsubmit="return true">
+					<h4>비밀번호 변경</h4>
+					<table>
+						<tr>
+							<td>새 비밀번호 입력 :</td>
+							<td><input type="password" id="pwd1" name = "newPwd"></td>
+						</tr>
+						<tr>
+							<td>비밀번호 확인 :</td>
+							<td><input type="password" id="pwd2"></td>
+						</tr>
+					</table>
+					<div>
+						<button id="changePwd" type="button" onclick="identiSame()">변경하기</button>
+					</div>
+					 <script>
+					 $(function(){
+						function identiSame(){
+							 if($("#pwd1").val() != $("#pwd2").val()){
+								window.alert("비밀번호가 일치하지 않습니다."); 
+							}
+						};
+					});
+					</script> 
+				</form>
+				
+				
+				<%-- ------------------------------------------------------------------ 
 					<script>
 						$(function() {
 							$("#changePwdCk").focusin(
 									function() {
 										$(this).focusout(
 											function() {
-												if ($("#changePwd").val() != $(
-														"#changePwdCk").val()) {
-													$("#changePwdCk").parent().next().html(
-															"비밀번호가 일치하지 않습니다.");
+												if ($("#changePwd").val() != $("#changePwdCk").val()) {
+													$("#changePwdCk").parent().next().html("비밀번호가 일치하지 않습니다.");
 												} else {
 													$("#changePwdCk").parent().next().html("");
 												}
@@ -404,36 +415,11 @@ section {
 								return true;
 							};
 					</script>
-					
-				<%-- <form action="location.href='<%=request.getContextPath()%>/updatePwd.normal'">
-					<h4>비밀번호 변경</h4>
-					<table>
-						<tr>
-							<td>비밀번호 입력 :</td>
-							<td><input type="password" id="pwd1"></td>
-						</tr>
-						<tr>
-							<td>비밀번호 확인 :</td>
-							<td><input type="password" id="pwd2"></td>
-						</tr>
-					</table>
-					<div>
-						<button id="changePwd" type="button" onclick="identiSame()">변경하기</button>
-					</div>
-					 <script>
-					 $(function(){
-						function identiSame(){
-							 if($("#pwd1").val() != $("#pwd2").val()){
-								 window.alert("비밀번호가 일치하지 않습니다.");
-							}else{
-								location.href="<%= request.getContextPath() %>/updatePwd.normal";
-							}
-						};
-					});
-					</script> 
-				</form>  --%>
+					------------------------------------------------------------------ --%>
 				<hr>
-				<form>
+				
+				
+				<form action="location.href='<%=request.getContextPath()%>/updateAddress'">
 					<h4>공방주소 변경</h4>
 					주소 입력 <br> <input type="text" maxlength="40"
 						style="width: 300px; height: 20px;"> <br>
@@ -443,25 +429,17 @@ section {
 			<div id="deleteMember">
 				<h4>회원 탈퇴 신청</h4>
 				<hr>
-				<% if (!rlist.isEmpty()) { %>
+				<% if (num > 0) { %>
 				<small style="color: red; display: block;">*공방 예약 현황이 없어야 가능합니다*</small><br>	
 				<% } %>
 
 				비밀번호 확인 : <input type="password" id="ckPwd"><br> <br>
 				
-				
-				<%
-					if (rlist.isEmpty()) {
-				%>
-				<button type="button" class="deleteMember-btn"
-					onclick="deleteMember()">탈퇴하기</button>
-				<%
-					} else {
-				%>
+				<% if (num > 0) { %>
 				<button type="button" class="deleteMember-btn" disabled="disabled">탈퇴하기</button>
-				<%
-					}
-				%>
+				<% } else if (num == 0){ %>
+				<button type="button" class="deleteMember-btn" onclick="deleteMember()">탈퇴하기</button>
+				<% } %>
 			</div>
 		</section>
 	</div>
