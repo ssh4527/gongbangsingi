@@ -112,7 +112,7 @@ public class shopSortServlet extends HttpServlet {
 			}
 			
 			for(int i=0;i<slist2.size();i++) {
-				Workshop file=new ShopService().getFilePathReName(slist2.get(i).getWsNo());
+				Workshop file=shs.getFilePathReName(slist2.get(i).getWsNo());
 				slist2.get(i).setPath(file.getPath());
 				slist2.get(i).setReName(file.getReName());
 			}

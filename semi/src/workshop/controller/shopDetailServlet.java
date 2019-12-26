@@ -59,6 +59,7 @@ public class shopDetailServlet extends HttpServlet {
 		//공방의 클래스 사진들
 		ArrayList<ClassFile> cPictures= service.selectClassPictures(WsNo);
 		
+		//공방 평점
 		Double grade = service.getGrade(WsNo);
 		shop.setGrade(grade);
 			

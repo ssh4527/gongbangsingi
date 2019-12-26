@@ -67,7 +67,7 @@ public class ShopDao {
 		ResultSet rset = null;
 
 		HashMap<String,Double> glist = new HashMap<String,Double>();
-		String sql = "select WS_NO, sg from shoplist";
+		String sql = "select WS_NO, sg from shoplist where ENROLLYN='Y'";
 		/*String sql = prop.getProperty("selectShopList");*/
 		try {
 			ppst = con.prepareStatement(sql);
