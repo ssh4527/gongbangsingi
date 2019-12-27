@@ -30,6 +30,7 @@ public class shopInsertRequestServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		request.setCharacterEncoding("utf-8");
 		String userId=request.getParameter("c_id");
 		String shopName = request.getParameter("businessmember_name");
@@ -41,6 +42,7 @@ public class shopInsertRequestServlet extends HttpServlet {
 			Sns+=request.getParameter("sns"+i)+" : ";
 			Sns+=request.getParameter("business_sns"+i)+",";
 		}
+		if(Sns.equals("선택해주세요")) Sns="";
 		String tel1=request.getParameter("tel1");
 		String tel2=request.getParameter("tel2");
 		String tel3=request.getParameter("tel3");

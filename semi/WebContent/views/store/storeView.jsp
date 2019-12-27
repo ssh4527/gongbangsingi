@@ -436,6 +436,9 @@ h4 {
 				<%
 					if (!userCheck&&shop.getSns().contains("카카오톡")) {
 						int kakaoNum= shop.getSns().indexOf("카카오톡 :");
+						int kakaoNum2= shop.getSns().indexOf("/");
+						System.out.println("dd"+shop.getSns().indexOf("/"));
+						System.out.println("gg"+shop.getSns().substring(kakaoNum2+1,(shop.getSns().substring(kakaoNum2).indexOf(",")+kakaoNum2)));
 				%>
 				<div id="kakao">
 				<a href="javascript:void chatChannel()"> <img
@@ -443,16 +446,17 @@ h4 {
 				</a>
 				<script type='text/javascript'>
 				
+			
 						//<![CDATA[
 						// 사용할 앱의 JavaScript 키를 설정해 주세요.
-						Kakao.init('37bf650bd71c1e125e49c40d96c383e1');
+						Kakao.init('2afbe1f7936e7a946254f01d5b3a8e79');
 						function chatChannel() {
 							Kakao.Channel.chat({
-								channelPublicId : '<%=shop.getSns().substring(kakaoNum+7,(shop.getSns().substring(kakaoNum).indexOf(",")+kakaoNum))%>' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+								 channelPublicId: '<%=shop.getSns().substring(kakaoNum2+1,(shop.getSns().substring(kakaoNum2).indexOf(",")+kakaoNum2))%>' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
 							});
 						}
 						//]]>
-						
+						<%-- 	 --%>
 					</script>
 					</div>
 				<%

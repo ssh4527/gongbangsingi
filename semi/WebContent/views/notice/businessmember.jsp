@@ -164,12 +164,13 @@
 						placeholder="상세주소 입력">
 					</td>
 				</tr>
-
 				<tr>
 					<td><br></td>
 				</tr>
 				<tr>
-					<td>※ SNS 계정 &nbsp; <input type=text " name="business_sns1"
+					<td>※ SNS 계정 (카카오톡은 검색용ID/URL의ID 이 형식으로 입력해주세요)&nbsp; 
+					<br><span class="tab">&#9;</span><span class="tab">&#9;</span>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type=text " name="business_sns1"
 						id="b_sns1" size="30" placeholder="계정이 있으시면 입력해주세요!">
 						<select class="btn btn-info dropdown-toggle" name="sns1" id="sns1">
 							<option class="dropdown-item">선택해주세요</option>
@@ -198,11 +199,6 @@
 							
 							$('#remove').click(function(){
 								 $('#remove').next().remove();
-								 /* $('#remove').next().remove();
-								 $('#remove').next().remove();
-								 $('#remove').next().remove();
-								 $('#remove').next().remove();
-								 $('#remove').next().remove(); */
 								 <%if(snsNum>2)snsNum--;%>
 								if(num>2) {num--;
 								 $('#snsNum').val(num)};
