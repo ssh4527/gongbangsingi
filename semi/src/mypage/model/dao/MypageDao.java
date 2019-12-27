@@ -175,6 +175,7 @@ public class MypageDao {
 			e.printStackTrace();
 		}finally {
 			close(pstmt);
+			close(rset);
 		}
 		return result;
 	}

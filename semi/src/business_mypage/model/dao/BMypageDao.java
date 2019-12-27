@@ -253,4 +253,31 @@ public class BMypageDao {
 		return result;
 	}
 
+	public int ShowMyPay(String wsNo, Connection conn) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("purchaseMuch");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, wsNo);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		return result;
+	}
+
 }

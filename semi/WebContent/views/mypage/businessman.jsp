@@ -122,16 +122,7 @@ section {
 	<%@ include file="../common/menubar.jsp"%>
 	<div id="nomalPage-maindiv">
 		<header>
-			<div id="profile"></div>
-			<table id="header-info">
-				<tr>
-					<td width=110px></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-				</tr>
-			</table>
+			<div></div>
 		</header>
 		<aside>
 			<ul id="menu">
@@ -291,7 +282,7 @@ section {
 
 			<div id="ReviewTable">
 				<h2>공방 후기</h2>
-				<table class="table">
+				<table class="table" style="max-height: 500px; overflow: hidden;">
 					<thead>
 						<tr>
 							<th>작성자</th>
@@ -321,6 +312,8 @@ section {
 						<% } %>
 					</tbody>
 				</table>
+				<hr>
+				<button type="button" onclick="location.href='<%= request.getContextPath()%>/review.search';" style="float: right;">후기 더 보기</button>
 			</div>
 			<div id="QnaTable">
 				<h2>공방 문의</h2>
@@ -419,11 +412,10 @@ section {
 				<hr>
 				
 				
-				<form action="location.href='<%=request.getContextPath()%>/updateAddress'">
+				<form action="<%=request.getContextPath()%>/updateAddress" onsubmit="return false">
 					<h4>공방주소 변경</h4>
-					주소 입력 <br> <input type="text" maxlength="40"
-						style="width: 300px; height: 20px;"> <br>
-					<button>주소 변경하기</button>
+						주소 입력 <br> <input name ="address" type="text" maxlength="40" style="width: 300px; height: 20px;"> <br>
+					<button id="addr">주소 변경하기</button>
 				</form>
 			</div>
 			<div id="deleteMember">

@@ -41,6 +41,9 @@ public class BusinessMyPageServlet extends HttpServlet {
 		
 		// 예약 정보 가져오기
 		ArrayList<Reservation> list = new BMypageService().selectList(wsNo);
+		
+		// 예약 값 가져오기 
+		int result = new BMypageService().ShowMyPay(wsNo);
 
 		// 후기 정보 가져오기
 		ArrayList<Review> reviewlist = new BMypageService().selectReviewList(wsNo);
@@ -56,6 +59,7 @@ public class BusinessMyPageServlet extends HttpServlet {
 		request.setAttribute("reviewlist", reviewlist);
 		request.setAttribute("qnalist", qnalist);
 		request.setAttribute("canI", num);
+		request.setAttribute("show", result);
 		
 		request.getRequestDispatcher("views/mypage/businessman.jsp").forward(request, response);
 		

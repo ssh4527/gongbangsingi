@@ -97,4 +97,13 @@ public class BMypageService {
 			close(conn);
 			return result;
 		}
+
+		public int ShowMyPay(String wsNo) {
+			Connection conn = getConnection();
+			
+			int result = new BMypageDao().ShowMyPay(wsNo,conn);
+			close(conn);
+			
+			return result;
+		}
 }
