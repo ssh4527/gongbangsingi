@@ -179,8 +179,8 @@ to {
 
 
 
-<div style="height:20px; margin-top:3;" class="cate-menu">
-	<ul class="ull" style="list-style:none; font-family:'맑은 고딕'; font-size:12px; font-family:'Arial';">
+<div style="height:30px; background:white; margin-top:-15px;" class="cate-menu">
+	<ul class="ull" style="list-style:none; font-family:'맑은 고딕'; font-size:16px; font-family:'Arial';">
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=도자기" class="menualink">도자기</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=액세서리" class="menualink">액세서리</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=가구" class="menualink">가구</a></li>
@@ -218,7 +218,7 @@ $(function(){
 
 </script>
 
-	<hr>
+	
 	<span style="font-family: Arial;"><small>Total</small> <span style="Nanum Gothic;"><%= wList.size() %></span> <small>items</small></span>
 	<%
 		String kk = "";
@@ -250,28 +250,29 @@ $(function(){
 						<div id="heartover">
 							<!-- 이미지 클릭하면 이동 -->
 							<a href="<%= request.getContextPath()%>/godetail.class?wcNo=<%= wList.get(i).getWcNo() %>">
-								<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= wList.get(i).getRename() %>" width="100%" height="100%" id="gal">
+				<img src="<%= request.getContextPath() %>/resources/class_uploadFiles/<%= wList.get(i).getRename() %>"
+					width="100%" height="100%" id="gal">
 							</a>
 							<!-- 찜 버튼 -->
 							<div id="heartdiv" class="div<%= wList.get(i).getWcNo() %>">
 								<% if(!jList.isEmpty()) { %>
 							 	<% counts = 1; %>
-								<% for(int j = 0; j < jList.size(); j++){ %>
-									<% if(jList.get(j).getC_id().equals(log) && jList.get(j).getWc_no().equals(wList.get(i).getWcNo())) { %>
-										<% counts++; %>
-									<% } %>
-								<% } %>
+		<% for(int j = 0; j < jList.size(); j++){ %>
+			<% if(jList.get(j).getC_id().equals(log) && jList.get(j).getWc_no().equals(wList.get(i).getWcNo())) { %>
+				<% counts++; %>
+			<% } %>
+		<% } %>
 								
 								<% if(counts == 1){ %>
-									<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+									<i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
 											id="icon<%= wList.get(i).getWcNo() %>"></i>
 								<% }else{ %>
-									<i class="fas fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+									<i class="fas fa-heart fa-lg" style="color: pink; cursor:pointer;"
 											id="icon<%= wList.get(i).getWcNo() %>"></i>	
 								<% } %>
 							<% }else { %>
 								<!--  빈하트 -->
-								<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+								<i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
 									id="icon<%= wList.get(i).getWcNo() %>"></i>
 							<% } %> 
 							</div>
@@ -288,7 +289,7 @@ $(function(){
 							</div>
 							<!-- 평점 -->
 							<div style="width:250px; height:20px;"><p style="font-family: Arial;"><small>
-								<i class="fas fa-heart fa-lg fa-spin" style="color: #BDBDBD;"></i>
+								<i class="fas fa-heart fa-lg" style="color: #BDBDBD;"></i>
 								<%= Math.round(wList.get(i).getAvgGrade()*100)/100.0 %>
 								</small></p>
 							</div>
@@ -326,8 +327,6 @@ $(function(){
       						alert("로그인 후에 찜할수 있습니다.");	
       					
       					}else{
-      					
-      						
        					$.ajax({ // 아작시작
       						url : "jjim.wc",
       						data : { wcNo: input, id:"<%= log %>"},
@@ -335,39 +334,25 @@ $(function(){
       						success : function(num){ // 석세스 시작
       						
       							if(num > 0){
-      								
-      								icon.removeClass("far fa-heart fa-lg fa-spin");
-      		       					icon.addClass("fas fa-heart fa-lg fa-spin");
-      		       					
-      								
+      								icon.removeClass("far fa-heart fa-lg");
+      		       					icon.addClass("fas fa-heart fa-lg");
       								alert("찜 성공!!");
-      								
       							// 찜목록에 없어서 찜 등록 그리고 꽉찬하트로 벽녕
       							}else if(num == 0){
-      								
-      								icon.removeClass("fas fa-heart fa-lg fa-spin");
-      								icon.addClass("far fa-heart fa-lg fa-spin");
-      		       					
-      							
+      								icon.removeClass("fas fa-heart fa-lg");
+      								icon.addClass("far fa-heart fa-lg");
       								alert("찜 해제!!");
-      								
       								// 찜목록에 있어서 찜 해제 그리고 빈하트로 변경
       							}else{
       							alert("dd");	
-      							
       							}
       						}, // 석세스끝
-      						
       						error : function(){
       							console.log('ajax 통신 실패!');
       						}
       					}); // 아작끝 
-      					
       					}
-       					
-       					
       				});
-      			
       			});
       			
     			</script>

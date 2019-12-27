@@ -723,8 +723,10 @@ ul {
 								<% } %>
 							<% } %>
 								<% if(rList.get(i).getcName().equals(log)){ %>
-								<br><button class="btn btn-outline-secondary" style="float:right;" id="updateBtn<%= rList.get(i).getRNo() %>" onclick="updatereview('<%= rList.get(i).getRNo() %>')">수정</button>
-									<button class="btn btn-outline-secondary" style="float:right;" id="deleteBtn<%= rList.get(i).getRNo() %>" onclick="deletereview('<%= rList.get(i).getRNo() %>')">삭제</button><br><br>
+								<br><button class="btn btn-outline-secondary" style="float:right;" id="updateBtn<%= rList.get(i).getRNo() %>"
+								 onclick="updatereview('<%= rList.get(i).getRNo() %>')">수정</button>
+									<button class="btn btn-outline-secondary" style="float:right;" id="deleteBtn<%= rList.get(i).getRNo() %>"
+									 onclick="deletereview('<%= rList.get(i).getRNo() %>')">삭제</button><br><br>
 								<% } %>
 							</li>
 						</ul>
@@ -745,46 +747,35 @@ ul {
 					function deletereview(review){
 						if(window.confirm('게시글을 정말 삭제하시겠습니까?')){
 							
-							
 							$.ajax({ // 아작시작
 	      						url : "delete.review",
 	      						data : { rNo: review },
 	      						type : "get",
 	      						success : function(num){ // 석세스 시작
-	      						
 	      							if(num > 0){
 	      								$("#ul"+review).remove();
 	      								alert("성공적으로 리뷰가 삭제되었습니다.");
-	      								
 	      							// 찜목록에 없어서 찜 등록 그리고 꽉찬하트로 벽녕
 	      							}else if(num == 0){
-	      								
-	      							
 	      								alert("리뷰 삭제실패..");
-	      								
 	      								// 찜목록에 있어서 찜 해제 그리고 빈하트로 변경
 	      							}else{
 	      							alert("리뷰 삭제실패..");	
-	      							
 	      							}
 	      						}, // 석세스끝
-	      						
 	      						error : function(){
 	      							console.log('ajax 통신 실패!');
 	      						}
 	      					}); // 아작끝 
-	      					
 						}else{
 							console.log("ㄴㄴ");
 						}
 					}
-					
 					function updatereview(review){
 						if(window.confirm('게시글을 정말 수정하시겠습니까?')){
 							alert("수정페이지로 이동합니다.");
 							location.href="select.review?rNo=" + review + "&wcNo=<%= wc.getWcNo() %>";
 						}
-					
 					}
 					
 				</script>
