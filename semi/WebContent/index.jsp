@@ -171,7 +171,9 @@ h2 {
 				<%if(s==0) {%><div class="carousel-item active"  > <%}else{ %>
 				  <div class="carousel-item">
 				<%} %>
-					<img src="resources/thumbnail_uploadFiles/<%=sflist.get(s).getReName() %>" class="d-block w-100" alt="..." >
+					<img src="resources/thumbnail_uploadFiles/<%=sflist.get(s).getReName() %>" 
+					onclick ="location.href ='<%= request.getContextPath()%>/detail.sh?WsNo=<%= wslist.get(s).getWsNo()%>'"
+					class="d-block w-100" alt="..." >
 					<div class="carousel-caption d-none d-md-block">
 						<h5><%=wslist.get(s).getWsName() %></h5>
 						<p><%=wslist.get(s).getIntro() %></p>
@@ -192,18 +194,7 @@ h2 {
 		</div>
 		<%} %>
 	</div>
-	<script>
-		$(function() {
-			$(".heart").click(function() {
-				if ($(this).html() == "♡") {
-					$(this).html("♥")
-				} else {
-					$(this).html("♡")
-
-				}
-			});
-		});
-	</script>
+	</div>
 
 	<%@ include file="views/common/footbar.jsp"%>
 </body>
