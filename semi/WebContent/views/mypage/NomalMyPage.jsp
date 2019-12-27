@@ -254,12 +254,25 @@ section {
 							<td><%=r.getWcName() %></td>
 							<td><%=r.getResNop() %>명</td>
 							<td><%=r.getTotalPrice()%>원</td>
-							<%-- <td><button type="button" class="cancel">취소하기</button></td> --%>
+							<td><button type="button" class="cancel" onclick="cancel()">취소하기</button></td>
 						</tr>
 						<% } %>
 						<% } %>
 					</tbody>
 				</table>
+				 <script>
+  					function cancel(){
+					 var result=confirm("예약을 취소하시겠습니까?");
+					 var str="";
+					 if(result){
+						 str="취소합니다.";
+						 
+					 }else{
+						 str="아니요!";
+					 }
+					 console.log(str);
+				  }
+				  </script>   
 				<hr>
 				<div style="float: right;">
 					<h4 style="float: right;">총 결제 금액</h4>
@@ -393,7 +406,7 @@ section {
 					<hr><hr>
 					<h3>공방 사업자 신청하기</h3>
 					<button type="button"
-						onclick="location.href ='<%= request.getContextPath() %>/views/notice/businessmember.jsp'">신청하기</button>	
+						onclick="location.href ='<%= request.getContextPath() %>/getCategory.sh'">신청하기</button>	
 					<hr>
 			</div>
 			<div id="deleteMember">
@@ -422,7 +435,7 @@ section {
 						<% } else { %>
 						<% for(Jjim j : jlist) {%>
 						<tr>
-							<td><%=j.getWc_name()%></td>
+							<td><h5>&bull;<%=j.getWc_name()%></h5></td>
 						</tr>
 						<% } %>
 						<% } %>
