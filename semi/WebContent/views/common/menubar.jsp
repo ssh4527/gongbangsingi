@@ -6,7 +6,7 @@
 	String loginmsg = (String) request.getAttribute("loginmsg");
 	String msg = (String) session.getAttribute("msg");
 	String[] search = (String[]) session.getAttribute("search");
-
+	
 	
 	// 2019 12 15 Hy 찜용
 		String userId = "";	
@@ -243,6 +243,9 @@ cursor: pointer;
 	height:100%;
 	width:150px;
 }
+#myInterest > input{
+	margin:5px;
+}
 #mynameinfo{
 	float:left;
 	width:100%;
@@ -471,7 +474,7 @@ $(function(){
 					class="form-control mr-sm-2" type="text" placeholder="클래스를 검색해주세요."
 					id="searchinput" name="searchinput">
 
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
 			</form>
 
 		</div>
@@ -618,10 +621,10 @@ $(function(){
 								<input type="checkbox" id="inter1" value="도자기" name="interest"><label	for="inter1">도자기</label> 
 								<input type="checkbox" id="inter2" value="악세서리" name="interest"><label for="inter2">악세서리</label>
 								<input type="checkbox" id="inter3" value="비누" name="interest"><label for="inter3">비누</label>
-								<input type="checkbox" id="inter4"value="향수" name="interest"><label for="inter4">향수</label>
+								<input type="checkbox" id="inter4" value="향수" name="interest"><label for="inter4">향수</label>
 								<br> 
-								<input type="checkbox" id="inter5" value="목걸이"name="interest"><label for="inter5">목걸이</label>
-								 <input	type="checkbox" id="inter6" value="반지" name="interest"><label for="inter6">반지</label> 
+								<input type="checkbox" id="inter5" value="제과"name="interest"><label for="inter5">제과</label>
+								 <input	type="checkbox" id="inter6" value="가구" name="interest"><label for="inter6">가구</label> 
 								 <input type="checkbox" id="inter7"	value="가죽" name="interest"> <label for="inter7">가죽</label>
 								<input type="checkbox" id="inter8" value="기타" name="interest"><label for="inter8">기타</label> 
 								<br>
