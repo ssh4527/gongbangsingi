@@ -152,15 +152,9 @@ ul {
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
-	<div class="positioning fixed-area">
+	<div class="positioning fixed-area" style="z-index:1;">
 		<div>
 			<p id="insertImg">이미지 추가</p>
-		</div>
-		<div>
-			<p id="insertText">글쓰기</p>
-		</div>
-		<div>
-			<p id="inserMap">맵추가</p>
 		</div>
 	</div>
 

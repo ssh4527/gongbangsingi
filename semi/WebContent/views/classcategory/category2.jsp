@@ -180,7 +180,7 @@ to {
 
 
 
-<div style="height:20px; margin-top:3;" class="cate-menu">
+<div style="height:30px; background:white; margin-top:-15px;" class="cate-menu">
 	<ul class="ull" style="list-style:none; font-family:'맑은 고딕'; font-size:12px; font-family:'Arial';">
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=도자기" class="menualink">도자기</a></li>
 		<li style="margin-left: 60px; margin-right: 60px; float:left;"><a href="menuck.class?cate=액세서리" class="menualink">액세서리</a></li>
@@ -218,7 +218,7 @@ $(function(){
 
 
 </script>
-	<hr>
+	
 	<span style="font-family: Arial;"><small>Total</small> <span style="Nanum Gothic;"><%= wList.size() %></span> <small>items</small></span>
 	<span style="float:right; font-family:'Arial';">
 	<%
@@ -263,15 +263,15 @@ $(function(){
 								<% } %>
 								
 								<% if(counts == 1){ %>
-									<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+									<i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
 											id="icon<%= wList.get(i).getWcNo() %>"></i>
 								<% }else{ %>
-									<i class="fas fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+									<i class="fas fa-heart fa-lg" style="color: pink; cursor:pointer;"
 											id="icon<%= wList.get(i).getWcNo() %>"></i>	
 								<% } %>
 							<% }else { %>
 								<!--  빈하트 -->
-								<i class="far fa-heart fa-lg fa-spin" style="color: pink; cursor:pointer;"
+								<i class="far fa-heart fa-lg" style="color: pink; cursor:pointer;"
 									id="icon<%= wList.get(i).getWcNo() %>"></i>
 							<% } %> 
 
@@ -289,7 +289,7 @@ $(function(){
 							</div>
 							<!-- 평점 -->
 							<div style="width:250px; height:20px;"><p style="font-family: Arial;"><small>
-								<i class="fas fa-heart fa-lg fa-spin" style="color: #BDBDBD;"></i>
+								<i class="fas fa-heart fa-lg" style="color: #BDBDBD;"></i>
 								<%= Math.round(wList.get(i).getAvgGrade()*100)/100.0 %>
 								</small></p>
 							</div>
@@ -337,8 +337,8 @@ $(function(){
       						
       							if(num > 0){
       								
-      								icon.removeClass("far fa-heart fa-lg fa-spin");
-      		       					icon.addClass("fas fa-heart fa-lg fa-spin");
+      								icon.removeClass("far fa-heart fa-lg");
+      		       					icon.addClass("fas fa-heart fa-lg");
       		       					
       								
       								alert("찜 성공!!");
@@ -346,8 +346,8 @@ $(function(){
       							// 찜목록에 없어서 찜 등록 그리고 꽉찬하트로 벽녕
       							}else if(num == 0){
       								
-      								icon.removeClass("fas fa-heart fa-lg fa-spin");
-      								icon.addClass("far fa-heart fa-lg fa-spin");
+      								icon.removeClass("fas fa-heart fa-lg");
+      								icon.addClass("far fa-heart fa-lg");
       		       					
       							
       								alert("찜 해제!!");
