@@ -445,6 +445,7 @@ h4 {
 					src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png" />
 				</a>
 				<script type='text/javascript'>
+				
 			
 						//<![CDATA[
 						// 사용할 앱의 JavaScript 키를 설정해 주세요.
