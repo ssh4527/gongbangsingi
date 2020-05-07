@@ -16,7 +16,10 @@ Oracle 11 / JDBC
 Html / CSS3 / Javascript / Jquery / Ajax / Bootstrap 4
 
 ▶ 분류별 최저가
+
 ▶ 예약 시 마다 포인트 적립
+
 ▶ 내 지역에서 가까운 공방 위치 안내
+
 ▶ 카테고리별/인기순/최신순으로 정렬 된 공방 정보 확인
 
